@@ -1,0 +1,17 @@
+{
+	"meta": {"status":"ok", "return_obj":"user_info", "user_id":23, "user_fb_id":"202852"}, 
+	"content": {
+		"general":{"user_id": 23, "user_fb_id": "202852", "first_name": "Kavin","last_name":"Asavanant","age":29, "gender":"male", "zodiac": "pisces", "city": "Bangkok", "country": "Thailand"},  
+		"height":"180", 
+		"religion": "Buddhist", 
+		"ethnicity": "Asian", 
+		"work": {"occupation": "Software Engineer", "employer": "Chulalongkorn University"}, 
+		"educations": [{"level":"high_school", "name":"The Hill School"}, {"level":"college", "name":"Stanford"},{"level":"grad_school", "name":""}], 
+		"pictures": [{"src":"https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-prn1/s720x720/148693_10100455582051713_921792942_n.jpg", "order":1},{"src":"https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-snc7/80_511333097213_1638_n.jpg","order":2}],
+		"about_me":"/* my life in one line of code */\n\twhile(!(succeed = try()))",
+		"credit": 50,
+		"gender_centric": {"female":55, "male":45}, 
+		"global_status": 12, 
+		"social_activity": 45
+	}
+}

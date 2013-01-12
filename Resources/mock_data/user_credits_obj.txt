@@ -1,0 +1,6 @@
+{
+	"meta": {"status":"ok", "return_obj":"user_credit", "user_id":27, "user_fb_id":"110004522"}, 
+	"content": {
+		"credit":15
+	}
+}

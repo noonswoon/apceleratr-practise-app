@@ -1,0 +1,18 @@
+{
+	"meta": {"status":"ok", "return_obj":"chat_history", "user_id":1, "user_fb_id":"202852"}, 
+	"content": {
+		"match_id": 21, 
+		"user_id": 1, 
+		"user_image": "chat_person1.png",
+		"other_user_id": 2,
+		"other_user_image": "chat_person2.png",
+		"page": 1, 
+		"chat_messages":[
+			{"sender_id":1, "receiver_id": 2, "message": "Hello! how are you", "time":"2012-12-10, 09:00:00"},
+			{"sender_id":2, "receiver_id": 1, "message": "I am fine, you look quite pretty", "time":"2012-12-10, 09:05:10"},
+			{"sender_id":2, "receiver_id": 1, "message": "May I have your number?", "time":"2012-12-10, 09:05:12"},
+			{"sender_id":1, "receiver_id": 2, "message": "You have some balls..here is mine number: 0854435632, call me maybe?", "time":"2012-12-10, 10:10:10"},
+			{"sender_id":2, "receiver_id": 1, "message": "will do for sure!", "time":"2012-12-10, 10:10:15"}
+		]
+	}
+}

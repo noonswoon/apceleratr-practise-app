@@ -1,0 +1,12 @@
+{
+   "meta":{
+   		"status":"ok",
+   		"return_obj":"credit_transaction",
+   		"user_id":27,
+   		"user_fb_id":"110004522"
+   },
+   "content":{
+   		"transaction_id":5,
+ 		"user_credit": 10
+   }
+}

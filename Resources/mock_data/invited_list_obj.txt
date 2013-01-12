@@ -1,0 +1,6 @@
+{
+	"meta": {"status":"ok", "return_obj":"invited_list", "user_id":27, "user_fb_id":"110004522"}, 
+	"content": {
+		"invited_people":["595120223","1002995181","1058692862","1008832489"]
+	}
+}

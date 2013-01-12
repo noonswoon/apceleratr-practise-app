@@ -1,0 +1,4 @@
+{
+	"meta": {"status":"ok", "return_obj":"ethnicity_data"}, 
+	"content": ["Asian","White/Caucasian","Black/African-descent","South Asian","Mixed"]
+}
