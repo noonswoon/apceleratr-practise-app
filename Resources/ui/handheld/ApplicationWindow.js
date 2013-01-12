@@ -1,23 +1,23 @@
 //Application Window Component Constructor
-function ApplicationWindow() {
+function ApplicationWindow(_userId) {
 	
 	var TimerViewModule = require('ui/handheld/Td_TimerView');
-	
+	var MatchWindowModule = require('ui/handheld/Td_Match');
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
 		left: 260,
-		curve: Ti.UI.iOS.ANIMATION_CURVE_EASE_OUT,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 300
 	});
 	var animateRight = Ti.UI.createAnimation({
 		left: 0,
-		curve: Ti.UI.iOS.ANIMATION_CURVE_EASE_OUT,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 300
 	});
 	var animateNegativeLeft = Ti.UI.createAnimation({
 		left: -260,
-		curve: Ti.UI.iOS.ANIMATION_CURVE_EASE_OUT,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 		duration: 300
 	});
 	
@@ -27,20 +27,19 @@ function ApplicationWindow() {
 	var self = Ti.UI.createWindow({
 		left: 0,
 		zIndex: 1,
-		backgroundColor:'transparent'	
+		backgroundColor:'transparent',
 	});
 
-	var matchWindow = Ti.UI.createWindow({
-		backgroundColor:'white',
-		zIndex: 4
-	});
-		
+	Ti.API.info('hello');
+	var matchWindow = new MatchWindowModule(_userId, null);
+	Ti.API.info('world');
+			
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	window: matchWindow,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});
-
+	
 	var toggleLeftMenuBtn = Titanium.UI.createButton({
 		systemButton:Titanium.UI.iPhone.SystemButton.PLAY,
 		left: 10,
@@ -54,7 +53,6 @@ function ApplicationWindow() {
 		top:   0,
 		left:  0,
 		width: 260,
-		zIndex: 3
 	});
 	var data = [{title:"Row 1"},{title:"Row 2"},{title:"Row 3"},{title:"Row 4"}];
 	var tableView	= Ti.UI.createTableView({ data: data, backgroundColor:'transparent' });
@@ -65,11 +63,9 @@ function ApplicationWindow() {
 	toggleLeftMenuBtn.addEventListener('click',function(e){
 		if( !isToggled ){
 			rightMenu.visible = false;
-			Ti.API.info('show Left menu leftMenuIndex: 3');
 			self.animate(animateLeft);
 			isToggled = true;
 		} else {
-			Ti.API.info('hide Left menu leftMenuIndex: 2');
 			self.animate(animateRight);
 			isToggled = false;
 		}
@@ -80,7 +76,6 @@ function ApplicationWindow() {
 		top:   0,
 		right:  0,
 		width: 260,
-		zIndex: 2,
 		visible: false
 	});
 	var data = [{title:"Row 1"},{title:"Row 2"},{title:"Row 3"},{title:"Row 4"}];
@@ -106,7 +101,7 @@ function ApplicationWindow() {
 			isToggled = false;
 		}
 	});
-					
+	
 	navigationGroup.add(toggleLeftMenuBtn);
 	navigationGroup.add(toggleRightMenuBtn);
 	navigationGroup.add(timerView);

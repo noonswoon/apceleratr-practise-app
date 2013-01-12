@@ -17,17 +17,23 @@
     <analytics>true</analytics>
     <guid>73d419b0-00f6-4aeb-bdec-1770a1f2b52e</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
-    <iphone>
-        <orientations device="iphone">
-            <orientation>Ti.UI.PORTRAIT</orientation>
-        </orientations>
-        <orientations device="ipad">
-            <orientation>Ti.UI.PORTRAIT</orientation>
-            <orientation>Ti.UI.UPSIDE_PORTRAIT</orientation>
-            <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
-            <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
-        </orientations>
-    </iphone>
+    <ios>
+		<plist>
+			<dict>
+				<key>UIPrerenderedIcon</key><true/>
+				<key>UIStatusBarStyle</key><string>UIStatusBarStyleBlackTranslucent</string>  
+				 <key>UIApplicationExitsOnSuspend</key><true/> 
+				<key>UISupportedInterfaceOrientations</key>
+				<array>
+				    <string>UIInterfaceOrientationPortrait</string>
+				</array>
+				<key>UIBackgroundModes</key>
+				<array>
+				    <string>location</string>
+			    </array>
+			</dict>  
+		</plist>
+	</ios> 
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <mobileweb>
         <precache/>

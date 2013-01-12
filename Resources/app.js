@@ -121,7 +121,7 @@ if (Ti.version < 1.8 ) {
 						BackendUser.getUserIdFromFbId(202852, function(_userId) {	
 							//getting real data
 							var MainApplication = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplication();
+							var mainApp = new MainApplication(_userId);
 							mainApp.open();
 						});
 					} else {
