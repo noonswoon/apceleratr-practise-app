@@ -1,8 +1,10 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId) {
-	
+	Ti.include('ui/handheld/Ct_ChatMainWindow.js');
 	var TimerViewModule = require('ui/handheld/Td_TimerView');
 	var MatchWindowModule = require('ui/handheld/Td_Match');
+	var ConnectionWindowModule = require('ui/handheld/Ct_ConnectionWindow');
+
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -21,25 +23,6 @@ function ApplicationWindow(_userId) {
 		duration: 300
 	});
 	
-	var timerView = new TimerViewModule();
-		
-	//create component instance
-	var self = Ti.UI.createWindow({
-		left: 0,
-		zIndex: 1,
-		backgroundColor:'transparent',
-	});
-
-	Ti.API.info('hello');
-	var matchWindow = new MatchWindowModule(_userId, null);
-	Ti.API.info('world');
-			
-	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	window: matchWindow,
-	  	left: 0,
-	  	width: Ti.Platform.displayCaps.platformWidth,
-	});
-	
 	var toggleLeftMenuBtn = Titanium.UI.createButton({
 		systemButton:Titanium.UI.iPhone.SystemButton.PLAY,
 		left: 10,
@@ -48,7 +31,39 @@ function ApplicationWindow(_userId) {
 		top: 10
 	});
 	
-	var leftMenu	= Ti.UI.createWindow({
+	var toggleRightMenuBtn = Titanium.UI.createButton({
+		image: 'images/icon/act_chat.png',
+		right: 10,
+		width: 30,
+		height: 30,
+		top: 10
+	});
+	
+	var timerView = new TimerViewModule();
+		
+	//create component instance
+	var self = Ti.UI.createWindow({
+		left: 0,
+		zIndex: 1,
+		backgroundColor:'transparent',
+		width: 320
+	});
+			
+	
+
+	var matchWindow = new MatchWindowModule(_userId, null);
+	matchWindow.leftNavButton = toggleLeftMenuBtn;
+	matchWindow.rightNavButton = toggleRightMenuBtn;
+	matchWindow.titleControl = timerView;
+	
+	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
+	  	window: matchWindow,
+	  	left: 0,
+	  	width: Ti.Platform.displayCaps.platformWidth,
+	});
+	matchWindow.setNavGroup(navigationGroup);
+	
+	var leftMenu = Ti.UI.createWindow({
 		backgroundColor: 'red',
 		top:   0,
 		left:  0,
@@ -71,27 +86,12 @@ function ApplicationWindow(_userId) {
 		}
 	});
 
-	var rightMenu	= Ti.UI.createWindow({
-		backgroundColor: 'blue',
-		top:   0,
-		right:  0,
-		width: 260,
-		visible: false
-	});
-	var data = [{title:"Row 1"},{title:"Row 2"},{title:"Row 3"},{title:"Row 4"}];
-	var tableView2	= Ti.UI.createTableView({ data: data, backgroundColor:'transparent' });
-	rightMenu.add(tableView2);
+	var rightMenu = new ConnectionWindowModule(_userId);
 	rightMenu.open();
 
-	var toggleRightMenuBtn = Titanium.UI.createButton({
-		image: 'images/icon/act_chat.png',
-		right: 10,
-		width: 30,
-		height: 30,
-		top: 10
-	});
+	
 
-	toggleRightMenuBtn.addEventListener('click',function(e){
+	var toggleRightMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = true;
 			self.animate(animateNegativeLeft);
@@ -100,11 +100,26 @@ function ApplicationWindow(_userId) {
 			self.animate(animateRight);
 			isToggled = false;
 		}
+	};
+	toggleRightMenuBtn.addEventListener('click',function(e){
+		toggleRightMenu();
 	});
 	
-	navigationGroup.add(toggleLeftMenuBtn);
-	navigationGroup.add(toggleRightMenuBtn);
-	navigationGroup.add(timerView);
+	Ti.App.addEventListener('openChatWindow', function(e) {
+		var chatRoomName = e.ChatRoomName;
+		Ti.API.info('openning chatroom: '+chatRoomName); 
+		var pubnubChatWindow = Ti.App.Chat({
+		    "chat-room" : e.chatRoomName,
+		    "window"    : {backgroundColor:'transparent'},
+		    matchId	: e.matchId,
+		    userId	: _userId, 
+		    otherUserId : e.otherUserId,
+		    otherUserFirstName: e.otherUserFirstName
+		});	
+		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});
+		toggleRightMenu();
+	});
+	
 	self.add(navigationGroup);
 				
 	return self;

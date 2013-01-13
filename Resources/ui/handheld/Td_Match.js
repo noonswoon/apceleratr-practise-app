@@ -3,11 +3,13 @@ MatchWindow = function(_userId, _matchId) {
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Pf_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Me_TextDisplayTableViewRow');
+	var navGroup = null;
 	
 	//create component instance
 	var self = Ti.UI.createWindow({
 		left: 0,
-		backgroundColor:'white'	
+		backgroundColor:'white',
+		navBarHidden: false
 	});
 				
 	var contentView = Ti.UI.createTableView({
@@ -54,7 +56,7 @@ MatchWindow = function(_userId, _matchId) {
 		color: 'black',
 		font: {fontSize: 14}	
 	});	
-
+	
 	likeBtn.addEventListener("click", function() {
 		Ti.API.info('like btn is clicked');
 	});
@@ -75,7 +77,8 @@ MatchWindow = function(_userId, _matchId) {
 		}
 
 		//profile image section
-		var profileImageView = new ProfileImageViewModule(self, _matchInfo.content.pictures);
+		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
+		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures); 
 		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'});
 		if(Ti.Platform.osname === 'iphone')
 			profileImageRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -178,6 +181,10 @@ MatchWindow = function(_userId, _matchId) {
 	var closeCallback = function() {
 		Ti.API.info('closing todayMatchWindow...');
 		Ti.App.removeEventListener('close', closeCallback);	
+	};
+	
+	self.setNavGroup = function(_navGroup) {
+		navGroup = _navGroup;	
 	};
 	
 	self.addEventListener('close', closeCallback);

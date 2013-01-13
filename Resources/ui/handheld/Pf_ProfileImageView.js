@@ -1,4 +1,6 @@
-ProfileImageView = function(_rootWindow, _pictures) {
+ProfileImageView = function(_navGroup, _pictures) {
+	
+	var navGroup = null;
 	//create component instance
 	var profileImageView = Ti.UI.createView({
 		backgroundColor:'#797C7E',
@@ -41,9 +43,9 @@ ProfileImageView = function(_rootWindow, _pictures) {
 	
 	scrollView.addEventListener('click', function() {
 		Ti.API.info('click event');
-		var ImageFullScreenWindowModule = require('ui/common/Td_ImageFullScreenWindow');
-		var imageFullScreenWindow = new ImageFullScreenWindowModule(imagesArray); 
-		_rootWindow.containingTab.open(imageFullScreenWindow,{animated:true});
+		var ImageFullScreenWindowModule = require('ui/handheld/Td_ImageFullScreenWindow');
+		var imageFullScreenWindow = new ImageFullScreenWindowModule(_navGroup, imagesArray); 
+		_navGroup.open(imageFullScreenWindow, {animated: false});
 	});
 	
 	profileImageView.setImage = function(_image, _imageIndex) {
