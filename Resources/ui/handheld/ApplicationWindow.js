@@ -5,7 +5,8 @@ function ApplicationWindow(_userId) {
 	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
-
+	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
+	
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -62,11 +63,11 @@ function ApplicationWindow(_userId) {
 	});
 	matchWindow.setNavGroup(navigationGroup);
 	
+	var isToggled = false;
+		
 	var leftMenu = new LeftMenuWindowModule(_userId);
 	leftMenu.open();
-
-	var isToggled = false;
-	toggleLeftMenuBtn.addEventListener('click',function(e){
+	var toggleLeftMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = false;
 			self.animate(animateLeft);
@@ -75,11 +76,13 @@ function ApplicationWindow(_userId) {
 			self.animate(animateRight);
 			isToggled = false;
 		}
+	};
+	toggleLeftMenuBtn.addEventListener('click',function(e){
+		toggleLeftMenu();
 	});
 
 	var rightMenu = new ConnectionWindowModule(_userId);
 	rightMenu.open();
-
 	var toggleRightMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = true;
@@ -113,6 +116,12 @@ function ApplicationWindow(_userId) {
 		var userProfileWindow = new MatchWindow(_userId, e.matchId);
 		userProfileWindow.setNavGroup(navigationGroup);
 		navigationGroup.open(userProfileWindow);
+	});
+	
+	Ti.App.addEventListener('openEditProfileWindow', function(e) {
+		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
+		navigationGroup.open(editProfileWindow);
+		toggleLeftMenu();
 	});
 	
 	self.add(navigationGroup);
