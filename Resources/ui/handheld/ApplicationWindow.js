@@ -2,8 +2,9 @@
 function ApplicationWindow(_userId) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
-	var ConnectionWindowModule = require('ui/handheld/Lm_ConnectionWindow');
+	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 
 	//load component dependencies
 	
@@ -61,15 +62,7 @@ function ApplicationWindow(_userId) {
 	});
 	matchWindow.setNavGroup(navigationGroup);
 	
-	var leftMenu = Ti.UI.createWindow({
-		backgroundColor: 'red',
-		top:   0,
-		left:  0,
-		width: 260,
-	});
-	var data = [{title:"Row 1"},{title:"Row 2"},{title:"Row 3"},{title:"Row 4"}];
-	var tableView	= Ti.UI.createTableView({ data: data, backgroundColor:'transparent' });
-	leftMenu.add(tableView);
+	var leftMenu = new LeftMenuWindowModule(_userId);
 	leftMenu.open();
 
 	var isToggled = false;

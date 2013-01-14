@@ -1,4 +1,4 @@
-Ct_ConnectionTableViewRow = function(_userId, _matchInfo){
+ConnectionTableViewRow = function(_userId, _matchInfo){
 	
 	var row = Ti.UI.createTableViewRow({
 		height: 45,
@@ -45,4 +45,4 @@ Ct_ConnectionTableViewRow = function(_userId, _matchInfo){
 	});
 	return row;
 }
-module.exports = Ct_ConnectionTableViewRow;
+module.exports = ConnectionTableViewRow;
