@@ -43,7 +43,7 @@ ProfileImageView = function(_navGroup, _pictures) {
 	
 	scrollView.addEventListener('click', function() {
 		Ti.API.info('click event');
-		var ImageFullScreenWindowModule = require('ui/handheld/Td_ImageFullScreenWindow');
+		var ImageFullScreenWindowModule = require('ui/handheld/Mn_ImageFullScreenWindow');
 		var imageFullScreenWindow = new ImageFullScreenWindowModule(_navGroup, imagesArray); 
 		_navGroup.open(imageFullScreenWindow, {animated: false});
 	});

@@ -1,8 +1,8 @@
 MatchWindow = function(_userId, _matchId) {
 	var BackendMatch = require('backend_libs/backendMatch');
 	var matchId = -1;
-	var ProfileImageViewModule = require('ui/handheld/Pf_ProfileImageView');
-	var TextDisplayTableViewRow = require('ui/handheld/Me_TextDisplayTableViewRow');
+	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
+	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
 	var navGroup = null;
 	
 	//create component instance

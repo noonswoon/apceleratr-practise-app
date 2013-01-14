@@ -15,7 +15,7 @@
 	
 Ti.App.Chat = function(_chatParams) {    
 	var BackendChat = require('backend_libs/backendChat');			
-	var ChatMessageTableViewRow = require('ui/handheld/Ct_ChatMessageTableViewRow');
+	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
 	
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
 	var userObject = {id: _chatParams.userId, imageUrl: ''}; //real data --> {id: _chatParams.userId,imageUrl: ''};

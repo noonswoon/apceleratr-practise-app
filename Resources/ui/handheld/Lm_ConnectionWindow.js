@@ -1,7 +1,7 @@
 ConnectionWindow = function(_userId) {
 	
 	var BackendMatch = require('backend_libs/backendMatch');			
-	var ConnectionTableViewRow = require('ui/handheld/Ct_ConnectionTableViewRow');
+	var ConnectionTableViewRow = require('ui/handheld/Lm_ConnectionTableViewRow');
 
 	var connectionTableData = [];
 	

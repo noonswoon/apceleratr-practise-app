@@ -1,9 +1,9 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId) {
-	Ti.include('ui/handheld/Ct_ChatMainWindow.js');
-	var TimerViewModule = require('ui/handheld/Td_TimerView');
-	var MatchWindowModule = require('ui/handheld/Td_Match');
-	var ConnectionWindowModule = require('ui/handheld/Ct_ConnectionWindow');
+	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
+	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
+	var ConnectionWindowModule = require('ui/handheld/Lm_ConnectionWindow');
 
 	//load component dependencies
 	
