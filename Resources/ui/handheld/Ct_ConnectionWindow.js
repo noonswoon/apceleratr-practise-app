@@ -12,30 +12,57 @@ ConnectionWindow = function(_userId) {
 	});
 	
 	var connectionTableView = Ti.UI.createTableView({
-		backgroundColor: 'green',
-		separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+		top: 30,
+		backgroundColor: '#32394a',
+		separatorColor: '#242a37',
+		editable: true,
 	});	
-	
-	connectionTableView.addEventListener('click',function(e){
-		Ti.API.info('chattable is clicked');
-		var chatRoomName = 'dummy';
-		//var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
-		//Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
-		
-		Ti.App.fireEvent('openChatWindow', {chatRoomName:chatRoomName, matchId: 2, 
-			otherUserId: 3, otherUserFirstName: 'Mickey'});
 
-/*		var pubnubChatWindow = Ti.App.Chat({
-		    "chat-room" : chatRoomName,
-		    "window"    : {backgroundColor:'transparent'},
-		    matchId	: 2, //e.row.matchId,
-		    userId	: 2, //_userId, // _userId,
-		    otherUserId : 3, //e.row.profileId,
-		    otherUserFirstName: 'Mickey' //e.row.firstName
-		});
-*/
-		// --> need to move this to the main screen somehow!!!
-		//self.containingTab.open(pubnubChatWindow.chatWindow);		
+	var editSection = Ti.UI.createView({
+		top: 0,
+		right:0,
+		width: 260,
+		height: 30,
+		backgroundColor: '#32394a'
+	});
+	var connectionsLbl = Ti.UI.createLabel({
+		text: 'CONNECTIONS',
+		color: '#949caa',
+		left: 10,
+		top: 10,
+		font:{fontWeight:'bold',fontSize:11},
+	});
+	
+	var isInEditMode = false;
+	var editLbl = Ti.UI.createLabel({
+		text: 'EDIT',
+		color: '#949caa',
+		right: 10,
+		top: 10,
+		width: 30,
+		font:{fontWeight:'bold',fontSize:10},
+	});
+	editSection.add(connectionsLbl);
+	editSection.add(editLbl);
+	
+	editLbl.addEventListener('click', function() {
+		if(!isInEditMode) {
+			connectionTableView.editing = true;
+			isInEditMode = true;
+			editLbl.text = 'DONE';
+		} else {
+			connectionTableView.editing = false;
+			isInEditMode = false;
+			editLbl.text = 'EDIT';
+		}
+	});
+
+	connectionTableView.addEventListener('click',function(e){
+		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
+		Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
+			
+		Ti.App.fireEvent('openChatWindow', {chatRoomName:chatRoomName, matchId: e.row.matchId, 
+			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName});
 	});
 	
 	BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
@@ -49,6 +76,15 @@ ConnectionWindow = function(_userId) {
 		connectionTableView.setData(connectionTableData);
 	});
 	
+	// add delete event listener
+	connectionTableView.addEventListener('delete',function(e) {
+		BackendMatch.deleteConnectedMatch({matchId: e.rowData.matchId, userId:_userId}, function(e) {
+			if(e.success) Ti.API.info('delete connected match success');
+			else Ti.API.info('delete connected match failed');
+		});
+	});
+	
+	self.add(editSection);
 	self.add(connectionTableView);	
 	
 	return self;

@@ -48,8 +48,6 @@ function ApplicationWindow(_userId) {
 		backgroundColor:'transparent',
 		width: 320
 	});
-			
-	
 
 	var matchWindow = new MatchWindowModule(_userId, null);
 	matchWindow.leftNavButton = toggleLeftMenuBtn;
@@ -89,8 +87,6 @@ function ApplicationWindow(_userId) {
 	var rightMenu = new ConnectionWindowModule(_userId);
 	rightMenu.open();
 
-	
-
 	var toggleRightMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = true;
@@ -118,6 +114,12 @@ function ApplicationWindow(_userId) {
 		});	
 		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});
 		toggleRightMenu();
+	});
+	
+	Ti.App.addEventListener('openProfileWindow', function(e) {
+		var userProfileWindow = new MatchWindow(_userId, e.matchId);
+		userProfileWindow.setNavGroup(navigationGroup);
+		navigationGroup.open(userProfileWindow);
 	});
 	
 	self.add(navigationGroup);

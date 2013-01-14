@@ -1,18 +1,14 @@
 Ct_ConnectionTableViewRow = function(_userId, _matchInfo){
 	
 	var row = Ti.UI.createTableViewRow({
-		height: 65,
+		height: 45,
+		backgroundColor: '#32394a'
 	});
-	
-	row.backgroundGradient = { type: 'linear',
-       		startPoint: { x: '0%', y: '0%' },
-       		endPoint: { x: '0%', y: '100%' },
-       		colors: [ { color: '#fff', offset: 0.0}, { color: '#D0D0D0', offset: 1.0 } ] };
 	
 	var personNameLbl = Ti.UI.createLabel({
 		text: _matchInfo.first_name,
 		textAlign: 'left',
-		color: '#333',
+		color: '#c4ccda',
 		left: 60,
 		width: 142,
 		top: 10,
@@ -26,7 +22,7 @@ Ct_ConnectionTableViewRow = function(_userId, _matchInfo){
 	var connectDateLbl = Ti.UI.createLabel({
 		text: 'Connected on ' + connectedStr,
 		textAlign: 'left',
-		color: '#333',
+		color: '#a8b4cb',
 		left: 60,
 		top: 30,
 		font:{fontSize:10},

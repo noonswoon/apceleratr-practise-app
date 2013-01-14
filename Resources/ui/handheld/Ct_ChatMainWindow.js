@@ -147,16 +147,21 @@ Ti.App.Chat = function(_chatParams) {
         });
     };
     
-    var backButton = Ti.UI.createButton({
-        backgroundImage:'images/back_button.png',
-        width:57,height:34
+    var profileButton = Ti.UI.createButton({
+        systemButton:Titanium.UI.iPhone.SystemButton.COMPOSE,
+		left: 10,
+		width: 30,
+		height: 30,
+		top: 10
 	});
 
 	var chatWindow = Ti.UI.createWindow({
 		title: 'Chat with '+_chatParams.otherUserFirstName,
-		barImage: 'images/nav_bg_w_pattern.png',
 		backgroundImage: 'images/bg.png',
-		barColor:'#489ec3',
+		rightNavButton: profileButton,
+//		barImage: 'images/nav_bg_w_pattern.png',
+//		backgroundImage: 'images/bg.png',
+//		barColor:'#489ec3',
 	});
 
 	var loadHistoryMessagesRow = Ti.UI.createTableViewRow({
@@ -268,6 +273,10 @@ Ti.App.Chat = function(_chatParams) {
 		}, 500); 	
     });
 	
+	profileButton.addEventListener('click', function() {
+		Ti.API.info('open profile click');
+		Ti.App.fireEvent('openProfileWindow', {matchId: _chatParams.matchId});
+	});
 	chatWindow.addEventListener('close', function(){
 		//unsubscribe here...
 		Ti.API.info('unsubscribe from channel: '+currentChatRoom);

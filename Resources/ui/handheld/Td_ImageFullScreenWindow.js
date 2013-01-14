@@ -33,6 +33,7 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
 	}
 	
 	var scrollView = Titanium.UI.createScrollableView({
+		top: 0,
 		views:viewsForScrollView,
 		showPagingControl:true,
 		pagingControlHeight:30,
@@ -45,9 +46,9 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
 		_navGroup.close(self, {animated: false});
 	});
 	
-	self.add(closeBtn);
 	self.add(scrollView);
-	
+	self.add(closeBtn);
+		
 	return self;
 };
 
