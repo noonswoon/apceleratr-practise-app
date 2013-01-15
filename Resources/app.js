@@ -35,8 +35,7 @@ Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 
 Ti.App.NUM_TOP_FRIENDS = 5; 
- 
-Ti.App.OFFERED_CITIES = ["Bangkok"]; //eventually, getting from database
+
 Ti.App.IS_ON_DEVICE = false;
 Ti.App.IS_PRODUCTION_BUILD = false;
 
@@ -84,23 +83,6 @@ if (Ti.version < 1.8 ) {
 	
 	var numWaitingEvent = 0; 
 		
-	//pull static data from server
-	numWaitingEvent++;
-	BackendGeneralInfo.getReligion(function(e) {
-		//load data into religion table
-		//Ti.API.info('religion data: '+JSON.stringify(e));
-		ModelReligion.populateReligion(e);
-		Ti.App.fireEvent('doneWaitingEvent');
-	});
-	
-	numWaitingEvent++;
-	BackendGeneralInfo.getEthnicity(function(e) {
-		//load data into ethnicity table
-		//Ti.API.info('ethnicity data: '+JSON.stringify(e));
-		ModelEthnicity.populateEthnicity(e);
-		Ti.App.fireEvent('doneWaitingEvent');
-	});
-
 	Ti.App.addEventListener('doneWaitingEvent', function() {
 
 		numWaitingEvent--;
@@ -136,5 +118,30 @@ if (Ti.version < 1.8 ) {
 				}
 			}
 		}
-	});		
+	});
+	
+		//pull static data from server
+	numWaitingEvent++;
+	BackendGeneralInfo.getReligion(function(e) {
+		//load data into religion table
+		//Ti.API.info('religion data: '+JSON.stringify(e));
+		ModelReligion.populateReligion(e);
+		Ti.App.fireEvent('doneWaitingEvent');
+	});
+	
+	numWaitingEvent++;
+	BackendGeneralInfo.getEthnicity(function(e) {
+		//load data into ethnicity table
+		//Ti.API.info('ethnicity data: '+JSON.stringify(e));
+		ModelEthnicity.populateEthnicity(e);
+		Ti.App.fireEvent('doneWaitingEvent');
+	});
+	
+	numWaitingEvent++;
+	BackendGeneralInfo.getTargetedCity(function(e) {
+		Ti.API.info('eee: '+JSON.stringify(e));
+		Ti.App.OFFERED_CITIES = e;
+		Ti.App.fireEvent('doneWaitingEvent');
+	});
+		
 })();

@@ -16,6 +16,8 @@ TopFriendsView = function(_userId) {
 
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	
+	Ti.API.info('offeredCities***: '+offeredCities);
+	
 	var createTopFriendTableRowData = function(_friendList){
 		var tableData = [];
 		Ti.API.info('_friendList: '+_friendList.length);
@@ -61,7 +63,6 @@ TopFriendsView = function(_userId) {
 			row.add(inviteIcon);			
 			
 			tableData.push(row);
-			Ti.API.info('adding to table data...');
 		}
 		return tableData;
 	};

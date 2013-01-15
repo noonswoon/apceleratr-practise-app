@@ -1,0 +1,4 @@
+{
+	"meta": {"status":"ok", "return_obj":"targeted_city_data"}, 
+	"content": ["Bangkok"]
+}
