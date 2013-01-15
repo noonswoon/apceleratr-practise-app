@@ -45,7 +45,7 @@ Ti.App.Chat = function(_chatParams) {
 	        channel  : currentChatRoom,
 	        connect  : function() {
 	            Ti.API.info("connecting...");
-	            var welcomeChatRow = new ChatMessageTableViewRow("Welcome to Dressntie Chat..please keep the place clean", adminUserObject, false);
+	            var welcomeChatRow = new ChatMessageTableViewRow("Welcome to Noonswoon Chat..please keep the place clean", adminUserObject, false);
 	            
 	            chatMessagesTableView.setData([welcomeChatRow]);
 	                			

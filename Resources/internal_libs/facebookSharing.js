@@ -38,9 +38,9 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	//var SettingHelper = require('helpers/settingHelper');
 	//if(SettingHelper.getFacebookShare()) {
 		var data = {
-	 		app_id: '132344853587370',
+	 		app_id: Ti.Facebook.appid,
 	    	message: 'A new way to meet quality peopple!',
-	    	redirect_uri: 'http://dressntie.com/invite/?fb_notif',
+	    	redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
 	    	to: _fbIds
 	 	};
 		Titanium.Facebook.dialog("apprequests", data, showRequestResult);

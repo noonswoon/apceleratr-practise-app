@@ -29,7 +29,7 @@ var Debug = require('internal_libs/debug');
 Ti.App.API_SERVER = "http://dressntie.codesanook.com/";
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 
-Ti.App.DATABASE_NAME = "Dressntie";
+Ti.App.DATABASE_NAME = "Noonswoon";
 
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;

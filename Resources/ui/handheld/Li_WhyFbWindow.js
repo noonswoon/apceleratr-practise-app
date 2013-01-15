@@ -4,7 +4,7 @@ var WhyFbWindow = function() {
 	var win = Ti.UI.createWindow({
 		backgroundColor:'transparent',
 		backgroundImage: '/images/admin/cb_back.png',
-		title: "Dressntie",
+		title: "Noonswoon",
 		barColor: '#398bb0',
 		layout: 'vertical',
 		tabBarHidden: true,

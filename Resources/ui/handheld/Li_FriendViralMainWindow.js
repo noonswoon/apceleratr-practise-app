@@ -21,7 +21,7 @@ FriendViralMainWindow = function(_userId) {
 	});	
 	
 	var descriptionLbl = Ti.UI.createLabel({
-		text: 'Dressntie is more fun with more people.',
+		text: 'Noonswoon is more fun with more people.',
 		top: 5,
 		left: 20,
 		color: 'black',
@@ -80,7 +80,7 @@ FriendViralMainWindow = function(_userId) {
 	});		
 	
 	var facebookFriendQuery = function() {
-		if (!Titanium.Facebook.loggedIn) Ti.UI.createAlertDialog({title:'Dressntie', message:L('Login before running query')}).show();
+		if (!Titanium.Facebook.loggedIn) Ti.UI.createAlertDialog({title:'Noonswoon', message:L('Login before running query')}).show();
 		//run query
 		else{	
 			// run query, populate table view and open window			

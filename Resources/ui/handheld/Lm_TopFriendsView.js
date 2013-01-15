@@ -1,5 +1,6 @@
 TopFriendsView = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
+	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
 		
 	var self = Ti.UI.createView({
@@ -14,10 +15,61 @@ TopFriendsView = function(_userId) {
 		top: 0,
 		left: 0
 	});
-
+	
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
+	var targetedList = [];
+	var targetedCounter = 0;
 	
 	Ti.API.info('offeredCities***: '+offeredCities);
+	
+	var insertNextCandidate = function() {  //refactoring out (1)
+		var row = Ti.UI.createTableViewRow({
+			height: 50,
+			backgroundColor: '#32394a',
+			uid: targetedList[targetedCounter].uid,
+		});
+		
+		if(Ti.Platform.osname === 'iphone')
+			row.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+			
+		var friendImage = Ti.UI.createImageView({
+			image: targetedList[targetedCounter].pic_square,
+			width: 40, 
+			height: 40, 
+			top: 5,
+			left: 5
+		}); 
+			
+		var friendName = Ti.UI.createLabel({
+			text: targetedList[targetedCounter].name,
+			left: 55,
+			top: 25,
+			color: '#cdd4df',
+			font:{fontWeight:'bold',fontSize:16},
+		}); 
+			
+		var inviteIcon = Ti.UI.createImageView({
+			image: 'images/leftmenu/invite_friend_button.png',
+			right: 10,
+			top: 5,
+			width: 50,
+			height: 40
+		});
+		//double binding - changing the execution context
+		(function() {
+			var inviteeUserId = targetedList[targetedCounter].uid;
+			inviteIcon.addEventListener('click', function() {
+				FacebookSharing.sendRequestOnFacebook(inviteeUserId);	
+			});
+		})();
+			
+		row.add(friendImage);
+		row.add(friendName);
+		row.add(inviteIcon);			
+			
+		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, row, true);
+		targetedCounter++;
+	};
 	
 	var createTopFriendTableRowData = function(_friendList){
 		var tableData = [];
@@ -29,10 +81,10 @@ TopFriendsView = function(_userId) {
 
 			var curUser = _friendList[i];
 
-			var row = Ti.UI.createTableViewRow({
+			var row = Ti.UI.createTableViewRow({ //refactoring out (2)
 				height: 50,
 				backgroundColor: '#32394a',
-				fb_id: curUser.uid,
+				uid: curUser.uid,
 				
 			});
 			if(Ti.Platform.osname === 'iphone')
@@ -52,7 +104,7 @@ TopFriendsView = function(_userId) {
 				top: 25,
 				color: '#cdd4df',
 				font:{fontWeight:'bold',fontSize:16},
-			}); 
+			});
 			
 			var inviteIcon = Ti.UI.createImageView({
 				image: 'images/leftmenu/invite_friend_button.png',
@@ -75,6 +127,7 @@ TopFriendsView = function(_userId) {
 			row.add(inviteIcon);			
 			
 			tableData.push(row);
+			targetedCounter++;
 		}
 		return tableData;
 	};
@@ -115,7 +168,7 @@ TopFriendsView = function(_userId) {
 			Ti.API.info('friends in targeted cities: '+candidateList.length);
 			
 			BackendInvite.getInvitedList(_userId, function(invitedList) {
-				var targetedList = [];
+				targetedList = [];
 				for(var i = 0; i < candidateList.length; i++) {
 					var isInvited = false;
 					for(var j = 0; j < invitedList.length; j++) {
@@ -135,6 +188,37 @@ TopFriendsView = function(_userId) {
 		}
 	});
 
+	Ti.App.addEventListener('inviteCompleted', function(e){
+		//iterate to remove the table view row	
+		var topupAmount = 0;
+		for(var i = 0; i < e.inviteeList.length; i++) {
+			var targetedRow = -1;			
+			for(var j = 0; j < topFriendsTableView.data[0].rowCount; j++) {
+				var row = topFriendsTableView.data[0].rows[j];
+				if(row.uid === Number(e.inviteeList[i])) {
+					targetedRow = j;
+					break;
+				}
+			}
+			Ti.API.info('deleting row: '+targetedRow);
+			topFriendsTableView.deleteRow(targetedRow);	
+			topupAmount += 2;
+		}
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
+		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
+		
+		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
+			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
+			else Ti.API.info('saveInvitePeople from fb failed');
+		});
+		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
+			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+		});
+		
+		//add the next row to the table
+		insertNextCandidate();
+	});
+	
 	self.add(topFriendsTableView);
 	
 	return self;
