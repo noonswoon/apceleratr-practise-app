@@ -210,7 +210,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		Ti.API.info('numThumbnailsToWait: '+numThumbnailsToWait);
 		if(numThumbnailsToWait === 0) {
 			var fbPhotoAlbumWindow = new FbPhotoAlbumWindowModule();
-			_rootWindow.containingTab.open(fbPhotoAlbumWindow);	
+			_navGroup.open(fbPhotoAlbumWindow);	
 		}
 	});
 	
@@ -352,9 +352,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						});
 					successDialog.show();
 					if(_newUser) {
-						var FriendViralWindowModule = require('ui/common/Am_FriendViralMainWindow');
+						var FriendViralWindowModule = require('ui/handheld/Li_FriendViralMainWindow');
 						var friendViralWindow = new FriendViralWindowModule(_userInfo.meta.user_id);
-						_rootWindow.containingTab.open(friendViralWindow);
+						_navGroup.open(friendViralWindow);
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));

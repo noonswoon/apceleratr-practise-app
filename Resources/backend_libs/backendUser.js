@@ -51,7 +51,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.device_id = _userObj.deviceId;
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"user/connect_server";
+		var url = Ti.App.API_SERVER +"userasync/connect_server";
 		Ti.API.info('sending to connect to server');
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {

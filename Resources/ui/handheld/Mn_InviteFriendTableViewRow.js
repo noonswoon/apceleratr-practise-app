@@ -1,0 +1,104 @@
+InviteFriendTableViewRow = function(_user, _rowIndex, _upperLimit) {
+	var  isInvited = true; 
+	
+	var tableRow = Ti.UI.createTableViewRow({
+		height: 50,
+		backgroundSelectedColor: '#fff',
+		backgroundColor:'#fff'
+	});
+
+	var imageView = Ti.UI.createImageView({
+		left: 10,
+		width: 40,
+		height: 40,
+		touchEnabled: false
+	});
+
+	var userLabel = Ti.UI.createLabel({
+		font: {fontSize:15, fontWeight:'bold'},
+		left: 60,
+		height: 20,
+		width: 180,
+		color: '#000'
+	});
+	
+	var inviteButton = Titanium.UI.createButton({
+		color:'grey',
+		enabled: false,
+		top:12,
+		right: 10,
+		width:60,
+		height:25,
+		font:{fontSize:14},
+		title:'Invite'
+	});
+	
+	imageView.image = _user.pic_square;
+	userLabel.text =  _user.name;
+	tableRow.uid = _user.uid;
+
+/*		
+	var inviteButton = Ti.UI.createImageView({
+		height: 30,
+		width: 58,
+		right: 10,
+		backgroundImage: 'images/button/button_invite@2x.png',
+	});
+	
+	var inviteFriend = function(_fbId) {
+		var FacebookSharing = require('internal_libs/facebookSharing');	
+		FacebookSharing.sendRequestOnFacebook(_fbId);
+	};		
+		
+	inviteButton.addEventListener('click', function(){
+		inviteFriend(_user.uid);
+	});
+		
+	tableRow.add(inviteButton);
+*/
+	
+	tableRow.filter = userLabel.text;
+
+	var  isInvited = true; 
+	if (_rowIndex > _upperLimit - 1) { //auto-select the first 5 people 
+		isInvited = false;
+		inviteButton.enabled = true;
+	}
+	
+	inviteButton.addEventListener("click", function() {
+		if(inviteButton.enabled) {
+			inviteButton.title = "Invited";
+			inviteButton.enabled = false;
+			isInvited = true;
+			Ti.App.fireEvent('invitedFriend'); 
+		}
+	});
+	
+	Ti.App.addEventListener("inviteAllToggled", function(e) {
+		inviteButton.title = "Invite";
+		if(e.inviteAll && _rowIndex < _upperLimit) { //only enable the first x rows (upperLimit)
+			inviteButton.enabled = false;
+			isInvited = true;
+		} else {
+			inviteButton.enabled = true;
+			isInvited = false;
+		}
+	});
+	
+	tableRow.isInvited = function() {
+	    return isInvited;
+	};
+	
+	tableRow.reset = function() {
+		inviteButton.title = "Invite";
+		inviteButton.enabled = true;
+		isInvited = false;	
+	}
+	
+	tableRow.add(imageView);
+	tableRow.add(userLabel);
+	tableRow.add(inviteButton);
+
+	return tableRow;	
+}
+module.exports = InviteFriendTableViewRow;

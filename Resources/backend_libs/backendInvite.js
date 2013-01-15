@@ -10,7 +10,7 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					//Ti.API.info('backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
+					Ti.API.info('backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
 					_callbackFn(resultObj.content.invited_people);
 				} else {
 					Ti.API.info('Error backendInvite.getInvitedList: '+ JSON.stringify(resultObj));

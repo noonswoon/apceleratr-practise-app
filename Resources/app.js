@@ -33,8 +33,10 @@ Ti.App.DATABASE_NAME = "Dressntie";
 
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
+
+Ti.App.NUM_TOP_FRIENDS = 5; 
  
-Ti.App.OFFERED_CITIES = [110585945628334]; //eventually, getting from database
+Ti.App.OFFERED_CITIES = ["Bangkok"]; //eventually, getting from database
 Ti.App.IS_ON_DEVICE = false;
 Ti.App.IS_PRODUCTION_BUILD = false;
 
@@ -115,21 +117,21 @@ if (Ti.version < 1.8 ) {
 				else {
 				//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
-					//if(Ti.Facebook.loggedIn) {
-					if(true) {
+					if(Ti.Facebook.loggedIn) {
+					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						BackendUser.getUserIdFromFbId(202852, function(_userId) {	
 							//getting real data
-							var MainApplication = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplication(_userId);
+							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
+							var mainApp = new MainApplicationModule(_userId);
 							mainApp.open();
 						});
 					} else {
 						//open login page
 						
-						//var LoginTabGroupModule = require('ui/common/Am_LoginTabGroup');
-						//var tabGroupToOpen = new LoginTabGroupModule();			
-						//tabGroupToOpen.open();
+						var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
+						var loginProcessWindow = new LoginProcessWindowModule();			
+						loginProcessWindow.open();
 					}
 				}
 			}
