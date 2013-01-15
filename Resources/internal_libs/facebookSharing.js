@@ -31,9 +31,6 @@ var showRequestResult = function(e) {
 	}
 	Ti.API.info(s);
 };
-
-//tickers
-
 //send request via facebook to friend who dont have this app:(
 	
 // http://developer.appcelerator.com/question/74921/switchbox-vs-checkbox#answer-216772

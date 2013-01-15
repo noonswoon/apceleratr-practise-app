@@ -1,6 +1,7 @@
 TopFriendsView = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
-	
+	var FacebookSharing = require('internal_libs/facebookSharing');
+		
 	var self = Ti.UI.createView({
 		top: 74, 
 		height: 250,
@@ -31,9 +32,12 @@ TopFriendsView = function(_userId) {
 			var row = Ti.UI.createTableViewRow({
 				height: 50,
 				backgroundColor: '#32394a',
-				fb_id: curUser.uid
-			});
+				fb_id: curUser.uid,
 				
+			});
+			if(Ti.Platform.osname === 'iphone')
+				row.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+			
 			var friendImage = Ti.UI.createImageView({
 				image: curUser.pic_square,
 				width: 40, 
@@ -57,6 +61,14 @@ TopFriendsView = function(_userId) {
 				width: 50,
 				height: 40
 			});
+			
+			//double binding - changing the execution context
+			(function() {
+				var inviteeUserId = curUser.uid;
+				inviteIcon.addEventListener('click', function() {
+					FacebookSharing.sendRequestOnFacebook(inviteeUserId);	
+				});
+			})();
 			
 			row.add(friendImage);
 			row.add(friendName);
