@@ -88,12 +88,19 @@ TopFriendsView = function(_userId) {
 			var candidateList = []; 
 			//need to exclude people from out-of-town
 			Ti.API.info('friendList from Fb: '+friendList.length+', ID: '+offeredCities);
-			for(var i = 0; i < friendList.length; i++) {
-				if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
+			
+			if(offeredCities === 'all') {
+				for(var i = 0; i < friendList.length; i++)
 					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
+			} else {
+				for(var i = 0; i < friendList.length; i++) {
+					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
+						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
+					}
 				}
 			}
-			Ti.API.info('**candidate in BKK: '+ candidateList.length);
+			
+			Ti.API.info('friends in targeted cities: '+candidateList.length);
 			
 			BackendInvite.getInvitedList(_userId, function(invitedList) {
 				var targetedList = [];
@@ -112,7 +119,6 @@ TopFriendsView = function(_userId) {
 				targetedList = shuffleArray(targetedList); 
 				var friendTableRowData = createTopFriendTableRowData(targetedList);
 				topFriendsTableView.setData(friendTableRowData);
-				Ti.API.info('setting up top friends');
 			});
 		}
 	});
