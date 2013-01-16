@@ -36,6 +36,8 @@ Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 
 Ti.App.NUM_TOP_FRIENDS = 5; 
 
+Ti.App.NUM_INVITE_ALL = 10;
+
 Ti.App.IS_ON_DEVICE = false;
 Ti.App.IS_PRODUCTION_BUILD = false;
 
@@ -55,9 +57,8 @@ uid IN (SELECT uid2 FROM friend WHERE uid1 = me())
 
 Ti.Facebook.appid = "132344853587370";
 Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 
-							'user_religion_politics', 'user_education_history', 
-							'user_work_history', 'user_photos', 'user_about_me', 
-							'friends_location', 'friends_relationships'];
+							'user_religion_politics', 'user_work_history', 'user_photos', 
+							'user_about_me', 'friends_location', 'friends_relationships'];
 Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
 
 //bootstrap and check dependencies

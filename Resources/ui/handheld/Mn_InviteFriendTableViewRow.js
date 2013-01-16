@@ -1,4 +1,4 @@
-InviteFriendTableViewRow = function(_user, _rowIndex, _upperLimit) {
+InviteFriendTableViewRow = function(_user, _rowIndex) {
 	var  isInvited = true; 
 	
 	var tableRow = Ti.UI.createTableViewRow({
@@ -36,31 +36,11 @@ InviteFriendTableViewRow = function(_user, _rowIndex, _upperLimit) {
 	imageView.image = _user.pic_square;
 	userLabel.text =  _user.name;
 	tableRow.uid = _user.uid;
-
-/*		
-	var inviteButton = Ti.UI.createImageView({
-		height: 30,
-		width: 58,
-		right: 10,
-		backgroundImage: 'images/button/button_invite@2x.png',
-	});
-	
-	var inviteFriend = function(_fbId) {
-		var FacebookSharing = require('internal_libs/facebookSharing');	
-		FacebookSharing.sendRequestOnFacebook(_fbId);
-	};		
-		
-	inviteButton.addEventListener('click', function(){
-		inviteFriend(_user.uid);
-	});
-		
-	tableRow.add(inviteButton);
-*/
 	
 	tableRow.filter = userLabel.text;
 
 	var  isInvited = true; 
-	if (_rowIndex > _upperLimit - 1) { //auto-select the first 5 people 
+	if (_rowIndex > Ti.App.NUM_INVITE_ALL - 1) { //auto-select the first 5 people 
 		isInvited = false;
 		inviteButton.enabled = true;
 	}
@@ -76,7 +56,7 @@ InviteFriendTableViewRow = function(_user, _rowIndex, _upperLimit) {
 	
 	Ti.App.addEventListener("inviteAllToggled", function(e) {
 		inviteButton.title = "Invite";
-		if(e.inviteAll && _rowIndex < _upperLimit) { //only enable the first x rows (upperLimit)
+		if(e.inviteAll && _rowIndex < Ti.App.NUM_INVITE_ALL) { //only enable the first x rows (upperLimit)
 			inviteButton.enabled = false;
 			isInvited = true;
 		} else {

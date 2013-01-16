@@ -81,7 +81,7 @@ LeftMenuWindow = function(_userId) {
 	self.add(inviteFriendsView);
 
 	inviteFriendsView.addEventListener('click', function() {
-		Ti.API.info('open invite page');
+		Ti.App.fireEvent('openInviteFriendWindow');
 	});
 	
 	//END INVITE FRIENDS LABEL SECTION
@@ -123,7 +123,6 @@ LeftMenuWindow = function(_userId) {
 	});
 	
 	self.add(inviteButtonView);
-	
 		
 	return self;
 }
