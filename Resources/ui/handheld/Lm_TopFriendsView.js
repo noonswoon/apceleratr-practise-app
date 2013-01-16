@@ -1,4 +1,5 @@
 TopFriendsView = function(_userId) {
+	var FacebookFriendModel = require('model/facebookFriend');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -66,21 +67,20 @@ TopFriendsView = function(_userId) {
 			var friendList = JSON.parse(r.result);
 			
 			var candidateList = []; 
-			//need to exclude people from out-of-town
-			//Ti.API.info('friendList from Fb: '+friendList.length+', ID: '+offeredCities);
-			
+
+			//need to exclude people from out-of-town			
 			if(offeredCities === 'all') {
 				for(var i = 0; i < friendList.length; i++)
 					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
 			} else {
 				for(var i = 0; i < friendList.length; i++) {
 					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
-						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
+						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
+											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
 					}
 				}
+				FacebookFriendModel.populateFacebookFriend(candidateList);	
 			}
-			
-			//Ti.API.info('friends in targeted cities: '+candidateList.length);
 			
 			BackendInvite.getInvitedList(_userId, function(invitedList) {
 				targetedList = [];
@@ -115,7 +115,6 @@ TopFriendsView = function(_userId) {
 					break;
 				}
 			}
-			Ti.API.info('deleting row: '+targetedRow);
 			topFriendsTableView.deleteRow(targetedRow);	
 			topupAmount += 2;
 		}

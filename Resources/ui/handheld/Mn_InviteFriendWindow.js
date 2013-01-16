@@ -165,7 +165,8 @@ InviteFriendWindow = function(_userId) {
 					} else {
 						for(var i = 0; i < friendList.length; i++) {
 							if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
-								candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
+								candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
+													pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
 							}
 						}
 					}
@@ -182,8 +183,7 @@ InviteFriendWindow = function(_userId) {
 								targetedList.push(candidateList[i]); //has not invited..adding
 							}
 						}
-						
-						Ti.API.info('main page, targetedList: '+JSON.stringify(targetedList));
+
 						var friendTableRowData = createFriendTable(targetedList);
 						facebookFriendTableView.setData(friendTableRowData);
 					});
@@ -228,7 +228,6 @@ InviteFriendWindow = function(_userId) {
 					break;
 				}
 			}
-			Ti.API.info('deleting row: '+targetedRow);
 			facebookFriendTableView.deleteRow(targetedRow);	
 			topupAmount += 2;
 		}
