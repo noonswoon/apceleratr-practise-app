@@ -140,7 +140,6 @@ if (Ti.version < 1.8 ) {
 	
 	numWaitingEvent++;
 	BackendGeneralInfo.getTargetedCity(function(e) {
-		Ti.API.info('eee: '+JSON.stringify(e));
 		Ti.App.OFFERED_CITIES = e;
 		Ti.App.fireEvent('doneWaitingEvent');
 	});

@@ -2,6 +2,7 @@ TopFriendsView = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
+	var TopFriendsTableViewRow = require('ui/handheld/Lm_TopFriendsTableViewRow');
 		
 	var self = Ti.UI.createView({
 		top: 74, 
@@ -23,51 +24,9 @@ TopFriendsView = function(_userId) {
 	Ti.API.info('offeredCities***: '+offeredCities);
 	
 	var insertNextCandidate = function() {  //refactoring out (1)
-		var row = Ti.UI.createTableViewRow({
-			height: 50,
-			backgroundColor: '#32394a',
-			uid: targetedList[targetedCounter].uid,
-		});
-		
-		if(Ti.Platform.osname === 'iphone')
-			row.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-			
-		var friendImage = Ti.UI.createImageView({
-			image: targetedList[targetedCounter].pic_square,
-			width: 40, 
-			height: 40, 
-			top: 5,
-			left: 5
-		}); 
-			
-		var friendName = Ti.UI.createLabel({
-			text: targetedList[targetedCounter].name,
-			left: 55,
-			top: 25,
-			color: '#cdd4df',
-			font:{fontWeight:'bold',fontSize:16},
-		}); 
-			
-		var inviteIcon = Ti.UI.createImageView({
-			image: 'images/leftmenu/invite_friend_button.png',
-			right: 10,
-			top: 5,
-			width: 50,
-			height: 40
-		});
-		//double binding - changing the execution context
-		(function() {
-			var inviteeUserId = targetedList[targetedCounter].uid;
-			inviteIcon.addEventListener('click', function() {
-				FacebookSharing.sendRequestOnFacebook(inviteeUserId);	
-			});
-		})();
-			
-		row.add(friendImage);
-		row.add(friendName);
-		row.add(inviteIcon);			
-			
-		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, row, true);
+
+		var topFriendsRow = new TopFriendsTableViewRow(targetedList[targetedCounter]);
+		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, topFriendsRow, true);
 		targetedCounter++;
 	};
 	
@@ -81,52 +40,8 @@ TopFriendsView = function(_userId) {
 
 			var curUser = _friendList[i];
 
-			var row = Ti.UI.createTableViewRow({ //refactoring out (2)
-				height: 50,
-				backgroundColor: '#32394a',
-				uid: curUser.uid,
-				
-			});
-			if(Ti.Platform.osname === 'iphone')
-				row.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-			
-			var friendImage = Ti.UI.createImageView({
-				image: curUser.pic_square,
-				width: 40, 
-				height: 40, 
-				top: 5,
-				left: 5
-			}); 
-			
-			var friendName = Ti.UI.createLabel({
-				text: curUser.name,
-				left: 55,
-				top: 25,
-				color: '#cdd4df',
-				font:{fontWeight:'bold',fontSize:16},
-			});
-			
-			var inviteIcon = Ti.UI.createImageView({
-				image: 'images/leftmenu/invite_friend_button.png',
-				right: 10,
-				top: 5,
-				width: 50,
-				height: 40
-			});
-			
-			//double binding - changing the execution context
-			(function() {
-				var inviteeUserId = curUser.uid;
-				inviteIcon.addEventListener('click', function() {
-					FacebookSharing.sendRequestOnFacebook(inviteeUserId);	
-				});
-			})();
-			
-			row.add(friendImage);
-			row.add(friendName);
-			row.add(inviteIcon);			
-			
-			tableData.push(row);
+			var topFriendsRow = new TopFriendsTableViewRow(curUser);
+			tableData.push(topFriendsRow);
 			targetedCounter++;
 		}
 		return tableData;
@@ -152,7 +67,7 @@ TopFriendsView = function(_userId) {
 			
 			var candidateList = []; 
 			//need to exclude people from out-of-town
-			Ti.API.info('friendList from Fb: '+friendList.length+', ID: '+offeredCities);
+			//Ti.API.info('friendList from Fb: '+friendList.length+', ID: '+offeredCities);
 			
 			if(offeredCities === 'all') {
 				for(var i = 0; i < friendList.length; i++)
@@ -165,7 +80,7 @@ TopFriendsView = function(_userId) {
 				}
 			}
 			
-			Ti.API.info('friends in targeted cities: '+candidateList.length);
+			//Ti.API.info('friends in targeted cities: '+candidateList.length);
 			
 			BackendInvite.getInvitedList(_userId, function(invitedList) {
 				targetedList = [];
