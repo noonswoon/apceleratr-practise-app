@@ -3,6 +3,7 @@ TopFriendsView = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
+	var FacebookFriendQuery = require('internal_libs/facebookFriendQuery');
 	var TopFriendsTableViewRow = require('ui/handheld/Lm_TopFriendsTableViewRow');
 		
 	var self = Ti.UI.createView({
@@ -18,11 +19,8 @@ TopFriendsView = function(_userId) {
 		left: 0
 	});
 	
-	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	var targetedList = [];
 	var targetedCounter = 0;
-	
-	Ti.API.info('offeredCities***: '+offeredCities);
 	
 	var insertNextCandidate = function() {  //refactoring out (1)
 
@@ -52,57 +50,36 @@ TopFriendsView = function(_userId) {
 	    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 	    return o;
 	};	
+
+	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
+		Ti.API.info('heard completedFacebookFriendQuery: '+ JSON.stringify(e.candidateList));
+		var candidateList = e.candidateList;
 		
-	var query = "SELECT uid, name, pic_square, current_location FROM user ";
-		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Titanium.Facebook.uid + ")";
-		query += " and not is_app_user";
-		query += " and (relationship_status != 'In a relationship' and relationship_status != 'Engaged'";
-		query += " and relationship_status != 'Married') order by first_name";
-
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
-		if (!r.success) {
-			if (r.error) Ti.API.info(r.error);
-			else Ti.API.info("Call was unsuccessful");
-		} else {
-			var friendList = JSON.parse(r.result);
+		FacebookFriendModel.populateFacebookFriend(candidateList);
+		BackendInvite.getInvitedList(_userId, function(invitedList) {
+			//update the local db for invitedList
 			
-			var candidateList = []; 
-
-			//need to exclude people from out-of-town			
-			if(offeredCities === 'all') {
-				for(var i = 0; i < friendList.length; i++)
-					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
-			} else {
-				for(var i = 0; i < friendList.length; i++) {
-					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
-						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
-					}
+			targetedList = [];
+			for(var i = 0; i < candidateList.length; i++) {
+				var isInvited = false;
+				for(var j = 0; j < invitedList.length; j++) {
+					if(String(candidateList[i].uid) === invitedList[j])
+						isInvited = true;
 				}
-				FacebookFriendModel.populateFacebookFriend(candidateList);	
+				if(!isInvited) {
+					targetedList.push(candidateList[i]); //has not invited..adding
+				}
 			}
-			
-			BackendInvite.getInvitedList(_userId, function(invitedList) {
-				targetedList = [];
-				for(var i = 0; i < candidateList.length; i++) {
-					var isInvited = false;
-					for(var j = 0; j < invitedList.length; j++) {
-						if(String(candidateList[i].uid) === invitedList[j])
-							isInvited = true;
-					}
-					if(!isInvited) {
-						targetedList.push(candidateList[i]); //has not invited..adding
-					}
-				}
-				
-				//shuffle targetedList for some excitement
-				targetedList = shuffleArray(targetedList); 
-				var friendTableRowData = createTopFriendTableRowData(targetedList);
-				topFriendsTableView.setData(friendTableRowData);
-			});
-		}
+	
+			//shuffle targetedList for some excitement
+			targetedList = shuffleArray(targetedList); 
+			var friendTableRowData = createTopFriendTableRowData(targetedList);
+			topFriendsTableView.setData(friendTableRowData);
+		});
 	});
-
+	FacebookFriendQuery.queryFacebookFriends();
+	
+	
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		//iterate to remove the table view row	
 		var topupAmount = 0;

@@ -45,5 +45,5 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	 	};
 		Titanium.Facebook.dialog("apprequests", data, showRequestResult);
 	//}
-}
+};
 

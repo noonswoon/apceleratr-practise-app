@@ -34,7 +34,19 @@ exports.getTopFiveFacebookFriends = function(){
 };
 
 exports.getFacebookFriendAtIndex = function(_indexAt){
-//SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore ASC LIMIT _indexAt, 1
+	var friend = null;
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore ASC LIMIT '+_indexAt+',1');
+	if(result.isValidRow()) {
+		friend = {
+					facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
+				  	picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 
+				  	is_invited: result.fieldByName('IsInvited'), closeness_score: result.fieldByName('ClosenessScore')	
+				};
+	}
+	result.close();
+	db.close();
+	return friend;  //continue here...
 };
 
 exports.getFacebookFriendInCity = function(_cityArray){
