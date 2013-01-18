@@ -107,3 +107,53 @@ exports.queryUserComments = function(_streamIdList) {
 		Ti.App.fireEvent('completedUserCommentQuery', {friendsWhoCommentList: friendsWhoCommentList});
 	});
 };
+
+exports.queryUserPhotos = function() {
+	var query = "SELECT object_id, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500" ;
+	var userFbPhotoIds = []; 
+	Ti.API.info('querying user photos...');
+	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+		if (!r.success) {
+			if (r.error) Ti.API.info(r.error);
+			else Ti.API.info("Call was unsuccessful");
+		} else {
+			Ti.API.info('photoQuery: '+JSON.stringify(r));
+			var dataArray = JSON.parse(r.result);
+			
+			for(var i = 0; i < dataArray.length; i++) {
+				userFbPhotoIds.push(dataArray[i].object_id);
+			}
+		}
+		Ti.API.info('userFbPhotoIds Length: '+ userFbPhotoIds.length);
+		Ti.App.fireEvent('completedUserPhotoQuery', {userFbPhotoIds: userFbPhotoIds});
+	});
+//SELECT subject, text from photo_tag where  object_id = 10100444563662653
+};
+
+exports.queryUserPhotoTags = function(_objectList) {
+	
+	var inCondition = "(" + _objectList.join(', ') + ")";  //not outputing????
+	Ti.API.info("userPhotoTag inCondition: "+inCondition);
+	//var query = "SELECT subject, text from photo_tag where  object_id in (10100444563662653, 10100459791306333)";
+	var query = "SELECT subject, text from photo_tag where object_id in " + inCondition ;
+	var taggedFriends = []; 
+
+	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+		if (!r.success) {
+			if (r.error) Ti.API.info(r.error);
+			else Ti.API.info("Call was unsuccessful");
+		} else {
+			Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
+			var dataArray = JSON.parse(r.result);
+			
+			for(var i = 0; i < dataArray.length; i++) {
+				if(dataArray[i].subject !== "")
+					taggedFriends.push(dataArray[i].subject);
+			}
+		}
+		Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
+		Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: taggedFriends});
+	});
+//SELECT object_id, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500 	
+//SELECT subject, text from photo_tag where  object_id = 10100444563662653
+};

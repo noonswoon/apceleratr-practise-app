@@ -100,8 +100,8 @@ if (Ti.version < 1.8 ) {
 				else {
 				//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
-					if(Ti.Facebook.loggedIn) {
-					//if(false) {
+					//if(Ti.Facebook.loggedIn) {
+					if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userId) {	
 							//getting real data

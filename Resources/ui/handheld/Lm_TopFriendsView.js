@@ -55,6 +55,16 @@ TopFriendsView = function(_userId) {
 	});
 	
 	//facebook friends fetching from server
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		var taggedFriends = e.taggedFriends;
+		Ti.API.info('tagged fbIds: '+JSON.stringify(taggedFriends));
+	});
+	
+	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
+		var userFbPhotoIds = e.userFbPhotoIds;
+		FacebookQuery.queryUserPhotoTags(userFbPhotoIds);
+	});
+	
 	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
 		var friendsWhoLikeList = e.friendsWhoLikeList;
 		FacebookFriendModel.updateClosenessScoreBatch(friendsWhoLikeList);
@@ -72,6 +82,7 @@ TopFriendsView = function(_userId) {
 		
 		FacebookQuery.queryUserLikes(userStreamIdList);
 		FacebookQuery.queryUserComments(userStreamIdList);
+		FacebookQuery.queryUserPhotos();
 		//query likes, comments, photo albums
 	});
 	

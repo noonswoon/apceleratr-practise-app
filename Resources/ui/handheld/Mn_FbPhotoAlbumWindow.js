@@ -59,8 +59,8 @@ FbPhotoAlbumWindow = function() {
 			var curFbPic = picsArray[index];
 			var fbPicId = curFbPic.split('_')[2].split('.')[0];
 			var imageFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'fbPics/'+curFbPic);
-			 var fbPhotoView = Ti.UI.createImageView({
-									image: imageFile,
+			var fbPhotoView = Ti.UI.createImageView({
+								image: imageFile,
 								});
 										
 			// Convert your imageView into a blob
