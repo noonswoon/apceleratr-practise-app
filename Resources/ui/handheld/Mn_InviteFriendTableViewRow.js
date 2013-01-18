@@ -33,9 +33,9 @@ InviteFriendTableViewRow = function(_user, _rowIndex) {
 		title:'Invite'
 	});
 	
-	imageView.image = _user.pic_square;
+	imageView.image = _user.picture_url;
 	userLabel.text =  _user.name;
-	tableRow.uid = _user.uid;
+	tableRow.fbId = _user.facebook_id;
 	
 	tableRow.filter = userLabel.text;
 

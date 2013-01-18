@@ -58,4 +58,9 @@ exports.getUserImageLarge = function() {
 	else return "https://graph.facebook.com/"+fbId+"/picture?type=large"
 }
 
+exports.shuffleArray = function(o){ //v1.0
+	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	return o;
+};	
+
 

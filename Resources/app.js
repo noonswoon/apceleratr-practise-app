@@ -103,7 +103,7 @@ if (Ti.version < 1.8 ) {
 					if(Ti.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
-						BackendUser.getUserIdFromFbId(202852, function(_userId) {	
+						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userId) {	
 							//getting real data
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
 							var mainApp = new MainApplicationModule(_userId);

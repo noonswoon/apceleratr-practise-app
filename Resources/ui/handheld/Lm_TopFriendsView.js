@@ -3,7 +3,7 @@ TopFriendsView = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
-	var FacebookFriendQuery = require('internal_libs/facebookFriendQuery');
+	var FacebookQuery = require('internal_libs/facebookQuery');
 	var TopFriendsTableViewRow = require('ui/handheld/Lm_TopFriendsTableViewRow');
 		
 	var self = Ti.UI.createView({
@@ -23,15 +23,17 @@ TopFriendsView = function(_userId) {
 	var targetedCounter = 0;
 	
 	var insertNextCandidate = function() {  //refactoring out (1)
-
-		var topFriendsRow = new TopFriendsTableViewRow(targetedList[targetedCounter]);
+		var nextFriendData = FacebookFriendModel.getFacebookFriendAtIndex(targetedCounter);
+		if(nextFriendData === null)
+			return; 
+ 
+		var topFriendsRow = new TopFriendsTableViewRow(nextFriendData);
 		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, topFriendsRow, true);
 		targetedCounter++;
 	};
 	
 	var createTopFriendTableRowData = function(_friendList){
 		var tableData = [];
-		Ti.API.info('_friendList: '+_friendList.length);
 		for(var i = 0; i < _friendList.length; i++) {
 			
 			if(i === Ti.App.NUM_TOP_FRIENDS)
@@ -45,39 +47,50 @@ TopFriendsView = function(_userId) {
 		}
 		return tableData;
 	};
+	Ti.App.addEventListener('updateTopFriendsTable', function() {
+		topFriendsTableView.data = [];
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
+		var friendTableRowData = createTopFriendTableRowData(targetedList);
+		topFriendsTableView.setData(friendTableRowData);
+	});
 	
-	var shuffleArray = function(o){ //v1.0
-	    for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-	    return o;
-	};	
-
+	//facebook friends fetching from server
+	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
+		var friendsWhoLikeList = e.friendsWhoLikeList;
+		FacebookFriendModel.updateClosenessScoreBatch(friendsWhoLikeList);
+		Ti.App.fireEvent('updateTopFriendsTable');
+	});
+	
+	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
+		var friendsWhoCommentList = e.friendsWhoCommentList;
+		FacebookFriendModel.updateClosenessScoreBatch(friendsWhoCommentList);
+		Ti.App.fireEvent('updateTopFriendsTable');
+	});
+	
+	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
+		var userStreamIdList = e.userStreamIdList;
+		
+		FacebookQuery.queryUserLikes(userStreamIdList);
+		FacebookQuery.queryUserComments(userStreamIdList);
+		//query likes, comments, photo albums
+	});
+	
 	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
-		Ti.API.info('heard completedFacebookFriendQuery: '+ JSON.stringify(e.candidateList));
 		var candidateList = e.candidateList;
 		
 		FacebookFriendModel.populateFacebookFriend(candidateList);
 		BackendInvite.getInvitedList(_userId, function(invitedList) {
 			//update the local db for invitedList
-			
-			targetedList = [];
-			for(var i = 0; i < candidateList.length; i++) {
-				var isInvited = false;
-				for(var j = 0; j < invitedList.length; j++) {
-					if(String(candidateList[i].uid) === invitedList[j])
-						isInvited = true;
-				}
-				if(!isInvited) {
-					targetedList.push(candidateList[i]); //has not invited..adding
-				}
-			}
-	
-			//shuffle targetedList for some excitement
-			targetedList = shuffleArray(targetedList); 
+			FacebookFriendModel.updateIsInvited(invitedList);
+			var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
 			var friendTableRowData = createTopFriendTableRowData(targetedList);
 			topFriendsTableView.setData(friendTableRowData);
 		});
+		
+		//query some read stream and get the comments/like
+		FacebookQuery.queryUserStream();
 	});
-	FacebookFriendQuery.queryFacebookFriends();
+	FacebookQuery.queryFacebookFriends();
 	
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
@@ -87,7 +100,7 @@ TopFriendsView = function(_userId) {
 			var targetedRow = -1;			
 			for(var j = 0; j < topFriendsTableView.data[0].rowCount; j++) {
 				var row = topFriendsTableView.data[0].rows[j];
-				if(row.uid === Number(e.inviteeList[i])) {
+				if(row.fbId === e.inviteeList[i]) {
 					targetedRow = j;
 					break;
 				}

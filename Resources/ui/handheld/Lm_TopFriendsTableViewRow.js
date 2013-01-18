@@ -4,13 +4,13 @@ TopFriendsTableViewRow = function(_fbUser) {
 	var self = Ti.UI.createTableViewRow({ //refactoring out (2)
 		height: 50,
 		backgroundColor: '#32394a',
-		uid: _fbUser.uid,		
+		fbId: _fbUser.facebook_id,		
 	});
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 			
 	var friendImage = Ti.UI.createImageView({
-		image: _fbUser.pic_square,
+		image: _fbUser.picture_url,
 		width: 40, 
 		height: 40, 
 		top: 5,
@@ -35,7 +35,8 @@ TopFriendsTableViewRow = function(_fbUser) {
 	
 	//double binding - changing the execution context
 	inviteIcon.addEventListener('click', function() {
-		FacebookSharing.sendRequestOnFacebook(_fbUser.uid);	
+		//FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
+		Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id]});
 	});
 			
 	self.add(friendImage);

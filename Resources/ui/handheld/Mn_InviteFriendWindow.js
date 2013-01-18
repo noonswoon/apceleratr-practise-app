@@ -5,6 +5,7 @@ InviteFriendWindow = function(_userId) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendInvite = require('backend_libs/backendInvite');
+	var FacebookFriend = require('model/facebookFriend');
 	
 	var targetedList = [];
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
@@ -114,7 +115,6 @@ InviteFriendWindow = function(_userId) {
 	        Ti.App.fireEvent("inviteAllToggled", {inviteAll:false});
 	    }
 	});	
-	
 
 	facebookFriendSearch.addEventListener('return', function(e) {
 		facebookFriendSearch.blur();
@@ -126,7 +126,6 @@ InviteFriendWindow = function(_userId) {
 	
 	var createFriendTable = function(_friendList){
 		var tableData = [];
-		
 		for(var i = 0; i<_friendList.length;i++) {
 			var curUser = _friendList[i];
 			var userRow = new InviteFriendTableViewRow(curUser,i);
@@ -134,72 +133,6 @@ InviteFriendWindow = function(_userId) {
 		}
 		return tableData;
 	};
-	
-	var facebookFriendQuery = function() {
-		if (!Titanium.Facebook.loggedIn) Ti.UI.createAlertDialog({title:'noonswoon', message:L('Login before running query')}).show();
-		//run query
-		else{	
-			// run query, populate table view and open window			
-			// only invite people in Bangkok
-			
-			var query = "SELECT uid, name, pic_square, current_location FROM user ";
-			query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Titanium.Facebook.uid + ")";
-			query += " and not is_app_user";
-			query += " and (relationship_status != 'In a relationship' and relationship_status != 'Engaged'";
-			query += " and relationship_status != 'Married') order by first_name";
-	
-			Titanium.Facebook.request('fql.query', {query: query},  function(r) {
-				if (!r.success) {
-					if (r.error) Ti.API.info(r.error);
-					else Ti.API.info("Call was unsuccessful");
-				} else {
-					var friendList = JSON.parse(r.result);
-					
-					Ti.API.info("Main Invite Page..data: "+JSON.stringify(friendList));
-					var candidateList = []; 
-					//need to exclude people from out-of-town
-					
-					if(offeredCities === 'all') {
-						for(var i = 0; i < friendList.length; i++)
-							candidateList.push({uid: friendList[i].uid, name: friendList[i].name, pic_square: friendList[i].pic_square});
-					} else {
-						for(var i = 0; i < friendList.length; i++) {
-							if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
-								candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-													pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
-							}
-						}
-					}
-					
-					BackendInvite.getInvitedList(_userId, function(invitedList) {
-						targetedList = [];
-						for(var i = 0; i < candidateList.length; i++) {
-							var isInvited = false;
-							for(var j = 0; j < invitedList.length; j++) {
-								if(String(candidateList[i].uid) === invitedList[j])
-									isInvited = true;
-							}
-							if(!isInvited) {
-								targetedList.push(candidateList[i]); //has not invited..adding
-							}
-						}
-
-						var friendTableRowData = createFriendTable(targetedList);
-						facebookFriendTableView.setData(friendTableRowData);
-					});
-				}
-			});			
-		}	
-	};
-
-	if(Ti.Platform.osname == 'iphone') {
-		showPreloader(self,'Loading...');
-	
-		setTimeout(function() {
-			Ti.API.info('force close loading screen');
-			hidePreloader(self);
-		}, 10000);
-	}
 	
 	inviteButton.addEventListener('click', function() {
 		//iterate through the table rows to get the selected id
@@ -223,7 +156,7 @@ InviteFriendWindow = function(_userId) {
 			var targetedRow = -1;			
 			for(var j = 0; j < facebookFriendTableView.data[0].rowCount; j++) {
 				var row = facebookFriendTableView.data[0].rows[j];
-				if(row.uid === Number(e.inviteeList[i])) {
+				if(row.fbId === e.inviteeList[i]) {
 					targetedRow = j;
 					break;
 				}
@@ -250,7 +183,10 @@ InviteFriendWindow = function(_userId) {
 		inviteDescriptionLbl.text = 'Get 2 credits for each invite. '+ CreditSystem.getUserCredit() +' credits remaining.';	
 	});
 	
-	facebookFriendQuery();
+	var friendList = FacebookFriend.getFacebookFriends();
+	var friendTableRowData = createFriendTable(friendList);
+	facebookFriendTableView.setData(friendTableRowData);
+
 	friendScrollView.add(facebookFriendTableView); //index: 0 -> default tab
 
 	mainView.add(inviteDescriptionLbl);
