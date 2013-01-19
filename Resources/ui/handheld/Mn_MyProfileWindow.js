@@ -1,11 +1,9 @@
-MyInfoWindow = function(_userId) {
+MyProfileWindow = function(_navGroup, _userId) {
 
 	var BackendUser = require('backend_libs/backendUser');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var CacheHelper = require('internal_libs/cacheHelper');
-	var CreditSystem = require('internal_libs/creditSystem');
 
-	var EditInfoWindowModule = require('ui/handheld/Mn_EditInfoWindow');
+	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');	
 	var TextFieldDisplayTableViewRow = require('ui/handheld/Mn_TextFieldDisplayTableViewRow');
 	var TextAreaDisplayTableViewRow = require('ui/handheld/Mn_TextAreaDisplayTableViewRow');	
@@ -14,7 +12,8 @@ MyInfoWindow = function(_userId) {
 	//create component instance
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
-		navBarHidden: true
+		title: 'My Profile',
+		navBarHidden: false,
 	});
 	
 	var contentView = Ti.UI.createTableView({
@@ -41,7 +40,7 @@ MyInfoWindow = function(_userId) {
 		data = []; //reset table data
 		
 		//profile image section
-		profileImageView = new ProfileImageViewModule(self, userInfo.content.pictures);
+		profileImageView = new ProfileImageViewModule(_navGroup, userInfo.content.pictures);
 		var profileImageRow = Ti.UI.createTableViewRow({
 								infoType: 'image',
 								backgroundColor:'#ffffff',
@@ -54,15 +53,15 @@ MyInfoWindow = function(_userId) {
 		
 		//GENERAL SECTION
 		var generalSection = Ti.UI.createTableViewSection({headerTitle:'General Info'});	
-
-		var creditTableViewRow = new TextFieldDisplayTableViewRow('credit','Credit', CreditSystem.getUserCredit());
-		generalSection.add(creditTableViewRow);
 		
 		var nameTableViewRow = new TextFieldDisplayTableViewRow('name','Name', userInfo.content['general'].first_name+" "+userInfo.content['general'].last_name);
 		generalSection.add(nameTableViewRow);
 		
-		var ageTableViewRow = new TextFieldDisplayTableViewRow('age','Age/zodiac', '30 (Germini)');
+		var ageTableViewRow = new TextFieldDisplayTableViewRow('age','Age', userInfo.content['general'].age);
 		generalSection.add(ageTableViewRow);
+		
+		var zodiacTableViewRow = new TextFieldDisplayTableViewRow('zodiac','Zodiac', userInfo.content['general'].zodiac);
+		generalSection.add(zodiacTableViewRow);
 		
 		var heightTableViewRow = new TextFieldDisplayTableViewRow('height','Height (cm)', userInfo.content['height']);
 		generalSection.add(heightTableViewRow); //require
@@ -105,7 +104,7 @@ MyInfoWindow = function(_userId) {
 		//INTERESTING FACTS
 		var funFactsSection = Ti.UI.createTableViewSection({headerTitle:'Fun Facts'});	
 
-		var genderCentricTableViewRow = new TextAreaDisplayTableViewRow('gender_centric','', 'Your friends are '+userInfo.content['gender_centric'].female+'% girls and '+userInfo.content['gender_centric'].male+ '% guys');
+		var genderCentricTableViewRow = new TextAreaDisplayTableViewRow('gender_centric','', 'Your friends are '+userInfo.content['gender_centric'].female+' girls and ' + userInfo.content['gender_centric'].male + ' guys');
 		funFactsSection.add(genderCentricTableViewRow);
 
 		var globalStatusTableViewRow = new TextAreaDisplayTableViewRow('global_status','', 'Your friendship spans in '+userInfo.content['global_status']+' countries');
@@ -136,31 +135,14 @@ MyInfoWindow = function(_userId) {
 	});	
 
 	editBtn.addEventListener('click', function() {
-		var editInfoWindow = new EditInfoWindowModule(self, userInfo, false);
-		self.containingTab.open(editInfoWindow);
-	});
-		
-	Ti.App.addEventListener('creditChange', function() {
-		var sections = contentView.data;
-		var breakFlag = false;
-		for(var i = 0; i < sections.length; i++) {
-			var section = sections[i];
-			for(var j = 0; j < section.rowCount; j++) {
-				var row = section.rows[j];
-				if(row.getFieldName() === 'credit') {
-					row.setContent(CreditSystem.getUserCredit());	
-					breakFlag = true;
-					break;
-				}
-			}
-			if(breakFlag) break;
-		}
+		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, false);
+		_navGroup.open(editProfileWindow);
 	});
 	
-	Ti.App.addEventListener('editInfoSuccess', function(e) {
-		Ti.API.info('editInfoSuccess: '+JSON.stringify(e));
+	Ti.App.addEventListener('editProfileSuccess', function(e) {
+		Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
 		
-		populateInfoDataTableView(e.editInfo);
+		populateInfoDataTableView(e.editProfile);
 		
 		/*
 		 * sample code
@@ -194,5 +176,5 @@ MyInfoWindow = function(_userId) {
 	return self;
 };
 
-module.exports = MyInfoWindow;
+module.exports = MyProfileWindow;
 

@@ -1,4 +1,4 @@
-InviteFriendWindow = function(_userId) {
+InviteFriendWindow = function(_userId, _forceInvite) {
 		
 	var InviteFriendTableViewRow = require('ui/handheld/Mn_InviteFriendTableViewRow');
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -7,12 +7,18 @@ InviteFriendWindow = function(_userId) {
 	var BackendInvite = require('backend_libs/backendInvite');
 	var FacebookFriend = require('model/facebookFriend');
 	
+	var isNavBarHidden = false;
+	if(_forceInvite) {
+		isNavBarHidden = true;
+	}
+	
 	var targetedList = [];
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	var userCredit = CreditSystem.getUserCredit();
 	var self = Titanium.UI.createWindow({
 		barColor:'#489ec3',
-		title: L('Get Credits')
+		title: L('Get Credits'),
+		navBarHidden: isNavBarHidden
 	});		
 
 	var mainView = Ti.UI.createView({

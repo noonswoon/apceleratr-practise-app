@@ -331,14 +331,15 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						});
 					successDialog.show();
 					if(true) {
+					//if(_newUser) {
 						var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-						var inviteFriendWindow = new InviteFriendWindowModule(_userId);
+						var inviteFriendWindow = new InviteFriendWindowModule(_userId, true);
 						_navGroup.open(inviteFriendWindow);
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
-						Ti.App.fireEvent('editInfoSuccess', {editInfo: _resultObj});
-						self.close({animated:true});
+						Ti.App.fireEvent('editProfileSuccess', {editProfile: _resultObj});
+						_navGroup.close(self,{animated:true});
 					}
 				}
 				

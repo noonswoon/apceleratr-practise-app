@@ -6,6 +6,7 @@ function ApplicationWindow(_userId) {
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
+	var MyProfileWindowModule = require('ui/handheld/Mn_MyProfileWindow');
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
 		
 	//load component dependencies
@@ -120,8 +121,8 @@ function ApplicationWindow(_userId) {
 	});
 
 	Ti.App.addEventListener('openUserProfileWindow', function(e) {
-		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
-		navigationGroup.open(editProfileWindow);
+		var myProfileWindow = new MyProfileWindowModule(navigationGroup, _userId);
+		navigationGroup.open(myProfileWindow);
 		toggleLeftMenu();
 	});
 		
