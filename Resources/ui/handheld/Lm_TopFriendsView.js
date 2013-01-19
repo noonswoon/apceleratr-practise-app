@@ -57,7 +57,7 @@ TopFriendsView = function(_userId) {
 	//facebook friends fetching from server
 	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
 		var taggedFriends = e.taggedFriends;
-		Ti.API.info('tagged fbIds: '+JSON.stringify(taggedFriends));
+		FacebookFriendModel.updateClosenessScoreBatch(taggedFriends);
 	});
 	
 	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {

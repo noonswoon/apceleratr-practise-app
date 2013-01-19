@@ -61,7 +61,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');
 	var query = "SELECT object_id, object_type, user_id FROM like where post_id in ("+streamIds+")" ;
-	Ti.API.info(query);
+	//Ti.API.info(query);
 	var friendsWhoLikeList = []; 
 
 	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
@@ -99,7 +99,7 @@ exports.queryUserComments = function(_streamIdList) {
 				friendsWhoCommentList.push(dataArray[i].fromid);
 			}
 		}
-		Ti.API.info('userComments Length: '+ friendsWhoCommentList.length);
+		//Ti.API.info('userComments Length: '+ friendsWhoCommentList.length);
 		Ti.App.fireEvent('completedUserCommentQuery', {friendsWhoCommentList: friendsWhoCommentList});
 	});
 };
@@ -120,7 +120,7 @@ exports.queryUserPhotos = function() {
 				userFbPhotoIds.push(dataArray[i].pid);
 			}
 		}
-		Ti.API.info('userFbPhotoIds Length: '+ userFbPhotoIds.length);
+		//Ti.API.info('userFbPhotoIds Length: '+ userFbPhotoIds.length);
 		Ti.App.fireEvent('completedUserPhotoQuery', {userFbPhotoIds: userFbPhotoIds});
 	});
 };
@@ -128,7 +128,7 @@ exports.queryUserPhotos = function() {
 exports.queryUserPhotoTags = function(_photoIdList) {
 	
 	var inCondition = "(" + _photoIdList.join(', ') + ")";  //not outputing????
-	Ti.API.info("userPhotoTag inCondition: "+inCondition);
+	//Ti.API.info("userPhotoTag inCondition: "+inCondition);
 	//var query = "SELECT subject, text from photo_tag where  object_id in (10100444563662653, 10100459791306333)";
 	var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
 	var taggedFriends = []; 
@@ -138,7 +138,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
 		} else {
-			Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
+			//Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
 			
 			for(var i = 0; i < dataArray.length; i++) {
@@ -146,7 +146,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 					taggedFriends.push(dataArray[i].subject);
 			}
 		}
-		Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
+		//Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
 		Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: taggedFriends});
 	});
 };

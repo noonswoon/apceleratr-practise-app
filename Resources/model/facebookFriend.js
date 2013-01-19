@@ -110,7 +110,8 @@ exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 	var fbArray = []; 
 	for(var i = 0; i < _fbIdsArray.length; i++)
 		updateClosenessScore(_fbIdsArray[i]);
-		
+
+/*		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	var dummy = []
 	var result = db.execute('SELECT * FROM FacebookFriend WHERE ClosenessScore > 0 ORDER BY ClosenessScore DESC');
@@ -124,4 +125,5 @@ exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 	result.close();
 	db.close();
 	Ti.API.info('after update: '+JSON.stringify(dummy));	
+*/
 }

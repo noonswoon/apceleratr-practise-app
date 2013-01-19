@@ -24,10 +24,10 @@ function onProgress(progress){
 
 var get_remote_file = function(filename, url, forced, fn_error, fn_progress, fn_complete)
 {
-    var file_obj = {file:filename, url:url + '/' + filename, path: null};
+    var file_obj = {file:filename, url:url, path: null};
  
     var file = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename);
-    if (file.exists() && forced == "0")
+    if (file.exists() && !forced)
     {
         file_obj.path = Titanium.Filesystem.applicationDataDirectory+Titanium.Filesystem.separator;
         //fn_end(file_obj);
@@ -39,12 +39,11 @@ var get_remote_file = function(filename, url, forced, fn_error, fn_progress, fn_
         {
             //alert('Going to download file now');
             var c = Titanium.Network.createHTTPClient();
-            c.setTimeout(20000);
+            c.setTimeout(50000);
             c.onload = function(e)
             {
                 //alert('onload ' + filename);
-                if (c.status == 200 )
-                {
+                if (c.status == 200 ) {
                     var f = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename);
                     f.write(this.responseData);
                     f.remoteBackup = false;
@@ -54,13 +53,12 @@ var get_remote_file = function(filename, url, forced, fn_error, fn_progress, fn_
                     f = false;
                     //f = null;
                     file = null;
-                }
-                else
-                {
+                } else {
 		            file_obj.error = 'file not found'; // to set some errors codes
         	        alert('File not found');
             		n_end(file_obj);
                 }
+                
                 if ( fn_complete ) {
                 	Ti.API.info('complete download image');
                 	fn_complete(filename);
@@ -74,12 +72,13 @@ var get_remote_file = function(filename, url, forced, fn_error, fn_progress, fn_
             c.onerror = function(e)
             {
                 //alert('Error downloading file: ' + filename);
+                Ti.API.info('error get_remote_file: '+JSON.stringify(e));
                 file_obj.error = e.error;
                 f = null;
                 file = null;
                 fn_error(file_obj);
             };
-            c.open('GET',url + '/' + filename);
+            c.open('GET',url);
             //alert('about to send');
             c.send();           
         }

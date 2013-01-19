@@ -43,22 +43,18 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		width: 250, 
 		left: 40,
 	});
+
+	var photoEditTableViewRow = null;
 		
 	self.add(editTableView);
 		
 	function populateInfoDataTableView(_userInfo) {
-		for(var i = 0; i < _userInfo.content.pictures.length; i++) {
-			var nameStr = 'photo'+i;
-			var photoObj = {name:nameStr, modified:false, src:_userInfo.content.pictures[i].src};
-			imagesArray.push(photoObj);
-		}
-	
 		if(Ti.Platform.osname === 'iphone')
 			editTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				
 		//PHOTO SECTION
-		var photoSection = Ti.UI.createTableViewSection({headerTitle:'Photos'});	
-		var photoEditTableViewRow = new PhotoEditTableViewRow(imagesArray);
+		var photoSection = Ti.UI.createTableViewSection({headerTitle:'Photos'});
+		photoEditTableViewRow = new PhotoEditTableViewRow([]); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
 		photoSection.add(photoEditTableViewRow);
 		data.push(photoSection);
 		
@@ -204,7 +200,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 					
 	var numThumbnailsToWait = -1;
-	
 	Ti.App.addEventListener('thumbnailLoadedComplete', function(){
 		numThumbnailsToWait--;	
 		Ti.API.info('numThumbnailsToWait: '+numThumbnailsToWait);
@@ -279,7 +274,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
 		photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder);	
 		imagesArray[photoSelectedOrder].src = filename;
-		imagesArray[photoSelectedOrder].to_upload = loadedImageFile; //Ti.Utils.base64encode(loadedImageFile);
+		imagesArray[photoSelectedOrder].to_upload = loadedImageFile;
 		imagesArray[photoSelectedOrder].modified = true;
 		saveBtn.enabled = true;
 	}
@@ -297,11 +292,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
  		});
 	};
 	
-	saveBtn.addEventListener('click', function() {
-		//upload images and filled information
-		//Ti.API.info('imagesArray: '+ JSON.stringify(imagesArray));
-		//Ti.API.info(imagesArray[0].src);
-		
+	saveBtn.addEventListener('click', function() {		
 		var editParams = {}; 
 		var okToSave = true; 
 		
@@ -392,9 +383,21 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		self.removeEventListener('close', windowCloseCallback);
 	};	
 	self.addEventListener('close', windowCloseCallback);
-
+	
+	function onInitialLoadProfileImageComplete(filename) {
+		var orderPic = parseInt((filename.split('.')[0]).slice(-1));
+		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
+		photoEditTableViewRow.setImage(loadedImageFile, orderPic);	
+		imagesArray[orderPic].src = loadedImageFile;
+		imagesArray[orderPic].to_upload = loadedImageFile;
+		imagesArray[orderPic].modified = false;
+		saveBtn.enabled = true;
+	}
+		
 	BackendUser.getUserInfo(_userId, function(_userInfo) {
-		Ti.API.info('getting userData for edit page: '+JSON.stringify(_userInfo));
+		for(var i = 0; i < _userInfo.content.pictures.length; i++) {
+			get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+		}
 		populateInfoDataTableView(_userInfo);
 	});
 

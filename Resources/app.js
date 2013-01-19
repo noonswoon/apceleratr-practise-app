@@ -1,3 +1,5 @@
+// get the sign up flow to work (friend viral), edit page (image not showing)
+
 /*
  * Single Window Application Template:
  * A basic starting point for your application.  Mostly a blank canvas.
@@ -98,10 +100,10 @@ if (Ti.version < 1.8 ) {
 					Window = require('ui/handheld/android/ApplicationWindow');
 				}
 				else {
-				//reset app badge number
+					//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
-					//if(Ti.Facebook.loggedIn) {
-					if(false) {
+					if(Ti.Facebook.loggedIn) {
+					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userId) {	
 							//getting real data
@@ -111,7 +113,6 @@ if (Ti.version < 1.8 ) {
 						});
 					} else {
 						//open login page
-						
 						var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 						var loginProcessWindow = new LoginProcessWindowModule();			
 						loginProcessWindow.open();
