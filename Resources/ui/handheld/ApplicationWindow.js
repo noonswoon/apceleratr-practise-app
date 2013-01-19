@@ -118,7 +118,13 @@ function ApplicationWindow(_userId) {
 		userProfileWindow.setNavGroup(navigationGroup);
 		navigationGroup.open(userProfileWindow);
 	});
-	
+
+	Ti.App.addEventListener('openUserProfileWindow', function(e) {
+		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
+		navigationGroup.open(editProfileWindow);
+		toggleLeftMenu();
+	});
+		
 	Ti.App.addEventListener('openEditProfileWindow', function(e) {
 		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(editProfileWindow);

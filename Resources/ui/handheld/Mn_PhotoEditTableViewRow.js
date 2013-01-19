@@ -1,6 +1,9 @@
-PhotoEditTableViewRow = function(imagesArray) {
+PhotoEditTableViewRow = function(_imagesArray) {
+	//imagesArray = [{name:'photo0', src:OBJECT, modified:false},{name:'photo1', src:OBJECT, modified:false} ]
+	
 	
 	var imageDisplayViewArray = [];
+	var imagesArray = _imagesArray;
 	
 	var tableRow = Ti.UI.createTableViewRow({
 		className: "grid",
@@ -11,15 +14,17 @@ PhotoEditTableViewRow = function(imagesArray) {
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 		
-			
+	Ti.API.info('aaa');			
 	var numImages = imagesArray.length;
 	for(var i = numImages; i < 3; i++) {
 		var defaultProfile = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'images/default_profile.png');
 		var photoObj = {name:'photo'+i, modified:false, src:defaultProfile};
 		imagesArray.push(photoObj);
 	}
-
+	
 	for(var i = 0; i < imagesArray.length; i++) {
+		
+		
 		var photoView = Ti.UI.createImageView({
 			image: imagesArray[i].src,
 		});
@@ -48,22 +53,30 @@ PhotoEditTableViewRow = function(imagesArray) {
 		
 		tableRow.add(imageDisplayView);
 	}
-	
-	tableRow.setImage = function(_image, _order) {
+
+	Ti.API.info('ccc');	
+	tableRow.setImage = function(_image, _imageIndex, _isModified) {
+		//Displaying stuff
 		var dummyImageView = Ti.UI.createImageView({
 			image: _image,
 		});
-		// Convert your imageView into a blob
 		var blob = dummyImageView.toImage();			 
-		// Turn blob into a square thumbnail
 		blob = blob.imageAsThumbnail(100);
+		imageDisplayViewArray[_imageIndex].image = blob;
 		
-		imageDisplayViewArray[_order].image = blob;
+		//content stuff
+		imagesArray[_imageIndex].src = _image; //for fullscreen image/upload
+		imagesArray[_imageIndex].modified = _isModified;
 	};
+	
+	tableRow.getImages = function() {
+		return imagesArray;
+	};	
+	
 	
 	tableRow.highlightBorder = function() { /* placeholder function */ };	
 	tableRow.resetBorder = function() { /* placeholder function */ };		
-
+	Ti.API.info('ddd');
 	return tableRow;	
 }
 module.exports = PhotoEditTableViewRow;

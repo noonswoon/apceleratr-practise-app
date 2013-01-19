@@ -1,4 +1,4 @@
-// get the sign up flow to work (friend viral), edit page (image not showing)
+// get the sign up flow to work (friend viral)
 
 /*
  * Single Window Application Template:

@@ -23,7 +23,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			
 	//create component instance
 	var photoSelectedOrder = -1; //for deciding which image to update
-	var imagesArray = [];
 	var data = [];
 	
 	var self = Ti.UI.createWindow({
@@ -51,7 +50,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	function populateInfoDataTableView(_userInfo) {
 		if(Ti.Platform.osname === 'iphone')
 			editTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-				
+
 		//PHOTO SECTION
 		var photoSection = Ti.UI.createTableViewSection({headerTitle:'Photos'});
 		photoEditTableViewRow = new PhotoEditTableViewRow([]); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
@@ -90,7 +89,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			educationSection.add(educationTableViewRow);
 		}
 		data.push(educationSection);
-	
+
 		//ABOUTME SECTION	
 		var aboutMeSection = Ti.UI.createTableViewSection({headerTitle:'About Me'});	
 		var aboutMeTableViewRow = new TextAreaEditTableViewRow('about_me','', _userInfo.content['about_me']);
@@ -106,7 +105,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		saveBtnTableViewRow.add(saveBtn);
 		aboutMeSection.add(saveBtnTableViewRow);		
 		data.push(aboutMeSection);
-		
+
 		//SETTING DATA
 		editTableView.setData(data);
 	}	
@@ -124,13 +123,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		
 				// set image view
 				if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-					photoEditTableViewRow.setImage(galleryImage, photoSelectedOrder);	
-					imagesArray[photoSelectedOrder].src = galleryImage;
-					Ti.API.info('gallery native path: '+galleryImage.nativePath);
-					imagesArray[photoSelectedOrder].to_upload = galleryImage; //Ti.Utils.base64encode(galleryImage);
-					
-					//Debug.debug_log(Ti.Utils.base64encode(galleryImage));
-					imagesArray[photoSelectedOrder].modified = true;
+					photoEditTableViewRow.setImage(galleryImage, photoSelectedOrder, true);
 				}
 				else {
 					// is this necessary?
@@ -150,10 +143,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				//var cropRect = event.cropRect;
 				var cameraImage = event.media;
 				if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-					photoEditTableViewRow.setImage(cameraImage, photoSelectedOrder);	
-					imagesArray[photoSelectedOrder].src = cameraImage;
-					imagesArray[photoSelectedOrder].to_upload = cameraImage; //Ti.Utils.base64encode(cameraImage);
-					imagesArray[photoSelectedOrder].modified = true;
+					photoEditTableViewRow.setImage(cameraImage, photoSelectedOrder, true);	
 				} else {
 					alert("got the wrong type back ="+event.mediaType);
 				}
@@ -204,7 +194,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		numThumbnailsToWait--;	
 		Ti.API.info('numThumbnailsToWait: '+numThumbnailsToWait);
 		if(numThumbnailsToWait === 0) {
-			var fbPhotoAlbumWindow = new FbPhotoAlbumWindowModule();
+			var fbPhotoAlbumWindow = new FbPhotoAlbumWindowModule(_navGroup);
 			_navGroup.open(fbPhotoAlbumWindow);	
 		}
 	});
@@ -270,13 +260,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	
 	function onProfileImageComplete(filename){
 		//Ti.API.info('complete loading file: '+JSON.stringify(file));
-		Ti.API.info('created filename: '+filename);
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
-		photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder);	
-		imagesArray[photoSelectedOrder].src = filename;
-		imagesArray[photoSelectedOrder].to_upload = loadedImageFile;
-		imagesArray[photoSelectedOrder].modified = true;
+		photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder, true);	
 		saveBtn.enabled = true;
+		Ti.API.info('setting saveBtn enabled state to: '+saveBtn.enabled);
 	}
 
 	function onProfileImageProgress(progress){
@@ -301,11 +288,12 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//profile image and height must be present
 		
 		//images
+		var imagesArray = photoEditTableViewRow.getImages();
 		for(var i = 0; i < imagesArray.length; i++) {
 			Ti.API.info('image modified: '+imagesArray[i].modified);
 			if(imagesArray[i].modified) {
-				Ti.API.info('found modified image');
-				editParams[imagesArray[i].name] = imagesArray[i].to_upload;
+				Ti.API.info('found modified image at '+imagesArray[i].name);
+				editParams[imagesArray[i].name] = imagesArray[i].src;
 			}
 		}
 		
@@ -334,7 +322,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		if(Ti.Platform.osname === 'iphone')
 			showPreloader(self,'Loading...');
 		if(okToSave) {
-			BackendUser.saveEditUserInfo(_userInfo.meta.user_id, editParams, function(_resultObj) {
+			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {
 					var successDialog = Titanium.UI.createAlertDialog({
@@ -342,10 +330,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 							message:L('Your information is saved.')
 						});
 					successDialog.show();
-					if(_newUser) {
-						var FriendViralWindowModule = require('ui/handheld/Li_FriendViralMainWindow');
-						var friendViralWindow = new FriendViralWindowModule(_userInfo.meta.user_id);
-						_navGroup.open(friendViralWindow);
+					if(true) {
+						var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
+						var inviteFriendWindow = new InviteFriendWindowModule(_userId);
+						_navGroup.open(inviteFriendWindow);
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
@@ -387,10 +375,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	function onInitialLoadProfileImageComplete(filename) {
 		var orderPic = parseInt((filename.split('.')[0]).slice(-1));
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
-		photoEditTableViewRow.setImage(loadedImageFile, orderPic);	
-		imagesArray[orderPic].src = loadedImageFile;
-		imagesArray[orderPic].to_upload = loadedImageFile;
-		imagesArray[orderPic].modified = false;
+		photoEditTableViewRow.setImage(loadedImageFile, orderPic, false);	
 		saveBtn.enabled = true;
 	}
 		

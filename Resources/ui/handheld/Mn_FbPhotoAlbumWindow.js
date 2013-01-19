@@ -1,5 +1,7 @@
-FbPhotoAlbumWindow = function() {
-		
+FbPhotoAlbumWindow = function(_navGroup) {
+	
+	var navGroup = _navGroup;
+
 	//create component instance
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
@@ -79,7 +81,7 @@ FbPhotoAlbumWindow = function() {
 				thumbnailImageView.addEventListener('click', function() {
 					Ti.API.info('firing event selectedFbPhoto');
 					Ti.App.fireEvent('selectedFbPhoto', {photoId: photoId} ); 
-					self.close({animated:true});
+					navGroup.close(self, {animated:true});
 				});
 			})();
 
