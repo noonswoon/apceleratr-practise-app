@@ -81,7 +81,7 @@ exports.getFacebookFriends = function(){
 	return allFriends;
 };
 
-exports.updateIsInvited = function(_fbIdsArray){ //???why not an array
+exports.updateIsInvited = function(_fbIdsArray) {
 
 	if(_fbIdsArray.length === 0)
 		return; 
@@ -113,7 +113,7 @@ exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	var dummy = []
-	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 AND ClosenessScore > 0 ORDER BY ClosenessScore DESC');
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE ClosenessScore > 0 ORDER BY ClosenessScore DESC');
 	while(result.isValidRow()) {
 		dummy.push({facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
 							picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 

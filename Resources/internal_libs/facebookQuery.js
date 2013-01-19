@@ -38,10 +38,6 @@ exports.queryFacebookFriends = function() {
 	});
 };
 
-/*
- * 
-SELECT object_id, object_type, user_id FROM like WHERE post_id in ('202852_10100481970184683', '202852_10100481889945483', '202852_10100481889940493')
- */
 exports.queryUserStream = function() {
 		
 	var query = "SELECT post_id FROM stream where source_id=me() limit 0,150";
@@ -88,7 +84,7 @@ exports.queryUserComments = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');
 	var query = "SELECT fromid FROM comment WHERE post_id in ("+streamIds+")" ;
-	Ti.API.info(query);
+	//Ti.API.info(query);
 	var friendsWhoCommentList = []; 
 
 	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
@@ -96,7 +92,7 @@ exports.queryUserComments = function(_streamIdList) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
 		} else {
-			Ti.API.info('commentQuery: '+JSON.stringify(r));
+			//Ti.API.info('commentQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
 			
 			for(var i = 0; i < dataArray.length; i++) {
@@ -109,33 +105,32 @@ exports.queryUserComments = function(_streamIdList) {
 };
 
 exports.queryUserPhotos = function() {
-	var query = "SELECT object_id, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500" ;
+	var query = "SELECT pid, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500";
 	var userFbPhotoIds = []; 
-	Ti.API.info('querying user photos...');
 	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
 		} else {
-			Ti.API.info('photoQuery: '+JSON.stringify(r));
+			//Ti.API.info('photoQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
 			
 			for(var i = 0; i < dataArray.length; i++) {
-				userFbPhotoIds.push(dataArray[i].object_id);
+				//Ti.API.info('photo object id: '+dataArray[i].pid);
+				userFbPhotoIds.push(dataArray[i].pid);
 			}
 		}
 		Ti.API.info('userFbPhotoIds Length: '+ userFbPhotoIds.length);
 		Ti.App.fireEvent('completedUserPhotoQuery', {userFbPhotoIds: userFbPhotoIds});
 	});
-//SELECT subject, text from photo_tag where  object_id = 10100444563662653
 };
 
-exports.queryUserPhotoTags = function(_objectList) {
+exports.queryUserPhotoTags = function(_photoIdList) {
 	
-	var inCondition = "(" + _objectList.join(', ') + ")";  //not outputing????
+	var inCondition = "(" + _photoIdList.join(', ') + ")";  //not outputing????
 	Ti.API.info("userPhotoTag inCondition: "+inCondition);
 	//var query = "SELECT subject, text from photo_tag where  object_id in (10100444563662653, 10100459791306333)";
-	var query = "SELECT subject, text from photo_tag where object_id in " + inCondition ;
+	var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
 	var taggedFriends = []; 
 
 	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
@@ -154,6 +149,4 @@ exports.queryUserPhotoTags = function(_objectList) {
 		Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
 		Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: taggedFriends});
 	});
-//SELECT object_id, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500 	
-//SELECT subject, text from photo_tag where  object_id = 10100444563662653
 };

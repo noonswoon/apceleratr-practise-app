@@ -77,6 +77,12 @@ TopFriendsView = function(_userId) {
 		Ti.App.fireEvent('updateTopFriendsTable');
 	});
 	
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		var taggedFriends = e.taggedFriends;
+		FacebookFriendModel.updateClosenessScoreBatch(taggedFriends);
+		Ti.App.fireEvent('updateTopFriendsTable');
+	});
+	
 	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
 		var userStreamIdList = e.userStreamIdList;
 		
