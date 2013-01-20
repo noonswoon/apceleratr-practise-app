@@ -1,4 +1,5 @@
 LeftMenuWindow = function(_userId) {
+	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditViewModule = require('ui/handheld/Lm_CreditView');
 	var TopFriendsViewModule = require('ui/handheld/Lm_TopFriendsView');
 	
@@ -59,7 +60,7 @@ LeftMenuWindow = function(_userId) {
 		font:{fontWeight:'bold',fontSize:16},
 	});
 	
-	var creditView = new CreditViewModule(40); 
+	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
 
 	editProfileView.add(editProfileIcon);
 	editProfileView.add(editProfileLbl);
@@ -128,34 +129,7 @@ LeftMenuWindow = function(_userId) {
 	var topFriendsView = new TopFriendsViewModule(_userId);
 	self.add(topFriendsView);
 	//END INVITE FRIENDS TABLE SECTION
-	
-	var inviteButton = Ti.UI.createButton({
-		backgroundImage: 'none',
-		backgroundColor: 'transparent',
-		borderColor: '#242a37', 
-		borderRadius: 5,
-		borderWidth: 1,
-		top:330,
-		left: 10,
-		width:240,
-		height:35,
-		color: '#9299a6',
-		font:{fontSize:14,fontWeight:'bold'},
-		title:'Invite these 5 friends'
-	});
-	inviteButton.backgroundGradient = {
-		type: 'linear',
-		startPoint: { x: '0%', y: '0%' },
-		endPoint: { x: '0%', y: '100%' },
-		colors: [{ color: '#394155', offset: 0.0}, { color: '#292f3d', offset: 1.0 }]
-	};
-	
-	inviteButton.addEventListener('click', function() {
-		Ti.API.info('invite all 5 people');
-	});
-
-	self.add(inviteButton);	
-		
+			
 	return self;
 }
 module.exports = LeftMenuWindow;

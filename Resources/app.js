@@ -107,10 +107,13 @@ if (Ti.version < 1.8 ) {
 					if(Ti.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
-						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userId) {	
+						var CreditSystem = require('internal_libs/creditSystem');
+						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+							//set credit of the user
+							CreditSystem.setUserCredit(_userInfo.content.credit); 
 							//getting real data
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplicationModule(_userId);
+							var mainApp = new MainApplicationModule(_userInfo.meta.user_id);
 							mainApp.open();
 						});
 					} else {

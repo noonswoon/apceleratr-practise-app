@@ -128,8 +128,8 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
-					_callbackFn(resultObj.meta.user_id);
+					//Ti.API.info('userInfoFromFbId: '+JSON.stringify(resultObj));
+					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getUserIdFromFbId: '+ JSON.stringify(resultObj));
 					//need to send them back to the login page --> fire an event

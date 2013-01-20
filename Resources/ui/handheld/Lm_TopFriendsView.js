@@ -5,10 +5,11 @@ TopFriendsView = function(_userId) {
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	var FacebookQuery = require('internal_libs/facebookQuery');
 	var TopFriendsTableViewRow = require('ui/handheld/Lm_TopFriendsTableViewRow');
+	var CreditSystem = require('internal_libs/creditSystem');
 		
 	var self = Ti.UI.createView({
 		top: 74, 
-		height: 250,
+		height: 300,
 		width: 260
 	});
 
@@ -141,6 +142,40 @@ TopFriendsView = function(_userId) {
 	});
 	
 	self.add(topFriendsTableView);
+	
+	var inviteButton = Ti.UI.createButton({
+		backgroundImage: 'none',
+		backgroundColor: 'transparent',
+		borderColor: '#242a37', 
+		borderRadius: 5,
+		borderWidth: 1,
+		top:260,
+		left: 10,
+		width:240,
+		height:35,
+		color: '#9299a6',
+		font:{fontSize:14,fontWeight:'bold'},
+		title:'Invite these 5 friends'
+	});
+	inviteButton.backgroundGradient = {
+		type: 'linear',
+		startPoint: { x: '0%', y: '0%' },
+		endPoint: { x: '0%', y: '100%' },
+		colors: [{ color: '#394155', offset: 0.0}, { color: '#292f3d', offset: 1.0 }]
+	};
+	
+	inviteButton.addEventListener('click', function() {
+		var batchInviteList = [];
+		for(var j = 0; j < topFriendsTableView.data[0].rowCount; j++) {
+			var row = topFriendsTableView.data[0].rows[j];
+			batchInviteList.push(row.fbId);
+		}
+		
+		FacebookSharing.sendRequestOnFacebook(batchInviteList.join(','));	
+	});	
+	
+	
+	self.add(inviteButton);
 	
 	return self;
 }
