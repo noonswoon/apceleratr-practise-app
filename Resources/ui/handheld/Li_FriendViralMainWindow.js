@@ -1,6 +1,9 @@
 FriendViralMainWindow = function(_userId) {
 
-	Ti.API.info('friendViralMainWindow, userId: '+_userId);
+	//differences from the main invite scree
+	//invite x more to go
+	//no credit update - just get the task done and move
+	//to the main screen
 	
 	var numFriendsTogo = 1; 
 	

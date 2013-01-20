@@ -1,5 +1,6 @@
 EditInfoWindow = function(_navGroup, _userId, _newUser) {
-
+	//need to add 'save' button on the topbar navigation
+	
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
 	var TextFieldEditTableViewRow = require('ui/handheld/Mn_TextFieldEditTableViewRow');

@@ -14,7 +14,7 @@ TopFriendsView = function(_userId) {
 
 	var topFriendsTableView = Ti.UI.createTableView({
 		backgroundColor: '#32394a',
-		separatorColor: '#242a37',
+		separatorColor: 'transparent',
 		top: 0,
 		left: 0
 	});

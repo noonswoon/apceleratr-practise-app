@@ -48,6 +48,8 @@ if(Ti.App.IS_PRODUCTION_BUILD)
 	Ti.App.ACS_API_KEY = 'zBKsqQRa9SgyPQQsdmOnvCBbNkSKRSs8';
 
 Ti.App.CACHE_TIMEOUT = 1;
+
+Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
 /* fql: SELECT 

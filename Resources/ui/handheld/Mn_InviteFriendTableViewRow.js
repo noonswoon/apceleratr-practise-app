@@ -33,6 +33,31 @@ InviteFriendTableViewRow = function(_user, _rowIndex) {
 		title:'Invite'
 	});
 	
+	var checkbox = Ti.UI.createButton({
+	    title: '\u2713',
+	    top: 40,
+	    right: 10,
+	    width: 15,
+	    height: 15,
+	    borderColor: '#666',
+	    borderWidth: 2,
+	    borderRadius: 3,
+	    color: 'black',
+	    font:{fontSize: 12, fontWeight: 'bold'},
+	    value: true //value is a custom property in this casehere.
+	});
+ 
+	//Attach some simple on/off actions
+	checkbox.on = function() {
+	    this.title='\u2713';
+	    this.value = true;
+	};
+	 
+	checkbox.off = function() {
+	    this.title='';
+	    this.value = false;
+	};	
+	
 	imageView.image = _user.picture_url;
 	userLabel.text =  _user.name;
 	tableRow.fbId = _user.facebook_id;

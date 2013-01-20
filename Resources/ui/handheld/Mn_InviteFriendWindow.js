@@ -1,4 +1,4 @@
-InviteFriendWindow = function(_userId, _forceInvite) {
+InviteFriendWindow = function(_userId, _forcedInvite) {
 		
 	var InviteFriendTableViewRow = require('ui/handheld/Mn_InviteFriendTableViewRow');
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -8,83 +8,153 @@ InviteFriendWindow = function(_userId, _forceInvite) {
 	var FacebookFriend = require('model/facebookFriend');
 	
 	var isNavBarHidden = false;
-	if(_forceInvite) {
+	var numFriendsTogo = 0;
+	
+	if(_forcedInvite) {
 		isNavBarHidden = true;
+		numFriendsTogo = 2;
 	}
 	
 	var targetedList = [];
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	var userCredit = CreditSystem.getUserCredit();
 	var self = Titanium.UI.createWindow({
-		barColor:'#489ec3',
-		title: L('Get Credits'),
+		barColor: Ti.App.BACKGROUND_BAR_COLOR_THEME,
+		title: L('Invite Friends'),
 		navBarHidden: isNavBarHidden
-	});		
-
-	var mainView = Ti.UI.createView({
-		top: 0,
-		backgroundColor: '#fff'
-	});	
-	
-	var inviteDescriptionLbl = Ti.UI.createLabel({
-		text: 'Get 2 credits for each invite. '+userCredit+' credits remaining.',
-		top: 5,
-		left: 10,
-		color: 'black',
-		backgroundColor: 'orange',
-		font: {fontSize: 14}	
-	});	
-	
-	var friendScrollView = Ti.UI.createScrollView({
-		contentWidth: 320,
-		contentHeight: 'auto',
-		top: 70,
-		showVerticalScrollIndicator: true,
-		showHorizontalScrollIndicator: false,
-	});	
+	});
 
 	var facebookFriendSearch = Titanium.UI.createSearchBar({
-		barColor:'#43a5cf',
+		barColor:'#d3dbdf',
 		showCancel:false,
-		hintText:'Search...',
+		hintText:'Search',
 		backgroundImage: 'images/searchbar_white.png',
 		borderWidth: 0,
 	});
 
 	var facebookFriendTableView = Ti.UI.createTableView({
-		searchHidden:true,
+		searchHidden:false,
 		search: facebookFriendSearch,
 		filterAttribute: 'filter',
-	});
-	
-	var inviteButton = Titanium.UI.createButton({
-		color:'black',
-		top:30,
-		left: 50,
-		width:180,
-		height:40,
-		font:{fontSize:20,fontWeight:'bold'},
-		title:'Continue »'
-	});
-	
-	var inviteFirstLbl = Titanium.UI.createLabel({
-		text: 'Invite '+ Ti.App.NUM_INVITE_ALL, 
-		height: 15,
-		right: 30,
-		top: 35,
-		color: 'grey',
-		font: {fontSize: 12}	
-	});
-	
-	var friendsLbl = Titanium.UI.createLabel({
-		text: 'friends', 
-		height: 15,
-		right: 30,
-		top: 45,
-		color: 'grey',
-		font: {fontSize: 12}	
+		top: 0,
+		width: 320,
+		height: 430
 	});
 
+	facebookFriendSearch.addEventListener('return', function(e) {
+		facebookFriendSearch.blur();
+	});
+	
+	facebookFriendSearch.addEventListener('cancel', function(e) {
+		facebookFriendSearch.blur();
+	});		
+	
+	var createFriendTable = function(_friendList){
+		var tableData = [];
+		for(var i = 0; i<_friendList.length;i++) {
+			var curUser = _friendList[i];
+			var userRow = new InviteFriendTableViewRow(curUser,i);
+			tableData.push(userRow);
+		}
+		return tableData;
+	};
+	
+	Ti.App.addEventListener('inviteCompleted', function(e){
+		
+		//iterate to remove the table view row	
+		var topupAmount = 0;
+		for(var i = 0; i < e.inviteeList.length; i++) {
+			var targetedRow = -1;			
+			for(var j = 0; j < facebookFriendTableView.data[0].rowCount; j++) {
+				var row = facebookFriendTableView.data[0].rows[j];
+				if(row.fbId === e.inviteeList[i]) {
+					targetedRow = j;
+					break;
+				}
+			}
+			facebookFriendTableView.deleteRow(targetedRow);	
+			topupAmount += 2;
+		}
+		
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
+		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
+			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
+			else Ti.API.info('saveInvitePeople from fb failed');
+		});
+		
+		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
+			BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
+				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+			});
+		}
+	});
+
+	var friendList = FacebookFriend.getFacebookFriends();
+	var friendTableRowData = createFriendTable(friendList);
+	facebookFriendTableView.setData(friendTableRowData);
+
+	self.add(facebookFriendTableView);
+
+	var inviteButtonSectionView = Ti.UI.createView({
+		backgroundColor: Ti.App.BACKGROUND_BAR_COLOR_THEME,
+		height:50,
+		bottom: 0
+	});
+	inviteButtonSectionView.backgroundGradient = {
+		type: 'linear',
+		startPoint: { x: '0%', y: '0%' },
+		endPoint: { x: '0%', y: '100%' },
+		colors: [{ color: '#6c83b5', offset: 0.0}, { color: '#2d4a88', offset: 1.0 }]
+	};
+
+/*
+ * win.backgroundGradient = {
+		type: 'linear',
+		startPoint: { x: '0%', y: '0%' },
+		endPoint: { x: '0%', y: '100%' },
+		colors: [{ color: '#d2d1d0', offset: 0.0}, { color: '#fffefd', offset: 1.0 }]
+	};	
+ */
+
+	var inviteButton = Ti.UI.createButton({
+		backgroundImage: 'none',
+		backgroundColor: 'transparent',
+		borderColor: '#1d2536', 
+		borderRadius: 5,
+		borderWidth: 1,
+		color: '#e3e7f0',
+		top:5,
+		left: 40,
+		width:220,
+		height:40,
+		font:{fontSize:18,fontWeight:'bold'},
+		title:'Invite via Facebook'
+	});
+	inviteButton.backgroundGradient = {
+		type: 'linear',
+		startPoint: { x: '0%', y: '0%' },
+		endPoint: { x: '0%', y: '100%' },
+		colors: [{ color: '#5a76ae', offset: 0.0}, { color: '#2c4880', offset: 1.0 }]
+	};
+
+	inviteButton.addEventListener('click', function() {
+		//iterate through the table rows to get the selected id
+		var targetedRow = 0;
+		var invitedList = [];
+		for(var i = 0; i < facebookFriendTableView.data[0].rowCount; i++)
+		{
+			var row = facebookFriendTableView.data[0].rows[i];
+			if(row.isInvited()) {
+				invitedList.push(row.uid);
+			}
+		}
+		//Ti.API.info('invitedList: '+JSON.stringify(invitedList));
+		FacebookSharing.sendRequestOnFacebook(invitedList.join(','));
+	});
+	inviteButtonSectionView.add(inviteButton);
+	self.add(inviteButtonSectionView);
+
+/*
 	var checkbox = Ti.UI.createButton({
 	    title: '\u2713',
 	    top: 40,
@@ -121,88 +191,7 @@ InviteFriendWindow = function(_userId, _forceInvite) {
 	        Ti.App.fireEvent("inviteAllToggled", {inviteAll:false});
 	    }
 	});	
-
-	facebookFriendSearch.addEventListener('return', function(e) {
-		facebookFriendSearch.blur();
-	});
-	
-	facebookFriendSearch.addEventListener('cancel', function(e) {
-		facebookFriendSearch.blur();
-	});		
-	
-	var createFriendTable = function(_friendList){
-		var tableData = [];
-		for(var i = 0; i<_friendList.length;i++) {
-			var curUser = _friendList[i];
-			var userRow = new InviteFriendTableViewRow(curUser,i);
-			tableData.push(userRow);
-		}
-		return tableData;
-	};
-	
-	inviteButton.addEventListener('click', function() {
-		//iterate through the table rows to get the selected id
-		var targetedRow = 0;
-		var invitedList = [];
-		for(var i = 0; i < facebookFriendTableView.data[0].rowCount; i++)
-		{
-			var row = facebookFriendTableView.data[0].rows[i];
-			if(row.isInvited()) {
-				invitedList.push(row.uid);
-			}
-		}
-		//Ti.API.info('invitedList: '+JSON.stringify(invitedList));
-		FacebookSharing.sendRequestOnFacebook(invitedList.join(','));
-	});
-	
-	Ti.App.addEventListener('inviteCompleted', function(e){
-		//iterate to remove the table view row	
-		var topupAmount = 0;
-		for(var i = 0; i < e.inviteeList.length; i++) {
-			var targetedRow = -1;			
-			for(var j = 0; j < facebookFriendTableView.data[0].rowCount; j++) {
-				var row = facebookFriendTableView.data[0].rows[j];
-				if(row.fbId === e.inviteeList[i]) {
-					targetedRow = j;
-					break;
-				}
-			}
-			facebookFriendTableView.deleteRow(targetedRow);	
-			topupAmount += 2;
-		}
-		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
-		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
-			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
-			else Ti.API.info('saveInvitePeople from fb failed');
-		});
-		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
-			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-			inviteDescriptionLbl.text = 'Get 2 credits for each invite. '+_currentCredit +' credits remaining.';
-		});
-	});
-	
-	self.addEventListener('focus', function() {
-		Ti.API.info('onfocus - Invite Window');
-	});	
-
-	Ti.App.addEventListener('creditChange', function() {
-		inviteDescriptionLbl.text = 'Get 2 credits for each invite. '+ CreditSystem.getUserCredit() +' credits remaining.';	
-	});
-	
-	var friendList = FacebookFriend.getFacebookFriends();
-	var friendTableRowData = createFriendTable(friendList);
-	facebookFriendTableView.setData(friendTableRowData);
-
-	friendScrollView.add(facebookFriendTableView); //index: 0 -> default tab
-
-	mainView.add(inviteDescriptionLbl);
-	mainView.add(inviteButton);
-	mainView.add(inviteFirstLbl);
-	mainView.add(friendsLbl);
-	mainView.add(checkbox);	
-	mainView.add(friendScrollView);
-	
-	self.add(mainView);	
+*/
 	return self;
 }
 module.exports = InviteFriendWindow;
