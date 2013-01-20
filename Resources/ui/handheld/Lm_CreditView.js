@@ -21,6 +21,10 @@ CreditView = function(_credit) {
 		pointsLbl.text = _newCredit;	
 	};
 	
+	Ti.App.addEventListener('creditChange', function(e) {
+		pointsLbl.text = e.currentCredit;
+	});
+	
 	return self;
 }
 module.exports = CreditView;

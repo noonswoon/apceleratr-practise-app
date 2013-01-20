@@ -21,16 +21,26 @@ TopFriendsView = function(_userId) {
 	});
 	
 	var targetedList = [];
-	var targetedCounter = 0;
-	
-	var insertNextCandidate = function() {  //refactoring out (1)
-		var nextFriendData = FacebookFriendModel.getFacebookFriendAtIndex(targetedCounter);
+	var insertNextCandidate = function() {
+		var nextFriendData = FacebookFriendModel.getFacebookFriendAtIndex(4); //not 5 because already account for the just-invited friend
 		if(nextFriendData === null)
 			return; 
  
 		var topFriendsRow = new TopFriendsTableViewRow(nextFriendData);
 		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, topFriendsRow, true);
-		targetedCounter++;
+	};
+	
+	var insertNextCandidateBatch = function() {
+		var nextFriendBatchData = FacebookFriendModel.getFacebookFriendNextBatch();
+		if(nextFriendBatchData.length === 0)
+			return; 
+
+ 		var nextBatchData = [];
+ 		for(var i = 0; i < nextFriendBatchData.length; i++) {
+			var topFriendsRow = new TopFriendsTableViewRow(nextFriendBatchData[i]);
+			nextBatchData.push(topFriendsRow);
+ 		}
+ 		topFriendsTableView.setData(nextBatchData);
 	};
 	
 	var createTopFriendTableRowData = function(_friendList){
@@ -44,7 +54,6 @@ TopFriendsView = function(_userId) {
 
 			var topFriendsRow = new TopFriendsTableViewRow(curUser);
 			tableData.push(topFriendsRow);
-			targetedCounter++;
 		}
 		return tableData;
 	};
@@ -112,6 +121,9 @@ TopFriendsView = function(_userId) {
 	
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
+		//update local database for those people who already got invited
+		FacebookFriendModel.updateIsInvited(e.inviteeList); //can either be just 1 or 5
+		
 		//iterate to remove the table view row	
 		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
@@ -138,7 +150,11 @@ TopFriendsView = function(_userId) {
 		});
 		
 		//add the next row to the table
-		insertNextCandidate();
+		if(e.inviteeList.length === 1) {
+			insertNextCandidate();
+		} else {
+			insertNextCandidateBatch();
+		}
 	});
 	
 	self.add(topFriendsTableView);
@@ -172,6 +188,7 @@ TopFriendsView = function(_userId) {
 		}
 		
 		FacebookSharing.sendRequestOnFacebook(batchInviteList.join(','));	
+		//Ti.App.fireEvent('inviteCompleted', {inviteeList:batchInviteList});
 	});	
 	
 	

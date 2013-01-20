@@ -65,6 +65,38 @@ exports.getFacebookFriendAtIndex = function(_indexAt){
 	return friend;
 };
 
+exports.getNextInvitableFacebookFriend = function(){
+	var friend = null;
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT 0,1');
+	if(result.isValidRow()) {
+		friend = {
+					facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
+				  	picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 
+				  	is_invited: result.fieldByName('IsInvited'), closeness_score: result.fieldByName('ClosenessScore')	
+				};
+	}
+	result.close();
+	db.close();
+	return friend;
+};
+
+exports.getFacebookFriendNextBatch = function(){
+	var nextBatchFriends = [];
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT 0,5');
+	while(result.isValidRow()) {
+		nextBatchFriends.push({facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
+				  				picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 
+				  				is_invited: result.fieldByName('IsInvited'), closeness_score: result.fieldByName('ClosenessScore')	
+							});
+		result.next();
+	}
+	result.close();
+	db.close();
+	return nextBatchFriends;
+};
+
 exports.getFacebookFriends = function(){
 	var allFriends = [];
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 

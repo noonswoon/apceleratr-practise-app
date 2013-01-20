@@ -61,8 +61,6 @@ TopFriendsTableViewRow = function(_fbUser) {
 		FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
 		//Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id]});
 	});
-			
-
 	
 	self.add(inviteIcon);
 	

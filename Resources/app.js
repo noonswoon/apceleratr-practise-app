@@ -1,4 +1,6 @@
-// get the sign up flow to work (friend viral)
+// tasks: get the credit system to work click 'Like', or 'Reveal Mutual Friends'
+// edit height -- should only be in number
+//get the sign up flow to work (friend viral)
 
 /*
  * Single Window Application Template:

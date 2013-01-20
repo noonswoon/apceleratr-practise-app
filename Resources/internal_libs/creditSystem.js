@@ -10,5 +10,5 @@ exports.getUserCredit = function() {
 
 exports.setUserCredit = function(_userCredit) {
 	Ti.App.Properties.setInt('userCredit',_userCredit);
-	Ti.App.fireEvent('creditChange');
+	Ti.App.fireEvent('creditChange', {currentCredit: _userCredit});
 };
