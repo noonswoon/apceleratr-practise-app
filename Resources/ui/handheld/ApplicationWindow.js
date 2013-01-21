@@ -133,7 +133,7 @@ function ApplicationWindow(_userId) {
 	});
 	
 	Ti.App.addEventListener('openInviteFriendWindow', function(e) {
-		var inviteFriendWindow = new InviteFriendWindowModule(_userId);
+		var inviteFriendWindow = new InviteFriendWindowModule(_userId, false);
 		navigationGroup.open(inviteFriendWindow);
 		toggleLeftMenu();
 	});

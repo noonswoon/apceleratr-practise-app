@@ -58,8 +58,11 @@ TopFriendsTableViewRow = function(_fbUser) {
 	
 	//double binding - changing the execution context
 	inviteIcon.addEventListener('click', function() {
-		FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
-		//Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id]});
+		if(Ti.App.ACTUAL_FB_INVITE) {
+			FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
+		} else {
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id]});
+		}
 	});
 	
 	self.add(inviteIcon);

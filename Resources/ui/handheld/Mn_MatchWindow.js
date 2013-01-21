@@ -10,8 +10,8 @@ MatchWindow = function(_userId, _matchId) {
 	//create component instance
 	var self = Ti.UI.createWindow({
 		left: 0,
-		backgroundColor:'white',
-		navBarHidden: false
+		navBarHidden: false,
+		barImage: 'images/top-bar.png'
 	});
 				
 	var contentView = Ti.UI.createTableView({

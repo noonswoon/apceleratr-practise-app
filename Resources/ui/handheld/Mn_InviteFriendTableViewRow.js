@@ -1,5 +1,5 @@
 InviteFriendTableViewRow = function(_user, _rowIndex) {
-	var  isInvited = true; 
+	var isInvited = true; 
 	
 	var tableRow = Ti.UI.createTableViewRow({
 		height: 50,
@@ -64,11 +64,14 @@ InviteFriendTableViewRow = function(_user, _rowIndex) {
 	
 	tableRow.filter = userLabel.text;
 
-	var  isInvited = true; 
-	if (_rowIndex > Ti.App.NUM_INVITE_ALL - 1) { //auto-select the first 5 people 
+	var  isInvited = false; 
+
+/*
+	if (_rowIndex > Ti.App.NUM_INVITE_ALL - 1) { //auto-select the first X people 
 		isInvited = false;
 		inviteButton.enabled = true;
 	}
+*/
 	
 	inviteButton.addEventListener("click", function() {
 		if(inviteButton.enabled) {

@@ -187,8 +187,11 @@ TopFriendsView = function(_userId) {
 			batchInviteList.push(row.fbId);
 		}
 		
-		FacebookSharing.sendRequestOnFacebook(batchInviteList.join(','));	
-		//Ti.App.fireEvent('inviteCompleted', {inviteeList:batchInviteList});
+		if(Ti.App.ACTUAL_FB_INVITE) {
+			FacebookSharing.sendRequestOnFacebook(batchInviteList.join(','));	
+		} else {
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:batchInviteList});
+		}
 	});	
 	
 	

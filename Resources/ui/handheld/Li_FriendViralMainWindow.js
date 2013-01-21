@@ -147,7 +147,12 @@ FriendViralMainWindow = function(_userId) {
 			}
 		}
 		//Ti.API.info('invitedList: '+JSON.stringify(invitedList));
-		FacebookSharing.sendRequestOnFacebook(invitedList.join(','));
+		if(Ti.App.ACTUAL_FB_INVITE) {
+			FacebookSharing.sendRequestOnFacebook(invitedList.join(','));
+		} else {
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:invitedList});
+		}
+				
 	});
 	
 	var invitedFriendCallback = function(){

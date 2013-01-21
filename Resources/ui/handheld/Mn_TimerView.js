@@ -5,7 +5,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		left: 100,
 		width: 100,
 		height: 30,
-		backgroundColor: 'orange',
+		backgroundImage: 'images/top-bar-countdown-background.png'
 	});
 
 	var remainingSeconds = Ti.App.moment().eod().diff(Ti.App.moment(), 'seconds');

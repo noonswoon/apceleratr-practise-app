@@ -29,7 +29,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
 		navBarHidden: false,
-		title: 'Edit Profile'
+		title: 'Edit Profile',
+		barImage: 'images/top-bar.png'
 	});
 	
 	var editTableView = Ti.UI.createTableView({
