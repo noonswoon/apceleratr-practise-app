@@ -279,10 +279,16 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
  			get_remote_file(Ti.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
  		});
 	};
+
+	function IsNumeric(input)
+	{
+	    return (input - 0) == input && input.length > 0;
+	}
 	
 	saveBtn.addEventListener('click', function() {		
 		var editParams = {}; 
 		var okToSave = true; 
+		var heightWarning = false;
 		
 		//when click save, go through each image and element in the table
 		//see which one is modified, build the content to send to the server
@@ -314,15 +320,22 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		        	okToSave = false;
 		        }
 		        
+		        if(row.getFieldName() === 'height' && !IsNumeric(row.getContent())) {
+		        	row.highlightBorder();
+		        	okToSave = false;
+		        	heightWarning = true;
+		        }
+		        
 		        if(row.getModified()) {
 		        	Ti.API.info('found modified content: '+row.getFieldName()+', value: '+row.getContent());
 		        	editParams[row.getFieldName()] =  row.getContent();
 		        }
 		    }
 		}
-		if(Ti.Platform.osname === 'iphone')
-			showPreloader(self,'Loading...');
+		
 		if(okToSave) {
+			if(Ti.Platform.osname === 'iphone')
+				showPreloader(self,'Loading...');
 			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {
@@ -349,12 +362,17 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				}
 			});
 		} else {
+			var warningTitle = L('Missing information');
+			var warningMsg = L('Please specify your height, ethnicity, and religion. It only takes 2 seconds.');
+			if(heightWarning) {
+				warningTitle = L('Height must be a number');
+				warningMsg = L('Please re-enter your height again.');
+			}
 			var warningDialog = Titanium.UI.createAlertDialog({
-						title:L('Missing information'),
-						message:L('Please specify your height, ethnicity, and religion. It only takes 2 seconds.')
+						title:warningTitle,
+						message:warningMsg
 					});
 			warningDialog.show();
-			hidePreloader(self);
 		}
 	});
 	
