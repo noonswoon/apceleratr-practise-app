@@ -1,5 +1,7 @@
 MatchWindow = function(_userId, _matchId) {
+	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
+	var BackendCredit = require('backend_libs/backendCredit');	
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
@@ -28,8 +30,7 @@ MatchWindow = function(_userId, _matchId) {
 		height: 40, 
 		width: 120, 
 		top: 2, 
-		left: 30, 
-		enabled: false
+		left: 30
 	});
 
 	var passBtn = Ti.UI.createButton({
@@ -37,8 +38,7 @@ MatchWindow = function(_userId, _matchId) {
 		height: 40, 
 		width: 120, 
 		top: 2, 
-		right: 30,
-		enabled: false
+		right: 30
 	});
 	
 	var userResponseLbl = Ti.UI.createLabel({
@@ -58,11 +58,50 @@ MatchWindow = function(_userId, _matchId) {
 	});	
 	
 	likeBtn.addEventListener("click", function() {
-		Ti.API.info('like btn is clicked');
+		var currentCredit = CreditSystem.getUserCredit();
+		if(currentCredit < 10) {
+			var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
+				title:'Insufficient Credits',
+				message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
+			});
+			notEnoughCreditsDialog.show();
+		} else {				
+			//send off the point deductions to server
+			BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
+				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+			});
+				
+			//save that the user like the person
+			var matchResponseObj = {matchId: matchId, userId: _userId, response:"like"};
+			BackendMatch.saveResponse(matchResponseObj, function(e){
+				if(e.success) Ti.API.info('save response (like) successfully');
+				else Ti.API.info('save response (like) failed');
+			});	
+				
+			contentView.deleteRow(1); 
+			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
+			if(Ti.Platform.osname === 'iphone')
+				responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+			responseRow.add(userResponseLbl);
+			contentView.insertRowAfter(0, responseRow,true);
+		}
 	});
 	
 	passBtn.addEventListener("click", function() {
-		Ti.API.info('pass btn is clicked');
+		var matchResponseObj = {matchId: matchId, userId: _userId, response:"pass"}
+		BackendMatch.saveResponse(matchResponseObj, function(e){
+			if(e.success) Ti.API.info('save response (pass) successfully');
+			else Ti.API.info('save response (pass) failed');
+		});
+		
+		contentView.deleteRow(1); 
+		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
+		if(Ti.Platform.osname === 'iphone')
+			responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+				
+		userResponseLbl.text = "You passed";
+		responseRow.add(userResponseLbl);
+		contentView.insertRowAfter(0, responseRow,true);
 	});
 	
 	function populateMatchDataTableView(_matchInfo) {
@@ -90,12 +129,12 @@ MatchWindow = function(_userId, _matchId) {
 		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 		if(Ti.Platform.osname === 'iphone')
 			responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		if(_matchInfo.content.user_response == 0) { 
+		if(_matchInfo.content.user_response === "") { 
 			responseRow.add(likeBtn);
 			responseRow.add(passBtn);
 		} else {
 			responseRow.add(userResponseLbl);
-			if(_matchInfo.content.user_response == 2) {
+			if(_matchInfo.content.user_response === "pass") {
 				userResponseLbl.text = "You passed";
 			}
 		}

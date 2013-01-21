@@ -1,5 +1,4 @@
-// tasks: get the credit system to work click 'Like', or 'Reveal Mutual Friends'
-// edit height -- should only be in number
+// tasks: get the credit system to work 'Reveal Mutual Friends'
 //get the sign up flow to work (friend viral)
 
 /*
