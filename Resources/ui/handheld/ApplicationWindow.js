@@ -49,7 +49,7 @@ function ApplicationWindow(_userId) {
 	var self = Ti.UI.createWindow({
 		left: 0,
 		zIndex: 1,
-		backgroundColor:'transparent',
+		backgroundColor:'#7e8185',
 		width: 320
 	});
 
@@ -133,7 +133,7 @@ function ApplicationWindow(_userId) {
 	});
 	
 	Ti.App.addEventListener('openInviteFriendWindow', function(e) {
-		var inviteFriendWindow = new InviteFriendWindowModule(_userId, false);
+		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(inviteFriendWindow);
 		toggleLeftMenu();
 	});

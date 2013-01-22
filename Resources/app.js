@@ -29,7 +29,7 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 var Debug = require('internal_libs/debug');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.API_SERVER = "http://dressntie.codesanook.com/";
+Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 
 Ti.App.DATABASE_NAME = "Noonswoon";

@@ -11,7 +11,7 @@ MyProfileWindow = function(_navGroup, _userId) {
 	var userInfo = null;
 	//create component instance
 	var self = Ti.UI.createWindow({
-		barImage: 'images/top-bar.png',
+		barImage: 'images/top-bar-stretchable.png',
 		title: 'My Profile',
 		navBarHidden: false,
 	});
