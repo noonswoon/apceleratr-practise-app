@@ -1,5 +1,5 @@
 ProfileImageView = function(_navGroup, _pictures) {
-	
+	var CustomPagingControl = require('external_libs/customPagingControl');
 	var navGroup = null;
 	//create component instance
 	var profileImageView = Ti.UI.createView({
@@ -34,12 +34,18 @@ ProfileImageView = function(_navGroup, _pictures) {
 	
 	var scrollView = Titanium.UI.createScrollableView({
 		views:viewsForScrollView,
-		showPagingControl:true,
-		pagingControlHeight:30,
-		maxZoomScale:2.0,
-		currentPage:0
+		showPagingControl:false,
+//		pagingControlHeight:10,
+//		maxZoomScale:2.0,
+		currentPage:0,
+//		pagingControlAlpha: 0.5,
+//		overlayEnabled: true
 	});
 	profileImageView.add(scrollView);
+	var pagingControl = new CustomPagingControl(scrollView);
+	pagingControl.bottom = 10;
+	profileImageView.add(pagingControl); 
+	
 	
 	scrollView.addEventListener('click', function() {
 		Ti.API.info('click event');

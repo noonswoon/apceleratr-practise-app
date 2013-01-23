@@ -164,6 +164,8 @@ var FbLoginWindow = function() {
 			        	// check the result data whether it is a new user or existing one
 			        	if(_userLogin.content.user_status === "new_user") {
 			        		Ti.API.info('***NEW USER****');
+							//this will go to onboarding step 1
+
 			        		var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');		        		
 			        		var editProfileWindow = new EditProfileWindowModule(navGroup, _userLogin.meta.user_id, true);
 							navGroup.open(editProfileWindow);
