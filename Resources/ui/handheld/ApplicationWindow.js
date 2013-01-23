@@ -27,20 +27,18 @@ function ApplicationWindow(_userId) {
 		duration: 300
 	});
 	
-	var toggleLeftMenuBtn = Titanium.UI.createButton({
-		systemButton:Titanium.UI.iPhone.SystemButton.PLAY,
-		left: 10,
-		width: 30,
-		height: 30,
-		top: 10
+	var toggleLeftMenuBtn = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		width:44,
+		height:30,
+		image: 'images/topbar-glyph-menu.png'
 	});
 	
-	var toggleRightMenuBtn = Titanium.UI.createButton({
-		image: 'images/icon/act_chat.png',
-		right: 10,
-		width: 30,
+	var toggleRightMenuBtn = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		width: 44,
 		height: 30,
-		top: 10
+		image: 'images/topbar-glyph-chat.png'
 	});
 	
 	var timerView = new TimerViewModule();
@@ -65,10 +63,12 @@ function ApplicationWindow(_userId) {
 	});
 	matchWindow.setNavGroup(navigationGroup);
 	
+	Ti.API.info('aaa');
 	var isToggled = false;
 		
 	var leftMenu = new LeftMenuWindowModule(_userId);
 	leftMenu.open();
+	Ti.API.info('bbb');
 	var toggleLeftMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = false;
@@ -85,6 +85,7 @@ function ApplicationWindow(_userId) {
 
 	var rightMenu = new ConnectionWindowModule(_userId);
 	rightMenu.open();
+	Ti.API.info('ccc');
 	var toggleRightMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = true;

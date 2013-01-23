@@ -7,57 +7,34 @@ LeftMenuWindow = function(_userId) {
 		top:0,
 		left:0,
 		width:260,
-		backgroundColor: '#32394a'
+		backgroundColor: '#585858'
 	});
 
 	// EDIT SECTION
-	var editProfileViewTopBorder = Ti.UI.createView({
-		top: 0, 
-		width: '100%',
-		height: 1,
-		borderWidth: 1,
-		borderColor: '#565d6c',
-		zIndex: 1
-	});
-	
-	var editProfileViewBottomBorder = Ti.UI.createView({
-		top: 42, 
-		width: '100%',
-		height: 1,
-		borderWidth: 1,
-		borderColor: '#111b33',
-		zIndex: 1
-	});
-	
 	var editProfileView = Ti.UI.createView({
-		backgroundColor: 'transparent',
+		backgroundImage: 'images/menu-bar-stretchable.png',
 		top: 0,
 		left:0,
 		width: 260,
-		height: 42,
+		height: 48,
 		zIndex: 0,
 	});
-	editProfileView.backgroundGradient = {
-		type: 'linear',
-		startPoint: { x: '0%', y: '0%' },
-		endPoint: { x: '0%', y: '100%' },
-		colors: [{ color: '#424a5a', offset: 0.0}, { color: '#242b39', offset: 1.0 }]
-	};
+
 	
 	var editProfileIcon = Ti.UI.createImageView({
-		image: 'images/icon/option.png',
+		image: 'images/menubar-glyph-edit-profile.png',
 		left: 10,
 		top: 10,
-		width: 25,
-		height: 25
+		width: 26,
+		height: 26
 	});
 			
 	var editProfileLbl = Ti.UI.createLabel({
 		text: 'Edit profile',
-		color: '#b9c1cf',
-		left: 55,
-		top: 10,
-		font:{fontWeight:'bold',fontSize:16},
+		color: '#cac9c9',
+		left: 41,
+		top: 12,
+		font:{fontWeight:'bold',fontSize:18},
 	});
 	
 	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
@@ -73,9 +50,7 @@ LeftMenuWindow = function(_userId) {
 	editProfileLbl.addEventListener('click', function() {
 		Ti.App.fireEvent('openUserProfileWindow');
 	});
-	
-	self.add(editProfileViewTopBorder);
-	self.add(editProfileViewBottomBorder);
+
 	self.add(editProfileView);
 	
 	//END EDIT SECTION
@@ -84,40 +59,33 @@ LeftMenuWindow = function(_userId) {
 		top: 43,
 		left:0,
 		width: 260,
-		height: 30,
-		backgroundColor: '#3e4558'
+		height: 38,
+//		backgroundColor: 'yellow',
+		borderColor: 'transparent',
+		borderWidth: 0,
+		backgroundImage: 'images/menu-separator.png'
 	});	
 	
 	var inviteFriendsLbl = Ti.UI.createLabel({
-		text: 'INVITE SINGLE FRIENDS',
-		left: 10,
-		top: 5,
-		color: '#959dab',
+		text: 'INVITE FRIENDS',
+		left: 11,
+		top: 11,
+		color: '#ababab',
 		font:{fontWeight:'bold',fontSize:12},
 	});
 	
 	var leftArrow = Ti.UI.createImageView({
-		image: 'images/leftmenu/arrow_leftmenu.png',
-		right: 10,
-		top: 5,
-		width: 20,
-		height: 20
-	});
-	
-	var inviteFriendsViewBottomBorder = Ti.UI.createView({
-		top: 73, 
-		width: '100%',
-		height: 1,
-		borderWidth: 1,
-		borderColor: '#242a37',
-		zIndex: 1
+		image: 'images/menu-separator-arrow.png',
+		left: 242,
+		top: 10,
+		width: 11,
+		height: 15
 	});
 	
 	
 	inviteFriendsView.add(inviteFriendsLbl);
 	inviteFriendsView.add(leftArrow);
 	self.add(inviteFriendsView);
-	self.add(inviteFriendsViewBottomBorder);
 
 	inviteFriendsView.addEventListener('click', function() {
 		Ti.App.fireEvent('openInviteFriendWindow');

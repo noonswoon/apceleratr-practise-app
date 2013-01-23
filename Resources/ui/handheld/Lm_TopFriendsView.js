@@ -8,18 +8,20 @@ TopFriendsView = function(_userId) {
 	var CreditSystem = require('internal_libs/creditSystem');
 		
 	var self = Ti.UI.createView({
-		top: 74, 
-		height: 300,
+		top: 81, 
+		height: 400,
 		width: 260
 	});
 
 	var topFriendsTableView = Ti.UI.createTableView({
-		backgroundColor: '#32394a',
+		backgroundColor: '#4a4949',
 		separatorColor: 'transparent',
 		top: 0,
-		left: 0
+		left: 0,
 	});
-	
+	if(Ti.Platform.osname === 'iphone') {
+		topFriendsTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+	}			
 	var targetedList = [];
 	var insertNextCandidate = function() {
 		var nextFriendData = FacebookFriendModel.getFacebookFriendAtIndex(4); //not 5 because already account for the just-invited friend
@@ -160,25 +162,15 @@ TopFriendsView = function(_userId) {
 	self.add(topFriendsTableView);
 	
 	var inviteButton = Ti.UI.createButton({
-		backgroundImage: 'none',
-		backgroundColor: 'transparent',
-		borderColor: '#242a37', 
-		borderRadius: 5,
-		borderWidth: 1,
-		top:260,
+		backgroundImage: 'images/menu-bottom-bar-button.png',
+		top:230,
 		left: 10,
 		width:240,
 		height:35,
-		color: '#9299a6',
+		color: '#a4a3a3',
 		font:{fontSize:14,fontWeight:'bold'},
 		title:'Invite these 5 friends'
 	});
-	inviteButton.backgroundGradient = {
-		type: 'linear',
-		startPoint: { x: '0%', y: '0%' },
-		endPoint: { x: '0%', y: '100%' },
-		colors: [{ color: '#394155', offset: 0.0}, { color: '#292f3d', offset: 1.0 }]
-	};
 	
 	inviteButton.addEventListener('click', function() {
 		var batchInviteList = [];

@@ -8,6 +8,7 @@ MatchWindow = function(_userId, _matchId) {
 	var navGroup = null;
 	
 	//create component instance
+	
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: false,
@@ -110,7 +111,7 @@ MatchWindow = function(_userId, _matchId) {
 		var pronoun = "she";
 		var possessive = "her";
 		
-		if(_matchInfo.content.general.gender == "male") {
+		if(_matchInfo.content.general.gender === "male") {
 			pronoun = "he";
 			possessive = "his";
 		}
@@ -209,7 +210,9 @@ MatchWindow = function(_userId, _matchId) {
 	
 	if(_matchId === null) {
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {	
+			Ti.API.info('hello');
 			populateMatchDataTableView(_matchInfo);
+			Ti.API.info('world');
 		});	
 	} else {
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	

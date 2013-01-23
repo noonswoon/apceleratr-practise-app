@@ -35,7 +35,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			color: '#f6f7fa',
 			width:84,
 			height:30,
-			font:{fontSize:12,fontWeight:'bold'},
+			font:{fontSize:14,fontWeight:'bold'},
 			title:'Invite ('+numInvites+')'
 		});
 	var backButton = Ti.UI.createButton({
@@ -51,7 +51,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		title: L('Friends'),
 		navBarHidden: false,
 		leftNavButton: backButton,
-		rightNavButton: inviteButton
+		rightNavButton: inviteButton,
+		backgroundColor: '#eeeeee'
 	});
 	if(_forcedInvite) {
 		self.leftNavButton = emptyView;
@@ -63,7 +64,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		left: 0,
 		width:'100%',
 		height:57,
-		backgroundColor: '#efefef'
+		backgroundColor: '#eeeeee',
+		borderColor: 'transparent', 
+		borderWidth: 0,
 	});
 
 	var screenDescriptionViewBottomBorder = Ti.UI.createView({

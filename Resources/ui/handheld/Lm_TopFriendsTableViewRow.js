@@ -1,59 +1,46 @@
 TopFriendsTableViewRow = function(_fbUser) {
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	
+	var inviteeName = _fbUser.name; 
+	if(inviteeName.length > 21) 
+		inviteeName = inviteeName.substring(0,20);
+		
 	var self = Ti.UI.createTableViewRow({ //refactoring out (2)
 		className: 'topFriendRow',
-		height: 50,
-		backgroundColor: '#32394a',
+		height: 45,
+		backgroundImage: 'images/menu-row-item.png',
 		fbId: _fbUser.facebook_id,		
 	});
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		
-	var rowTopBorder = Ti.UI.createView({
-		top: 0, 
-		width: '100%',
-		height: 1,
-		borderWidth: 1,
-		borderColor: '#474d5c',
-		zIndex: 1
-	});
-	
-	var rowBottomBorder = Ti.UI.createView({
-		top: 49, 
-		width: '100%',
-		height: 1,
-		borderWidth: 1,
-		borderColor: '#242a37',
-		zIndex: 1
-	});
-	self.add(rowTopBorder);
-	self.add(rowBottomBorder);
 			
 	var friendImage = Ti.UI.createImageView({
 		image: _fbUser.picture_url,
-		width: 40, 
-		height: 40, 
-		top: 5,
-		left: 5
+		width: 35, 
+		height: 35, 
+		top: 4,
+		left: 8,
+		borderColor: '#111b33', 
+		borderWidth: 1,
+		borderRadius: 2
 	}); 
 	self.add(friendImage);		
 	
 	var friendName = Ti.UI.createLabel({
-		text: _fbUser.name,
+		text: inviteeName,
 		left: 55,
-		top: 15,
+		top: 12,
 		color: '#cdd4df',
 		font:{fontSize:16},
 	});
 	self.add(friendName);
 			
 	var inviteIcon = Ti.UI.createImageView({
-		image: 'images/leftmenu/invite_friend_button.png',
-		right: 10,
-		top: 5,
-		width: 50,
-		height: 40
+		image: 'images/menu-invite-button.png',
+		left: 218,
+		top: 9,
+		width: 37,
+		height: 28
 	});
 	
 	//double binding - changing the execution context
