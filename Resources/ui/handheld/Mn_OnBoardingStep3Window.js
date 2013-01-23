@@ -1,4 +1,4 @@
-OnBoardingStep1Window = function(_navGroup, _userId) {
+OnBoardingStep3Window = function(_navGroup, _userId) {
 	
 	//create component instance
 	
@@ -6,12 +6,12 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		left: 0,
 		navBarHidden: true,
 		barImage: 'images/top-bar-stretchable.png',
-		backgroundImage: 'images/post-onboarding-1.png'
+		backgroundImage: 'images/post-onboarding-3.png'
 	});
 				
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'Personalize',
+		text: 'Finding match',
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
@@ -20,7 +20,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'View and edit your profile',
+		text: 'You\'re all set! Your first match will',
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -28,15 +28,15 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: 'and put yourself in the best light!',
+		text: 'be available soon!',
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
 	});
 	self.add(description2Lbl);
 	
-	var viewProfileBtn = Ti.UI.createButton({
-		title: 'View my profile',
+	var buttton = Ti.UI.createButton({
+		title: 'Done',
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
@@ -45,13 +45,13 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		width: 250, 
 		height: 50
 	})
-	self.add(viewProfileBtn);
+	self.add(buttton);
 	
-	viewProfileBtn.addEventListener('click', function() {
-		Ti.API.info('edit profile with userId: '+_userId);
+	buttton.addEventListener('click', function() {
+		Ti.API.info('done..'+_userId);
 	});
 	return self;
 };
 
-module.exports = OnBoardingStep1Window;
+module.exports = OnBoardingStep3Window;
 
