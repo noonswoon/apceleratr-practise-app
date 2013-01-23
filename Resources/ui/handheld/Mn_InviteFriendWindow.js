@@ -15,6 +15,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var textOffset3 = 137;	
 	var topOffset = 22;
 	var inviteBtnBgImage = 'images/top-bar-button.png';
+	var inviteBtnEnable = true;
+	var inviteBtnFontColor = '#f6f7fa';
 	if(_forcedInvite) {
 		descriptionText1 = 'Invite';
 		descriptionText2 = '10 friends';
@@ -23,6 +25,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		textOffset2 = 102;
 		textOffset3 = 172;
 		inviteBtnBgImage = 'images/top-bar-button-disabled.png';
+		inviteBtnEnable = false;
+		inviteBtnFontColor = '#c97278';
 	}
 	var emptyView = Titanium.UI.createView({});
 
@@ -32,11 +36,12 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var userCredit = CreditSystem.getUserCredit();
 	var inviteButton = Ti.UI.createButton({
 			backgroundImage: inviteBtnBgImage,
-			color: '#f6f7fa',
+			color: inviteBtnFontColor,
 			width:84,
 			height:30,
 			font:{fontSize:14,fontWeight:'bold'},
-			title:'Invite ('+numInvites+')'
+			title:'Invite ('+numInvites+')',
+			enabled: inviteBtnEnable
 		});
 	var backButton = Ti.UI.createButton({
 			backgroundImage: 'images/top-bar-button.png',
@@ -175,7 +180,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			});
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
-			//go to the main screen
+			//go to onboarding screen 3
 		}
 	});
 	
@@ -185,7 +190,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 
 	self.add(facebookFriendTableView);
 
-	inviteButton.addEventListener('click', function() {
+	inviteButtonClickCallback = function() {
 		//iterate through the table rows to get the selected id
 		var targetedRow = 0;
 		var invitedList = [];
@@ -201,16 +206,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		} else {
 			Ti.App.fireEvent('inviteCompleted', {inviteeList:invitedList});
 		}
-	});
+	};
+	inviteButton.addEventListener('click', inviteButtonClickCallback);
 
-	inviteButton.addEventListener('touchstart', function() {
-		inviteButton.backgroundImage = 'images/top-bar-button-active.png';		//doesn't work
-	});
-	
-	inviteButton.addEventListener('touchend', function() {
-		inviteButton.backgroundImage = 'images/top-bar-button.png';
-	});
-	
 	backButton.addEventListener('click', function() {
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
@@ -218,12 +216,46 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var invitedFriendCallback = function(){
 		numInvites++;
 		inviteButton.title = 'Invite ('+numInvites+')';
+		if(_forcedInvite && !inviteBtnEnable && numInvites >= Ti.App.NUM_INVITE_ALL) {
+			//BAD DESIGN --  just to get the nav button text color to change..cannot change the text
+			//color once already put in the right nav menu bar, so need to re-create a new button and replace it
+			inviteBtnEnable = true;
+			inviteButton.removeEventListener('click', inviteButtonClickCallback); //remove the old listener before creating a new component
+			inviteButton = Ti.UI.createButton({
+				backgroundImage: 'images/top-bar-button.png',
+				color: '#f6f7fa',
+				width:84,
+				height:30,
+				font:{fontSize:14,fontWeight:'bold'},
+				title:'Invite ('+numInvites+')',
+				enabled: inviteBtnEnable
+			});			
+			inviteButton.addEventListener('click', inviteButtonClickCallback);
+			self.rightNavButton = inviteButton;
+		}
 	};
 	Ti.App.addEventListener('invitedFriend', invitedFriendCallback);
 	
 	var uninvitedFriendCallback = function(){
 		numInvites--;
 		inviteButton.title = 'Invite ('+numInvites+')';
+		if(_forcedInvite && inviteBtnEnable && numInvites < Ti.App.NUM_INVITE_ALL) {
+			//BAD DESIGN --  just to get the nav button text color to change..cannot change the text
+			//color once already put in the right nav menu bar, so need to re-create a new button and replace it
+			inviteBtnEnable = false;
+			inviteButton.removeEventListener('click', inviteButtonClickCallback); //remove the old listener before creating a new component
+			inviteButton = Ti.UI.createButton({
+				backgroundImage: 'images/top-bar-button-disabled.png',
+				color: '#c97278',
+				width:84,
+				height:30,
+				font:{fontSize:14,fontWeight:'bold'},
+				title:'Invite ('+numInvites+')',
+				enabled: inviteBtnEnable
+			});			
+			inviteButton.addEventListener('click', inviteButtonClickCallback);
+			self.rightNavButton = inviteButton;
+		}
 	};
 	Ti.App.addEventListener('uninvitedFriend', uninvitedFriendCallback);
 	return self;

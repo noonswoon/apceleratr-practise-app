@@ -1,5 +1,5 @@
 // tasks: get the credit system to work 'Reveal Mutual Friends'
-//get the sign up flow to work (friend viral)
+//get the sign up flow to work (force invited)
 
 /*
  * Single Window Application Template:
