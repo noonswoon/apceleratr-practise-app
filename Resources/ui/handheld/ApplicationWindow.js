@@ -62,13 +62,11 @@ function ApplicationWindow(_userId) {
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});
 	matchWindow.setNavGroup(navigationGroup);
-	
-	Ti.API.info('aaa');
-	var isToggled = false;
-		
+
+	var isToggled = false;		
 	var leftMenu = new LeftMenuWindowModule(_userId);
 	leftMenu.open();
-	Ti.API.info('bbb');
+
 	var toggleLeftMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = false;
@@ -85,7 +83,7 @@ function ApplicationWindow(_userId) {
 
 	var rightMenu = new ConnectionWindowModule(_userId);
 	rightMenu.open();
-	Ti.API.info('ccc');
+
 	var toggleRightMenu = function() {
 		if( !isToggled ){
 			rightMenu.visible = true;

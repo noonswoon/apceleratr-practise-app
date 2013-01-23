@@ -171,9 +171,12 @@ TopFriendsView = function(_userId) {
 		font:{fontSize:14,fontWeight:'bold'},
 		title:'Invite these 5 friends'
 	});
-	
+
 	inviteButton.addEventListener('click', function() {
 		var batchInviteList = [];
+		if(topFriendsTableView.data === null || topFriendsTableView.data[0] === null) 
+			return; //data isn't ready yet
+
 		for(var j = 0; j < topFriendsTableView.data[0].rowCount; j++) {
 			var row = topFriendsTableView.data[0].rows[j];
 			batchInviteList.push(row.fbId);
@@ -186,6 +189,15 @@ TopFriendsView = function(_userId) {
 		}
 	});	
 	
+	/*
+	//345, 60, 8, 1043, 2400, 5306, 6490, 203, 420, 300, 0, 10345
+	var testData = [345, 60, 8, 1043, 2400, 5306, 6490, 203, 420, 300, 0, 10345];
+	var counter = 0;
+	inviteButton.addEventListener('click', function() {
+		Ti.App.fireEvent('creditChange', {currentCredit: testData[counter]});
+		counter++;
+	});
+	*/
 	
 	self.add(inviteButton);
 	

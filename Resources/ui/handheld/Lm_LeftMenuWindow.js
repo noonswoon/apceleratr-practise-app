@@ -36,9 +36,9 @@ LeftMenuWindow = function(_userId) {
 		top: 12,
 		font:{fontWeight:'bold',fontSize:18},
 	});
-	
-	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
 
+	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
+	
 	editProfileView.add(editProfileIcon);
 	editProfileView.add(editProfileLbl);
 	editProfileView.add(creditView);

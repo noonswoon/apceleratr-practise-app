@@ -210,9 +210,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	if(_matchId === null) {
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {	
-			Ti.API.info('hello');
 			populateMatchDataTableView(_matchInfo);
-			Ti.API.info('world');
 		});	
 	} else {
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	

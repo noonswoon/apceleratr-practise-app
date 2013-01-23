@@ -8,7 +8,7 @@ CreditView = function(_credit) {
 		left: 176,
 		zIndex: 0
 	});
-
+	
 	var fontFormat = {fontStyle:'normal', fontWeight:'bold',fontSize:18};
 	var fontTop = 5;
 	var fontDropShadowTop = fontTop + 1;
@@ -56,15 +56,15 @@ CreditView = function(_credit) {
 	self.add(hundredDigitDropShadow);
 	
 	var tenDigit = Ti.UI.createLabel({
-		text: '2',
+		text: '0',
 		top: fontTop,
 		left: fontLeftOffset + 2*fontLeftInterval + 1,
 		font:fontFormat,
-		color: '#cdcdcd',
+		color: '#6a6c6e',
 		zIndex: 1
 	})
 	var tenDigitDropShadow = Ti.UI.createLabel({
-		text: '2',
+		text: '0',
 		top: fontDropShadowTop,
 		left: fontLeftOffset + 2*fontLeftInterval + 1,
 		font:fontFormat,
@@ -76,15 +76,15 @@ CreditView = function(_credit) {
 	self.add(tenDigitDropShadow);
 	
 	var unitDigit = Ti.UI.createLabel({
-		text: '8',
+		text: '0',
 		top: fontTop,
 		left: fontLeftOffset + 3*fontLeftInterval + 1,
 		font:fontFormat,
-		color: '#cdcdcd',
+		color: '#6a6c6e',
 		zIndex: 1,
 	});
 	var unitDigitDropShadow = Ti.UI.createLabel({
-		text: '8',
+		text: '0',
 		top: fontDropShadowTop,
 		left: fontLeftOffset + 3*fontLeftInterval + 1,
 		font:fontFormat,
@@ -94,23 +94,71 @@ CreditView = function(_credit) {
 	});
 	self.add(unitDigit);
 	self.add(unitDigitDropShadow);
-	
-	var pointsLbl = Ti.UI.createLabel({
-		text: _credit,
-		color: '#fcfcfc',
-		top: 0,
-		left: 0,
-		font:{fontWeight:'bold',fontSize:14},
-	});
-//	self.add(pointsLbl);
-		
-	self.setCredit = function(_newCredit) {
-		pointsLbl.text = _newCredit;	
+
+	var computeNumbers = function(_number) { //output an array of 4 element [0]-thousand, [1]-hundred, [2]-ten, [3]-unit
+		var number = _number;
+		var result = []; 
+		var divider = 1000;
+		while(divider > 0) {
+			if(number < divider) result.push(0);
+			else {
+				result.push(Math.floor(number/divider));
+				number = number % divider; 
+			}
+			divider = Math.floor(divider/10);
+		}
+		return result;
 	};
+
+	var setThousandDigit = function(_actualValue, _number) {
+		thousandDigit.text = _number;
+		thousandDigitDropShadow.text = _number;
+		
+		if(_actualValue < 1000)
+			thousandDigit.color = '#6a6c6e';
+		else thousandDigit.color = '#cdcdcd';
+	}; 
+	
+	var setHundredDigit = function(_actualValue, _number) {
+		hundredDigit.text = _number;
+		hundredDigitDropShadow.text = _number;
+		if(_actualValue < 100)
+			hundredDigit.color = '#6a6c6e';
+		else hundredDigit.color = '#cdcdcd';
+	}; 
+	
+	var setTenDigit = function(_actualValue, _number) {
+		tenDigit.text = _number;
+		tenDigitDropShadow.text = _number;
+		if(_actualValue < 10)
+			tenDigit.color = '#6a6c6e';
+		else tenDigit.color = '#cdcdcd';
+	}; 
+	
+	var setUnitDigit = function(_actualValue, _number) {
+		unitDigit.text = _number;
+		unitDigitDropShadow.text = _number;
+		if(_actualValue < 1)
+			unitDigit.color = '#6a6c6e';
+		else unitDigit.color = '#cdcdcd';
+	}; 
+	
+	var setCredit = function(_newCredit) {
+		if(_newCredit > 9999) 
+			_newCredit = 9999;
+		var numberArray = computeNumbers(_newCredit);
+		setThousandDigit(_newCredit, numberArray[0]);
+		setHundredDigit(_newCredit, numberArray[1]);
+		setTenDigit(_newCredit, numberArray[2]);
+		setUnitDigit(_newCredit, numberArray[3]);
+	};
+	self.setCredit = setCredit; 
 	
 	Ti.App.addEventListener('creditChange', function(e) {
-		pointsLbl.text = e.currentCredit;
+		setCredit(e.currentCredit);
 	});
+	
+	setCredit(_credit);
 	
 	return self;
 }
