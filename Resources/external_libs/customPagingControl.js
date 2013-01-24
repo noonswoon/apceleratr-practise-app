@@ -15,7 +15,7 @@ PagingControl = function(scrollableView){
 		height: 14,
 		backgroundImage: 'images/carousel-background-stretchable.png',
 		width: numberOfPages * widthOffset,
-		zIndex: 0
+		zIndex: 2
 	});
 
 	
@@ -28,7 +28,7 @@ PagingControl = function(scrollableView){
 			width: 12,
 			height: 12,
 			left: 15 * i,
-			zIndex: 1
+			zIndex: 3
 		});
 		// Store a reference to this view
 		pages.push(page);
