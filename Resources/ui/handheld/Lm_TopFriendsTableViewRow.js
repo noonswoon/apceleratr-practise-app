@@ -2,8 +2,8 @@ TopFriendsTableViewRow = function(_fbUser) {
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	
 	var inviteeName = _fbUser.name; 
-	if(inviteeName.length > 21) 
-		inviteeName = inviteeName.substring(0,20);
+	if(inviteeName.length > 18) 
+		inviteeName = inviteeName.substring(0,17)+'...';
 		
 	var self = Ti.UI.createTableViewRow({ //refactoring out (2)
 		className: 'topFriendRow',

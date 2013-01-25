@@ -67,7 +67,7 @@ LeftMenuWindow = function(_userId) {
 	});	
 	
 	var inviteFriendsLbl = Ti.UI.createLabel({
-		text: 'INVITE FRIENDS',
+		text: 'INVITE OTHER FRIENDS',
 		left: 11,
 		top: 11,
 		color: '#ababab',

@@ -62,7 +62,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(fbButtonText);
 
 	fbButton.addEventListener('click', function() {
-		Ti.API.info('login with facebook');
+		Ti.Facebook.authorize();
 	});
 	
 	fbButton.addEventListener('touchstart', function() {
@@ -73,8 +73,132 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		fbButtonText.color = '#ffffff';
 	});
 	
+//FUNCTIONS CALLBACK
+	function successNotifCallback(e) {
+		var deviceToken = e.deviceToken;
+		Debug.debug_print("Push notification device token is: "+deviceToken);
+		Debug.debug_print("Push notification types: "+Titanium.Network.remoteNotificationTypes);
+		Debug.debug_print("Push notification enabled: "+Titanium.Network.remoteNotificationsEnabled);
+		
+		UrbanAirship.registerDeviceToken(deviceToken);   
+	}
+	
+	function errorNotifCallback(e) {
+    	alert(L("Error during registration: ") + e.error);
+	}
+	
+	function messageNotifCallback(e) {
+		// called when a push notification is received.
+		//Debug.debug_print("Received a push notification\n\nPayload:\n\n"+JSON.stringify(e));
+		var message;
+		if(e.data['aps'] != undefined) {
+			if(e.data['aps']['alert'] != undefined){
+				if(e.data['aps']['alert']['body'] != undefined){
+					message = e.data['aps']['alert']['body'];
+				} else {
+					message = e.data['aps']['alert'];
+					//try openning window here
+				}
+				var msgDialog = Titanium.UI.createAlertDialog({
+						title:'Message from...',
+						message:message
+					});
+				msgDialog.show();
+			} else {
+				message = 'No Alert content';
+			}
+		} else {
+			message = 'No APS content';
+		}
+		Debug.debug_print(message);	
+	}	
+
+	function facebookAuthenCallback(e) {
+		if (e.success) {
+			Ti.API.info('in fbAuthenCallback e.success');
+			Ti.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
+			    if (e.success) {
+			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
+					
+			        var sendingObj = {}; 
+			        
+			        sendingObj.userFbId = Ti.Facebook.uid;
+			        sendingObj.fbAuthToken = Ti.Facebook.accessToken;
+			        sendingObj.devicePlatform = Ti.Platform.osname; 
+			        sendingObj.deviceId = "82DFA37CD520A0CBF2EF92A2138550AE88829C08EC01DE2109FE61FC3ADE82D5";
+			        if(Ti.Platform.os === 'iPhone')
+			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
+			        		        
+			        var BackendUser = require('backend_libs/backendUser');
+			        var Admin = require('backend_libs/backendUser');
+			        
+			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
+			        	// check the result data whether it is a new user or existing one
+			        	if(_userLogin.content.user_status === "new_user") {
+			        		Ti.API.info('***NEW USER****');
+							//this will go to onboarding step 1
+
+			        		var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');		        		
+			        		var editProfileWindow = new EditProfileWindowModule(navGroup, _userLogin.meta.user_id, true);
+							navGroup.open(editProfileWindow);
+			        	} else {
+			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
+			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+							var mainApp = new ApplicationWindowModule(_userLogin.meta.user_id);
+							mainApp.open();
+							
+							self.close();
+			        	}
+			        });
+					
+				} else if (e.error) {
+					Debug.debug_print('cannot request GraphPath: '+ JSON.stringify(e));		
+				} else {
+					Debug.debug_print("what the hell is going on_2? " + JSON.stringify(e));
+					//ErrorHandling.showNetworkError();
+				}
+			});
+		} else if (e.error) {
+			Ti.API.info("fb login error: ");
+		} else if (e.cancelled) {
+			Ti.API.info("fb login Canceled");
+		} else {
+			alert("Facebook Login Error...please try again");
+		}
+	}	
+	// register for push notifications
+	if(Ti.Platform.osname != 'android') {
+		Titanium.Network.registerForPushNotifications({
+			types:[
+				Titanium.Network.NOTIFICATION_TYPE_BADGE,
+				Titanium.Network.NOTIFICATION_TYPE_ALERT,
+				Titanium.Network.NOTIFICATION_TYPE_SOUND
+			],
+			success: successNotifCallback, //successful registration will call this fn
+			error: errorNotifCallback, //failed registration will call this
+			callback: messageNotifCallback //when receive the message will call this fn
+		});
+	}
+
+//	fbLogOutButton.addEventListener('click', function() {
+//		Ti.Facebook.logout(); //logout from fb
+//	});
+
+	Ti.Facebook.addEventListener('login', facebookAuthenCallback);
+	
+	Ti.Facebook.addEventListener('logout', function() {
+		alert('logging out from fb');
+	});
+
+	self.addEventListener('close', function() {
+		Ti.Facebook.removeEventListener('login', facebookAuthenCallback);
+	});
+	
 	return self;
 };
 
 module.exports = LoginOnBoardingWindow;
+
+
+
 

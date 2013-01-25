@@ -1,5 +1,5 @@
 function LoginProcessWindow() {
-    var FbLoginWindowModule = require('ui/handheld/Li_FbLoginWindow');	
+    var LoginOnBoardingModule = require('ui/handheld/Mn_LoginOnBoardingWindow');	
     
     //create component instance
 	var self = Ti.UI.createWindow({
@@ -9,14 +9,14 @@ function LoginProcessWindow() {
 		width: 320
 	});
 
-	var fbLoginWindow = new FbLoginWindowModule();
+	var loginOnBoardingWindow = new LoginOnBoardingModule();
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	window: fbLoginWindow,
+	  	window: loginOnBoardingWindow,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});
-	fbLoginWindow.setNavGroup(navigationGroup);
+	loginOnBoardingWindow.setNavGroup(navigationGroup);
     
 	self.add(navigationGroup);
 	

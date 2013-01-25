@@ -56,12 +56,12 @@ function ApplicationWindow(_userId) {
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
 	
-	var OnBoardingModule = require('ui/handheld/Mn_LoginOnBoardingWindow');
-	var dummyOnBoard = new OnBoardingModule(null, _userId);
+	//var OnBoardingModule = require('ui/handheld/Mn_LoginOnBoardingWindow');
+	//var dummyOnBoard = new OnBoardingModule(null, _userId);
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	window: dummyOnBoard,
-	  	//window: matchWindow,
+	  	//window: dummyOnBoard,
+	  	window: matchWindow,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});
