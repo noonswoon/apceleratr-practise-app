@@ -5,9 +5,9 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: true,
-		backgroundColor: '#232323'
+		backgroundColor: 'black'
 	});
-	
+
 	var viewsForScrollView = [];
 	var view = null;
 	for(var i = 1; i <= 4; i++) {
@@ -21,7 +21,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		left: 0,
 		top: 0,
 		width: '100%',
-		height: 398,
+		height: '100%',
 		showPagingControl:false,
 		currentPage:0,
 		zIndex: 0,
@@ -33,7 +33,9 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(scrollView);
 		
 	var fbButton = Ti.UI.createButton({
-		backgroundImage: 'images/facebook_button.png',
+		backgroundImage: 'images/onboarding-facebook-btn.png',
+		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
+		backgroundFocusedImage: 'images/onboarding-facebook-btn-active.png',
 		center: {x:'50%', y:428}, //x:67
 		width: 250, 
 		height: 45,

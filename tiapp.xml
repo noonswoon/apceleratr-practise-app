@@ -20,6 +20,10 @@
     <ios>
 		<plist>
 			<dict>
+				<key>UIAppFonts</key>
+				<array>
+					<string>/fonts/Harabara.ttf</string>
+				</array>
 				<key>UIPrerenderedIcon</key><true/>
 				<key>UIStatusBarStyle</key><string>UIStatusBarStyleBlackTranslucent</string>  
 				 <key>UIApplicationExitsOnSuspend</key><true/> 

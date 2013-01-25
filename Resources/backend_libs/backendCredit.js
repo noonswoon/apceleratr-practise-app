@@ -54,7 +54,7 @@ exports.transaction = function(_paramObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content.user_credit);
+					_callbackFn(resultObj.content.credit);
 				} else {
 					Ti.API.info('Error credit.transaction: '+ JSON.stringify(resultObj));
 				}
@@ -83,7 +83,7 @@ exports.transaction = function(_paramObj, _callbackFn) {
 		var contents = f.read();
 		var resultObj = JSON.parse(contents.text); 
 		if(resultObj.meta.status == "ok") {
-			_callbackFn(resultObj.content.user_credit);
+			_callbackFn(resultObj.content.credit);
 		} else {
 			Ti.API.error("something wrong with backendInvite.getInvitedList");
 		}	

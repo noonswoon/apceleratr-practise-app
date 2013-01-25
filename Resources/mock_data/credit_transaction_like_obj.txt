@@ -7,6 +7,6 @@
    },
    "content":{
    		"transaction_id":5,
- 		"user_credit": 5
+ 		"credit": 5
    }
 }
