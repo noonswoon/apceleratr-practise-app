@@ -21,11 +21,12 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	remainingTimeLbl = Ti.UI.createLabel({
 		text: remainingHours+':'+remainingMinutes+':'+remainingSeconds,
 		center: {x:'50%', y:'50%'},
-		color: '#e7ebf3',
+		color: '#f3f5f9',
 		width: 'auto',
 		shadowColor: '#750b14',
 		shadowOffset: {x:0, y:1},
-		font: {fontSize: 20, fontFamily: 'DS-Digital'}
+		font: {fontWeight:'bold', fontSize: 28, fontFamily: 'DS-Digital'},
+		zIndex: 1
 	});
 	
 	var timer = setInterval(function() {

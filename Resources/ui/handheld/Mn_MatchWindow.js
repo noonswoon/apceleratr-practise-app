@@ -6,7 +6,8 @@ MatchWindow = function(_userId, _matchId) {
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
 	var CustomPagingControl = require('external_libs/customPagingControl');
-	
+	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
+
 	var navGroup = null;
 	
 	//create component instance
@@ -40,7 +41,7 @@ MatchWindow = function(_userId, _matchId) {
 		title: 'Pass', 
 		height: 40, 
 		width: 120, 
-		top: 2, 
+		top: 2,
 		right: 30
 	});
 	
@@ -130,6 +131,9 @@ MatchWindow = function(_userId, _matchId) {
 		profileImageRow.add(profileImageView);
 		data.push(profileImageRow);
 		
+		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', "");
+		data.push(friendRatioRow); 
+
 		//buttons section
 		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 		if(Ti.Platform.osname === 'iphone')
