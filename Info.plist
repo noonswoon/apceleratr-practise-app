@@ -5,6 +5,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>/fonts/Harabara.ttf</string>
+		<string>/fonts/DS-DIGI.TTF</string>
+		<string>/fonts/DS-DIGIB.TTF</string>
+		<string>/fonts/DS-DIGII.TTF</string>
+		<string>/fonts/DS-DIGIT.TTF</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>

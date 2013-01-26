@@ -125,19 +125,19 @@ function ApplicationWindow(_userId) {
 
 	Ti.App.addEventListener('openUserProfileWindow', function(e) {
 		var myProfileWindow = new MyProfileWindowModule(navigationGroup, _userId);
-		navigationGroup.open(myProfileWindow);
+		navigationGroup.open(myProfileWindow, {animated:false});
 		toggleLeftMenu();
 	});
 		
 	Ti.App.addEventListener('openEditProfileWindow', function(e) {
 		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
-		navigationGroup.open(editProfileWindow);
+		navigationGroup.open(editProfileWindow, {animated:false});
 		toggleLeftMenu();
 	});
 	
 	Ti.App.addEventListener('openInviteFriendWindow', function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
-		navigationGroup.open(inviteFriendWindow);
+		navigationGroup.open(inviteFriendWindow, {animated:false});
 		toggleLeftMenu();
 	});
 	

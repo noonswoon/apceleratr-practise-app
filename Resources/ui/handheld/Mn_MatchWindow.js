@@ -5,6 +5,8 @@ MatchWindow = function(_userId, _matchId) {
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
+	var CustomPagingControl = require('external_libs/customPagingControl');
+	
 	var navGroup = null;
 	
 	//create component instance
@@ -17,7 +19,7 @@ MatchWindow = function(_userId, _matchId) {
 				
 	var contentView = Ti.UI.createTableView({
 		top:0,
-		backgroundColor:'white',
+		backgroundColor:'#eeeeee',
 		separatorColor: 'transparent',
 		//width:'100%',
 	});
@@ -118,8 +120,10 @@ MatchWindow = function(_userId, _matchId) {
 
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
+		
 		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures); 
-		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'});
+		
+		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
 		if(Ti.Platform.osname === 'iphone')
 			profileImageRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				

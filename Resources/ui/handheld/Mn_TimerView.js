@@ -1,11 +1,11 @@
 TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	
 	var timerView = Ti.UI.createView({
-		top: 10,
-		left: 100,
-		width: 100,
-		height: 30,
-		backgroundImage: 'images/top-bar-countdown-background.png'
+		top: 5,
+		left: 90,
+		width: 109,
+		height: 35,
+		backgroundImage: 'images/top-bar-countdown-background-alt.png'
 	});
 
 	var remainingSeconds = Ti.App.moment().eod().diff(Ti.App.moment(), 'seconds');
@@ -20,11 +20,12 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	
 	remainingTimeLbl = Ti.UI.createLabel({
 		text: remainingHours+':'+remainingMinutes+':'+remainingSeconds,
-		left: 5,
-		color: '#3e3e3e',
+		center: {x:'50%', y:'50%'},
+		color: '#e7ebf3',
 		width: 'auto',
-		height: 40,
-		font: { fontWeight: 'bold', fontSize: 22}
+		shadowColor: '#750b14',
+		shadowOffset: {x:0, y:1},
+		font: {fontSize: 20, fontFamily: 'DS-Digital'}
 	});
 	
 	var timer = setInterval(function() {
