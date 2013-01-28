@@ -91,6 +91,14 @@ LeftMenuWindow = function(_userId) {
 		Ti.App.fireEvent('openInviteFriendWindow');
 	});
 	
+	inviteFriendsView.addEventListener('touchstart', function() {
+		inviteFriendsView.backgroundImage = 'images/menu-separator-active.png';
+	});
+	
+	inviteFriendsView.addEventListener('touchend', function() {
+		inviteFriendsView.backgroundImage = 'images/menu-separator.png';
+	});
+	
 	//END INVITE FRIENDS LABEL SECTION
 	
 	//INVITE FRIENDS TABLE SECTION

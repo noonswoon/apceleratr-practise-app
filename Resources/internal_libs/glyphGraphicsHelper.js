@@ -1,8 +1,9 @@
-exports.getZodiacGlyph = function(_zodiacStr) {
+var getZodiacGlyph = function(_zodiacStr) {
 	//zodiac str can be: aquarius, aries, cancer, capricorn, gemini, leo, libra, pisces, sagittarius, 
 	//scopio, taurus, virgo
-	return 'images/glyph-zodiac-'+_zodiacStr+'.png'; 
+	return 'images/glyph-zodiac-' + _zodiacStr.toLowerCase() + '.png'; 
 };
+exports.getZodiacGlyph = getZodiacGlyph;
 
 exports.getLikeGlyph = function(_likeCategory) {
 	//zodiac str can be: aquarius, aries, cancer, capricorn, gemini, leo, libra, pisces, sagittarius, 
@@ -16,8 +17,7 @@ exports.getTopicGlyph = function(_category, _value) {
 	else if(_category === "age")
 		return 'images/glyph-age.png';
 	else if(_category === "zodiac") {
-		//do something
-		return 'images/glyph-age.png';
+		return getZodiacGlyph(_value);
 	}
 	else if(_category === "location")
 		return 'images/glyph-location.png';
@@ -44,5 +44,8 @@ exports.getTopicGlyph = function(_category, _value) {
 		return 'images/glyph-work.png';
 	else if(_category === "about_me")
 		return 'images/glyph-about.png';		
-	else return 'images/notfound.png';
+	else {
+		Ti.API.info('wtf: category: '+_category);
+		return 'images/glyph-notfound.png';
+	} 
 };

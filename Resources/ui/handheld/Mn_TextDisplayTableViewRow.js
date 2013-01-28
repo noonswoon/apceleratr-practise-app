@@ -26,6 +26,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 		
 		
 	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content);
+	
 	var glyphImage = Ti.UI.createImageView({
 		top: 10,
 		left: 22, 
@@ -38,16 +39,36 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	var textColor = '#4e5866';  //b4b7bc
 	if(_fieldName === 'name') 
 		textColor = '#b4b7bc';
-		
+	
+	var content = _content;
+	var additionalContent = '';
+	if(_fieldName === 'location') {
+		content = _content['city'];
+		additionalContent = _content['country'];
+	}
+	
 	var contentLabel = Ti.UI.createLabel({
-		text: _content,
+		text: content,
 		color: textColor,
 		top: 18, 
 		left: 64,
-		font: {fontSize: 14},
+		font:{fontWeight:'bold',fontSize:18},
 		height: 20
 	});
 	tableRow.add(contentLabel);
+	
+	if(_fieldName === 'location') {
+		var numChars = content.length;
+		var additionalContentLabel = Ti.UI.createLabel({
+			text: additionalContent,
+			color: '#a3a7ad',
+			top: 18, 
+			left: 64 + (numChars * 10) + 10,
+			font:{fontWeight:'bold',fontSize:18},
+			height: 20
+		});
+		tableRow.add(additionalContentLabel);
+	}
 		
 	tableRow.getFieldName = function() {
 		return fieldName;

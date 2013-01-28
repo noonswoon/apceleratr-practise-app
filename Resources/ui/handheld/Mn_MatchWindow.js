@@ -5,6 +5,8 @@ MatchWindow = function(_userId, _matchId) {
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
+	var AboutMeTableViewRow = require('ui/handheld/Mn_AboutMeTableViewRow');
+	
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
 
@@ -81,8 +83,6 @@ MatchWindow = function(_userId, _matchId) {
 				if(e.success) Ti.API.info('save response (like) successfully');
 				else Ti.API.info('save response (like) failed');
 			});	
-				
-			contentView.deleteRow(1); 
 /*
 			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 			if(Ti.Platform.osname === 'iphone')
@@ -99,8 +99,6 @@ MatchWindow = function(_userId, _matchId) {
 			if(e.success) Ti.API.info('save response (pass) successfully');
 			else Ti.API.info('save response (pass) failed');
 		});
-		
-		contentView.deleteRow(1); 
 /*
 		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 		if(Ti.Platform.osname === 'iphone')
@@ -113,6 +111,8 @@ MatchWindow = function(_userId, _matchId) {
 	});
 	
 	function populateMatchDataTableView(_matchInfo) {
+		Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
+
 		data = []; //reset table data
 		matchId = _matchInfo.meta.match_id; 
 		var pronoun = "she";
@@ -134,9 +134,9 @@ MatchWindow = function(_userId, _matchId) {
 				
 		profileImageRow.add(profileImageView);
 		data.push(profileImageRow);
-		
-		//var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
-		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': 554, 'male': 659});
+
+		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
+		//var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': 554, 'male': 659});
 		data.push(friendRatioRow); 
 
 		//buttons section
@@ -163,16 +163,16 @@ MatchWindow = function(_userId, _matchId) {
 		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, true);
 		data.push(nameTableViewRow);
 		
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age, false);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' years old', false);
 		data.push(ageTableViewRow);
 		
 		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _matchInfo.content['general'].zodiac, true);
 		data.push(zodiacTableViewRow);
 		
-		var locationTableViewRow = new TextDisplayTableViewRow('location', _matchInfo.content['general'].city, false);
-		data.push(ageTableViewRow);		
+		var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_matchInfo.content['general'].city, 'country':_matchInfo.content['general'].country}, false);
+		data.push(locationTableViewRow);		
 		
-		var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'], true);
+		var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + " cm", true);
 		data.push(heightTableViewRow); //require
 	
 		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _matchInfo.content['ethnicity'], false);
@@ -207,7 +207,7 @@ MatchWindow = function(_userId, _matchId) {
 */
 
 		//ABOUTME SECTION	
-		var aboutMeTableViewRow = new TextDisplayTableViewRow('about_me', _matchInfo.content['about_me'], false);
+		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], false);
 		data.push(aboutMeTableViewRow);
 	
 		contentView.data = data;

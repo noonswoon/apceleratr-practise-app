@@ -132,8 +132,6 @@ if (Ti.version < 1.8 ) {
 		//pull static data from server
 	numWaitingEvent++;
 	BackendGeneralInfo.getStaticData(function(e) {
-		Ti.API.info("hey world!");
-		Ti.API.info('from getStaticData: '+ JSON.stringify(e));
 		//load data into religion table
 		//Ti.API.info('religion data: '+JSON.stringify(e));
 		ModelReligion.populateReligion(e.religion);
