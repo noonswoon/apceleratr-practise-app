@@ -45,14 +45,14 @@ MatchWindow = function(_userId, _matchId) {
 		right: 30
 	});
 	
-	var userResponseLbl = Ti.UI.createLabel({
+/*	var userResponseLbl = Ti.UI.createLabel({
 		text: "You Liked",
 		color: 'red',
 		top: 2, 
 		left: 100,
 		font: {fontSize: 20, fontWeight: 'bold'},
 	});
-
+*/
 	var nameSection = Ti.UI.createLabel({
 		text: 'Name: private until connected',
 		top: 5,
@@ -83,11 +83,13 @@ MatchWindow = function(_userId, _matchId) {
 			});	
 				
 			contentView.deleteRow(1); 
+/*
 			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 			if(Ti.Platform.osname === 'iphone')
 				responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 			responseRow.add(userResponseLbl);
 			contentView.insertRowAfter(0, responseRow,true);
+*/
 		}
 	});
 	
@@ -99,6 +101,7 @@ MatchWindow = function(_userId, _matchId) {
 		});
 		
 		contentView.deleteRow(1); 
+/*
 		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
 		if(Ti.Platform.osname === 'iphone')
 			responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -106,6 +109,7 @@ MatchWindow = function(_userId, _matchId) {
 		userResponseLbl.text = "You passed";
 		responseRow.add(userResponseLbl);
 		contentView.insertRowAfter(0, responseRow,true);
+*/
 	});
 	
 	function populateMatchDataTableView(_matchInfo) {
@@ -131,51 +135,60 @@ MatchWindow = function(_userId, _matchId) {
 		profileImageRow.add(profileImageView);
 		data.push(profileImageRow);
 		
-		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', "");
+		//var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
+		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': 554, 'male': 659});
 		data.push(friendRatioRow); 
 
 		//buttons section
-		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
-		if(Ti.Platform.osname === 'iphone')
-			responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		if(_matchInfo.content.user_response === "") { 
-			responseRow.add(likeBtn);
-			responseRow.add(passBtn);
-		} else {
-			responseRow.add(userResponseLbl);
-			if(_matchInfo.content.user_response === "pass") {
-				userResponseLbl.text = "You passed";
+		/*
+			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
+			if(Ti.Platform.osname === 'iphone')
+				responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+			if(_matchInfo.content.user_response === "") { 
+				responseRow.add(likeBtn);
+				responseRow.add(passBtn);
+			} else {
+				responseRow.add(userResponseLbl);
+				if(_matchInfo.content.user_response === "pass") {
+					userResponseLbl.text = "You passed";
+				}
 			}
-		}
-		data.push(responseRow);
-		
+			data.push(responseRow);
+		*/
 		//GENERAL SECTION
 		var nameStr = 'private until connected';
 		if(_matchInfo.content.is_connected)
     		nameStr = _matchInfo.content['general'].first_name;		
 		
-		var nameTableViewRow = new TextDisplayTableViewRow('name','Name', nameStr);
+		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, true);
 		data.push(nameTableViewRow);
 		
-		var ageTableViewRow = new TextDisplayTableViewRow('age','Age/zodiac', _matchInfo.content['general'].age+' ('+ _matchInfo.content['general'].zodiac + '), '+ _matchInfo.content['general'].city);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age, false);
 		data.push(ageTableViewRow);
 		
-		var heightTableViewRow = new TextDisplayTableViewRow('height','Height (cm)', _matchInfo.content['height']);
+		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _matchInfo.content['general'].zodiac, true);
+		data.push(zodiacTableViewRow);
+		
+		var locationTableViewRow = new TextDisplayTableViewRow('location', _matchInfo.content['general'].city, false);
+		data.push(ageTableViewRow);		
+		
+		var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'], true);
 		data.push(heightTableViewRow); //require
 	
-		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity','Ethnicity', _matchInfo.content['ethnicity']);
+		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _matchInfo.content['ethnicity'], false);
 		data.push(ethnicityTableViewRow); //require
 		
-		var religionTableViewRow = new TextDisplayTableViewRow('religion','Religion', _matchInfo.content['religion']);
+		var religionTableViewRow = new TextDisplayTableViewRow('religion', _matchInfo.content['religion'], true);
 		data.push(religionTableViewRow);
 		
-		var occupationTableViewRow = new TextDisplayTableViewRow('occupation','Occupation', _matchInfo.content['work'].occupation);
+		var occupationTableViewRow = new TextDisplayTableViewRow('work', _matchInfo.content['work'].occupation, false);
 		data.push(occupationTableViewRow);
 		
-		var employerTableViewRow = new TextDisplayTableViewRow('employer','Employer', _matchInfo.content['work'].employer);
+		var employerTableViewRow = new TextDisplayTableViewRow('work',_matchInfo.content['work'].employer, true);
 		data.push(employerTableViewRow);
 
 		//EDUCATION SECTION
+/*		
 		var educationSection = Ti.UI.createTableViewSection({headerTitle:'Education'});	
 		
 		for(var i = 0; i < _matchInfo.content.educations.length; i++) {
@@ -191,26 +204,12 @@ MatchWindow = function(_userId, _matchId) {
 			}
 		}
 		data.push(educationSection);
+*/
 
 		//ABOUTME SECTION	
-		var aboutMeSection = Ti.UI.createTableViewSection({headerTitle:'About Me'});	
-		var aboutMeTableViewRow = new TextDisplayTableViewRow('about_me','', _matchInfo.content['about_me']);
-		aboutMeSection.add(aboutMeTableViewRow);
-		data.push(aboutMeSection);
-
-		//INTERESTING FACTS
-		var funFactsSection = Ti.UI.createTableViewSection({headerTitle:'Fun Facts'});	
-
-		var genderCentricTableViewRow = new TextDisplayTableViewRow('gender_centric','', 'Your friends are '+_matchInfo.content['gender_centric'].female+'% girls and '+_matchInfo.content['gender_centric'].male+'% guys');
-		funFactsSection.add(genderCentricTableViewRow);
-
-		var globalStatusTableViewRow = new TextDisplayTableViewRow('global_status','', 'Your friendship spans in '+_matchInfo.content['global_status']+' countries');
-		funFactsSection.add(globalStatusTableViewRow);
-				
-		var socialScoreTableViewRow = new TextDisplayTableViewRow('social_score','', 'Based on your social media activity, your socialized score is '+_matchInfo.content['social_activity']+'%');
-		funFactsSection.add(socialScoreTableViewRow);
-		data.push(funFactsSection);
-		
+		var aboutMeTableViewRow = new TextDisplayTableViewRow('about_me', _matchInfo.content['about_me'], false);
+		data.push(aboutMeTableViewRow);
+	
 		contentView.data = data;
 
 		self.add(contentView);

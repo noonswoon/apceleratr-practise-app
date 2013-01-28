@@ -22,7 +22,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		text: remainingHours+':'+remainingMinutes+':'+remainingSeconds,
 		center: {x:'50%', y:'50%'},
 		color: '#f3f5f9',
-		width: 'auto',
+		width: 98,
 		shadowColor: '#750b14',
 		shadowOffset: {x:0, y:1},
 		font: {fontWeight:'bold', fontSize: 28, fontFamily: 'DS-Digital'},
