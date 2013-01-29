@@ -87,6 +87,7 @@ if (Ti.version < 1.8 ) {
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
+	var ModelFacebookLike = require('model/facebookLike');
 	
 	var numWaitingEvent = 0; 
 		
@@ -111,11 +112,25 @@ if (Ti.version < 1.8 ) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+							var currentUserId = _userInfo.meta.user_id; 
+							
+							var facebookLikeArray = [];
+							Ti.API.info('_userInfo.content.likes.length: '+_userInfo.content.likes.length);
+							
+							for(var i = 0; i < _userInfo.content.likes.length; i++) {
+								var likeObj = {
+												'category': _userInfo.content.likes[i].category,
+												'name': _userInfo.content.likes[i].name
+										};
+								facebookLikeArray.push(likeObj);
+							}
+							ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
+							
 							//set credit of the user
 							CreditSystem.setUserCredit(_userInfo.content.credit); 
 							//getting real data
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplicationModule(_userInfo.meta.user_id);
+							var mainApp = new MainApplicationModule(currentUserId);
 							mainApp.open();
 						});
 					} else {

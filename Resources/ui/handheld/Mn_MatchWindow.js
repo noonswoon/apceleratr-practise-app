@@ -6,10 +6,14 @@ MatchWindow = function(_userId, _matchId) {
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
 	var AboutMeTableViewRow = require('ui/handheld/Mn_AboutMeTableViewRow');
+	var WorkTableViewRow = require('ui/handheld/Mn_WorkTableViewRow');	
+	var EducationTableViewRow = require('ui/handheld/Mn_EducationTableViewRow');	
+	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
 	
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
-
+	var ModelFacebookLike = require('model/facebookLike');
+	
 	var navGroup = null;
 	
 	//create component instance
@@ -110,9 +114,26 @@ MatchWindow = function(_userId, _matchId) {
 */
 	});
 	
+	function educationCmpFn(a, b) {
+		if(a.value < b.value) return -1; 
+		else if(a.value > b.value) return 1;
+		else return 0;
+	}
+	
 	function populateMatchDataTableView(_matchInfo) {
 		Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
 
+		var facebookLikeArray = [];
+		Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
+		for(var i = 0; i < _matchInfo.content.likes.length; i++) {
+			var likeObj = {
+							'category': _matchInfo.content.likes[i].category,
+							'name': _matchInfo.content.likes[i].name, 
+						};
+			facebookLikeArray.push(likeObj);
+		}
+		ModelFacebookLike.populateFacebookLike(_matchInfo.meta.user_id, _matchInfo.content.general.user_id, facebookLikeArray);
+		
 		data = []; //reset table data
 		matchId = _matchInfo.meta.match_id; 
 		var pronoun = "she";
@@ -181,34 +202,34 @@ MatchWindow = function(_userId, _matchId) {
 		var religionTableViewRow = new TextDisplayTableViewRow('religion', _matchInfo.content['religion'], true);
 		data.push(religionTableViewRow);
 		
-		var occupationTableViewRow = new TextDisplayTableViewRow('work', _matchInfo.content['work'].occupation, false);
-		data.push(occupationTableViewRow);
+		var workTableViewRow = new WorkTableViewRow('work', _matchInfo.content['work'].employer, _matchInfo.content['work'].occupation, false);
+		data.push(workTableViewRow);
 		
-		var employerTableViewRow = new TextDisplayTableViewRow('work',_matchInfo.content['work'].employer, true);
-		data.push(employerTableViewRow);
-
-		//EDUCATION SECTION
-/*		
-		var educationSection = Ti.UI.createTableViewSection({headerTitle:'Education'});	
-		
+		var educationArray = [];
 		for(var i = 0; i < _matchInfo.content.educations.length; i++) {
 			var curEd = _matchInfo.content.educations[i]; 
-			var desc = "";
-			if(curEd.level === "high_school") desc = "High School";
-			else if(curEd.level === "college") desc = "Bachelor";
-			else desc = "Master/PhD";
-			
-			if(curEd.name !== "") {
-				var educationTableViewRow = new TextDisplayTableViewRow(curEd.level, desc, curEd.name);	
-				educationSection.add(educationTableViewRow);
+			Ti.API.info('curEd: '+JSON.stringify(curEd));
+			if(curEd.name !== '') {
+				var eduObj = {'level': curEd.level, 'name': curEd.name};
+				if(curEd.level === "graduate_school") eduObj.value = 0; //for comparison
+				else if(curEd.level === "college") eduObj.value = 1;
+				else eduObj.value = 2;
+				educationArray.push(eduObj);
 			}
 		}
-		data.push(educationSection);
-*/
+		educationArray.sort(educationCmpFn);
+		
+		if(educationArray.length > 0) {
+			var educationTableViewRow = new EducationTableViewRow('education', educationArray, true);
+			data.push(educationTableViewRow);
+		}
 
 		//ABOUTME SECTION	
 		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], false);
 		data.push(aboutMeTableViewRow);
+	
+		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', [], true);
+		data.push(fbLikeTableViewRow);
 	
 		contentView.data = data;
 

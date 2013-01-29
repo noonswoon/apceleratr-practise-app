@@ -6,7 +6,7 @@
 		"ethnicity": "Asian", 
 		"religion": "Christian", 
 		"work": {"occupation": "Travel Agent", "employer": "Sanook Tour"}, 
-		"educations": [{"level":"high_school", "name":"Samsen School"}, {"level":"college", "name":"Thammasat"},{"level":"grad_school", "name":""}], 
+		"educations": [{"level":"high_school", "name":"Samsen School"}, {"level":"college", "name":"Thammasat"},{"level":"graduate_school", "name":""}], 
 		"pictures": [{"src":"http://1.bp.blogspot.com/-KIxdU7LR__o/UFXN3UUyBtI/AAAAAAAAAR0/PRekCcekOmo/s1600/Hot+Girl+in+bikini.jpg", "order":1}, {"src":"http://cdn2.holytaco.com/wp-content/uploads/2011/01/nicci_pissari_hot_girl_featured.jpg", "order":2}, {"src":"http://image.torrent-invites.com/images/565hot_girls_sexy_girls_2.jpg", "order":3}],
 		"about_me":"Always lovin' always livin' always me.",
 		"gender_centric": {"female":75, "male":25}, 

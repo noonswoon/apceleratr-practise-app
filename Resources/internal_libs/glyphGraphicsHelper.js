@@ -6,9 +6,29 @@ var getZodiacGlyph = function(_zodiacStr) {
 exports.getZodiacGlyph = getZodiacGlyph;
 
 exports.getLikeGlyph = function(_likeCategory) {
-	//zodiac str can be: aquarius, aries, cancer, capricorn, gemini, leo, libra, pisces, sagittarius, 
-	//scopio, taurus, virgo
-	return 'images/glyph-zodiac-'+_zodiacStr+'.png'; 
+	if(_likeCategory === 'Book' || _likeCategory === 'Magazine') 
+		return 'images/like-glyph-books.png';
+	else if(_likeCategory === 'Dogs' || _likeCategory === 'Cats' ) 
+		return 'images/like-glyph-animals.png';
+	else if(_likeCategory === 'Food/grocery') 
+		return 'images/like-glyph-food.png';
+	else if(_likeCategory === 'Electronics' || _likeCategory === 'Computers/technology' || _likeCategory === 'Games/toys') 
+		return 'images/like-glyph-games.png';		
+	else if(_likeCategory === 'Entertainer') 
+		return 'images/like-glyph-instrument.png';
+	else if(_likeCategory === 'City' || _likeCategory === 'Country' ) 
+		return 'images/like-glyph-location.png';
+	else if(_likeCategory === 'Musician/band') 
+		return 'images/like-glyph-music.png';
+	else if(_likeCategory === 'Shopping/retail' || _likeCategory === 'Retail and consumer merchandise') 
+		return 'images/like-glyph-shopping.png';
+	else if(_likeCategory === 'Professional sports team' || _likeCategory === 'Sports league') 
+		return 'images/like-glyph-sport.png';
+	else if(_likeCategory === 'Travel/leisure' || _likeCategory === 'Tours/sightseeing' || _likeCategory === 'Sports/recreation/activities' || _likeCategory === 'Transportation' || _likeCategory === 'Transport/frieght') 
+		return 'images/like-glyph-travel.png';
+	else if(_likeCategory === 'Movie' || _likeCategory === 'Tv channel' || _likeCategory === 'Tv network' || _likeCategory === 'Tv/movie award') 
+		return 'images/like-glyph-tv.png';
+	else return 'images/like-glyph-generic.png';
 };
 
 exports.getTopicGlyph = function(_category, _value) {
