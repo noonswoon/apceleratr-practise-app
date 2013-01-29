@@ -36,33 +36,34 @@ FbLikeTableViewRow = function(_fieldName, fbLikeArray, _isWhiteBackground) {
 		var glyphImageUrl = GlyphGraphicsHelper.getLikeGlyph(_category);
 
 		var displayContent = _content;
-		var viewWidth = 61 + 3* (displayContent.length - 4); //set up for 4 characters
+		var viewWidth = 65 + 3* (displayContent.length - 4); //set up for 4 characters
 		
-		if(displayContent.length > 8) {
-			displayContent = _content.substring(0,8) + '...';
-			viewWidth = 61 + 3 * 4; //3 points for each characters, maximum 8 characters 
-		}
+//		if(displayContent.length > 8) {
+//			displayContent = _content.substring(0,8) + '...';
+//			viewWidth = 61 + 3 * 4; //3 points for each characters, maximum 8 characters 
+//		}
 		var glyphImageView = Ti.UI.createImageView({
 			image: glyphImageUrl,
-			center: {x:'10%', y:'50%'},
+			center: {x:13, y:'50%'},
 			height: 10,
 			width: 10,
-			zIndex: 2
+			zIndex: 3
 		});
 		
 		var likeLabel = Ti.UI.createLabel({
 			text: displayContent,
-			center: {x:'65%', y:'50%'},
+			center: {x:'60%', y:'50%'},
 			font:{fontWeight:'bold',fontSize:10},
 			color: '#4e5866', 
 			zIndex: 2,
 		});
 		
-		var capsuleView = Ti.UI.createImageView({
-			image: 'images/likes-capsule-stretchable.png',
+		var capsuleView = Ti.UI.createView({
+			backgroundImage: 'images/likes-capsule-stretchable.png',
 			height: 25,
 			width: viewWidth,
-			zIndex: 1
+			zIndex: 1,
+			backgroundLeftCap: 11
 		});
 
 		capsuleView.add(glyphImageView);
@@ -70,11 +71,21 @@ FbLikeTableViewRow = function(_fieldName, fbLikeArray, _isWhiteBackground) {
 		return capsuleView;
 	};
 	
-	var likeContent = createLikeCapsuleContent('Movie', 'True Blood');
-	likeContent.top = 18;
-	likeContent.left = 64;
+	var likeContent1 = createLikeCapsuleContent('Movie', 'True Blood');
+	likeContent1.top = 18;
+	likeContent1.left = 64;
+	tableRow.add(likeContent1);
 	
-	tableRow.add(likeContent);
+	var likeContent2 = createLikeCapsuleContent('Book', 'Wall Street Journal');
+	likeContent2.top = 18;
+	likeContent2.left = 64 + likeContent1.width + 10;
+	tableRow.add(likeContent2);
+		
+	var likeContent3 = createLikeCapsuleContent('Travel/leisure', 'Roadtrip');
+	likeContent3.top = 18;
+	likeContent3.left =  64 + likeContent1.width + 10 + likeContent2.width + 10;
+	tableRow.add(likeContent3);	
+
 	
 	tableRow.getFieldName = function() {
 		return fieldName;
