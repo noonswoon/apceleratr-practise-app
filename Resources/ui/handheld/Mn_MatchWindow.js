@@ -9,7 +9,7 @@ MatchWindow = function(_userId, _matchId) {
 	var WorkTableViewRow = require('ui/handheld/Mn_WorkTableViewRow');	
 	var EducationTableViewRow = require('ui/handheld/Mn_EducationTableViewRow');	
 	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
-	
+	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
@@ -76,6 +76,7 @@ MatchWindow = function(_userId, _matchId) {
 			});
 			notEnoughCreditsDialog.show();
 		} else {				
+/*
 			//send off the point deductions to server
 			BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
 				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
@@ -87,30 +88,18 @@ MatchWindow = function(_userId, _matchId) {
 				if(e.success) Ti.API.info('save response (like) successfully');
 				else Ti.API.info('save response (like) failed');
 			});	
-/*
-			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
-			if(Ti.Platform.osname === 'iphone')
-				responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-			responseRow.add(userResponseLbl);
-			contentView.insertRowAfter(0, responseRow,true);
 */
+			//create an image view on the screen
 		}
 	});
 	
 	passBtn.addEventListener("click", function() {
 		var matchResponseObj = {matchId: matchId, userId: _userId, response:"pass"}
+/*		
 		BackendMatch.saveResponse(matchResponseObj, function(e){
 			if(e.success) Ti.API.info('save response (pass) successfully');
 			else Ti.API.info('save response (pass) failed');
 		});
-/*
-		var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
-		if(Ti.Platform.osname === 'iphone')
-			responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-				
-		userResponseLbl.text = "You passed";
-		responseRow.add(userResponseLbl);
-		contentView.insertRowAfter(0, responseRow,true);
 */
 	});
 	
@@ -121,10 +110,13 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	function populateMatchDataTableView(_matchInfo) {
-		Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
+		//handle the button section
+		//buttons section
+		
+		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
 
 		var facebookLikeArray = [];
-		Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
+		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
 		for(var i = 0; i < _matchInfo.content.likes.length; i++) {
 			var likeObj = {
 							'category': _matchInfo.content.likes[i].category,
@@ -147,7 +139,7 @@ MatchWindow = function(_userId, _matchId) {
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
 		
-		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures); 
+		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId); 
 		
 		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
 		if(Ti.Platform.osname === 'iphone')
@@ -156,26 +148,19 @@ MatchWindow = function(_userId, _matchId) {
 		profileImageRow.add(profileImageView);
 		data.push(profileImageRow);
 
+		if(_matchInfo.content.user_response !== "") {
+			var selectedState = "like"; 
+			
+			if(_matchInfo.content.user_response === "pass")
+				selectedState = "pass";
+				
+			profileImageView.setSelectedState(selectedState);
+		}
+
 		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
 		//var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': 554, 'male': 659});
 		data.push(friendRatioRow); 
 
-		//buttons section
-		/*
-			var responseRow = Ti.UI.createTableViewRow({backgroundColor:'#ffffff',backgroundSelectedColor:'#dddddd'}); 
-			if(Ti.Platform.osname === 'iphone')
-				responseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-			if(_matchInfo.content.user_response === "") { 
-				responseRow.add(likeBtn);
-				responseRow.add(passBtn);
-			} else {
-				responseRow.add(userResponseLbl);
-				if(_matchInfo.content.user_response === "pass") {
-					userResponseLbl.text = "You passed";
-				}
-			}
-			data.push(responseRow);
-		*/
 		//GENERAL SECTION
 		var nameStr = 'private until connected';
 		if(_matchInfo.content.is_connected)
@@ -208,7 +193,7 @@ MatchWindow = function(_userId, _matchId) {
 		var educationArray = [];
 		for(var i = 0; i < _matchInfo.content.educations.length; i++) {
 			var curEd = _matchInfo.content.educations[i]; 
-			Ti.API.info('curEd: '+JSON.stringify(curEd));
+			//Ti.API.info('curEd: '+JSON.stringify(curEd));
 			if(curEd.name !== '') {
 				var eduObj = {'level': curEd.level, 'name': curEd.name};
 				if(curEd.level === "graduate_school") eduObj.value = 0; //for comparison
@@ -228,9 +213,25 @@ MatchWindow = function(_userId, _matchId) {
 		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], false);
 		data.push(aboutMeTableViewRow);
 	
-		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', [], true);
+		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
+		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, true);
 		data.push(fbLikeTableViewRow);
-	
+
+		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: 5,
+			backgroundImage: 'images/match-bottom.png'
+		});
+		if(Ti.Platform.osname === 'iphone')
+			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+		data.push(edgeGradientTableViewRow); 
+
+		var reportProfileTableViewRow = new ReportProfileTableViewRow('report_profile'); 
+		data.push(reportProfileTableViewRow);
+		
+
 		contentView.data = data;
 
 		self.add(contentView);

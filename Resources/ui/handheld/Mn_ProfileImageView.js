@@ -1,5 +1,9 @@
-ProfileImageView = function(_navGroup, _pictures) {
+ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
+	var CreditSystem = require('internal_libs/creditSystem');
+	var BackendMatch = require('backend_libs/backendMatch');
+	var BackendCredit = require('backend_libs/backendCredit');	
+		
 	var navGroup = null;
 	
 	var viewsForScrollView = [];
@@ -68,6 +72,7 @@ ProfileImageView = function(_navGroup, _pictures) {
 		zIndex: 3
 	});
 	self.add(likeButton);
+	
 	var likeLbl = Ti.UI.createLabel({
 		left: 84,
 		bottom: 30,
@@ -89,6 +94,7 @@ ProfileImageView = function(_navGroup, _pictures) {
 		zIndex: 3
 	});
 	self.add(passButton);
+	
 	var passLbl = Ti.UI.createLabel({
 		left: 230,
 		bottom: 30,
@@ -104,7 +110,6 @@ ProfileImageView = function(_navGroup, _pictures) {
 	self.add(pagingControl);
 	
 	scrollView.addEventListener('click', function() {
-		Ti.API.info('click event');
 		var ImageFullScreenWindowModule = require('ui/handheld/Mn_ImageFullScreenWindow');
 		var imageFullScreenWindow = new ImageFullScreenWindowModule(_navGroup, imagesArray); 
 		_navGroup.open(imageFullScreenWindow, {animated: false});
@@ -114,6 +119,67 @@ ProfileImageView = function(_navGroup, _pictures) {
 		scrollView.views[_imageIndex].imgView.image = _image;
 		imagesArray[_imageIndex] = _image; //for fullscreen image
 	};
+	
+	var setSelectedState = function(_state) {
+		var notificationImageUrl = "";
+		if(_state === "like") {
+			likeButton.backgroundImage = 'images/like-button-active.png';
+			notificationImageUrl = 'images/notification-liked.png';
+		} else {
+			passButton.backgroundImage = 'images/pass-button-active.png';
+			notificationImageUrl = 'images/notification-passed.png';
+		}
+		var notificationImage = Ti.UI.createImageView({
+			image: notificationImageUrl,
+			width: 145,
+			height: 147,
+			top: 58,
+			left: 90,
+			zIndex: 2
+		});
+		self.add(notificationImage);
+		likeButton.enabled = false;
+		passButton.enabled = false;
+	};
+	self.setSelectedState = setSelectedState;
+	
+	likeButton.addEventListener("click", function() {
+		Ti.API.info('like button is clicked');
+		setSelectedState("like");
+		
+		var currentCredit = CreditSystem.getUserCredit();
+		if(currentCredit < 10) {
+			var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
+				title:'Insufficient Credits',
+				message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
+			});
+			notEnoughCreditsDialog.show();
+		} else {				
+			//send off the point deductions to server
+			BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
+				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+			});
+				
+			//save that the user like the person
+			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
+			BackendMatch.saveResponse(matchResponseObj, function(e){
+				if(e.success) Ti.API.info('save response (like) successfully');
+				else Ti.API.info('save response (like) failed');
+			});	
+		}
+	});
+	
+	passButton.addEventListener("click", function() {
+		Ti.API.info('pass button is clicked');
+		setSelectedState("pass");
+
+		var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
+		BackendMatch.saveResponse(matchResponseObj, function(e){
+			if(e.success) Ti.API.info('save response (pass) successfully');
+			else Ti.API.info('save response (pass) failed');
+		});
+		
+	});	
 	
 	return self;
 };
