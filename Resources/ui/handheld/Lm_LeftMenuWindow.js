@@ -30,7 +30,7 @@ LeftMenuWindow = function(_userId) {
 	});
 			
 	var editProfileLbl = Ti.UI.createLabel({
-		text: 'Edit profile',
+		text: 'My Profile',
 		color: '#cac9c9',
 		left: 41,
 		top: 12,

@@ -12,6 +12,7 @@ MatchWindow = function(_userId, _matchId) {
 	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
+	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
 	
 	var navGroup = null;
@@ -35,30 +36,6 @@ MatchWindow = function(_userId, _matchId) {
 				
 	var data = [];
 
-	var likeBtn = Ti.UI.createButton({
-		title: 'Like', 
-		height: 40, 
-		width: 120, 
-		top: 2, 
-		left: 30
-	});
-
-	var passBtn = Ti.UI.createButton({
-		title: 'Pass', 
-		height: 40, 
-		width: 120, 
-		top: 2,
-		right: 30
-	});
-	
-/*	var userResponseLbl = Ti.UI.createLabel({
-		text: "You Liked",
-		color: 'red',
-		top: 2, 
-		left: 100,
-		font: {fontSize: 20, fontWeight: 'bold'},
-	});
-*/
 	var nameSection = Ti.UI.createLabel({
 		text: 'Name: private until connected',
 		top: 5,
@@ -66,42 +43,7 @@ MatchWindow = function(_userId, _matchId) {
 		color: 'black',
 		font: {fontSize: 14}	
 	});	
-	
-	likeBtn.addEventListener("click", function() {
-		var currentCredit = CreditSystem.getUserCredit();
-		if(currentCredit < 10) {
-			var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
-				title:'Insufficient Credits',
-				message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
-			});
-			notEnoughCreditsDialog.show();
-		} else {				
-/*
-			//send off the point deductions to server
-			BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-			});
-				
-			//save that the user like the person
-			var matchResponseObj = {matchId: matchId, userId: _userId, response:"like"};
-			BackendMatch.saveResponse(matchResponseObj, function(e){
-				if(e.success) Ti.API.info('save response (like) successfully');
-				else Ti.API.info('save response (like) failed');
-			});	
-*/
-			//create an image view on the screen
-		}
-	});
-	
-	passBtn.addEventListener("click", function() {
-		var matchResponseObj = {matchId: matchId, userId: _userId, response:"pass"}
-/*		
-		BackendMatch.saveResponse(matchResponseObj, function(e){
-			if(e.success) Ti.API.info('save response (pass) successfully');
-			else Ti.API.info('save response (pass) failed');
-		});
-*/
-	});
+
 	
 	function educationCmpFn(a, b) {
 		if(a.value < b.value) return -1; 
@@ -109,10 +51,7 @@ MatchWindow = function(_userId, _matchId) {
 		else return 0;
 	}
 	
-	function populateMatchDataTableView(_matchInfo) {
-		//handle the button section
-		//buttons section
-		
+	function populateMatchDataTableView(_matchInfo) {		
 		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
 
 		var facebookLikeArray = [];
@@ -158,8 +97,10 @@ MatchWindow = function(_userId, _matchId) {
 		}
 
 		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
-		//var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': 554, 'male': 659});
 		data.push(friendRatioRow); 
+
+		var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', 'hi');
+		data.push(mutualFriendsRow); 
 
 		//GENERAL SECTION
 		var nameStr = 'private until connected';

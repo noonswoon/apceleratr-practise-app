@@ -14,17 +14,17 @@ function ApplicationWindow(_userId) {
 	var animateLeft	= Ti.UI.createAnimation({
 		left: 260,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-		duration: 300
+		duration: 200
 	});
 	var animateRight = Ti.UI.createAnimation({
 		left: 0,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-		duration: 300
+		duration: 200
 	});
 	var animateNegativeLeft = Ti.UI.createAnimation({
 		left: -260,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-		duration: 300
+		duration: 200
 	});
 	
 	var toggleLeftMenuBtn = Ti.UI.createButton({
