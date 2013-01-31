@@ -44,11 +44,11 @@ LeftMenuWindow = function(_userId) {
 	editProfileView.add(creditView);
 	
 	editProfileIcon.addEventListener('click', function() {
-		Ti.App.fireEvent('openUserProfileWindow');
+		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
 	});
 	
 	editProfileLbl.addEventListener('click', function() {
-		Ti.App.fireEvent('openUserProfileWindow');
+		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
 	});
 
 	self.add(editProfileView);

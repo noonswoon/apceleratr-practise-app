@@ -1,0 +1,227 @@
+UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
+
+	var BackendUser = require('backend_libs/backendUser');
+	var CacheHelper = require('internal_libs/cacheHelper');
+
+	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
+	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');	
+
+	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
+	var AboutMeTableViewRow = require('ui/handheld/Mn_AboutMeTableViewRow');
+	var WorkTableViewRow = require('ui/handheld/Mn_WorkTableViewRow');	
+	var EducationTableViewRow = require('ui/handheld/Mn_EducationTableViewRow');	
+	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
+	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
+	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
+	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
+	var ModelFacebookLike = require('model/facebookLike');
+	
+	
+	var userInfo = null;
+	//create component instance
+	
+	var backButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png',
+	});
+			
+	var self = Ti.UI.createWindow({
+		barImage: 'images/top-bar-stretchable.png',
+		title: 'My Profile',
+		navBarHidden: false,
+		leftNavButton: backButton
+	});
+	
+	var contentView = Ti.UI.createTableView({
+		top:0,
+		backgroundColor:'#eeeeee',
+		separatorColor: 'transparent',
+		//width:'100%',
+	});
+	if(Ti.Platform.osname === 'iphone')
+		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+
+	var editBtn = Ti.UI.createButton({
+		title: 'Edit', 
+		height: 40, 
+		width: 250, 
+		left: 40,
+	});
+						
+	var data = [];
+	
+	function educationCmpFn(a, b) {
+		if(a.value < b.value) return -1; 
+		else if(a.value > b.value) return 1;
+		else return 0;
+	}
+
+
+	function populateInfoDataTableView(_userInfo) {		
+		Ti.API.info('_userInfo: '+JSON.stringify(_userInfo));
+
+		if(_userId !== _targetedUserId) {
+			var facebookLikeArray = [];
+			for(var i = 0; i < _userInfo.content.likes.length; i++) {
+				var likeObj = {
+								'category': _userInfo.content.likes[i].category,
+								'name': _userInfo.content.likes[i].name, 
+							};
+				facebookLikeArray.push(likeObj);
+			}
+			ModelFacebookLike.populateFacebookLike(_userId, _targetedUserId, facebookLikeArray);
+		}
+		
+		data = []; //reset table data
+
+		//profile image section
+		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
+		var profileImageView = new ProfileImageViewModule(_navGroup, _userInfo.content.pictures, _targetedUserId, 0, false); 
+		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
+		if(Ti.Platform.osname === 'iphone')
+			profileImageRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+		profileImageRow.add(profileImageView);
+		data.push(profileImageRow);
+		
+		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _userInfo.content['gender_centric'].female, 'male': _userInfo.content['gender_centric'].male});
+		data.push(friendRatioRow); 
+
+		//GENERAL SECTION
+    	var	nameStr = _userInfo.content['general'].first_name; 
+    	if(_userId === _targetedUserId) {
+    		nameStr += ' ' +  _userInfo.content['general'].last_name;		
+    	} else {
+    		self.title = _userInfo.content['general'].first_name +'\'s Profile';
+    	}
+		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, true);
+		nameTableViewRow.getContentLabel().color = '#4e5866';
+		data.push(nameTableViewRow);
+		
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' years old', false);
+		data.push(ageTableViewRow);
+		
+		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _userInfo.content['general'].zodiac, true);
+		data.push(zodiacTableViewRow);
+		
+		var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_userInfo.content['general'].city, 'country':_userInfo.content['general'].country}, false);
+		data.push(locationTableViewRow);		
+		
+		var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + " cm", true);
+		data.push(heightTableViewRow); //require
+	
+		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _userInfo.content['ethnicity'], false);
+		data.push(ethnicityTableViewRow); //require
+		
+		var religionTableViewRow = new TextDisplayTableViewRow('religion', _userInfo.content['religion'], true);
+		data.push(religionTableViewRow);
+		
+		var workTableViewRow = new WorkTableViewRow('work', _userInfo.content['work'].employer, _userInfo.content['work'].occupation, false);
+		data.push(workTableViewRow);
+
+		var educationArray = [];
+		for(var i = 0; i < _userInfo.content.educations.length; i++) {
+			var curEd = _userInfo.content.educations[i]; 
+			//Ti.API.info('curEd: '+JSON.stringify(curEd));
+			if(curEd.name !== '') {
+				var eduObj = {'level': curEd.level, 'name': curEd.name};
+				if(curEd.level === "graduate_school") eduObj.value = 0; //for comparison
+				else if(curEd.level === "college") eduObj.value = 1;
+				else eduObj.value = 2;
+				educationArray.push(eduObj);
+			}
+		}
+		educationArray.sort(educationCmpFn);
+		
+		if(educationArray.length > 0) {
+			var educationTableViewRow = new EducationTableViewRow('education', educationArray, true);
+			data.push(educationTableViewRow);
+		}
+
+		//ABOUTME SECTION	
+		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _userInfo.content['about_me'], false);
+		data.push(aboutMeTableViewRow);
+
+		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_targetedUserId);
+		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, true);
+		data.push(fbLikeTableViewRow);
+
+		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: 5,
+			backgroundImage: 'images/match-bottom.png'
+		});
+		if(Ti.Platform.osname === 'iphone')
+			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+		data.push(edgeGradientTableViewRow); 
+
+		if(_userId !== _targetedUserId) {
+			var reportProfileTableViewRow = new ReportProfileTableViewRow('report_profile'); 
+			data.push(reportProfileTableViewRow);
+		}
+
+		contentView.data = data;
+		self.add(contentView);
+	}	
+
+	
+	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
+		if(_userInfo.meta.status === 'error') {
+			Ti.App.fireEvent('openErrorWindow');
+		} else {
+			populateInfoDataTableView(_userInfo);
+		}
+	});	
+
+	editBtn.addEventListener('click', function() {
+		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, false);
+		_navGroup.open(editProfileWindow);
+	});
+	
+	backButton.addEventListener('click', function() {
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+	
+	Ti.App.addEventListener('editProfileSuccess', function(e) {
+		Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
+		
+		populateInfoDataTableView(e.editProfile);
+		
+		/*
+		 * sample code
+		 for(var prop in e.editInfo) {
+			if(prop.indexOf('photo') !== -1) {
+				var imageIndex = parseInt(prop.charAt(prop.length - 1));
+				var imageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,e.editInfo[prop])
+				profileImageView.setImage(imageFile, imageIndex);
+			
+				//need to update userInfo as well
+			} else {
+				Ti.API.info('prop to update: '+prop);
+				//iterate table for each field
+				var sections = contentView.data;
+				for(var i = 0; i < sections.length; i++) {
+				    var section = sections[i];
+				    for(var j = 0; j < section.rowCount; j++) {
+				        var row = section.rows[j];
+				        //Ti.API.info('row.infoType: '+ JSON.stringify(row));      
+				        if(row.getFieldName() === prop) {
+				        	row.setContent(e.editInfo[prop]);	
+				        }
+				    }
+				}
+			}	
+    	}	
+    	*/
+	});
+
+	self.add(contentView);
+	return self;
+};
+
+module.exports = UserProfileWindow;
+

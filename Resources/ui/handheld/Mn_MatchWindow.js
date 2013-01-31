@@ -10,7 +10,6 @@ MatchWindow = function(_userId, _matchId) {
 	var EducationTableViewRow = require('ui/handheld/Mn_EducationTableViewRow');	
 	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
 	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
-	var CustomPagingControl = require('external_libs/customPagingControl');
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
 	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
@@ -35,15 +34,6 @@ MatchWindow = function(_userId, _matchId) {
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				
 	var data = [];
-
-	var nameSection = Ti.UI.createLabel({
-		text: 'Name: private until connected',
-		top: 5,
-		left: 30,
-		color: 'black',
-		font: {fontSize: 14}	
-	});	
-
 	
 	function educationCmpFn(a, b) {
 		if(a.value < b.value) return -1; 
@@ -52,7 +42,7 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	function populateMatchDataTableView(_matchInfo) {		
-		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
+		Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
 
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
@@ -78,7 +68,7 @@ MatchWindow = function(_userId, _matchId) {
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
 		
-		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId); 
+		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId, true); 
 		
 		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
 		if(Ti.Platform.osname === 'iphone')
@@ -179,12 +169,20 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	if(_matchId === null) {
-		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {	
-			populateMatchDataTableView(_matchInfo);
+		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+			if(_matchInfo.meta.status === 'error') {
+				Ti.App.fireEvent('openNoMatchWindow');
+			} else {
+				populateMatchDataTableView(_matchInfo);
+			}
 		});	
 	} else {
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-			populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.meta.status === 'error') {
+				Ti.App.fireEvent('openNoMatchWindow');	
+			} else {
+				populateMatchDataTableView(_matchInfo);
+			}
 		});
 	}
 

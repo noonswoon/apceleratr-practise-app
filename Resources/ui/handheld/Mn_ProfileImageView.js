@@ -1,4 +1,4 @@
-ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
+ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButtons) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
@@ -18,10 +18,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 	});
 	
 	var view = null;
+
 	for(var i = 0; i < _pictures.length; i++) {
 		var img = _pictures[i].src; //Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'images/'+ _pictures[i].src);
 		imagesArray.push(img);
-		
+
 		var imgView = Titanium.UI.createImageView({
 			top: 0,
 			left: 0,
@@ -60,7 +61,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		zIndex: 0
 	});	
 	self.add(scrollView);
-	
+
 	var likeButton = Ti.UI.createButton({
 		backgroundImage: 'images/like-button-inactive.png',
 		backgroundFocusedImage: 'images/like-button-active.png',
@@ -71,7 +72,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		height: 57,
 		zIndex: 3
 	});
-	self.add(likeButton);
 	
 	var likeLbl = Ti.UI.createLabel({
 		left: 84,
@@ -81,7 +81,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
-	self.add(likeLbl);
 	
 	var passButton = Ti.UI.createButton({
 		backgroundImage: 'images/pass-button-inactive.png',
@@ -93,7 +92,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		height: 57,
 		zIndex: 3
 	});
-	self.add(passButton);
 	
 	var passLbl = Ti.UI.createLabel({
 		left: 230,
@@ -103,8 +101,15 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
-	self.add(passLbl);
-		
+	
+
+	if(_showButtons) {
+		self.add(likeButton);
+		self.add(passButton);
+		self.add(likeLbl);
+		self.add(passLbl);
+	}
+
 	var pagingControl = new CustomPagingControl(scrollView);
 	pagingControl.top = 254;
 	self.add(pagingControl);
@@ -168,7 +173,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 			});	
 		}
 	});
-	
+
 	passButton.addEventListener("click", function() {
 		Ti.API.info('pass button is clicked');
 		setSelectedState("pass");
@@ -180,7 +185,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId) {
 		});
 		
 	});	
-	
+
 	return self;
 };
 

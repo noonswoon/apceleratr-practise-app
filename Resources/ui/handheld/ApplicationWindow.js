@@ -6,9 +6,9 @@ function ApplicationWindow(_userId) {
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
-	var MyProfileWindowModule = require('ui/handheld/Mn_MyProfileWindow');
+	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-		
+	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -50,23 +50,7 @@ function ApplicationWindow(_userId) {
 		backgroundColor:'#7e8185',
 		width: 320
 	});
-
-	var matchWindow = new MatchWindowModule(_userId, null);
-	matchWindow.leftNavButton = toggleLeftMenuBtn;
-	matchWindow.rightNavButton = toggleRightMenuBtn;
-	matchWindow.titleControl = timerView;
 	
-	//var OnBoardingModule = require('ui/handheld/Mn_LoginOnBoardingWindow');
-	//var dummyOnBoard = new OnBoardingModule(null, _userId);
-	
-	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	//window: dummyOnBoard,
-	  	window: matchWindow,
-	  	left: 0,
-	  	width: Ti.Platform.displayCaps.platformWidth,
-	});
-	matchWindow.setNavGroup(navigationGroup);
-
 	var isToggled = false;		
 	var leftMenu = new LeftMenuWindowModule(_userId);
 	leftMenu.open();
@@ -124,8 +108,9 @@ function ApplicationWindow(_userId) {
 	});
 
 	Ti.App.addEventListener('openUserProfileWindow', function(e) {
-		var myProfileWindow = new MyProfileWindowModule(navigationGroup, _userId);
-		navigationGroup.open(myProfileWindow, {animated:false});
+		var targetedUserId = e.targetedUserId;
+		var userProfileWindow = new UserProfileWindowModule(navigationGroup, _userId, targetedUserId);
+		navigationGroup.open(userProfileWindow, {animated:false});
 		toggleLeftMenu();
 	});
 		
@@ -140,6 +125,32 @@ function ApplicationWindow(_userId) {
 		navigationGroup.open(inviteFriendWindow, {animated:false});
 		toggleLeftMenu();
 	});
+	
+	Ti.App.addEventListener('openNoMatchWindow', function() {
+		var noMatchWindow = new NoMatchWindowModule(_userId);
+		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
+		noMatchWindow.rightNavButton = toggleRightMenuBtn;
+		noMatchWindow.titleControl = timerView;
+		
+		navigationGroup.open(noMatchWindow, {animated:false});
+	});
+
+	//main match page
+	var matchWindow = new MatchWindowModule(_userId, null);
+	matchWindow.leftNavButton = toggleLeftMenuBtn;
+	matchWindow.rightNavButton = toggleRightMenuBtn;
+	matchWindow.titleControl = timerView;
+	
+	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	var dummyOnBoard = new TargetedModule();
+	
+	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
+	  	//window: dummyOnBoard,
+	  	window: matchWindow,
+	  	left: 0,
+	  	width: Ti.Platform.displayCaps.platformWidth,
+	});
+	matchWindow.setNavGroup(navigationGroup);
 	
 	self.add(navigationGroup);
 				

@@ -3,13 +3,14 @@
  */
 
 exports.getLatestMatchInfo = function(_userId, _callbackFn) {
+	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get_latest/"+_userId;
 		Ti.API.info('getLatestMatchInfo api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
-	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+	        	if(resultObj.meta !== undefined) {
 					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 					_callbackFn(resultObj);
 				} else {
@@ -32,12 +33,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 		var contents = f.read();
 		//Ti.API.info('contents text: '+contents.text);
 		var resultObj = JSON.parse(contents.text); 
-		if(resultObj.meta.status == "ok") {
-			//Ti.API.info('matchInfo: '+JSON.stringify(resultObj));
-			_callbackFn(resultObj);
-		} else {
-			Ti.API.error("something wrong with backendMatch.getMatchInfo")
-		}
+		_callbackFn(resultObj);
 	}	
 };
 
@@ -49,7 +45,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
-	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+	        	if(resultObj.meta !== undefined) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
@@ -70,12 +66,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 		var contents = f.read();
 		//Ti.API.info('contents text: '+contents.text);
 		var resultObj = JSON.parse(contents.text); 
-		if(resultObj.meta.status == "ok") {
-			//Ti.API.info('matchInfo: '+JSON.stringify(resultObj));
-			_callbackFn(resultObj);
-		} else {
-			Ti.API.error("something wrong with backendMatch.getMatchInfo")
-		}	
+		_callbackFn(resultObj);
 	}
 };
 
