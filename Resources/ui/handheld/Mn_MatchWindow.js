@@ -89,9 +89,11 @@ MatchWindow = function(_userId, _matchId) {
 		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
 		data.push(friendRatioRow); 
 
-		var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', 'hi');
-		data.push(mutualFriendsRow); 
-
+		if(_matchInfo.content['mutual_friends'].length > 0) {
+			var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray':_matchInfo.content['mutual_friends'] };
+			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends']);
+			data.push(mutualFriendsRow); 
+		}
 		//GENERAL SECTION
 		var nameStr = 'private until connected';
 		if(_matchInfo.content.is_connected)

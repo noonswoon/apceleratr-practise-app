@@ -48,3 +48,15 @@ exports.fetchDataOrCache = function(key, callback, param, eventToFire, cacheTime
 		}
 	}	
 };
+
+exports.isFetchedData = function(key) {
+	if(!Ti.App.Properties.hasProperty(key)) return false;
+	else return true
+};
+
+exports.recordFetchedData = function(key) {
+	var nowStr = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss"); 
+	Ti.App.Properties.setString(key,nowStr);
+};
+
+

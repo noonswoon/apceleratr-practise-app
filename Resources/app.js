@@ -27,6 +27,7 @@ Ti.App.moment = require('external_libs/moment');
 var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
 var Debug = require('internal_libs/debug');
+var CacheHelper = require('internal_libs/cacheHelper');
 
 //GLOBAL VARIABLES DECARATION
 Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
@@ -144,16 +145,21 @@ if (Ti.version < 1.8 ) {
 		}
 	});
 	
-		//pull static data from server
+	//pull static data from server
 	numWaitingEvent++;
-	BackendGeneralInfo.getStaticData(function(e) {
-		//load data into religion table
-		//Ti.API.info('religion data: '+JSON.stringify(e));
-		ModelReligion.populateReligion(e.religion);
-		ModelEthnicity.populateEthnicity(e.ethnicity);
-		Ti.App.OFFERED_CITIES = e.city; 
+	if(!CacheHelper.isFetchedData('StaticData')) {
+		CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
+		BackendGeneralInfo.getStaticData(function(e) {
+			//load data into religion table
+			ModelReligion.populateReligion(e.religion);
+			ModelEthnicity.populateEthnicity(e.ethnicity);
+			Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
+			Ti.App.fireEvent('doneWaitingEvent');
+		});
+	} else {
+		Ti.App.OFFERED_CITIES = ["Bangkok","San Francisco","Los Angeles" ];
 		Ti.App.fireEvent('doneWaitingEvent');
-	});
+	}
 	
 /*	numWaitingEvent++;
 	BackendGeneralInfo.getEthnicity(function(e) {

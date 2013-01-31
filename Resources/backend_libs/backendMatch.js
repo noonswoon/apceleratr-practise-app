@@ -3,8 +3,8 @@
  */
 
 exports.getLatestMatchInfo = function(_userId, _callbackFn) {
-	//if(false) {
-	if(Ti.App.LIVE_DATA) {
+	if(false) {
+	//if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get_latest/"+_userId;
 		Ti.API.info('getLatestMatchInfo api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({

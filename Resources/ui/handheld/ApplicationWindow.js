@@ -134,6 +134,11 @@ function ApplicationWindow(_userId) {
 		
 		navigationGroup.open(noMatchWindow, {animated:false});
 	});
+	
+	Ti.App.addEventListener('openMutualFriendsWindow', function(e) {
+		var mutualFriendsArray = e.mutualFriendsArray;
+		Ti.API.info('mutualFriendsArray: '+JSON.stringify(mutualFriendsArray));
+	});
 
 	//main match page
 	var matchWindow = new MatchWindowModule(_userId, null);

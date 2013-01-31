@@ -119,8 +119,16 @@ TopFriendsView = function(_userId) {
 		//query some read stream and get the comments/like
 		FacebookQuery.queryUserStream();
 	});
-	FacebookQuery.queryFacebookFriends();
-	
+
+	if(!CacheHelper.isFetchedData('FacebookFriendQuery')) {
+		CacheHelper.recordFetchedData('FacebookFriendQuery'); //no need to fetch again
+		FacebookQuery.queryFacebookFriends();	
+	} else {
+		//since already have the data, populate the table right away
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
+		var friendTableRowData = createTopFriendTableRowData(targetedList);
+		topFriendsTableView.setData(friendTableRowData);
+	}
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		//update local database for those people who already got invited
