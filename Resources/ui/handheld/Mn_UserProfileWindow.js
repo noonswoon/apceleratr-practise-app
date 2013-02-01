@@ -27,13 +27,25 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		height: 30,
 		image: 'images/topbar-glyph-back.png',
 	});
-			
+	
+	var editButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		font:{fontSize:14,fontWeight:'bold'},
+		title:'Edit',
+		width:64,
+		height:30,
+	});
+		
 	var self = Ti.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
 		title: 'My Profile',
 		navBarHidden: false,
 		leftNavButton: backButton
 	});
+	
+	if(_userId === _targetedUserId) 
+		self.rightNavButton = editButton;
 	
 	var contentView = Ti.UI.createTableView({
 		top:0,
@@ -44,13 +56,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
-	var editBtn = Ti.UI.createButton({
-		title: 'Edit', 
-		height: 40, 
-		width: 250, 
-		left: 40,
-	});
-						
 	var data = [];
 	
 	function educationCmpFn(a, b) {
@@ -204,9 +209,10 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		}
 	});	
 
-	editBtn.addEventListener('click', function() {
+	editButton.addEventListener('click', function() {
+		Ti.API.info('edit profile screen');
 		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, false);
-		_navGroup.open(editProfileWindow);
+		_navGroup.open(editProfileWindow, {animated: true});
 	});
 	
 	backButton.addEventListener('click', function() {

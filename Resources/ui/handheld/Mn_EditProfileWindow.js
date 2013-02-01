@@ -26,23 +26,35 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var photoSelectedOrder = -1; //for deciding which image to update
 	var data = [];
 	
+	var cancelButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/edit/topbar-glyph-cancel.png',
+	});
+	
+	var saveButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		font:{fontSize:14,fontWeight:'bold'},
+		title:'Save',
+		width:64,
+		height:30,
+	});
+		
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
 		navBarHidden: false,
 		title: 'Edit Profile',
 		barImage: 'images/top-bar-stretchable.png',
+		leftNavButton: cancelButton,
+		rightNavButton: saveButton
 	});
 	
 	var editTableView = Ti.UI.createTableView({
 		backgroundColor:'white',
 		separatorColor: 'transparent',
-	});
-	
-	var saveBtn = Ti.UI.createButton({
-		title: 'Save', 
-		height: 40, 
-		width: 250, 
-		left: 40,
 	});
 
 	var photoEditTableViewRow = null;
@@ -54,10 +66,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			editTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
 		//PHOTO SECTION
-		var photoSection = Ti.UI.createTableViewSection({headerTitle:'Photos'});
 		photoEditTableViewRow = new PhotoEditTableViewRow([]); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
-		photoSection.add(photoEditTableViewRow);
-		data.push(photoSection);
+		data.push(photoEditTableViewRow);
 		
 		//GENERAL SECTION
 		var generalSection = Ti.UI.createTableViewSection({headerTitle:'General Info'});	
@@ -96,16 +106,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var aboutMeSection = Ti.UI.createTableViewSection({headerTitle:'About Me'});	
 		var aboutMeTableViewRow = new TextAreaEditTableViewRow('about_me','', _userInfo.content['about_me']);
 		aboutMeSection.add(aboutMeTableViewRow);
-	
-		var saveBtnTableViewRow = Ti.UI.createTableViewRow({
-			backgroundColor:'#fff',
-			height: Ti.UI.FILL
-		});
-		if(Ti.Platform.osname === 'iphone')
-			saveBtnTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-
-		saveBtnTableViewRow.add(saveBtn);
-		aboutMeSection.add(saveBtnTableViewRow);		
+		
 		data.push(aboutMeSection);
 
 		//SETTING DATA
@@ -264,8 +265,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//Ti.API.info('complete loading file: '+JSON.stringify(file));
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
 		photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder, true);	
-		saveBtn.enabled = true;
-		Ti.API.info('setting saveBtn enabled state to: '+saveBtn.enabled);
+		//saveBtn.enabled = true;
 	}
 
 	function onProfileImageProgress(progress){
@@ -276,17 +276,20 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		Ti.API.info('listening to selectedFbPhoto event'+ _photoSelectedEvent.photoId); 
 		Titanium.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
  			var graphObj = JSON.parse(e.result);
- 			saveBtn.enabled = false;
+ 			//saveBtn.enabled = false;
  			get_remote_file(Ti.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
  		});
 	};
 
-	function IsNumeric(input)
-	{
+	function IsNumeric(input) {
 	    return (input - 0) == input && input.length > 0;
 	}
 	
-	saveBtn.addEventListener('click', function() {		
+	cancelButton.addEventListener('click', function() {
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+	
+	saveButton.addEventListener('click', function() {		
 		var editParams = {}; 
 		var okToSave = true; 
 		var heightWarning = false;
@@ -397,7 +400,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var orderPic = parseInt((filename.split('.')[0]).slice(-1));
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
 		photoEditTableViewRow.setImage(loadedImageFile, orderPic, false);	
-		saveBtn.enabled = true;
+		//saveBtn.enabled = true;
 	}
 		
 	BackendUser.getUserInfo(_userId, function(_userInfo) {

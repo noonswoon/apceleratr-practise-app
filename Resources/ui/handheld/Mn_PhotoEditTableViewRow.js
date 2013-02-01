@@ -1,30 +1,27 @@
 PhotoEditTableViewRow = function(_imagesArray) {
 	//imagesArray = [{name:'photo0', src:OBJECT, modified:false},{name:'photo1', src:OBJECT, modified:false} ]
-	
-	
+
 	var imageDisplayViewArray = [];
 	var imagesArray = _imagesArray;
 	
 	var tableRow = Ti.UI.createTableViewRow({
 		className: "grid",
 		layout: "horizontal",
-		height: 105,
-		backgroundColor:'#fff'
+		width: '100%',
+		height: 130,
+		backgroundImage: 'images/edit/edit-photos-background.png'
 	});
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		
-	Ti.API.info('aaa');			
+
 	var numImages = imagesArray.length;
 	for(var i = numImages; i < 3; i++) {
-		var defaultProfile = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'images/default_profile.png');
+		var defaultProfile = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'images/edit/profile-picture-add.png');
 		var photoObj = {name:'photo'+i, modified:false, src:defaultProfile};
 		imagesArray.push(photoObj);
 	}
 	
 	for(var i = 0; i < imagesArray.length; i++) {
-		
-		
 		var photoView = Ti.UI.createImageView({
 			image: imagesArray[i].src,
 		});
@@ -33,14 +30,35 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		var blob = photoView.toImage();
 										 
 		// Turn blob into a square thumbnail
-		blob = blob.imageAsThumbnail(100);
-	
+		blob = blob.imageAsThumbnail(94);
+		
+		
+		var imageCountView = Ti.UI.createImageView({
+			image: 'images/edit/profile-picture-count.png',
+			top: 0, 
+			left: 0, 
+			width: 21, 
+			height: 22,	
+			zIndex: 2
+		});
+		
 		var imageDisplayView = Ti.UI.createImageView({
-			left: 2,
-			width: 100,
-			height: 100,
-			image: blob
+			top: 3,
+			left: 3,
+			width: 94,
+			height: 94,
+			image: blob,
+			zIndex: 1
 		});	
+		
+		var placeholderView = Ti.UI.createView({
+			top: 15,
+			left: 7,
+			width: 97,
+			height: 97,
+			backgroundColor: '#transparent'
+		});
+		
 		imageDisplayViewArray.push(imageDisplayView);
 		
 		(function() { //double binding, change execution context
@@ -51,10 +69,12 @@ PhotoEditTableViewRow = function(_imagesArray) {
 			});
 		})();
 		
-		tableRow.add(imageDisplayView);
+		placeholderView.add(imageCountView);
+		placeholderView.add(imageDisplayView);
+		
+		tableRow.add(placeholderView);
 	}
 
-	Ti.API.info('ccc');	
 	tableRow.setImage = function(_image, _imageIndex, _isModified) {
 		//Displaying stuff
 		var dummyImageView = Ti.UI.createImageView({
@@ -76,7 +96,6 @@ PhotoEditTableViewRow = function(_imagesArray) {
 	
 	tableRow.highlightBorder = function() { /* placeholder function */ };	
 	tableRow.resetBorder = function() { /* placeholder function */ };		
-	Ti.API.info('ddd');
 	return tableRow;	
 }
 module.exports = PhotoEditTableViewRow;
