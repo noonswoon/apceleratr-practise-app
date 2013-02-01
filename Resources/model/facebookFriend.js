@@ -20,6 +20,18 @@ db.close();
 
 // MY CHECKIN PART
 // create data for local database
+exports.getNameByFacebookId = function(_fbId){
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT Name FROM FacebookFriend WHERE FacebookId = '+ _fbId);
+	var name = "";
+	if(result.isValidRow()) {
+		name = result.fieldByName('Name');
+	}
+	result.close();
+	db.close();
+	return name;
+};
+
 exports.populateFacebookFriend = function(_friendsCollection) {
 	Ti.API.info('populating facebook friend...');
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 

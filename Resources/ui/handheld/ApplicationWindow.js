@@ -9,6 +9,8 @@ function ApplicationWindow(_userId) {
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
+	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');
+	
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -137,7 +139,8 @@ function ApplicationWindow(_userId) {
 	
 	Ti.App.addEventListener('openMutualFriendsWindow', function(e) {
 		var mutualFriendsArray = e.mutualFriendsArray;
-		Ti.API.info('open MutualFriendsWindow..mutualFriendsArray: '+JSON.stringify(mutualFriendsArray));
+		var mutualFriendsWindow = new MutualFriendsWindowModule(navigationGroup, mutualFriendsArray);
+		navigationGroup.open(mutualFriendsWindow, {animated:true});
 	});
 
 	//main match page

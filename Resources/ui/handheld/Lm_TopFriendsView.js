@@ -18,6 +18,7 @@ TopFriendsView = function(_userId) {
 		separatorColor: 'transparent',
 		top: 0,
 		left: 0,
+		scrollable: false
 	});
 	if(Ti.Platform.osname === 'iphone') {
 		topFriendsTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;

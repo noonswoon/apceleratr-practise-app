@@ -1,5 +1,6 @@
-InviteFriendTableViewRow = function(_user, _rowIndex) {
-	var isInvited = false; 
+//this is the row in the mutual friends screen
+MutualFriendTableViewRow = function(_fbId) {
+	var ModelFacebookFriend = require('model/facebookFriend');
 	
 	var self = Ti.UI.createTableViewRow({
 		height: 50,
@@ -9,6 +10,7 @@ InviteFriendTableViewRow = function(_user, _rowIndex) {
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
 	var imageView = Ti.UI.createImageView({
+		image: 'http://graph.facebook.com/'+ _fbId +'/picture?type=square',
 		left: 6,
 		width: 35,
 		height: 35,
@@ -17,50 +19,40 @@ InviteFriendTableViewRow = function(_user, _rowIndex) {
 		borderRadius: 2,
 		borderColor: '#d5d5d5'
 	});
-
-	var userLabel = Ti.UI.createLabel({
-		font: {fontSize:15, fontWeight:'bold'},
-		left: 50,
-		top: 15,
-		color: '#919191'
-	});
-	
-	var checkbox = Titanium.UI.createImageView({
-		image: 'images/invite_friend/unchecked.png',
-		top:7,
-		left: 275,
-		width:29,
-		height:30
-	});
-	
-	imageView.image = _user.picture_url;
-	userLabel.text =  _user.name;
-	self.fbId = _user.facebook_id;
-	
-	self.filter = userLabel.text;
-	
-	checkbox.addEventListener("click", function() {
-		if(!isInvited) {
-			checkbox.image = 'images/invite_friend/checked.png';
-			userLabel.color = '#595959';
-			isInvited = true;
-			Ti.App.fireEvent('invitedFriend'); 
-		} else {
-			checkbox.image = 'images/invite_friend/unchecked.png';
-			userLabel.color = '#919191';
-			isInvited = false;
-			Ti.App.fireEvent('uninvitedFriend'); 
-		}
-	});
-	
-	self.isInvited = function() {
-	    return isInvited;
-	};
-	
 	self.add(imageView);
-	self.add(userLabel);
-	self.add(checkbox);
-
+	
+	var userName = ModelFacebookFriend.getNameByFacebookId(_fbId); 
+	if(userName !== "") {
+		var userLabel = Ti.UI.createLabel({
+			text: ModelFacebookFriend.getNameByFacebookId(_fbId),
+			font: {fontSize:15, fontWeight:'bold'},
+			left: 50,
+			top: 15,
+			color: '#595959'
+		});
+		self.add(userLabel);
+	} else { //don't have data..request from fbGraph
+		Ti.API.info('getting fb graph info coz cannot find user locally');
+		Ti.Facebook.requestWithGraphPath(_fbId, {}, 'GET', function(e) {
+			if (e.success) {
+			    var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object	
+			  
+			    var userLabel = Ti.UI.createLabel({
+					text: fbGraphObj.first_name + ' ' + fbGraphObj.last_name,
+					font: {fontSize:15, fontWeight:'bold'},
+					left: 50,
+					top: 15,
+					color: '#595959'
+				});
+				self.add(userLabel);
+			} else if (e.error) {
+				Ti.API.info('cannot request GraphPath: '+ JSON.stringify(e));		
+			} else {
+				Ti.API.info("what the hell is going on_2? " + JSON.stringify(e));
+			}
+		});
+	}
+	
 	return self;	
 }
-module.exports = InviteFriendTableViewRow;
+module.exports = MutualFriendTableViewRow;

@@ -94,34 +94,54 @@ MatchWindow = function(_userId, _matchId) {
 			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends']);
 			data.push(mutualFriendsRow); 
 		}
+		
+		var whiteOrGrayFlag = true;
 		//GENERAL SECTION
 		var nameStr = 'private until connected';
 		if(_matchInfo.content.is_connected)
     		nameStr = _matchInfo.content['general'].first_name;		
 		
-		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, true);
+		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
 		data.push(nameTableViewRow);
-		
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' years old', false);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
+		 
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' years old', whiteOrGrayFlag);
 		data.push(ageTableViewRow);
-		
-		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _matchInfo.content['general'].zodiac, true);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
+		 
+		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _matchInfo.content['general'].zodiac, whiteOrGrayFlag);
 		data.push(zodiacTableViewRow);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
+		 
+		if(_matchInfo.content['general'].city !== "" || _matchInfo.content['general'].country !== "") {
+			var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_matchInfo.content['general'].city, 'country':_matchInfo.content['general'].country}, whiteOrGrayFlag);
+			data.push(locationTableViewRow);		
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
+		}
 		
-		var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_matchInfo.content['general'].city, 'country':_matchInfo.content['general'].country}, false);
-		data.push(locationTableViewRow);		
+		if(_matchInfo.content['height'] !== "" ) {
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + " cm", whiteOrGrayFlag);
+			data.push(heightTableViewRow); //require
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
+		}
 		
-		var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + " cm", true);
-		data.push(heightTableViewRow); //require
-	
-		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _matchInfo.content['ethnicity'], false);
-		data.push(ethnicityTableViewRow); //require
+		if(_matchInfo.content['ethnicity'] !== "" ) {		
+			var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _matchInfo.content['ethnicity'], whiteOrGrayFlag);
+			data.push(ethnicityTableViewRow); //require
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
+		}
 		
-		var religionTableViewRow = new TextDisplayTableViewRow('religion', _matchInfo.content['religion'], true);
-		data.push(religionTableViewRow);
+		if(_matchInfo.content['religion'] !== "" ) {		
+			var religionTableViewRow = new TextDisplayTableViewRow('religion', _matchInfo.content['religion'], whiteOrGrayFlag);
+			data.push(religionTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
 		
-		var workTableViewRow = new WorkTableViewRow('work', _matchInfo.content['work'].employer, _matchInfo.content['work'].occupation, false);
-		data.push(workTableViewRow);
+		if(_matchInfo.content['work'].employer !== "" || _matchInfo.content['work'].occupation !== "") {		
+			var workTableViewRow = new WorkTableViewRow('work', _matchInfo.content['work'].employer, _matchInfo.content['work'].occupation, whiteOrGrayFlag);
+			data.push(workTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
+		}
 		
 		var educationArray = [];
 		for(var i = 0; i < _matchInfo.content.educations.length; i++) {
@@ -138,18 +158,25 @@ MatchWindow = function(_userId, _matchId) {
 		educationArray.sort(educationCmpFn);
 		
 		if(educationArray.length > 0) {
-			var educationTableViewRow = new EducationTableViewRow('education', educationArray, true);
+			var educationTableViewRow = new EducationTableViewRow('education', educationArray, whiteOrGrayFlag);
 			data.push(educationTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 
 		//ABOUTME SECTION	
-		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], false);
-		data.push(aboutMeTableViewRow);
-	
+		if(_matchInfo.content['about_me'] !== "" ) {	
+			var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], whiteOrGrayFlag);
+			data.push(aboutMeTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag; 
+		}
+		
 		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
-		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, true);
-		data.push(fbLikeTableViewRow);
-
+		if(fbLikeCollection.length > 0) {
+			Ti.API.info('fbLikeCollection: '+fbLikeCollection.length);
+			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
+			data.push(fbLikeTableViewRow);
+		}
+		
 		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
 			top: 0,
 			left: 0,

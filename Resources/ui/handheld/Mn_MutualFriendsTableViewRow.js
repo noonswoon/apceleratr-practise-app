@@ -1,4 +1,5 @@
-//TODO: change all these to be just a label
+//This is the row in the match screen
+
 MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendCredit = require('backend_libs/backendCredit');

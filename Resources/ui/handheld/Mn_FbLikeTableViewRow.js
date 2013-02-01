@@ -4,11 +4,6 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 	var fieldName = _fieldName;
 	var modified = false;
 
-	var rowBackgroundImage = 'images/match-info-white-row.png';	
-	if(!_isWhiteBackground) {
-		rowBackgroundImage = 'images/match-info-gray-row.png';
-	}
-	
 	var createLikeCapsuleContent = function(_category, _content) {
 		var glyphImageUrl = GlyphGraphicsHelper.getLikeGlyph(_category);
 
