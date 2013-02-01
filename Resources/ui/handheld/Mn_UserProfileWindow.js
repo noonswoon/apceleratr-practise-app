@@ -89,6 +89,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _userInfo.content['gender_centric'].female, 'male': _userInfo.content['gender_centric'].male});
 		data.push(friendRatioRow); 
 
+		var whiteOrGrayFlag = true;
 		//GENERAL SECTION
     	var	nameStr = _userInfo.content['general'].first_name; 
     	if(_userId === _targetedUserId) {
@@ -96,31 +97,50 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
     	} else {
     		self.title = _userInfo.content['general'].first_name +'\'s Profile';
     	}
-		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, true);
+		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
 		nameTableViewRow.getContentLabel().color = '#4e5866';
 		data.push(nameTableViewRow);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' years old', false);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' years old', whiteOrGrayFlag);
 		data.push(ageTableViewRow);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
-		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _userInfo.content['general'].zodiac, true);
+		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _userInfo.content['general'].zodiac, whiteOrGrayFlag);
 		data.push(zodiacTableViewRow);
+		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
-		var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_userInfo.content['general'].city, 'country':_userInfo.content['general'].country}, false);
-		data.push(locationTableViewRow);		
 		
-		var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + " cm", true);
-		data.push(heightTableViewRow); //require
-	
-		var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _userInfo.content['ethnicity'], false);
-		data.push(ethnicityTableViewRow); //require
+		if(_userInfo.content['general'].city !== "" || _userInfo.content['general'].country !== "") {
+			var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_userInfo.content['general'].city, 'country':_userInfo.content['general'].country}, whiteOrGrayFlag);
+			data.push(locationTableViewRow);		
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
 		
-		var religionTableViewRow = new TextDisplayTableViewRow('religion', _userInfo.content['religion'], true);
-		data.push(religionTableViewRow);
+		if(_userInfo.content['height'] !== "" ) {
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + " cm", whiteOrGrayFlag);
+			data.push(heightTableViewRow); //require
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
 		
-		var workTableViewRow = new WorkTableViewRow('work', _userInfo.content['work'].employer, _userInfo.content['work'].occupation, false);
-		data.push(workTableViewRow);
-
+		if(_userInfo.content['ethnicity'] !== "" ) {
+			var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _userInfo.content['ethnicity'], whiteOrGrayFlag);
+			data.push(ethnicityTableViewRow); //require
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
+		
+		if(_userInfo.content['religion'] !== "" ) {	
+			var religionTableViewRow = new TextDisplayTableViewRow('religion', _userInfo.content['religion'], whiteOrGrayFlag);
+			data.push(religionTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
+		
+		if(_userInfo.content['work'].employer !== "" || _userInfo.content['work'].occupation !== "") {		
+			var workTableViewRow = new WorkTableViewRow('work', _userInfo.content['work'].employer, _userInfo.content['work'].occupation, whiteOrGrayFlag);
+			data.push(workTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
+		
 		var educationArray = [];
 		for(var i = 0; i < _userInfo.content.educations.length; i++) {
 			var curEd = _userInfo.content.educations[i]; 
@@ -136,18 +156,24 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		educationArray.sort(educationCmpFn);
 		
 		if(educationArray.length > 0) {
-			var educationTableViewRow = new EducationTableViewRow('education', educationArray, true);
+			var educationTableViewRow = new EducationTableViewRow('education', educationArray, whiteOrGrayFlag);
 			data.push(educationTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
 
 		//ABOUTME SECTION	
-		var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _userInfo.content['about_me'], false);
-		data.push(aboutMeTableViewRow);
-
+		if(_userInfo.content['about_me'] !== "" ) {	
+			var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _userInfo.content['about_me'], whiteOrGrayFlag);
+			data.push(aboutMeTableViewRow);
+			whiteOrGrayFlag = !whiteOrGrayFlag;
+		}
+		
 		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_targetedUserId);
-		var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, true);
-		data.push(fbLikeTableViewRow);
-
+		if(fbLikeCollection.length > 0) {
+			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
+			data.push(fbLikeTableViewRow);
+		}
+		
 		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
 			top: 0,
 			left: 0,
@@ -170,6 +196,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 
 	
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
+		Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 		if(_userInfo.meta.status === 'error') {
 			Ti.App.fireEvent('openErrorWindow');
 		} else {
