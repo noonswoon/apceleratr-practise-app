@@ -91,10 +91,11 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	
 	tableRow.addEventListener('touchend', function(){
 		activeImageView.visible = false;
-		if(!_hasUnlocked) {
+		if(!hasUnlocked) {
 			mutualFriendsDialog.show();
+		} else {
+			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
 		}
-		//Ti.App.fireEvent('openMutualFriendsWindow');
 	});	
 
 	tableRow.getFieldName = function() {

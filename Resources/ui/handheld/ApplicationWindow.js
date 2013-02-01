@@ -137,7 +137,7 @@ function ApplicationWindow(_userId) {
 	
 	Ti.App.addEventListener('openMutualFriendsWindow', function(e) {
 		var mutualFriendsArray = e.mutualFriendsArray;
-		Ti.API.info('mutualFriendsArray: '+JSON.stringify(mutualFriendsArray));
+		Ti.API.info('open MutualFriendsWindow..mutualFriendsArray: '+JSON.stringify(mutualFriendsArray));
 	});
 
 	//main match page
