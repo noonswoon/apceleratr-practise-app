@@ -18,7 +18,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		//compare today noon with current time
 		var curHour = momentObj.hours(); 
 		var alreadyPassedNoon = false;
-		if(curHour > 12) {
+		if(curHour >= 12) {
 			//already passed noon, 
 			alreadyPassedNoon = true;
 		}
@@ -38,6 +38,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		if(remainingHours < 10) remainingHours = '0'+remainingHours;
 		if(remainingMinutes < 10) remainingMinutes = '0'+remainingMinutes;
 		if(remainingSeconds < 10) remainingSeconds = '0'+remainingSeconds;
+
 		return [remainingHours, remainingMinutes, remainingSeconds];
 	}
 	
@@ -48,7 +49,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		color: '#f3f5f9',
 		bottom: 6,
 		left: 8,
-		width: 25,
+		width: 27,
 		shadowColor: '#750b14',
 		shadowOffset: {x:0, y:1},
 		font: {fontWeight:'bold', fontSize: 20},
@@ -72,7 +73,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		color: '#f3f5f9',
 		bottom: 6,
 		left: 50,
-		width: 25,
+		width: 27,
 		shadowColor: '#750b14',
 		shadowOffset: {x:0, y:1},
 		font: {fontWeight:'bold', fontSize: 20},
@@ -96,7 +97,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		color: '#f3f5f9',
 		bottom: 6,
 		left: 96,
-		width: 25,
+		width: 27,
 		shadowColor: '#750b14',
 		shadowOffset: {x:0, y:1},
 		font: {fontWeight:'bold', fontSize: 20},
