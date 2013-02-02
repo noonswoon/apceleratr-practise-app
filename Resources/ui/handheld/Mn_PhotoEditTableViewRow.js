@@ -35,28 +35,61 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		
 		var imageCountView = Ti.UI.createImageView({
 			image: 'images/edit/profile-picture-count.png',
-			top: 0, 
-			left: 0, 
+			top: 15, 
+			left: 6, 
 			width: 21, 
 			height: 22,	
 			zIndex: 2
 		});
 		
+		var imageCountLabel = Ti.UI.createLabel({
+			text: (i+1),
+			center: {x:'52%', y:'49%'},
+			color:'#ffffff',
+			shadowColor: '#6e060d', 
+			shadowOffset: 2,
+			font:{fontWeight:'bold',fontSize:14},
+		});
+		imageCountView.add(imageCountLabel); 
+
 		var imageDisplayView = Ti.UI.createImageView({
-			top: 3,
-			left: 3,
+			top: 18,
+			left: 10,
 			width: 94,
 			height: 94,
 			image: blob,
 			zIndex: 1
-		});	
+		});
+		
+		var editStripImage = Ti.UI.createImageView({
+			image: 'images/edit/edit-box.png',
+			bottom: 0,
+			left: 0,
+			width: 94, 
+			height: 16,
+			zIndex: 2
+		});
+
+		var editLabel = Ti.UI.createLabel({
+			text: 'edit',
+			center: {x:'50%', y:'50%'},
+			color:'#ffffff',
+			zIndex: 3,
+			shadowColor: '#4c3932', 
+			shadowOffset: 2,
+			font:{fontWeight:'bold',fontSize:14},
+		});
+		editStripImage.add(editLabel);
+		imageDisplayView.add(editStripImage);
+		
+
 		
 		var placeholderView = Ti.UI.createView({
-			top: 15,
-			left: 7,
-			width: 97,
-			height: 97,
-			backgroundColor: '#transparent'
+			top: 0,
+			left: 0,
+			width: 103,
+			height: 130,
+			backgroundColor: '#transparent',
 		});
 		
 		imageDisplayViewArray.push(imageDisplayView);
