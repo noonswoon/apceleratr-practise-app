@@ -1,6 +1,15 @@
 AboutMeEditTableViewRow = function(_fieldName, _content) {
+	var DefaultTextHelper = require('internal_libs/defaultTextHelper');
+	
 	var fieldName = _fieldName;
 	var modified = false;
+	
+	var content = _content;
+	var textColor = "#697688";
+	if(_content === "") {
+		textColor =  "#a3a7ad";
+		content = DefaultTextHelper.getDefaultText(_fieldName);
+	}
 	
 	var numChars = _content.length;
 	var rowHeightOffset = Math.floor(numChars / 33);
@@ -29,8 +38,8 @@ AboutMeEditTableViewRow = function(_fieldName, _content) {
 	
 	//127, 535
 	var contentTextArea = Ti.UI.createTextArea({
-		value: _content,
-		color: '#697688',
+		value: content,
+		color: textColor,
 		top: 8, 
 		left: 64,
 		font: {fontSize:16},
@@ -38,6 +47,15 @@ AboutMeEditTableViewRow = function(_fieldName, _content) {
 		width: 241,
 	});
 	tableRow.add(contentTextArea);
+	
+	contentTextArea.addEventListener('focus', function() {
+		modified = true;
+		if(contentTextArea.value === DefaultTextHelper.getDefaultText(_fieldName)) {
+			contentTextArea.value = "";
+			contentTextArea.color = "#697688";
+		}
+		Ti.API.info('contentTextArea modified...');
+	});
 		
 	tableRow.getFieldName = function() {
 		return fieldName;

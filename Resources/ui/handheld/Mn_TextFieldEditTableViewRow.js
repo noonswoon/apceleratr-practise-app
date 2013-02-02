@@ -1,8 +1,16 @@
 TextFieldEditTableViewRow = function(_fieldName, _content) {
 	var GlyphGraphicsHelper = require('internal_libs/glyphGraphicsHelper');
+	var DefaultTextHelper = require('internal_libs/defaultTextHelper');
 	
 	var fieldName = _fieldName; 
 	var modified = false;
+	
+	var content = _content;
+	var textColor = "#4e5866";
+	if(_content === "") {
+		textColor =  "#a3a7ad";
+		content = DefaultTextHelper.getDefaultText(_fieldName);
+	}
 	
 	var tableRow = Ti.UI.createTableViewRow({
 		top: 0,
@@ -17,12 +25,12 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	
 	var contentTextfield = Titanium.UI.createTextField({
-		value: _content,
+		value: content,
 		top: 18, 
 		left: 64,
 		width: 241,
 		height: 20,
-		color:'#a3a7ad',
+		color:textColor,
 		font:{fontWeight:'bold',fontSize:18},
 	});
 	tableRow.add(contentTextfield);
@@ -40,6 +48,10 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	
 	contentTextfield.addEventListener('focus', function() {
 		modified = true;
+		if(contentTextfield.value === DefaultTextHelper.getDefaultText(_fieldName)) {
+			contentTextfield.value = "";
+			contentTextfield.color = "#4e5866";
+		}
 		Ti.API.info('contentTextfield modified...');
 	});
 	

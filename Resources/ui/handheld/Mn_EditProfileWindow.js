@@ -399,7 +399,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		
 	BackendUser.getUserInfo(_userId, function(_userInfo) {
 		for(var i = 0; i < _userInfo.content.pictures.length; i++) {
-			get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+			if(_userInfo.content.pictures[i].src !== "") {
+				get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+			}
 		}
 		populateInfoDataTableView(_userInfo);
 	});

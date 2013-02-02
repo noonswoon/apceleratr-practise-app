@@ -15,6 +15,8 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
 	var numImages = imagesArray.length;
+
+	var numImages = imagesArray.length;
 	for(var i = numImages; i < 3; i++) {
 		var defaultProfile = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'images/edit/profile-picture-add.png');
 		var photoObj = {name:'photo'+i, modified:false, src:defaultProfile};
@@ -82,8 +84,6 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		editStripImage.add(editLabel);
 		imageDisplayView.add(editStripImage);
 		
-
-		
 		var placeholderView = Ti.UI.createView({
 			top: 0,
 			left: 0,
@@ -114,7 +114,7 @@ PhotoEditTableViewRow = function(_imagesArray) {
 			image: _image,
 		});
 		var blob = dummyImageView.toImage();			 
-		blob = blob.imageAsThumbnail(100);
+		blob = blob.imageAsThumbnail(94);
 		imageDisplayViewArray[_imageIndex].image = blob;
 		
 		//content stuff
