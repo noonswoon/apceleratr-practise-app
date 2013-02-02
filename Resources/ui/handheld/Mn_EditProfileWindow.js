@@ -6,7 +6,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var TextFieldEditTableViewRow = require('ui/handheld/Mn_TextFieldEditTableViewRow');
 	var TextAreaEditTableViewRow = require('ui/handheld/Mn_TextAreaEditTableViewRow');
 	var PickerEditTableViewRow = require('ui/handheld/Mn_PickerEditTableViewRow');
-	
+	var AboutMeEditTableViewRow = require('ui/handheld/Mn_AboutMeEditTableViewRow');
 	var BackendUser = require('backend_libs/backendUser');
 	
 	var ModelEthnicity = require('model/ethnicity');
@@ -72,42 +72,36 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//GENERAL SECTION
 		var generalSection = Ti.UI.createTableViewSection({headerTitle:'General Info'});	
 		
-		var heightTableViewRow = new TextFieldEditTableViewRow('height','Height (cm)', _userInfo.content['height']);
-		generalSection.add(heightTableViewRow); //require
+		var heightTableViewRow = new TextFieldEditTableViewRow('height', _userInfo.content['height']);
+		data.push(heightTableViewRow); //require
 	
-		var ethnicityTableViewRow = new PickerEditTableViewRow('ethnicity','Ethnicity', _userInfo.content['ethnicity'], self, ethnicityValue);
-		generalSection.add(ethnicityTableViewRow); //require
+		var ethnicityTableViewRow = new PickerEditTableViewRow('ethnicity', _userInfo.content['ethnicity'], self, ethnicityValue);
+		data.push(ethnicityTableViewRow); //require
 		
-		var religionTableViewRow = new PickerEditTableViewRow('religion','Religion', _userInfo.content['religion'], self, religionValue);
-		generalSection.add(religionTableViewRow);
+		var religionTableViewRow = new PickerEditTableViewRow('religion', _userInfo.content['religion'], self, religionValue);
+		data.push(religionTableViewRow);
 		
-		var occupationTableViewRow = new TextFieldEditTableViewRow('occupation','Occupation', _userInfo.content['work'].occupation);
-		generalSection.add(occupationTableViewRow);
+		var occupationTableViewRow = new TextFieldEditTableViewRow('occupation', _userInfo.content['work'].occupation);
+		data.push(occupationTableViewRow);
 		
-		var employerTableViewRow = new TextFieldEditTableViewRow('employer','Employer', _userInfo.content['work'].employer);
-		generalSection.add(employerTableViewRow);
-		data.push(generalSection);
+		var employerTableViewRow = new TextFieldEditTableViewRow('employer', _userInfo.content['work'].employer);
+		data.push(employerTableViewRow);
 	
 		//EDUCATION SECTION
-		var educationSection = Ti.UI.createTableViewSection({headerTitle:'Education'});	
 		for(var i = 0; i < _userInfo.content.educations.length; i++) {
 			var curEd = _userInfo.content.educations[i]; 
 			var desc = "";
-			if(curEd.level === "high_school") desc = "High School";
-			else if(curEd.level === "college") desc = "Bachelor";
-			else desc = "Master/PhD";
+			if(curEd.level === "high_school") desc = "second_education";
+			else if(curEd.level === "college") desc = "second_education";
+			else desc = "education";
 			
-			var educationTableViewRow = new TextFieldEditTableViewRow(curEd.level, desc, curEd.name);	
-			educationSection.add(educationTableViewRow);
+			var educationTableViewRow = new TextFieldEditTableViewRow(desc, curEd.name);	
+			data.push(educationTableViewRow);
 		}
-		data.push(educationSection);
 
 		//ABOUTME SECTION	
-		var aboutMeSection = Ti.UI.createTableViewSection({headerTitle:'About Me'});	
-		var aboutMeTableViewRow = new TextAreaEditTableViewRow('about_me','', _userInfo.content['about_me']);
-		aboutMeSection.add(aboutMeTableViewRow);
-		
-		data.push(aboutMeSection);
+		var aboutMeTableViewRow = new AboutMeEditTableViewRow('about_me',_userInfo.content['about_me']);
+		data.push(aboutMeTableViewRow);
 
 		//SETTING DATA
 		editTableView.setData(data);

@@ -3,8 +3,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	var GlyphGraphicsHelper = require('internal_libs/glyphGraphicsHelper');
 	
 	var fieldName = _fieldName;
-	var modified = false;
-	
+
 	var rowClassName = 'matchInfoWhiteRow';
 	var rowBackgroundImage = 'images/match-info-white-row.png';
 	
@@ -24,8 +23,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 		
-		
-	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content);
+	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, true);
 	
 	var glyphImage = Ti.UI.createImageView({
 		top: 10,

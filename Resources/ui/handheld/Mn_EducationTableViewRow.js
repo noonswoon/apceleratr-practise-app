@@ -70,7 +70,7 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 			left: 22, 
 			width: 34,
 			height: 34,
-			image: 'images/glyph-secondary-education.png'
+			image: 'images/glyph/glyph-secondary-education.png'
 		});
 		tableRow.add(secondaryGlyphImage);
 	

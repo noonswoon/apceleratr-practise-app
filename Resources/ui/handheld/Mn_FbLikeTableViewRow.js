@@ -86,7 +86,7 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		left: 22, 
 		width: 34,
 		height: 34,
-		image: 'images/glyph-likes.png'
+		image: 'images/glyph/glyph-likes.png'
 	})
 	tableRow.add(glyphImage);
 	

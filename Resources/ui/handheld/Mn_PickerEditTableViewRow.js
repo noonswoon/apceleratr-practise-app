@@ -1,35 +1,42 @@
-PickerEditTableViewRow = function(_fieldName, _category, _content, _parentWindow, _pickerData) {	
+PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerData) {	
+	var GlyphGraphicsHelper = require('internal_libs/glyphGraphicsHelper');
+	
 	var fieldName = _fieldName; 
 	var modified = false;
 	
 	var tableRow = Ti.UI.createTableViewRow({
-		height: 40,
-		backgroundColor:'#fff',
-		className: 'textEditRow'
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 48,
+		backgroundImage: 'images/match-info-white-row.png',
+		className: 'editProfileRow'
 	});
+	
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-			
-	var categoryLabel = Ti.UI.createLabel({
-		text: _category,
-		top: 5, 
-		left: 10,
-		font: {fontSize: 14},
-		backgroundColor: 'orange',
-		height: 30
-	});
 	
 	var contentTextfield = Titanium.UI.createTextField({
 		value: _content,
-		height:30,
-		top:5,
-		right:10,
-		width:220,
-		borderWidth:1,
-		borderColor:'#bbb',
-		borderRadius:5,
-		paddingLeft: 10,
+		top: 18, 
+		left: 64,
+		width: 241,
+		height: 20,
+		color:'#a3a7ad',
+		font:{fontWeight:'bold',fontSize:18},
 	});
+	tableRow.add(contentTextfield);
+	
+	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, false);
+	
+	var glyphImage = Ti.UI.createImageView({
+		top: 10,
+		left: 22, 
+		width: 34,
+		height: 34,
+		image: topicGlyphImage
+	})
+	tableRow.add(glyphImage);	
 	
 	tableRow.getFieldName = function() {
 		return fieldName;
@@ -55,8 +62,8 @@ PickerEditTableViewRow = function(_fieldName, _category, _content, _parentWindow
 	var opacityView = Ti.UI.createView({
 		opacity : 0.6,
 		top : 0,
-		height : 120,
-		zIndex : 7777,
+		height : 166,
+		zIndex : 10,
 		backgroundColor: '#000'
 	});
 
@@ -96,10 +103,21 @@ PickerEditTableViewRow = function(_fieldName, _category, _content, _parentWindow
 			content: curContent
 		});
 		
+		var pickerGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, curContent, false);
+	
+		var pickerGlyphImageView = Ti.UI.createImageView({
+			left: 5, 
+			width: 34,
+			height: 34,
+			image: pickerGlyphImage
+		})
+		row.add(pickerGlyphImageView);
+		
+			
 		var pickerLabel = Ti.UI.createLabel({
 			text: curContent,
 			width: 300,
-			left: 5
+			left: 45
 		});
 		row.add(pickerLabel);
 		picker.add(row);
@@ -112,7 +130,6 @@ PickerEditTableViewRow = function(_fieldName, _category, _content, _parentWindow
 	var slideOutAnimation =  Titanium.UI.createAnimation({bottom:-251});
 
 	contentTextfield.addEventListener('focus',function() {
-		tableRow.resetBorder();
 		contentTextfield.blur();
 		modified = true;
 		pickerView.animate(slideInAnimation);
@@ -127,16 +144,18 @@ PickerEditTableViewRow = function(_fieldName, _category, _content, _parentWindow
 	picker.addEventListener('change',function(e) {
 		if(e.rowIndex === 0)
 			contentTextfield.value = '';
-		else contentTextfield.value = e.row.content;
+		else {
+			contentTextfield.value = e.row.content;
+			var newGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, e.row.content, false);
+			glyphImage.image = newGlyphImage;
+		}
 	});
 
 	_parentWindow.add(pickerView);
 
-	tableRow.add(categoryLabel);
 	tableRow.add(contentTextfield);
 	
-	return tableRow;		
-
+	return tableRow;
 };
 
 module.exports = PickerEditTableViewRow;

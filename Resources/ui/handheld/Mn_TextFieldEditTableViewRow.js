@@ -1,38 +1,44 @@
-TextFieldEditTableViewRow = function(_fieldName, _category, _content) {
+TextFieldEditTableViewRow = function(_fieldName, _content) {
+	var GlyphGraphicsHelper = require('internal_libs/glyphGraphicsHelper');
+	
 	var fieldName = _fieldName; 
 	var modified = false;
 	
 	var tableRow = Ti.UI.createTableViewRow({
-		height: 40,
-		backgroundColor:'#fff',
-		className: 'textEditRow'
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 48,
+		backgroundImage: 'images/match-info-white-row.png',
+		className: 'editProfileRow'
 	});
+	
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		
-	var categoryLabel = Ti.UI.createLabel({
-		text: _category,
-		top: 5, 
-		left: 10,
-		font: {fontSize: 14},
-		backgroundColor: 'orange',
-		height: 30
-	});
 	
 	var contentTextfield = Titanium.UI.createTextField({
 		value: _content,
-		height:30,
-		top:5,
-		right:10,
-		width:220,
-		borderWidth:1,
-		borderColor:'#bbb',
-		borderRadius:5,
-		paddingLeft: 10
+		top: 18, 
+		left: 64,
+		width: 241,
+		height: 20,
+		color:'#a3a7ad',
+		font:{fontWeight:'bold',fontSize:18},
 	});
+	tableRow.add(contentTextfield);
+	
+	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, false);
+	
+	var glyphImage = Ti.UI.createImageView({
+		top: 10,
+		left: 22, 
+		width: 34,
+		height: 34,
+		image: topicGlyphImage
+	})
+	tableRow.add(glyphImage);	
 	
 	contentTextfield.addEventListener('focus', function() {
-		tableRow.resetBorder();
 		modified = true;
 		Ti.API.info('contentTextfield modified...');
 	});
@@ -56,9 +62,7 @@ TextFieldEditTableViewRow = function(_fieldName, _category, _content) {
 	tableRow.resetBorder = function() {
 		contentTextfield.borderColor = '#bbb';
 	};	
-	tableRow.add(categoryLabel);
-	tableRow.add(contentTextfield);
-	
+
 	return tableRow;		
 
 };

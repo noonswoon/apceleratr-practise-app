@@ -24,7 +24,7 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		left: 22, 
 		width: 34,
 		height: 34,
-		image: 'images/glyph-work.png'
+		image: 'images/glyph/glyph-work.png'
 	})
 	tableRow.add(glyphImage);
 	
@@ -54,7 +54,7 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		left: 22, 
 		width: 34,
 		height: 34,
-		image: 'images/glyph-secondary-work.png'
+		image: 'images/glyph/glyph-secondary-work.png'
 	})
 //	tableRow.add(secondaryGlyphImage);
 	
