@@ -24,7 +24,10 @@ EducationEditTableViewRow = function(_educationArray) {
 		height: 190,
 		backgroundImage: 'images/match-info-white-row.png',
 	});
-
+	tableRow.graduateSchoolTextfield = null;
+	tableRow.undergraduateSchoolTextfield = null;
+	tableRow.highSchoolTextfield = null;
+	
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
@@ -85,16 +88,23 @@ EducationEditTableViewRow = function(_educationArray) {
 			font:{fontSize:14},
 		});
 		tableRow.add(schoolLevelLabel);
-		
+			
 		(function() { //double binding, change execution context
 			var curTextfield = schoolNameTextfield;
 			var schoolSequence = i;
+			if(schoolSequence === 0) 
+				tableRow.graduateSchoolTextfield = curTextfield;
+			else if(schoolSequence === 1)
+				tableRow.undergraduateSchoolTextfield = curTextfield;
+			else tableRow.highSchoolTextfield = curTextfield;
+			
 			curTextfield.addEventListener('focus', function() {
 				modified = true;
 				if(curTextfield.value === schoolNameDefaultStr[schoolSequence]) {
 					curTextfield.value = "";
 					curTextfield.color = "#4e5866";
 				}
+				
 			});
 		})();
 	}
@@ -103,8 +113,16 @@ EducationEditTableViewRow = function(_educationArray) {
 		return fieldName;
 	};
 	
+	tableRow.getModified = function() {
+		return modified;
+	};
+		
 	tableRow.getContent = function() {
-		return contentLabel.text;
+		return {
+				'graduate_school':tableRow.graduateSchoolTextfield.value,
+				'college':tableRow.undergraduateSchoolTextfield.value,
+				'high_school':tableRow.highSchoolTextfield.value
+		};
 	};
 
 	tableRow.setContent = function(_value) {

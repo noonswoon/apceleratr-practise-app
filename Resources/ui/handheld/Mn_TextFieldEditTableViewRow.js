@@ -68,11 +68,12 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	};
 		
 	tableRow.highlightBorder = function() {
+		contentTextfield.borderWidth = 1;
 		contentTextfield.borderColor = 'red';
 	};
 	
 	tableRow.resetBorder = function() {
-		contentTextfield.borderColor = '#bbb';
+		contentTextfield.borderWidth = 0;
 	};	
 
 	return tableRow;		

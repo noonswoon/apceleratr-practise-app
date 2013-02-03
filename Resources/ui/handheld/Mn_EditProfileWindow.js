@@ -332,8 +332,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		        }
 		        
 		        if(row.getModified()) {
-		        	Ti.API.info('found modified content: '+row.getFieldName()+', value: '+row.getContent());
-		        	editParams[row.getFieldName()] =  row.getContent();
+		        	if(row.getFieldName() !== 'education') {
+			        	Ti.API.info('found modified content: '+row.getFieldName()+', value: '+row.getContent());
+			        	editParams[row.getFieldName()] =  row.getContent();
+		        	} else { //special case for education
+		        		editParams['grad_school'] =  row.getContent()['graduate_school']; //TODO: will fix this to graduate_school once Amm changed it!
+		        		editParams['college'] =  row.getContent()['college'];
+		        		editParams['high_school'] =  row.getContent()['high_school'];	
+		        	}
 		        }
 		    }
 		}
@@ -349,8 +355,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 							message:L('Your information is saved.')
 						});
 					successDialog.show();
-					if(true) {
-					//if(_newUser) {
+					//if(true) {
+					if(_newUser) {
 						var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
 						var inviteFriendWindow = new InviteFriendWindowModule(_userId, true);
 						_navGroup.open(inviteFriendWindow);
@@ -380,7 +386,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			warningDialog.show();
 		}
 	});
-	
 	Ti.App.addEventListener('selectedFbPhoto', selectedFbPhotoCallback);
 	
 	var openImageDialogCallback = function(e) {
