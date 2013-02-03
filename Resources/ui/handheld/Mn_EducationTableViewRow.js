@@ -25,7 +25,7 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 		left: 22, 
 		width: 34,
 		height: 34,
-		image: 'images/glyph-education.png'
+		image: 'images/glyph/glyph-education.png'
 	})
 	tableRow.add(glyphImage);
 	

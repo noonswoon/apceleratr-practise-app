@@ -1,14 +1,14 @@
-AboutMeEditTableViewRow = function(_fieldName, _content) {
+AboutMeEditTableViewRow = function(_content) {
 	var DefaultTextHelper = require('internal_libs/defaultTextHelper');
 	
-	var fieldName = _fieldName;
+	var fieldName = 'about_me';
 	var modified = false;
 	
 	var content = _content;
 	var textColor = "#697688";
 	if(_content === "") {
 		textColor =  "#a3a7ad";
-		content = DefaultTextHelper.getDefaultText(_fieldName);
+		content = DefaultTextHelper.getDefaultText(fieldName);
 	}
 	
 	var numChars = _content.length;
@@ -21,7 +21,7 @@ AboutMeEditTableViewRow = function(_fieldName, _content) {
 		left: 0,
 		width: '100%',
 		height: 90 + rowHeightOffset * 21 ,
-		backgroundImage: 'images/match-info-white-row.png',
+		backgroundImage: 'images/match-bottom-box.png',
 	});
 
 	if(Ti.Platform.osname === 'iphone')
@@ -50,7 +50,7 @@ AboutMeEditTableViewRow = function(_fieldName, _content) {
 	
 	contentTextArea.addEventListener('focus', function() {
 		modified = true;
-		if(contentTextArea.value === DefaultTextHelper.getDefaultText(_fieldName)) {
+		if(contentTextArea.value === DefaultTextHelper.getDefaultText(fieldName)) {
 			contentTextArea.value = "";
 			contentTextArea.color = "#697688";
 		}

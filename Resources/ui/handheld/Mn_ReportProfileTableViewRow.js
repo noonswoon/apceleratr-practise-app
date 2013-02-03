@@ -1,6 +1,6 @@
-ReportProfileTableViewRow = function(_fieldName) {
+ReportProfileTableViewRow = function() {
 	
-	var fieldName = _fieldName;
+	var fieldName = 'report_profile';
 	var modified = false;
 	
 	//2532 -base, 2632 >> 100 >> 50; 2674 --> 42/2

@@ -43,7 +43,6 @@ TopFriendsTableViewRow = function(_fbUser) {
 		height: 28
 	});
 	
-	//double binding - changing the execution context
 	inviteIcon.addEventListener('click', function() {
 		if(Ti.App.ACTUAL_FB_INVITE) {
 			FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	

@@ -4,9 +4,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
 	var TextFieldEditTableViewRow = require('ui/handheld/Mn_TextFieldEditTableViewRow');
-	var TextAreaEditTableViewRow = require('ui/handheld/Mn_TextAreaEditTableViewRow');
+	var EducationEditTableViewRow = require('ui/handheld/Mn_EducationEditTableViewRow');
 	var PickerEditTableViewRow = require('ui/handheld/Mn_PickerEditTableViewRow');
 	var AboutMeEditTableViewRow = require('ui/handheld/Mn_AboutMeEditTableViewRow');
+	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');
 	var BackendUser = require('backend_libs/backendUser');
 	
 	var ModelEthnicity = require('model/ethnicity');
@@ -88,21 +89,27 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		data.push(employerTableViewRow);
 	
 		//EDUCATION SECTION
-		for(var i = 0; i < _userInfo.content.educations.length; i++) {
-			var curEd = _userInfo.content.educations[i]; 
-			var desc = "";
-			if(curEd.level === "high_school") desc = "second_education";
-			else if(curEd.level === "college") desc = "second_education";
-			else desc = "education";
-			
-			var educationTableViewRow = new TextFieldEditTableViewRow(desc, curEd.name);	
-			data.push(educationTableViewRow);
-		}
+		var educationTableViewRow = new EducationEditTableViewRow(_userInfo.content.educations);
+		data.push(educationTableViewRow);
 
 		//ABOUTME SECTION	
-		var aboutMeTableViewRow = new AboutMeEditTableViewRow('about_me',_userInfo.content['about_me']);
+		var aboutMeTableViewRow = new AboutMeEditTableViewRow(_userInfo.content['about_me']);
 		data.push(aboutMeTableViewRow);
 
+		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: 5,
+			backgroundImage: 'images/match-bottom.png'
+		});
+		if(Ti.Platform.osname === 'iphone')
+			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+		data.push(edgeGradientTableViewRow); 
+		
+		var reportProfileTableViewRow = new ReportProfileTableViewRow(); 
+		data.push(reportProfileTableViewRow);
+		
 		//SETTING DATA
 		editTableView.setData(data);
 	}	
