@@ -291,8 +291,25 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	    return (input - 0) == input && input.length > 0;
 	}
 	
+	var unsavedWarningDialog = Titanium.UI.createAlertDialog({
+		title:'Profile is not saved.',
+		message:'You will lose your unsaved data.',
+		buttonNames: ['Cancel','Continue'],
+		cancel: 0
+	});
+	
+	unsavedWarningDialog.addEventListener('click', function(e) {
+		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
+			Ti.API.info('(There was no button to click)');
+		} else {
+			if(e.index === 1) {
+				_navGroup.close(self, {animated:true}); //go to the main screen
+			}
+		}
+	});		
+	
 	cancelButton.addEventListener('click', function() {
-		_navGroup.close(self, {animated:true}); //go to the main screen
+		unsavedWarningDialog.show();	
 	});
 	
 	saveButton.addEventListener('click', function() {		
@@ -355,11 +372,13 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {
+					/*
 					var successDialog = Titanium.UI.createAlertDialog({
 							title:L('Thank you!'),
 							message:L('Your information is saved.')
 						});
 					successDialog.show();
+					*/
 					//if(true) {
 					if(_newUser) {
 						var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');

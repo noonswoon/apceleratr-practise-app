@@ -61,6 +61,9 @@ AboutMeEditTableViewRow = function(_content) {
 		return fieldName;
 	};
 	
+	tableRow.getModified = function() {
+		return modified;
+	};	
 	tableRow.getContent = function() {
 		return contentTextArea.value;
 	};
