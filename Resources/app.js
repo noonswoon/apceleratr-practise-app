@@ -2,6 +2,7 @@
 /*
  * 1. get the invite all screen to load up faster
  * 2. the invite all screen might need: 'load more'
+ * 3. need to freeze the main screen when the left or right menu is showing
  */
 
 /*

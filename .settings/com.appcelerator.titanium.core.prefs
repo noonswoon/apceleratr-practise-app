@@ -1,8 +1,4 @@
 eclipse.preferences.version=1
-provisioning_profiles/development/3C109C20-EDD9-4009-9D93-EB52362AB3E4/appid=com.noonswoon.beta
-provisioning_profiles/development/3C109C20-EDD9-4009-9D93-EB52362AB3E4/filepath=/Users/titaniummick/Library/MobileDevice/Provisioning Profiles/3C109C20-EDD9-4009-9D93-EB52362AB3E4.mobileprovision
-provisioning_profiles/development/3C109C20-EDD9-4009-9D93-EB52362AB3E4/name=Noonswoon Provisioning
-provisioning_profiles/development/3C109C20-EDD9-4009-9D93-EB52362AB3E4/uuid=3C109C20-EDD9-4009-9D93-EB52362AB3E4
 provisioning_profiles/development/4D3D2C34-A5A5-4010-8160-9EE00C6D7AE3/appid=mobi.chatterbox.rc
 provisioning_profiles/development/4D3D2C34-A5A5-4010-8160-9EE00C6D7AE3/filepath=/Users/titaniummick/Library/MobileDevice/Provisioning Profiles/4D3D2C34-A5A5-4010-8160-9EE00C6D7AE3.mobileprovision
 provisioning_profiles/development/4D3D2C34-A5A5-4010-8160-9EE00C6D7AE3/name=ChatterboxRCDev
@@ -35,3 +31,7 @@ provisioning_profiles/development/E39AC8AF-3DA3-492D-8179-EA9A25E37A03/appid=com
 provisioning_profiles/development/E39AC8AF-3DA3-492D-8179-EA9A25E37A03/filepath=/Users/titaniummick/Library/MobileDevice/Provisioning Profiles/PubNubChatProfile.mobileprovision
 provisioning_profiles/development/E39AC8AF-3DA3-492D-8179-EA9A25E37A03/name=PubNubChatProfile
 provisioning_profiles/development/E39AC8AF-3DA3-492D-8179-EA9A25E37A03/uuid=E39AC8AF-3DA3-492D-8179-EA9A25E37A03
+provisioning_profiles/development/EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9/appid=com.noonswoon.beta
+provisioning_profiles/development/EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9/filepath=/Users/titaniummick/Library/MobileDevice/Provisioning Profiles/EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9.mobileprovision
+provisioning_profiles/development/EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9/name=Noonswoon Provisioning
+provisioning_profiles/development/EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9/uuid=EA2CF28C-374F-47EF-AAA8-91D4A1E1AAE9

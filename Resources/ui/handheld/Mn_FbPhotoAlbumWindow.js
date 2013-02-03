@@ -64,7 +64,7 @@ FbPhotoAlbumWindow = function(_navGroup) {
 		var thisRow = Ti.UI.createTableViewRow({
 							className: "grid",
 							layout: "horizontal",
-							backgroundColor:"#b8b8b8",
+							backgroundColor:"#eeeeee",
 						});
 		if(Ti.Platform.osname === 'iphone')
 			thisRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;

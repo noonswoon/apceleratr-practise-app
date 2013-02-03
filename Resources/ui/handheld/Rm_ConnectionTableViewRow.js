@@ -1,24 +1,23 @@
 ConnectionTableViewRow = function(_userId, _matchInfo){
-	
-	var row = Ti.UI.createTableViewRow({
+	var self = Ti.UI.createTableViewRow({
+		className: 'connectionRow',
 		height: 45,
-		backgroundColor: '#32394a'
+		backgroundImage: 'images/menu-row-item.png',
 	});
-	
+	if(Ti.Platform.osname === 'iphone')
+		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+		
 	var personNameLbl = Ti.UI.createLabel({
 		text: _matchInfo.first_name,
-		textAlign: 'left',
-		color: '#c4ccda',
-		left: 60,
-		width: 142,
-		top: 10,
-		font:{fontWeight:'bold',fontSize:12},
+		left: 55,
+		top: 12,
+		color: '#cdd4df',
+		font:{fontSize:16},
 	});
-	row.add(personNameLbl);
+	self.add(personNameLbl);
 	
 	var dm = Ti.App.moment(_matchInfo.connected_date, "YYYY-MM-DDTHH:mm:ss");
 	var connectedStr = dm.format('DD/MM/YY');
-	
 	var connectDateLbl = Ti.UI.createLabel({
 		text: 'Connected on ' + connectedStr,
 		textAlign: 'left',
@@ -27,22 +26,37 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		top: 30,
 		font:{fontSize:10},
 	});
-	row.add(connectDateLbl);
+//	self.add(connectDateLbl);
+
 	var personImage = Ti.UI.createImageView({
 		image: _matchInfo.image,
 		width:35,
 		height:35,
-		left:5
+		top: 4,
+		left: 8,
+		borderColor: '#111b33', 
+		borderWidth: 1,
+		borderRadius: 2
+	});
+	self.add(personImage);
+	
+	var leftArrow = Ti.UI.createImageView({
+		image: 'images/menu-separator-arrow.png',
+		left: 242,
+		top: 15,
+		width: 11,
+		height: 15
+	});
+	self.add(leftArrow);
+	
+	self.matchId = _matchInfo.match_id;
+	self.profileId = _matchInfo.user_id;
+	self.firstName = _matchInfo.first_name;
+	
+	self.addEventListener('click', function() {
+		Ti.API.info('the connection row is clicked!');
 	});
 	
-	row.add(personImage);
-	row.matchId = _matchInfo.match_id;
-	row.profileId = _matchInfo.user_id;
-	row.firstName = _matchInfo.first_name;
-	
-	row.addEventListener('click', function() {
-		Ti.API.info('the row is clicked!');
-	});
-	return row;
+	return self;
 }
 module.exports = ConnectionTableViewRow;

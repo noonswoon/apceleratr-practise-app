@@ -73,12 +73,14 @@ LeftMenuWindow = function(_userId) {
 		top: 11,
 		color: '#ababab',
 		font:{fontWeight:'bold',fontSize:12},
+		shadowColor: '#403e3e', 
+		shadowOffset: {x:0,y:1}
 	});
 	
 	var leftArrow = Ti.UI.createImageView({
 		image: 'images/menu-separator-arrow.png',
 		left: 242,
-		top: 10,
+		top: 13,
 		width: 11,
 		height: 15
 	});

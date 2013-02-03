@@ -11,38 +11,39 @@ ConnectionWindow = function(_userId) {
 		width:260,
 		zIndex:0,
 	});
-	
-	var connectionTableView = Ti.UI.createTableView({
-		top: 30,
-		backgroundColor: '#32394a',
-		separatorColor: '#242a37',
-		editable: true,
-	});	
 
 	var editSection = Ti.UI.createView({
 		top: 0,
-		right:0,
+		left:0,
 		width: 260,
-		height: 30,
-		backgroundColor: '#32394a'
-	});
+		height: 38,
+		borderColor: 'transparent',
+		borderWidth: 0,
+		backgroundImage: 'images/menu-separator.png'
+	});	
+	
 	var connectionsLbl = Ti.UI.createLabel({
 		text: 'CONNECTIONS',
-		color: '#949caa',
-		left: 10,
-		top: 10,
-		font:{fontWeight:'bold',fontSize:11},
+		left: 11,
+		top: 11,
+		color: '#ababab',
+		font:{fontWeight:'bold',fontSize:12},
+		shadowColor: '#403e3e', 
+		shadowOffset: {x:0,y:1}
 	});
 	
-	var isInEditMode = false;
 	var editLbl = Ti.UI.createLabel({
 		text: 'EDIT',
-		color: '#949caa',
+		color: '#ababab',
 		right: 10,
 		top: 10,
-		width: 30,
-		font:{fontWeight:'bold',fontSize:10},
+		width: 35,
+		font:{fontWeight:'bold',fontSize:12},
+		shadowColor: '#403e3e', 
+		shadowOffset: {x:0,y:1}
 	});
+		
+	var isInEditMode = false;
 	editSection.add(connectionsLbl);
 	editSection.add(editLbl);
 	
@@ -58,6 +59,14 @@ ConnectionWindow = function(_userId) {
 		}
 	});
 
+	var connectionTableView = Ti.UI.createTableView({		
+		backgroundColor: '#4a4949',
+		separatorColor: 'transparent',
+		top: 38,
+		left: 0,
+		editable: true
+	});	
+	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
 		Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
