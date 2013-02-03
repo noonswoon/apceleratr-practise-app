@@ -89,10 +89,10 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"user/id/"+_userId;
-		Ti.API.info('getUserInfo url: '+url);
+		//Ti.API.info('getUserInfo url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
-		    	Ti.API.info('getUserInfo: '+this.responseText);
+		    	//Ti.API.info('getUserInfo: '+this.responseText);
 		    	_callbackFn(JSON.parse(this.responseText));
 		      	//get the user session ? may be no need to
 		    },

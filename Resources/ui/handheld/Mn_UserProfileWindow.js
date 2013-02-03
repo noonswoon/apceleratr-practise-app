@@ -201,7 +201,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 
 	
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
-		Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 		if(_userInfo.meta.status === 'error') {
 			Ti.App.fireEvent('openErrorWindow');
 		} else {

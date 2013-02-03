@@ -198,6 +198,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		numThumbnailsToWait--;	
 		Ti.API.info('numThumbnailsToWait: '+numThumbnailsToWait);
 		if(numThumbnailsToWait === 0) {
+			
+			//close loading screen
+			hidePreloader(self);
+			
 			var fbPhotoAlbumWindow = new FbPhotoAlbumWindowModule(_navGroup);
 			_navGroup.open(fbPhotoAlbumWindow);	
 		}
@@ -207,6 +211,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	// add event listener
 	dialog.addEventListener('click',function(e)	{
 		if(e.index == 0) { //facebook
+			showPreloader(self,'Loading...');
 			//get the facebook photos and build the facebook album here
 			Titanium.Facebook.requestWithGraphPath('me/albums', {
             	fields : 'id, type'
