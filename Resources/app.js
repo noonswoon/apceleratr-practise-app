@@ -1,5 +1,8 @@
-// tasks: get the credit system to work 'Reveal Mutual Friends'
-//get the sign up flow to work (force invited)
+// TODO: 
+/*
+ * 1. get the invite all screen to load up faster
+ * 2. the invite all screen might need: 'load more'
+ */
 
 /*
  * Single Window Application Template:
@@ -133,6 +136,7 @@ if (Ti.version < 1.8 ) {
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
 							var mainApp = new MainApplicationModule(currentUserId);
 							mainApp.open();
+							mainApp.closeBlankWindow();
 						});
 					} else {
 						//open login page

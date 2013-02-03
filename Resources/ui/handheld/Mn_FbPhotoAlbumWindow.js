@@ -2,16 +2,29 @@ FbPhotoAlbumWindow = function(_navGroup) {
 	
 	var navGroup = _navGroup;
 
+	var backButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png'
+	});
+	
 	//create component instance
 	var self = Ti.UI.createWindow({
-		backgroundColor:'white',
+		backgroundColor:'#eeeeee',
 		navBarHidden: false,
-		title: 'Facebook Photos'
+		title: 'Facebook Photos',
+		barImage: 'images/top-bar-stretchable.png',
+		leftNavButton: backButton,
 	});
-	   
+	
+	backButton.addEventListener('click', function() {
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+		   
     var tableview = Ti.UI.createTableView({
     	backgroundColor : 'transparent',
-    	rowBackgroundColor : 'white',
     	separatorColor: 'transparent',
     });
 	if(Ti.Platform.osname === 'iphone')
@@ -51,7 +64,7 @@ FbPhotoAlbumWindow = function(_navGroup) {
 		var thisRow = Ti.UI.createTableViewRow({
 							className: "grid",
 							layout: "horizontal",
-							backgroundColor:"black",
+							backgroundColor:"#b8b8b8",
 						});
 		if(Ti.Platform.osname === 'iphone')
 			thisRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;

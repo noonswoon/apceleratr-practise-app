@@ -35,21 +35,22 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	var userCredit = CreditSystem.getUserCredit();
 	var inviteButton = Ti.UI.createButton({
-			backgroundImage: inviteBtnBgImage,
-			color: inviteBtnFontColor,
-			width:84,
-			height:30,
-			font:{fontSize:14,fontWeight:'bold'},
-			title:'Invite ('+numInvites+')',
-			enabled: inviteBtnEnable
-		});
+		backgroundImage: inviteBtnBgImage,
+		color: inviteBtnFontColor,
+		width:84,
+		height:30,
+		font:{fontSize:14,fontWeight:'bold'},
+		title:'Invite ('+numInvites+')',
+		enabled: inviteBtnEnable
+	});
+	
 	var backButton = Ti.UI.createButton({
-			backgroundImage: 'images/top-bar-button.png',
-			color: '#f6f7fa',
-			width: 44,
-			height: 30,
-			image: 'images/topbar-glyph-back.png'
-		});
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png'
+	});
 		
 	var self = Titanium.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',

@@ -76,14 +76,14 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		width: femaleBarLength,
 		height: 25,
 		left: (126 - femaleBarLength), //starting point is 126..need to offset to the left by minus the lenght of the bar
-		top: 37,
+		top: 38,
 	});
 	var femaleBarEdge = Ti.UI.createImageView({
 		image: 'images/friend-ratio-female-bar.png',
 		width: 3,
 		height: 25,
 		left: (126 - femaleBarLength - 3), //starting point is 126..need to offset to the left by minus the lenght of the bar
-		top: 37,
+		top: 38,
 	});
 	tableRow.add(femaleBar);
 	tableRow.add(femaleBarEdge);
@@ -111,14 +111,14 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 	var maleBar = Ti.UI.createImageView({
 		image: 'images/friend-ratio-male-bar-stretch.png',
 		width: maleBarLength,
-		height: 25,
-		left: 193,
+		height: 26,
+		left: 195,
 		top: 37
 	});
 	var maleBarEdge = Ti.UI.createImageView({
 		image: 'images/friend-ratio-male-bar.png',
 		width: 3,
-		height: 25,
+		height: 26,
 		left: 193 + maleBarLength,
 		top: 37
 	});

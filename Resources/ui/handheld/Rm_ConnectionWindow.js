@@ -8,7 +8,8 @@ ConnectionWindow = function(_userId) {
 	var self = Titanium.UI.createWindow({
 		top:0,
 		right:0,
-		width:260
+		width:260,
+		zIndex:0,
 	});
 	
 	var connectionTableView = Ti.UI.createTableView({

@@ -1,6 +1,7 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
+	var BlankWindowModule = require('ui/handheld/Mn_BlankWindow');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
 	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
@@ -55,7 +56,6 @@ function ApplicationWindow(_userId) {
 	
 	var isToggled = false;		
 	var leftMenu = new LeftMenuWindowModule(_userId);
-	leftMenu.open();
 
 	var toggleLeftMenu = function() {
 		if( !isToggled ){
@@ -72,7 +72,6 @@ function ApplicationWindow(_userId) {
 	});
 
 	var rightMenu = new ConnectionWindowModule(_userId);
-	rightMenu.open();
 
 	var toggleRightMenu = function() {
 		if( !isToggled ){
@@ -159,6 +158,16 @@ function ApplicationWindow(_userId) {
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});
 	matchWindow.setNavGroup(navigationGroup);
+	
+	leftMenu.open();
+	rightMenu.open();
+	
+	var blankWindow = BlankWindowModule()
+	blankWindow.open(); //hiding the leftMenu and rightMenu behind blank window when the app is starting
+	
+	self.closeBlankWindow = function() {
+		blankWindow.close();
+	};
 	
 	self.add(navigationGroup);
 				

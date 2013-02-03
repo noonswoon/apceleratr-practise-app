@@ -22,6 +22,7 @@ MatchWindow = function(_userId, _matchId) {
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
+		zIndex:1
 	});
 				
 	var contentView = Ti.UI.createTableView({
