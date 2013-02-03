@@ -16,11 +16,13 @@
 Ti.App.Chat = function(_chatParams) {    
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
+	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 	
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
 	var userObject = {id: _chatParams.userId, imageUrl: ''}; //real data --> {id: _chatParams.userId,imageUrl: ''};
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: ''}; //{id: _chatParams.otherUserId,imageUrl: ''};
 	var adminUserObject = {id: '', imageUrl: 'http://dummy.com/test.png'}; //for the greet message
+	var navGroup = _chatParams.navGroup;
 		
 	var chatMessagesTableView = Ti.UI.createTableView({
 		top:0,
@@ -148,22 +150,32 @@ Ti.App.Chat = function(_chatParams) {
     };
     
     var profileButton = Ti.UI.createButton({
-        systemButton:Titanium.UI.iPhone.SystemButton.COMPOSE,
-		left: 10,
-		width: 30,
+    	backgroundImage: 'images/top-bar-button.png',
+		width: 44,
 		height: 30,
-		top: 10
+		image: 'images/topbar-glyph-profile.png',
 	});
 
+	var backButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png',
+	});
+	
 	var chatWindow = Ti.UI.createWindow({
+		barImage: 'images/top-bar-stretchable.png',
 		title: 'Chat with '+_chatParams.otherUserFirstName,
-		backgroundImage: 'images/bg.png',
+		navBarHidden: false,
+		backgroundColor: '#eeeeee',
+		leftNavButton: backButton,
 		rightNavButton: profileButton,
-//		barImage: 'images/nav_bg_w_pattern.png',
-//		backgroundImage: 'images/bg.png',
-//		barColor:'#489ec3',
 	});
 
+	backButton.addEventListener('click', function() {
+		navGroup.close(chatWindow, {animated:true}); //go to the main screen
+	});
+	
 	var loadHistoryMessagesRow = Ti.UI.createTableViewRow({
 		top: 7,
 		height: 30
@@ -275,8 +287,11 @@ Ti.App.Chat = function(_chatParams) {
 	
 	profileButton.addEventListener('click', function() {
 		Ti.API.info('open profile click');
-		Ti.App.fireEvent('openProfileWindow', {matchId: _chatParams.matchId});
+		
+		var userProfileWindow = new UserProfileWindowModule(navGroup, userObject.id, otherUserObject.id);
+		navGroup.open(userProfileWindow, {animated:true});
 	});
+	
 	chatWindow.addEventListener('close', function(){
 		//unsubscribe here...
 		Ti.API.info('unsubscribe from channel: '+currentChatRoom);

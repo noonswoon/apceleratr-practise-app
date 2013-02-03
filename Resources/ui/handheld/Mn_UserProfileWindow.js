@@ -39,7 +39,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		
 	var self = Ti.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
-		title: 'My Profile',
 		navBarHidden: false,
 		leftNavButton: backButton
 	});
@@ -99,6 +98,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
     	var	nameStr = _userInfo.content['general'].first_name; 
     	if(_userId === _targetedUserId) {
     		nameStr += ' ' +  _userInfo.content['general'].last_name;		
+    		self.title = 'My Profile';
     	} else {
     		self.title = _userInfo.content['general'].first_name +'\'s Profile';
     	}

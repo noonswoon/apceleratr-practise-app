@@ -96,7 +96,8 @@ function ApplicationWindow(_userId) {
 		    matchId	: e.matchId,
 		    userId	: _userId, 
 		    otherUserId : e.otherUserId,
-		    otherUserFirstName: e.otherUserFirstName
+		    otherUserFirstName: e.otherUserFirstName,
+		    navGroup: navigationGroup,
 		});	
 		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});
 		toggleRightMenu();
