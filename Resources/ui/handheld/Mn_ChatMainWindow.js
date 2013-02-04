@@ -21,7 +21,7 @@ Ti.App.Chat = function(_chatParams) {
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
 	var userObject = {id: _chatParams.userId, imageUrl: ''}; //real data --> {id: _chatParams.userId,imageUrl: ''};
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: ''}; //{id: _chatParams.otherUserId,imageUrl: ''};
-	var adminUserObject = {id: '', imageUrl: 'http://dummy.com/test.png'}; //for the greet message
+	//var adminUserObject = {id: '', imageUrl: 'http://dummy.com/test.png'}; //for the greet message
 	var navGroup = _chatParams.navGroup;
 		
 	var chatMessagesTableView = Ti.UI.createTableView({
@@ -47,9 +47,10 @@ Ti.App.Chat = function(_chatParams) {
 	        channel  : currentChatRoom,
 	        connect  : function() {
 	            Ti.API.info("connecting...");
-	            var welcomeChatRow = new ChatMessageTableViewRow("Welcome to Noonswoon Chat..please keep the place clean", adminUserObject, false);
+	            //var welcomeChatRow = new ChatMessageTableViewRow("Welcome to Noonswoon Chat..please keep the place clean", adminUserObject, false);
 	            
-	            chatMessagesTableView.setData([welcomeChatRow]);
+	            //chatMessagesTableView.setData([welcomeChatRow]);
+	            chatMessagesTableView.setData([]);
 	                			
     			//load chat history data and populate into the table
 				//scroll to the last one
@@ -63,24 +64,25 @@ Ti.App.Chat = function(_chatParams) {
 					});
 					// Convert your imageView into a blob
 					var userImageBlob = userImageView.toImage();
-					userImageBlob = userImageBlob.imageAsThumbnail(60);	 
+					userImageBlob = userImageBlob.imageAsThumbnail(35);	 
 										
 					var otherUserImageView = Ti.UI.createImageView({
 						image: _chatHistory.content.other_user_image
 					});
 					// Convert your imageView into a blob
 					var otherUserImageBlob = otherUserImageView.toImage();
-					otherUserImageBlob = otherUserImageBlob.imageAsThumbnail(60);	 											
+					otherUserImageBlob = otherUserImageBlob.imageAsThumbnail(35);	 											
 
 					userObject.imageUrl = userImageBlob;
 					otherUserObject.imageUrl = otherUserImageBlob; 
 					
 					//need to sort messages array
 					var historyMessages = _chatHistory.content.chat_messages; 
+					Ti.API.info('historyMessages: '+JSON.stringify(historyMessages));
 					historyMessages.sort(compareChatHistory);
 					
-					for(var i = 0; i < historyMessages.length; i++) {
-						//Ti.API.info('time: '+ historyMessages[i].time+', mesage: '+historyMessages[i].message);
+					for(var i = 0; i < historyMessages.length; i++) { //fixing this
+						Ti.API.info('time: '+ historyMessages[i].time+', mesage: '+historyMessages[i].message);
 						var historyUserObj = otherUserObject; 
 						var isYourMessage = false;
 						//Ti.API.info('senderId: '+historyMessages[i].sender_id +', userId: '+userObject.id);
@@ -90,9 +92,14 @@ Ti.App.Chat = function(_chatParams) {
 							//Ti.API.info('setting to myMessage');
 						}
 						var newChatRow = new ChatMessageTableViewRow(historyMessages[i].message,historyUserObj,isYourMessage);
-			          	chatMessagesTableView.insertRowAfter(0,newChatRow);
+			          	if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
+				          	chatMessagesTableView.insertRowAfter(0,newChatRow);
+						} else { 
+				        	chatMessagesTableView.append(newChatRow);
+						}
 					}
-					chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+					if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+						chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
 				});
 	        },
 	        callback : function(message) {
@@ -104,7 +111,8 @@ Ti.App.Chat = function(_chatParams) {
 	           		var newChatRow = new ChatMessageTableViewRow(message.text,senderObj,false);
 	           		chatMessagesTableView.appendRow(newChatRow);
 	           	   	setTimeout(function() {
-			   			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //add some delay-fixing stuff here scroll to the latest row
+	           	   		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+				   			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //add some delay-fixing stuff here scroll to the latest row
 					}, 1000);
 	           	}
 	        },
@@ -253,7 +261,9 @@ Ti.App.Chat = function(_chatParams) {
 	});
 
 	chatInputTextField.addEventListener('focus', function() {
-		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
+			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+		}
 		chatMessagesTableView.animate(animateNegativeUp_chatView);
 	//	chatInputView.top = 140;
 		chatInputView.animate(animateUp_inputView);
@@ -281,7 +291,8 @@ Ti.App.Chat = function(_chatParams) {
 		chatInputTextField.value = "";
     	chatInputTextField.blur();
     	setTimeout(function() {
-			   	chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //fixing stuff here scroll to the latest row
+    		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+    			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //fixing stuff here scroll to the latest row
 		}, 500); 	
     });
 	
@@ -302,4 +313,3 @@ Ti.App.Chat = function(_chatParams) {
 	
     return this;
 };
-

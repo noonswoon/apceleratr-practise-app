@@ -68,22 +68,20 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		font: {fontSize: 10, fontWeight: 'bold'},
 	});
 	tableRow.add(friendsLbl);
-
-
 	
 	var femaleBar = Ti.UI.createImageView({
 		image: 'images/friend-ratio-female-bar-stretch.png',
 		width: femaleBarLength,
-		height: 25,
-		left: (126 - femaleBarLength), //starting point is 126..need to offset to the left by minus the lenght of the bar
-		top: 38,
+		height: 26,
+		left: (127 - femaleBarLength), //starting point is 126..need to offset to the left by minus the lenght of the bar
+		top: 37,
 	});
 	var femaleBarEdge = Ti.UI.createImageView({
 		image: 'images/friend-ratio-female-bar.png',
 		width: 3,
-		height: 25,
-		left: (126 - femaleBarLength - 3), //starting point is 126..need to offset to the left by minus the lenght of the bar
-		top: 38,
+		height: 26,
+		left: (127 - femaleBarLength - 3), //starting point is 126..need to offset to the left by minus the lenght of the bar
+		top: 37,
 	});
 	tableRow.add(femaleBar);
 	tableRow.add(femaleBarEdge);
@@ -91,7 +89,7 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 	var femaleIcon = Ti.UI.createImageView({
 		image: 'images/friend-ratio-female.png',
 		top: 42,
-		left: (126 - femaleBarLength - 11 - 5),
+		left: (127 - femaleBarLength - 11 - 5),
 		width:11,
 		height: 14,
 	});
@@ -99,27 +97,25 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 	
 	var femalePercent = Ti.UI.createLabel({
 		text: femaleFriendPercent + '%',
-		left: (126 - femaleBarLength - 11 - 5 - 28), //starting point is 126..need to offset to the left by minus the lenght of the bar
+		left: (127 - femaleBarLength - 11 - 5 - 31), //starting point is 126..need to offset to the left by minus the lenght of the bar
 		top: 40,
 		color: '#fa7dcf',
 		font: {fontSize: 14, fontWeight: 'bold'},
 	});
 	tableRow.add(femalePercent);
-
-
 	
 	var maleBar = Ti.UI.createImageView({
 		image: 'images/friend-ratio-male-bar-stretch.png',
 		width: maleBarLength,
 		height: 26,
-		left: 195,
+		left: 194,
 		top: 37
 	});
 	var maleBarEdge = Ti.UI.createImageView({
 		image: 'images/friend-ratio-male-bar.png',
 		width: 3,
 		height: 26,
-		left: 193 + maleBarLength,
+		left: 194 + maleBarLength,
 		top: 37
 	});
 	tableRow.add(maleBar);

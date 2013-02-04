@@ -1,79 +1,227 @@
 ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
+	
+	var numLines = Math.ceil(_chatMessage.length / 24); 
+	
+	Ti.API.info('_chatMessage: '+_chatMessage+', numLines: '+ numLines);
+	
 	var self = Ti.UI.createTableViewRow({
-		className: 'ChatMessageRow',
-		height: 'auto',
-		bottom: 10
+		height: 30 + numLines * 15,
+		borderColor: 'black', 
+		borderWidth: 1,
 	});
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	
 	var userPic = Ti.UI.createImageView({
-		width: 40,
-		height: 40,
-		borderColor: 'white',
-		borderWidth: 2,
-		borderRadius: 20,
-		image: _chatOwner.imageUrl
+		image: _chatOwner.imageUrl,
+		width: 35,
+		height: 35,
+		borderWidth: 1,
+		borderRadius: 2,
+		borderColor: '#d5d5d5',
+		bottom: 5,
 	});
-	
-	var chatMessageLabel = Ti.UI.createLabel({
-		top:5,
-		left: 15,
-		right: 10,
-		bottom: 15,
-		textAlign: 'left',
-		height: Ti.UI.SIZE,
-		width: Ti.UI.SIZE, //but cap at length x-->check with the content
-		text: _chatMessage,
-		font: { fontSize: 14, fontFamily: 'Helvetica Neue' }
-	});
-	
-	var backgroundViewForMessage = Ti.UI.createView({
-		height: Ti.UI.SIZE,
-		width: Ti.UI.SIZE,
-		top: 5
-	});
-	
-	var chatLabelWidth = chatMessageLabel.toImage().width;
-	
-	backgroundViewForMessage.add(chatMessageLabel);
-	
-	//0-30
-	//30-100
-	//>100
+
+	var horizontalLength = _chatMessage.length * 8;
+	if(horizontalLength > 188) 
+		horizontalLength = 188; 
+ 
+	var verticalLength = 1 + (numLines - 1) * 15; 
 	
 	if(_isASender) {
-		userPic.right = 10;
-		chatMessageLabel.color = 'white',
-		backgroundViewForMessage.right = 60;
-		if(chatLabelWidth <= 30) {
-			backgroundViewForMessage.backgroundImage = 'images/chat/blue0_quote.png';
-		}
-		else if(chatLabelWidth <= 100) {
-			backgroundViewForMessage.backgroundImage = 'images/chat/blue30_quote.png';
-		}
-		else {
-			backgroundViewForMessage.backgroundImage = 'images/chat/blue_quote.png';
-		}
-	}
-	else {
-		userPic.left = 10;
-		chatMessageLabel.color = 'black',
-		backgroundViewForMessage.left = 60;
-		if(chatLabelWidth <= 30) {
-			backgroundViewForMessage.backgroundImage = 'images/chat/gray0_quote.png';
-		}
-		else if(chatLabelWidth <= 100) {
-			backgroundViewForMessage.backgroundImage = 'images/chat/gray30_quote.png';
-		}
-		else {
-			backgroundViewForMessage.backgroundImage = 'images/chat/gray_quote.png';
-		}
+		//green bubble
+		userPic.right = 7;
+		var rightPosition = 49;
+		var bubblePart1 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-1.png',
+			top: 5,
+			right: rightPosition + 20 + horizontalLength,
+			width: 14, 
+			height: 19,
+		});
+		self.add(bubblePart1);
+		
+		var bubblePart2 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-2.png',
+			top: 5,
+			right: rightPosition + 20,
+			width: horizontalLength, 
+			height: 19,
+		});
+		self.add(bubblePart2);
+		
+		var bubblePart3 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-3.png',
+			top: 5,
+			right: rightPosition,
+			width: 20, 
+			height: 19,
+		});
+		self.add(bubblePart3);
+		
+		var bubblePart4 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-4.png',
+			top: 5 + 19,
+			right: rightPosition + 20 + horizontalLength,
+			width: 14, 
+			height: verticalLength,
+		});
+		self.add(bubblePart4);
+		
+		var bubblePart5 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-5.png',
+			top: 5 + 19,
+			right: rightPosition + 20,
+			width: horizontalLength, 
+			height: verticalLength,
+		});
+		self.add(bubblePart5);
+		
+		var bubblePart6 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-6.png',
+			top: 5 + 19,
+			right: rightPosition,
+			width: 20, 
+			height: verticalLength,
+		});
+		self.add(bubblePart6);
+		
+		var bubblePart7 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-7.png',
+			top: 5 + 19 + verticalLength,
+			right: rightPosition + 20 + horizontalLength,
+			width: 14, 
+			height: 12,
+		});
+		self.add(bubblePart7);
+		
+		var bubblePart8 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-8.png',
+			top: 5 + 19 + verticalLength,
+			right: rightPosition + 20,
+			width: horizontalLength, 
+			height: 12,
+		});
+		self.add(bubblePart8);
+	
+		var bubblePart9 = Ti.UI.createImageView({
+			image: 'images/chat/green-bubble-9.png',
+			top: 5 + 19 + verticalLength,
+			right: rightPosition,
+			width: 20, 
+			height: 12,
+		});	
+		self.add(bubblePart9);
+		
+		var chatMessageLabel = Ti.UI.createLabel({
+			left: 320 - (rightPosition + 20 + horizontalLength + 14) + 8, //+5 is padding
+			top: 10,
+			textAlign: 'left',
+			width: 210,
+			text: _chatMessage,
+			color: 'black',
+			font: { fontSize: 14, fontFamily: 'Courier' }
+		});
+		self.add(chatMessageLabel);
+	} else {
+		//gray bubble
+		userPic.left = 7;
+		
+		var leftPosition = 49;
+		var bubblePart1 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-1.png',
+			top: 5,
+			left: leftPosition,
+			width: 20, 
+			height: 19,
+		});
+		self.add(bubblePart1);
+		
+		var bubblePart2 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-2.png',
+			top: 5,
+			left: leftPosition + 20,
+			width: horizontalLength, 
+			height: 19,
+		});
+		self.add(bubblePart2);
+		
+		var bubblePart3 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-3.png',
+			top: 5,
+			left: leftPosition + 20 + horizontalLength,
+			width: 14, 
+			height: 19,
+		});
+		self.add(bubblePart3);
+		
+		var bubblePart4 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-4.png',
+			top: 5 + 19,
+			left: leftPosition,
+			width: 20, 
+			height: verticalLength,
+		});
+		self.add(bubblePart4);
+		
+		var bubblePart5 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-5.png',
+			top: 5 + 19,
+			left: leftPosition + 20,
+			width: horizontalLength, 
+			height: verticalLength,
+		});
+		self.add(bubblePart5);
+		
+		var bubblePart6 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-6.png',
+			top: 5 + 19,
+			left: leftPosition + 20 + horizontalLength,
+			width: 14, 
+			height: verticalLength,
+		});
+		self.add(bubblePart6);
+		
+		var bubblePart7 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-7.png',
+			top: 5 + 19 + verticalLength,
+			left: leftPosition,
+			width: 20, 
+			height: 12,
+		});
+		self.add(bubblePart7);
+		
+		var bubblePart8 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-8.png',
+			top: 5 + 19 + verticalLength,
+			left: leftPosition + 20,
+			width: horizontalLength, 
+			height: 12,
+		});
+		self.add(bubblePart8);
+	
+		var bubblePart9 = Ti.UI.createImageView({
+			image: 'images/chat/gray-bubble-9.png',
+			top: 5 + 19 + verticalLength,
+			left: leftPosition + 20 + horizontalLength,
+			width: 14, 
+			height: 12,
+		});	
+		self.add(bubblePart9);
+		
+		var chatMessageLabel = Ti.UI.createLabel({
+			left: leftPosition + 12, //+5 is padding
+			top: 10,
+			textAlign: 'left',
+			width: 210,
+			text: _chatMessage,
+			color: 'black',
+			font: { fontSize: 14, fontFamily: 'Courier' }
+		});
+		self.add(chatMessageLabel);
 	}
 	
-	self.add(userPic);
-	self.add(backgroundViewForMessage);
-	
+	self.add(userPic);	
 	return self;
 }
 module.exports = ChatMessageTableViewRow;
