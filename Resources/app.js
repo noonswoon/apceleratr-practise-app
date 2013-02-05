@@ -97,7 +97,6 @@ if (Ti.version < 1.8 ) {
 	var numWaitingEvent = 0; 
 		
 	Ti.App.addEventListener('doneWaitingEvent', function() {
-
 		numWaitingEvent--;
 		Ti.API.info('doneWaitingEvent listening, numWaitingEvent: '+numWaitingEvent);
 		if(numWaitingEvent <= 0) {	
@@ -148,6 +147,12 @@ if (Ti.version < 1.8 ) {
 				}
 			}
 		}
+	});
+	
+	Ti.Facebook.addEventListener('logout', function() {
+		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
+		var loginProcessWindow = new LoginProcessWindowModule();			
+		loginProcessWindow.open();
 	});
 	
 	//pull static data from server

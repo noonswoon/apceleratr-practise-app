@@ -220,6 +220,8 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			
 			logoutButton.addEventListener('click', function() {
 				Ti.API.info('logout from the app');
+				Ti.Facebook.logout();
+				self.close();
 			});
 		}
 
@@ -246,12 +248,26 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
 	
-	Ti.App.addEventListener('editProfileSuccess', function(e) {
+	var editProfileSuccessCallback = function(e) {
 		Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
-		
 		populateInfoDataTableView(e.editProfile);
-		
-		/*
+	};
+	
+	Ti.App.addEventListener('editProfileSuccess', editProfileSuccessCallback);
+	
+	var windowCloseCallback = function() {
+		Ti.App.removeEventListener('editProfileSuccess', editProfileSuccessCallback);
+	};
+
+	self.addEventListener('close', windowCloseCallback);
+	
+	self.add(contentView);
+	return self;
+};
+
+module.exports = UserProfileWindow;
+
+/*
 		 * sample code
 		 for(var prop in e.editInfo) {
 			if(prop.indexOf('photo') !== -1) {
@@ -277,11 +293,3 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			}	
     	}	
     	*/
-	});
-
-	self.add(contentView);
-	return self;
-};
-
-module.exports = UserProfileWindow;
-

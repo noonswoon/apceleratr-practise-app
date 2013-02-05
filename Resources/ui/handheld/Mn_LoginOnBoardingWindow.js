@@ -148,7 +148,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
 							var mainApp = new ApplicationWindowModule(_userLogin.meta.user_id);
 							mainApp.open();
-							
+							mainApp.closeBlankWindow();
 							self.close();
 			        	}
 			        });
@@ -182,15 +182,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		});
 	}
 
-//	fbLogOutButton.addEventListener('click', function() {
-//		Ti.Facebook.logout(); //logout from fb
-//	});
-
 	Ti.Facebook.addEventListener('login', facebookAuthenCallback);
-	
-	Ti.Facebook.addEventListener('logout', function() {
-		alert('logging out from fb');
-	});
 
 	self.addEventListener('close', function() {
 		Ti.Facebook.removeEventListener('login', facebookAuthenCallback);

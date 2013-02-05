@@ -58,7 +58,8 @@ function ApplicationWindow(_userId) {
 	var leftMenu = new LeftMenuWindowModule(_userId);
 	var rightMenu = new ConnectionWindowModule(_userId);
 
-	Ti.App.addEventListener('openChatWindow', function(e) {
+
+	var openChatWindowCallback = function(e) {
 		var chatRoomName = e.ChatRoomName;
 		Ti.API.info('openning chatroom: '+chatRoomName); 
 		var pubnubChatWindow = Ti.App.Chat({
@@ -72,47 +73,55 @@ function ApplicationWindow(_userId) {
 		});	
 		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});
 		toggleRightMenu();
-	});
+	};
+	Ti.App.addEventListener('openChatWindow', openChatWindowCallback);
 	
-	Ti.App.addEventListener('openProfileWindow', function(e) {
+	var openProfileWindowCallback = function(e) {
 		var userProfileWindow = new MatchWindow(_userId, e.matchId);
 		userProfileWindow.setNavGroup(navigationGroup);
 		navigationGroup.open(userProfileWindow);
-	});
+	};
+	Ti.App.addEventListener('openProfileWindow', openProfileWindowCallback);
 
-	Ti.App.addEventListener('openUserProfileWindow', function(e) {
+	var openUserProfileWindowCallback = function(e) {
+		Ti.API.info('ApplicationWindow: listened to openUserProfileWindow event');
 		var targetedUserId = e.targetedUserId;
 		var userProfileWindow = new UserProfileWindowModule(navigationGroup, _userId, targetedUserId);
 		navigationGroup.open(userProfileWindow, {animated:false});
 		toggleLeftMenu();
-	});
+	};
+	Ti.App.addEventListener('openUserProfileWindow', openUserProfileWindowCallback);
 		
-	Ti.App.addEventListener('openEditProfileWindow', function(e) {
+	var openEditProfileWindowCallback = function(e) {
 		var editProfileWindow = new EditProfileWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(editProfileWindow, {animated:false});
 		toggleLeftMenu();
-	});
+	};
+	Ti.App.addEventListener('openEditProfileWindow', openEditProfileWindowCallback);
 	
-	Ti.App.addEventListener('openInviteFriendWindow', function(e) {
+	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(inviteFriendWindow, {animated:false});
 		toggleLeftMenu();
-	});
+	};
+	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	Ti.App.addEventListener('openNoMatchWindow', function() {
+	var openNoMatchWindowCallback = function(e) {
 		var noMatchWindow = new NoMatchWindowModule(_userId);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
 		noMatchWindow.rightNavButton = toggleRightMenuBtn;
 		noMatchWindow.titleControl = timerView;
 		
 		navigationGroup.open(noMatchWindow, {animated:false});
-	});
+	};
+	Ti.App.addEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 	
-	Ti.App.addEventListener('openMutualFriendsWindow', function(e) {
+	var openMutualFriendsWindowCallback = function(e) {
 		var mutualFriendsArray = e.mutualFriendsArray;
 		var mutualFriendsWindow = new MutualFriendsWindowModule(navigationGroup, mutualFriendsArray);
 		navigationGroup.open(mutualFriendsWindow, {animated:true});
-	});
+	};
+	Ti.App.addEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 
 	//main match page
 	var matchWindow = new MatchWindowModule(_userId, null);
@@ -173,6 +182,23 @@ function ApplicationWindow(_userId) {
 		blankWindow.close();
 	};
 	
+	var windowCloseCallback = function() {
+		Ti.API.info('ApplicationWindow is close....');
+		Ti.App.removeEventListener('openChatWindow', openChatWindowCallback);
+		Ti.App.removeEventListener('openProfileWindow', openProfileWindowCallback);
+		Ti.App.removeEventListener('openUserProfileWindow', openUserProfileWindowCallback);
+		Ti.App.removeEventListener('openEditProfileWindow', openEditProfileWindowCallback);
+		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
+		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
+		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
+		Ti.Facebook.removeEventListener('logout', facebookLogoutCallback); 
+	};
+	self.addEventListener('close', windowCloseCallback);
+	
+	var facebookLogoutCallback = function() {
+		self.close();
+	};
+	Ti.Facebook.addEventListener('logout', facebookLogoutCallback);
 	self.add(navigationGroup);
 				
 	return self;
