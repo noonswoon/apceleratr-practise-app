@@ -200,24 +200,103 @@ Ti.App.Chat = function(_chatParams) {
 	
 	var chatInputView = Ti.UI.createView({
 		bottom: 0,
-		height: 40,
+		height: 41,
 		width: '100%',
 		zIndex: 2,
-		backgroundImage: 'images/chat/footerBG.png'
+		backgroundImage: 'images/chat/chat-bar-background.png'
 	});
+/*	
+	var chatInputBackgroundImageLeft = Ti.UI.createImageView({
+		image: 'images/chat/chat-bar-white-left.png',
+		top: 0, 
+		left: 6, 
+		width: 12, 
+		height: 41
+	});
+	chatInputView.add(chatInputBackgroundImageLeft); 
+	
+	var chatInputBackgroundImageCenter = Ti.UI.createImageView({
+		image: 'images/chat/chat-bar-white-middle.png',
+		top: 0, 
+		left: 6 + 12, 
+		width: 221, 
+		height: 41
+	});
+	chatInputView.add(chatInputBackgroundImageCenter); 
+	
+	var chatInputBackgroundImageRight = Ti.UI.createImageView({
+		image: 'images/chat/chat-bar-white-right.png',
+		top: 0, 
+		left: 6 + 12 + 221, 
+		width: 12, 
+		height: 41
+	});
+	chatInputView.add(chatInputBackgroundImageRight); 	
+*/	
+	var chatSendButtonLeft = Ti.UI.createImageView({
+		image: 'images/chat/green-button-left.png',
+		top: 8,
+		left: 256,
+		width: 12, 
+		height: 26,
+	});
+	chatInputView.add(chatSendButtonLeft);
+	
+	var chatSendButtonCenter = Ti.UI.createImageView({
+		image: 'images/chat/green-button-middle.png',
+		top: 8,
+		left: 256 + 12,
+		width: 37, 
+		height: 26,
+	});
+	chatInputView.add(chatSendButtonCenter);
+	
+	var chatSendButtonRight = Ti.UI.createImageView({
+		image: 'images/chat/green-button-right.png',
+		top: 8,
+		left: 256 + 12 + 37,
+		width: 12, 
+		height: 26,
+	});
+	chatInputView.add(chatSendButtonRight);
+	
+	var sendLabel = Ti.UI.createLabel({
+		text: 'Send', 
+		top: 12,
+		left: 256 + 13,
+		color: '#a8c98e', 
+		shadowColor: '#6ba333',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:14},
+		zIndex:3
+	});
+	chatInputView.add(sendLabel);
 	
 	var chatInputTextField   = Ti.UI.createTextArea({
+        top: 8,
+        left: 10,
         width: 237,
         height: 30,
-        left: 10,
-        color: "#111",
         value: "",
         font: {fontSize:14},
         textAlign: 'left',
         backgroundColor: 'transparent',
-        backgroundImage: 'images/chat/chattextfieldBG.png'
+        backgroundImage: 'images/chat/chat-textarea-background.png',
+        zIndex: 4,
     });
-	
+	chatInputView.add(chatInputTextField);
+
+	var hintTextLabel = Ti.UI.createLabel({
+		text: 'Message', 
+		top: 12,
+		left: 24,
+		color: '#ababab', 
+		font:{fontSize:14},
+		zIndex:4,
+		
+	});
+	chatInputView.add(hintTextLabel);
+		
     // Send Button
     var sendButton = Ti.UI.createImageView({
 		width: 60,
@@ -225,12 +304,12 @@ Ti.App.Chat = function(_chatParams) {
 		right: 10,
 		image: 'images/chat/send.png'
     });
-    
-	chatInputView.add(chatInputTextField);
-	chatInputView.add(sendButton);
+	chatWindow.add(chatInputView);    
+
+//	chatInputView.add(sendButton);
 	
 	chatWindow.add(chatMessagesTableView);
-	chatWindow.add(chatInputView);
+
 	
 	this.chatWindow = chatWindow;
     this.pubnub      = pubnub;
@@ -264,14 +343,19 @@ Ti.App.Chat = function(_chatParams) {
 		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
 			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
 		}
+		hintTextLabel.visible = false;
+		sendLabel.color = '#ffffff';
 		chatMessagesTableView.animate(animateNegativeUp_chatView);
-	//	chatInputView.top = 140;
 		chatInputView.animate(animateUp_inputView);
 		chatInputView.height = 60;
 		chatInputTextField.height = 40;
 	});
 	
 	chatInputTextField.addEventListener('blur', function() {
+		if(chatInputTextField.value === "") { 
+			sendLabel.color = '#a8c98e';
+			hintTextLabel.visible = true;
+		}
 		chatMessagesTableView.animate(animateDown_chatView);
 	//	chatInputView.top = 375;
 		chatInputView.animate(animateDown_inputView);
