@@ -56,14 +56,17 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		barImage: 'images/top-bar-stretchable.png',
 		title: L('Friends'),
 		navBarHidden: false,
-		leftNavButton: backButton,
 		rightNavButton: inviteButton,
 		backgroundColor: '#eeeeee'
 	});
 	if(_forcedInvite) {
 		self.leftNavButton = emptyView;
 		self.title = L('Friends');
+	} else {
+		self.leftNavButton = backButton;
+		self.title = L('Friends');
 	}
+	
 	//description section
 	var screenDescriptionView = Ti.UI.createView({
 		top: 0,
@@ -181,7 +184,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			});
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
-			//go to onboarding screen 3
+			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
+			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
+			_navGroup.open(onBoardingStep3Window);
 		}
 	});
 	

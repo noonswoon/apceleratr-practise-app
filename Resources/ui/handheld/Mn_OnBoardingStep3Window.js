@@ -48,7 +48,30 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	self.add(buttton);
 	
 	buttton.addEventListener('click', function() {
-		Ti.API.info('done..'+_userId);
+		var BackendUser = require('backend_libs/backendUser');
+		var CreditSystem = require('internal_libs/creditSystem');
+		var ModelFacebookLike = require('model/facebookLike');
+		
+		BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+			var facebookLikeArray = [];
+			for(var i = 0; i < _userInfo.content.likes.length; i++) {
+				var likeObj = {
+					'category': _userInfo.content.likes[i].category,
+					'name': _userInfo.content.likes[i].name
+				};
+				facebookLikeArray.push(likeObj);
+			}
+			ModelFacebookLike.populateFacebookLike(_userInfo.meta.user_id, _userInfo.meta.user_id, facebookLikeArray);
+			
+			//set credit of the user
+			CreditSystem.setUserCredit(_userInfo.content.credit); 
+			self.close();
+		});
+					
+		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+		var mainApp = new ApplicationWindowModule(_userId);
+		mainApp.open();
+		mainApp.closeBlankWindow();
 	});
 	return self;
 };

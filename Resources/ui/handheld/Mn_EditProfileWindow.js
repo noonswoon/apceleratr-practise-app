@@ -1,5 +1,6 @@
 EditInfoWindow = function(_navGroup, _userId, _newUser) {
-	//need to add 'save' button on the topbar navigation
+	
+	Ti.API.info('editInfo userId: '+ _userId);
 	
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
@@ -381,9 +382,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 					*/
 					//if(true) {
 					if(_newUser) {
-						var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-						var inviteFriendWindow = new InviteFriendWindowModule(_userId, true);
-						_navGroup.open(inviteFriendWindow);
+						var OnBoardingStep2Module = require('ui/handheld/Mn_OnBoardingStep2Window');
+						var onBoardingStep2Window = new OnBoardingStep2Module(_navGroup, _userId);
+						_navGroup.open(onBoardingStep2Window);
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));

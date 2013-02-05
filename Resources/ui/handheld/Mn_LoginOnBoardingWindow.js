@@ -2,6 +2,8 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	//create component instance
 	
+	var navGroup = _navGroup;
+	
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: true,
@@ -137,10 +139,10 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        	if(_userLogin.content.user_status === "new_user") {
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1
-
-			        		var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');		        		
-			        		var editProfileWindow = new EditProfileWindowModule(navGroup, _userLogin.meta.user_id, true);
-							navGroup.open(editProfileWindow);
+							
+							var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
+							var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, _userLogin.meta.user_id);
+							navGroup.open(onBoardingStep1Window);
 			        	} else {
 			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
@@ -193,6 +195,10 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.addEventListener('close', function() {
 		Ti.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});
+	
+	self.setNavGroup = function(_navigationGroup) {
+		navGroup = _navigationGroup;
+	};
 	
 	return self;
 };

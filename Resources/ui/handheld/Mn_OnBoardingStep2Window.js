@@ -1,6 +1,7 @@
 OnBoardingStep2Window = function(_navGroup, _userId) {
 	
 	//create component instance
+	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
 	
 	var self = Ti.UI.createWindow({
 		left: 0,
@@ -56,7 +57,8 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(button);
 	
 	button.addEventListener('click', function() {
-		Ti.API.info('invite friend window..'+_userId);
+		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, true);
+		_navGroup.open(inviteFriendWindow);
 	});
 	return self;
 };

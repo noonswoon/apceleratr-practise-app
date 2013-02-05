@@ -1,8 +1,8 @@
 {
-	"meta": {"status":"ok", "return_obj":"user_login_result", "user_id":2, "user_fb_id":"202852"}, 
+	"meta": {"status":"ok", "return_obj":"user_login_result", "user_id":1, "user_fb_id":"202852"}, 
 	"content": {
 		"user_status":"new_user",
-		"general":{"user_id": 2, "user_fb_id": "202852", "first_name": "Kavin","last_name":"Asavanant","age":29, "gender":"male", "zodiac": "pisces", "city": "Bangkok", "country": "Thailand"},  
+		"general":{"user_id": 1, "user_fb_id": "202852", "first_name": "Kavin","last_name":"Asavanant","age":29, "gender":"male", "zodiac": "pisces", "city": "Bangkok", "country": "Thailand"},  
 		"height":"", 
 		"religion": "", 
 		"ethnicity": "", 

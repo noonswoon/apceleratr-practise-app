@@ -1,6 +1,6 @@
 function LoginProcessWindow() {
     var LoginOnBoardingModule = require('ui/handheld/Mn_LoginOnBoardingWindow');	
-    
+
     //create component instance
 	var self = Ti.UI.createWindow({
 		left: 0,
@@ -19,7 +19,7 @@ function LoginProcessWindow() {
 	loginOnBoardingWindow.setNavGroup(navigationGroup);
     
 	self.add(navigationGroup);
-	
+
     return self;
 };
 

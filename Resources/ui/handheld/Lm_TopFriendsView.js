@@ -60,76 +60,15 @@ TopFriendsView = function(_userId) {
 		}
 		return tableData;
 	};
-	Ti.App.addEventListener('updateTopFriendsTable', function() {
-		topFriendsTableView.data = [];
-		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
-		var friendTableRowData = createTopFriendTableRowData(targetedList);
-		topFriendsTableView.setData(friendTableRowData);
-	});
-	
-	//facebook friends fetching from server
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		var taggedFriends = e.taggedFriends;
-		FacebookFriendModel.updateClosenessScoreBatch(taggedFriends);
-	});
-	
-	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
-		var userFbPhotoIds = e.userFbPhotoIds;
-		FacebookQuery.queryUserPhotoTags(userFbPhotoIds);
-	});
-	
-	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
-		var friendsWhoLikeList = e.friendsWhoLikeList;
-		FacebookFriendModel.updateClosenessScoreBatch(friendsWhoLikeList);
-		Ti.App.fireEvent('updateTopFriendsTable');
-	});
-	
-	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
-		var friendsWhoCommentList = e.friendsWhoCommentList;
-		FacebookFriendModel.updateClosenessScoreBatch(friendsWhoCommentList);
-		Ti.App.fireEvent('updateTopFriendsTable');
-	});
-	
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		var taggedFriends = e.taggedFriends;
-		FacebookFriendModel.updateClosenessScoreBatch(taggedFriends);
-		Ti.App.fireEvent('updateTopFriendsTable');
-	});
-	
-	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
-		var userStreamIdList = e.userStreamIdList;
-		
-		FacebookQuery.queryUserLikes(userStreamIdList);
-		FacebookQuery.queryUserComments(userStreamIdList);
-		FacebookQuery.queryUserPhotos();
-		//query likes, comments, photo albums
-	});
-	
-	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
-		var candidateList = e.candidateList;
-		
-		FacebookFriendModel.populateFacebookFriend(candidateList);
-		BackendInvite.getInvitedList(_userId, function(invitedList) {
-			//update the local db for invitedList
-			FacebookFriendModel.updateIsInvited(invitedList);
-			var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
-			var friendTableRowData = createTopFriendTableRowData(targetedList);
-			topFriendsTableView.setData(friendTableRowData);
-		});
-		
-		//query some read stream and get the comments/like
-		FacebookQuery.queryUserStream();
-	});
 
-	if(!CacheHelper.isFetchedData('FacebookFriendQuery')) {
-		CacheHelper.recordFetchedData('FacebookFriendQuery'); //no need to fetch again
-		FacebookQuery.queryFacebookFriends();	
-	} else {
-		//since already have the data, populate the table right away
-		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
-		var friendTableRowData = createTopFriendTableRowData(targetedList);
-		topFriendsTableView.setData(friendTableRowData);
-	}
+	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {
+		Ti.API.error('Facebook Frineds MISSING from LOCAL SQLITE - should be loaded in signup!');
+	} 
+	
+	//since already have the data, populate the table right away
+	var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
+	var friendTableRowData = createTopFriendTableRowData(targetedList);
+	topFriendsTableView.setData(friendTableRowData);
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		//update local database for those people who already got invited
