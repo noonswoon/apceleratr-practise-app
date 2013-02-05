@@ -2,30 +2,39 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
 		
 	//UI STUFF
 	var self = Ti.UI.createWindow({
-					navBarHidden: true,
-					tabBarHidden: true
-				});
+		navBarHidden: true,
+		tabBarHidden: true
+	});
 
-	var closeBtn = Ti.UI.createButton({
-					title: 'Done',
-					width: 80,
-					height: 30,
-					zIndex: 5,
-					top: 20, 
-					right: 40
-				});
+	var doneBtnView = Ti.UI.createImageView({
+		image: 'images/done-button.png',
+		width: 52,
+		height: 27,
+		zIndex: 5,
+		top: 15, 
+		left: 253
+	});
+	
+	var doneText = Ti.UI.createLabel({
+		text: 'Done', 
+		center: {x:'50%', y:'50%'},
+		color: '#e6e6e6', 
+		font:{fontWeight:'bold',fontSize:12},
+	});
+	doneBtnView.add(doneText);
+	
 	var viewsForScrollView = [];
 
 	for(var i = 0; i < _imagesArray.length; i++) {
 		var imgView = Titanium.UI.createImageView({
 			image:_imagesArray[i],
-			width:'auto',
+			width: 320,
 			height:'auto',
 		});
 		var view = Ti.UI.createView({
 			backgroundColor:'black',
-			width:'auto',
-			height:'auto',
+			width: '100%',
+			height:'100%',
 		});
 		view.add(imgView);
 		
@@ -36,20 +45,18 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
 		top: 0,
 		views:viewsForScrollView,
 		showPagingControl:true,
-		pagingControlHeight:30,
-		maxZoomScale:2.0,
+		pagingControlHeight:20,
 		currentPage:0,
 		zIndex:1
 	});
 	
-	closeBtn.addEventListener('click', function() {
+	doneBtnView.addEventListener('click', function() {
 		_navGroup.close(self, {animated: false});
 	});
 	
 	self.add(scrollView);
-	self.add(closeBtn);
+	self.add(doneBtnView);
 		
 	return self;
 };
-
 module.exports = ImageFullScreenWindow;

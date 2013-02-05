@@ -26,7 +26,7 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	
 	var contentTextfield = Titanium.UI.createTextField({
 		value: content,
-		top: 18, 
+		top: 15, 
 		left: 64,
 		width: 241,
 		height: 20,
@@ -38,7 +38,7 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, false);
 	
 	var glyphImage = Ti.UI.createImageView({
-		top: 10,
+		top: 8,
 		left: 22, 
 		width: 34,
 		height: 34,

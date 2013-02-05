@@ -26,12 +26,12 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, true);
 	
 	var glyphImage = Ti.UI.createImageView({
-		top: 10,
+		top: 8,
 		left: 22, 
 		width: 34,
 		height: 34,
 		image: topicGlyphImage
-	})
+	});
 	tableRow.add(glyphImage);
 
 	var textColor = '#4e5866';  //b4b7bc
@@ -48,7 +48,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	var contentLabel = Ti.UI.createLabel({
 		text: content,
 		color: textColor,
-		top: 18, 
+		top: 15, 
 		left: 64,
 		font:{fontWeight:'bold',fontSize:18},
 		height: 20
@@ -60,7 +60,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 		var additionalContentLabel = Ti.UI.createLabel({
 			text: additionalContent,
 			color: '#a3a7ad',
-			top: 18, 
+			top: 15, 
 			left: 64 + (numChars * 10) + 10,
 			font:{fontWeight:'bold',fontSize:18},
 			height: 20

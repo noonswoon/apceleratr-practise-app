@@ -76,8 +76,7 @@ exports.getEthnicity = function(_callbackFn) {
 };
 
 exports.getTargetedCity = function(_callbackFn) {
-	if(false) {
-	//if(Ti.App.LIVE_DATA) {
+	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"targeted_city_data/";
 		Ti.API.info('getTargetedCity url: '+url);
 		var xhr = Ti.Network.createHTTPClient({

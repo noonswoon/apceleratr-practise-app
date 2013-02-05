@@ -86,7 +86,6 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 };
 
 exports.getUserInfo = function(_userId, _callbackFn) {
-	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"user/id/"+_userId;
 		//Ti.API.info('getUserInfo url: '+url);

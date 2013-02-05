@@ -25,7 +25,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	
 	var contentTextfield = Titanium.UI.createTextField({
 		value: content,
-		top: 18, 
+		top: 15, 
 		left: 64,
 		width: 241,
 		height: 20,
@@ -37,7 +37,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, false);
 	
 	var glyphImage = Ti.UI.createImageView({
-		top: 10,
+		top: 8,
 		left: 22, 
 		width: 34,
 		height: 34,
