@@ -56,37 +56,8 @@ function ApplicationWindow(_userId) {
 	
 	var isToggled = false;		
 	var leftMenu = new LeftMenuWindowModule(_userId);
-
-	var toggleLeftMenu = function() {
-		if( !isToggled ){
-			rightMenu.visible = false;
-			self.animate(animateLeft);
-			isToggled = true;
-		} else {
-			self.animate(animateRight);
-			isToggled = false;
-		}
-	};
-	toggleLeftMenuBtn.addEventListener('click',function(e){
-		toggleLeftMenu();
-	});
-
 	var rightMenu = new ConnectionWindowModule(_userId);
 
-	var toggleRightMenu = function() {
-		if( !isToggled ){
-			rightMenu.visible = true;
-			self.animate(animateNegativeLeft);
-			isToggled = true;
-		} else {
-			self.animate(animateRight);
-			isToggled = false;
-		}
-	};
-	toggleRightMenuBtn.addEventListener('click',function(e){
-		toggleRightMenu();
-	});
-	
 	Ti.App.addEventListener('openChatWindow', function(e) {
 		var chatRoomName = e.ChatRoomName;
 		Ti.API.info('openning chatroom: '+chatRoomName); 
@@ -165,6 +136,38 @@ function ApplicationWindow(_userId) {
 	
 	var blankWindow = BlankWindowModule()
 	blankWindow.open(); //hiding the leftMenu and rightMenu behind blank window when the app is starting
+	
+	var toggleLeftMenu = function() {
+		if( !isToggled ){
+			matchWindow.touchEnabled = false;
+			rightMenu.visible = false;
+			self.animate(animateLeft);
+			isToggled = true;
+		} else {
+			matchWindow.touchEnabled = true;
+			self.animate(animateRight);
+			isToggled = false;
+		}
+	};
+	toggleLeftMenuBtn.addEventListener('click',function(e){
+		toggleLeftMenu();
+	});
+	
+	var toggleRightMenu = function() {
+		if( !isToggled ){
+			matchWindow.touchEnabled = false;
+			rightMenu.visible = true;
+			self.animate(animateNegativeLeft);
+			isToggled = true;
+		} else {
+			matchWindow.touchEnabled = true;
+			self.animate(animateRight);
+			isToggled = false;
+		}
+	};
+	toggleRightMenuBtn.addEventListener('click',function(e){
+		toggleRightMenu();
+	});
 	
 	self.closeBlankWindow = function() {
 		blankWindow.close();
