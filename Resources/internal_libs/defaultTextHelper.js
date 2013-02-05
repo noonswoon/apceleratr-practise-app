@@ -1,6 +1,6 @@
 exports.getDefaultText = function(_category) {
 	if(_category === "height")
-		return 'Height';
+		return 'Height (cm)';
 	else if(_category === "ethnicity")
 		return 'Ethnicity';
 	else if(_category === "religion")

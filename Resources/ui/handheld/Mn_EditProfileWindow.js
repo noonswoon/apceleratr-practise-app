@@ -23,6 +23,11 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	religionValue.reverse(); 
 	religionValue.push('Choose your religion'); 
 	religionValue.reverse(); 
+	
+	var heightArray = [];
+	for(var i = 140; i <= 220; i++) {
+		heightArray.push(i + ' cm'); //extensible for feet/inch here..just get a new array
+	}
 			
 	//create component instance
 	var photoSelectedOrder = -1; //for deciding which image to update
@@ -74,9 +79,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//GENERAL SECTION
 		var generalSection = Ti.UI.createTableViewSection({headerTitle:'General Info'});	
 		
-		var heightTableViewRow = new TextFieldEditTableViewRow('height', _userInfo.content['height']);
+		var heightTableViewRow = new PickerEditTableViewRow('height', _userInfo.content['height'], self, heightArray);
 		data.push(heightTableViewRow); //require
-	
+		
 		var ethnicityTableViewRow = new PickerEditTableViewRow('ethnicity', _userInfo.content['ethnicity'], self, ethnicityValue);
 		data.push(ethnicityTableViewRow); //require
 		

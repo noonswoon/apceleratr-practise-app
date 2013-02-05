@@ -110,16 +110,16 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 			content: curContent
 		});
 		
-		var pickerGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, curContent, false);
-	
-		var pickerGlyphImageView = Ti.UI.createImageView({
-			left: 5, 
-			width: 34,
-			height: 34,
-			image: pickerGlyphImage
-		})
-		row.add(pickerGlyphImageView);
-		
+		if(_fieldName !== 'height') {
+			var pickerGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, curContent, false);
+			var pickerGlyphImageView = Ti.UI.createImageView({
+				left: 5, 
+				width: 34,
+				height: 34,
+				image: pickerGlyphImage
+			})
+			row.add(pickerGlyphImageView);
+		}
 			
 		var pickerLabel = Ti.UI.createLabel({
 			text: curContent,
@@ -132,7 +132,12 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 
 	pickerView.add(toolbar);
 	pickerView.add(picker);
-
+	
+	var handleFirstPickerChange = false;
+	if(_fieldName === 'height')	{	//auto select for height
+		picker.setSelectedRow(0, 30,false);
+	}
+	
 	var slideInAnimation =  Titanium.UI.createAnimation({bottom:0});
 	var slideOutAnimation =  Titanium.UI.createAnimation({bottom:-251});
 
@@ -153,12 +158,21 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	});
 	
 	picker.addEventListener('change',function(e) {
-		if(e.rowIndex === 0)
-			contentTextfield.value = '';
-		else {
-			contentTextfield.value = e.row.content;
-			var newGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, e.row.content, false);
-			glyphImage.image = newGlyphImage;
+		Ti.API.info('picker change...');
+		if(_fieldName !== 'height') {
+			if(e.rowIndex === 0)
+				contentTextfield.value = '';
+			else {
+				contentTextfield.value = e.row.content;
+				var newGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, e.row.content, false);
+				glyphImage.image = newGlyphImage;
+			}
+		} else { //height case
+			if(!handleFirstPickerChange) {
+				handleFirstPickerChange = true; //not doing anything for the first change
+			} else {
+				contentTextfield.value = (e.rowIndex + 140);
+			}
 		}
 	});
 
