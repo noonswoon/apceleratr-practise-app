@@ -36,8 +36,8 @@ Ti.App.Chat = function(_chatParams) {
     // LISTEN FOR MESSAGES
     // ----------------------------------
     var compareChatHistory = function(a, b) {
-    	if(a.time > b.time) return -1; //เวลามากกว่า (เกิดหลัง) มาก่อนใน array
-    	if(a.time < b.time) return 1; 
+    	if(a.time < b.time) return -1; //เวลาน้อยกว่า (เกิดก่อน) มาก่อนใน array
+    	if(a.time > b.time) return 1; 
     	return 0;
     }
     
@@ -81,6 +81,8 @@ Ti.App.Chat = function(_chatParams) {
 					Ti.API.info('historyMessages: '+JSON.stringify(historyMessages));
 					historyMessages.sort(compareChatHistory);
 					
+					Ti.API.info('historyMessages.length: '+ historyMessages.length);
+					
 					for(var i = 0; i < historyMessages.length; i++) { //fixing this
 						Ti.API.info('time: '+ historyMessages[i].time+', mesage: '+historyMessages[i].message);
 						var historyUserObj = otherUserObject; 
@@ -89,17 +91,18 @@ Ti.App.Chat = function(_chatParams) {
 						if(historyMessages[i].sender_id == userObject.id) {
 							isYourMessage = true;
 							historyUserObj = userObject;
-							//Ti.API.info('setting to myMessage');
+							Ti.API.info('setting to myMessage');
 						}
 						var newChatRow = new ChatMessageTableViewRow(historyMessages[i].message,historyUserObj,isYourMessage);
 			          	if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
-				          	chatMessagesTableView.insertRowAfter(0,newChatRow);
+				          	chatMessagesTableView.insertRowAfter(chatMessagesTableView.data[0].rowCount - 1,newChatRow);
 						} else { 
-				        	chatMessagesTableView.append(newChatRow);
+				        	chatMessagesTableView.setData([newChatRow]);
 						}
 					}
-					if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+					if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
 						chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+					}
 				});
 	        },
 	        callback : function(message) {
@@ -297,19 +300,8 @@ Ti.App.Chat = function(_chatParams) {
 	});
 	chatInputView.add(hintTextLabel);
 		
-    // Send Button
-    var sendButton = Ti.UI.createImageView({
-		width: 60,
-		height: 31,
-		right: 10,
-		image: 'images/chat/send.png'
-    });
-	chatWindow.add(chatInputView);    
-
-//	chatInputView.add(sendButton);
-	
+	chatWindow.add(chatInputView);    	
 	chatWindow.add(chatMessagesTableView);
-
 	
 	this.chatWindow = chatWindow;
     this.pubnub      = pubnub;
@@ -363,7 +355,7 @@ Ti.App.Chat = function(_chatParams) {
 		chatInputTextField.height = 30;
 	});
 	
-    sendButton.addEventListener('click', function() {
+    sendLabel.addEventListener('click', function() {
 		if(chatInputTextField.value === "")
 			return;
 
