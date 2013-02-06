@@ -61,6 +61,7 @@ ErrorWindow = function(_userId) {
 		emailDialog.subject = "Noonswoon Assistant";
 		emailDialog.toRecipients = ['sorry@noonswoon.com'];
 		emailDialog.messageBody = 'Please let us know what went wrong with an app';
+		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
 	return self;

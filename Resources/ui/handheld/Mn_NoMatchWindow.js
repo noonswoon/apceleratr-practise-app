@@ -53,6 +53,7 @@ NoMatchWindow = function(_userId) {
 		emailDialog.subject = "No Match - Assistant";
 		emailDialog.toRecipients = ['support@noonswoon.com'];
 		emailDialog.messageBody = 'I (userId: '+_userId +') would like to get a new match tomorrow';
+		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
 	return self;
