@@ -1,8 +1,7 @@
 OnBoardingStep1Window = function(_navGroup, _userId) {
 	
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
-	var FacebookFriendModel = require('model/facebookFriend');
-    var FacebookQuery = require('internal_libs/facebookQuery');
+	var FacebookQuery = require('internal_libs/facebookQuery');
     var CacheHelper = require('internal_libs/cacheHelper');
     var BackendInvite = require('backend_libs/backendInvite');
     
@@ -54,47 +53,6 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	viewProfileBtn.addEventListener('click', function() {
 		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, true);
 		_navGroup.open(editProfileWindow);
-	});
-	
-	//pull facebook data here
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-	
-	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
-		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
-	});
-	
-	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
-	});
-	
-	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
-	});
-	
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-	
-	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
-		FacebookQuery.queryUserLikes(e.userStreamIdList);
-		FacebookQuery.queryUserComments(e.userStreamIdList);
-		FacebookQuery.queryUserPhotos();
-		//query likes, comments, photo albums
-	});
-	
-	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
-		var candidateList = e.candidateList;
-		
-		FacebookFriendModel.populateFacebookFriend(candidateList);
-		BackendInvite.getInvitedList(_userId, function(invitedList) {
-			//update the local db for invitedList
-			FacebookFriendModel.updateIsInvited(invitedList);
-		});
-		
-		//query some read stream and get the comments/like
-		FacebookQuery.queryUserStream();
 	});
 	
 	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {

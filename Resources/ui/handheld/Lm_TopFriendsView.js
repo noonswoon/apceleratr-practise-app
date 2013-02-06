@@ -61,15 +61,22 @@ TopFriendsView = function(_userId) {
 		return tableData;
 	};
 
+	Ti.App.addEventListener('facebookFriendClosenessScoreUpdated', function() {
+		topFriendsTableView.data = [];
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
+		var friendTableRowData = createTopFriendTableRowData(targetedList);
+		topFriendsTableView.setData(friendTableRowData);
+	});
+
 	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {
-		Ti.API.error('Facebook Frineds MISSING from LOCAL SQLITE - should be loaded in signup!');
-	} 
-	
-	//since already have the data, populate the table right away
-	var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
-	var friendTableRowData = createTopFriendTableRowData(targetedList);
-	topFriendsTableView.setData(friendTableRowData);
-	
+		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
+		FacebookQuery.queryFacebookFriends();
+	}  else {
+		//might not have the data in the scenario where the user deleted the app and re-install again
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
+		var friendTableRowData = createTopFriendTableRowData(targetedList);
+		topFriendsTableView.setData(friendTableRowData);
+	}
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		//update local database for those people who already got invited
 		FacebookFriendModel.updateIsInvited(e.inviteeList); //can either be just 1 or 5

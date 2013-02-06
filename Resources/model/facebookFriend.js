@@ -13,7 +13,6 @@
 	db.close();
 	Ti.API.info('after update: '+JSON.stringify(dummy));
 **/
-
 var db = Ti.Database.open(Ti.App.DATABASE_NAME);
 db.execute('CREATE TABLE IF NOT EXISTS FacebookFriend(Id INTEGER PRIMARY KEY, FacebookId TEXT, Name TEXT, PictureUrl TEXT, City TEXT, IsInvited INTEGER, ClosenessScore INTEGER);');
 db.close();
@@ -152,9 +151,11 @@ exports.updateClosenessScore = updateClosenessScore;
 //batch update
 exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 	var fbArray = []; 
-	for(var i = 0; i < _fbIdsArray.length; i++)
+	for(var i = 0; i < _fbIdsArray.length; i++) {
 		updateClosenessScore(_fbIdsArray[i]);
-
+	}
+	Ti.App.fireEvent('facebookFriendClosenessScoreUpdated');
+};
 /*		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	var dummy = []
@@ -170,4 +171,3 @@ exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 	db.close();
 	Ti.API.info('after update: '+JSON.stringify(dummy));	
 */
-}

@@ -136,6 +136,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        
 			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
 			        	// check the result data whether it is a new user or existing one
+			        	Ti.App.fireEvent('userLoginCompleted', {userId: _userLogin.meta.user_id});
 			        	if(_userLogin.content.user_status === "new_user") {
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1

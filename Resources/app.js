@@ -19,20 +19,6 @@
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
-if(Ti.Platform.osname == 'iphone') {
-	Ti.include('external_libs/TiPreloader.js');
-	Ti.include('external_libs/cacheFromRemote.js');
-} else {
-	Ti.include('/Resources/external_libs/TiPreloader.js');
-	Ti.include('/Resources/external_libs/cacheFromRemote.js');
-}
-
-Ti.App.moment = require('external_libs/moment');
-var acs = require('external_libs/acs');
-var UrbanAirship = require('external_libs/UrbanAirship');
-var Debug = require('internal_libs/debug');
-var CacheHelper = require('internal_libs/cacheHelper');
-
 //GLOBAL VARIABLES DECARATION
 Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
@@ -59,18 +45,39 @@ Ti.App.CACHE_TIMEOUT = 1;
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
+Ti.Facebook.appid = "132344853587370";
+Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 
+							'user_religion_politics', 'user_work_history', 'user_photos', 
+							'user_about_me', 'friends_location', 'friends_relationships'];
+Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
+
+//include require
+if(Ti.Platform.osname == 'iphone') {
+	Ti.include('external_libs/TiPreloader.js');
+	Ti.include('external_libs/cacheFromRemote.js');
+} else {
+	Ti.include('/Resources/external_libs/TiPreloader.js');
+	Ti.include('/Resources/external_libs/cacheFromRemote.js');
+}
+
+Ti.App.moment = require('external_libs/moment');
+var acs = require('external_libs/acs');
+var UrbanAirship = require('external_libs/UrbanAirship');
+
+var Debug = require('internal_libs/debug');
+var CacheHelper = require('internal_libs/cacheHelper');
+var FacebookQuery = require('internal_libs/facebookQuery');
+
+var FacebookFriendModel = require('model/facebookFriend');
+
+var BackendInvite = require('backend_libs/backendInvite');
+
 /* fql: SELECT 
 uid,name, relationship_status, current_location 
 FROM user 
 WHERE 
 uid IN (SELECT uid2 FROM friend WHERE uid1 = me())
 */
-
-Ti.Facebook.appid = "132344853587370";
-Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 
-							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships'];
-Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
 
 //bootstrap and check dependencies
 if (Ti.version < 1.8 ) {
@@ -92,10 +99,12 @@ if (Ti.version < 1.8 ) {
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
+	var ModelTargetedCity = require('model/targetedCity');
 	var ModelFacebookLike = require('model/facebookLike');
 	
 	var numWaitingEvent = 0; 
-		
+	var currentUserId = -1;
+	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
 		numWaitingEvent--;
 		Ti.API.info('doneWaitingEvent listening, numWaitingEvent: '+numWaitingEvent);
@@ -116,7 +125,7 @@ if (Ti.version < 1.8 ) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
-							var currentUserId = _userInfo.meta.user_id; 
+							currentUserId = _userInfo.meta.user_id; 
 							
 							var facebookLikeArray = [];
 							Ti.API.info('_userInfo.content.likes.length: '+_userInfo.content.likes.length);
@@ -149,6 +158,52 @@ if (Ti.version < 1.8 ) {
 		}
 	});
 	
+	//register Facebook Event here..pulling the data in TopFriendsView/OnBoardingStep1 [fn: FacebookQuery.queryFacebookFriends]
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
+	});
+	
+	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
+		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
+	});
+	
+	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
+		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
+	});
+	
+	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
+		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
+	});
+	
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
+	});
+	
+	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
+		FacebookQuery.queryUserLikes(e.userStreamIdList);
+		FacebookQuery.queryUserComments(e.userStreamIdList);
+		FacebookQuery.queryUserPhotos();
+		//query likes, comments, photo albums
+	});
+	
+	Ti.App.addEventListener('userLoginCompleted', function(e) {
+		Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
+		currentUserId = e.userId;
+	});
+	
+	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
+		var candidateList = e.candidateList;
+		
+		FacebookFriendModel.populateFacebookFriend(candidateList);
+		BackendInvite.getInvitedList(currentUserId, function(invitedList) {
+			//update the local db for invitedList
+			FacebookFriendModel.updateIsInvited(invitedList);
+		});
+		
+		//query some read stream and get the comments/like
+		FacebookQuery.queryUserStream();
+	});
+	
 	Ti.Facebook.addEventListener('logout', function() {
 		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 		var loginProcessWindow = new LoginProcessWindowModule();			
@@ -163,26 +218,13 @@ if (Ti.version < 1.8 ) {
 			//load data into religion table
 			ModelReligion.populateReligion(e.religion);
 			ModelEthnicity.populateEthnicity(e.ethnicity);
+			ModelTargetedCity.populateTargetedCity(e.city);
 			Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
 			Ti.App.fireEvent('doneWaitingEvent');
 		});
 	} else {
-		Ti.App.OFFERED_CITIES = ["Bangkok","San Francisco","Los Angeles" ];
+		Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 		Ti.App.fireEvent('doneWaitingEvent');
 	}
 	
-/*	numWaitingEvent++;
-	BackendGeneralInfo.getEthnicity(function(e) {
-		//load data into ethnicity table
-		//Ti.API.info('ethnicity data: '+JSON.stringify(e));
-		ModelEthnicity.populateEthnicity(e);
-		Ti.App.fireEvent('doneWaitingEvent');
-	});
-	
-	numWaitingEvent++;
-	BackendGeneralInfo.getTargetedCity(function(e) {
-		Ti.App.OFFERED_CITIES = e;
-		Ti.App.fireEvent('doneWaitingEvent');
-	});
-*/		
 })();
