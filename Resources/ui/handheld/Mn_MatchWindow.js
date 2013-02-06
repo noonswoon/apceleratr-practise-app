@@ -189,7 +189,7 @@ MatchWindow = function(_userId, _matchId) {
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 		data.push(edgeGradientTableViewRow); 
 
-		var reportProfileTableViewRow = new ReportProfileTableViewRow(); 
+		var reportProfileTableViewRow = new ReportProfileTableViewRow(_userId, _matchInfo.content.general.user_id); 
 		data.push(reportProfileTableViewRow);
 		
 

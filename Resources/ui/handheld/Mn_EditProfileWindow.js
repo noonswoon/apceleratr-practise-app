@@ -8,7 +8,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var EducationEditTableViewRow = require('ui/handheld/Mn_EducationEditTableViewRow');
 	var PickerEditTableViewRow = require('ui/handheld/Mn_PickerEditTableViewRow');
 	var AboutMeEditTableViewRow = require('ui/handheld/Mn_AboutMeEditTableViewRow');
-	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');
+	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
+	
 	var BackendUser = require('backend_libs/backendUser');
 	
 	var ModelEthnicity = require('model/ethnicity');
@@ -113,8 +114,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 		data.push(edgeGradientTableViewRow); 
 		
-		var reportProfileTableViewRow = new ReportProfileTableViewRow(); 
-		data.push(reportProfileTableViewRow);
+		var emptyTableViewRow = new EmptyTableViewRow(); 
+		data.push(emptyTableViewRow);
 		
 		//SETTING DATA
 		editTableView.setData(data);

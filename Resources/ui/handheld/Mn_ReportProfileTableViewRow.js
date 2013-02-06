@@ -1,4 +1,5 @@
-ReportProfileTableViewRow = function() {
+ReportProfileTableViewRow = function(_userId, _targetedUserId) {
+	var BackendUser = require('backend_libs/backendUser');
 	
 	var fieldName = 'report_profile';
 	var modified = false;
@@ -31,19 +32,28 @@ ReportProfileTableViewRow = function() {
 		font:{fontWeight:'bold',fontSize:14},
 	});
 	tableRow.add(reportLabel);
-
-	var reportDialog = Ti.UI.createEmailDialog();
-	reportDialog.subject = "Profile Report";
-	reportDialog.toRecipients = ['report@noonswoon.com'];
-	reportDialog.messageBody = 'I would like to report this person because...';
-	reportDialog.barColor = '#850f16';
+	
+	var saveReportCallback = function(e) {
+		var reportDialog = Titanium.UI.createAlertDialog({
+			title:'Thank you so much!',
+			message:'We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com',
+			buttonNames: ['Ok'],
+		});
+		if(!e.success) {
+			reportDialog.title = 'Oops..something is wrong';
+			reportDialog.message = 'Please report again';
+		}
+		reportDialog.show();
+	};
 	
 	reportImageView.addEventListener('click', function() {
-		reportDialog.open();
+		var reportObj = {userId: _userId, targetedUserId: _targetedUserId, reason: 'will have next release'};
+		BackendUser.saveUserReport(reportObj, saveReportCallback);
 	});
 	
 	reportLabel.addEventListener('click', function() {
-		reportDialog.open();
+		var reportObj = {userId: _userId, targetedUserId: _targetedUserId, reason: 'will have next release'};
+		BackendUser.saveUserReport(reportObj, saveReportCallback);
 	});
 	
 	if(Ti.Platform.osname === 'iphone')
