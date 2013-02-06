@@ -5,8 +5,6 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 	var numMaleFriends = _content['male'];
 	var totalFriends = numFemaleFriends + numMaleFriends; 
 	
-	Ti.API.info('numFemaleFriends: '+numFemaleFriends+', numMaleFriends: '+numMaleFriends);
-	
 	var femaleFriendPercent = 50;  //default
 	var maleFriendPercent = 100 - femaleFriendPercent; 
 	
@@ -15,10 +13,9 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		if(femaleFriendPercent < 1) femaleFriendPercent = 1; 
 		maleFriendPercent = 100 - femaleFriendPercent; 
 	}
-	Ti.API.info('femaleFriendPercent: '+femaleFriendPercent+', maleFriendPercent: '+maleFriendPercent);
+	
 	var femaleBarLength = Math.ceil(0.7 * femaleFriendPercent);
 	var maleBarLength = Math.ceil(0.7 * maleFriendPercent); 
-	Ti.API.info('femaleBarLength: '+femaleBarLength+', maleBarLength: '+maleBarLength);
 	
 	var scaleFactor = 1; 
 	if(femaleBarLength >= maleBarLength) {
@@ -27,7 +24,6 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		scaleFactor = 52 / maleBarLength;
 	}
 	if(scaleFactor < 1) scaleFactor = 1;
-	Ti.API.info('scaleFactor: '+ scaleFactor);
 
 	femaleBarLength = femaleBarLength * scaleFactor; 
 	maleBarLength = maleBarLength * scaleFactor;

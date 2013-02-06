@@ -128,8 +128,6 @@ if (Ti.version < 1.8 ) {
 							currentUserId = _userInfo.meta.user_id; 
 							
 							var facebookLikeArray = [];
-							Ti.API.info('_userInfo.content.likes.length: '+_userInfo.content.likes.length);
-							
 							for(var i = 0; i < _userInfo.content.likes.length; i++) {
 								var likeObj = {
 												'category': _userInfo.content.likes[i].category,
@@ -195,6 +193,7 @@ if (Ti.version < 1.8 ) {
 		var candidateList = e.candidateList;
 		
 		FacebookFriendModel.populateFacebookFriend(candidateList);
+		Ti.API.info('calling Backend: getInvitedList of userId: '+currentUserId);
 		BackendInvite.getInvitedList(currentUserId, function(invitedList) {
 			//update the local db for invitedList
 			FacebookFriendModel.updateIsInvited(invitedList);

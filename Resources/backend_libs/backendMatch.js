@@ -6,7 +6,6 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get_latest/"+_userId;
-		Ti.API.info('getLatestMatchInfo api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -41,7 +40,6 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for matchChat page
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get/"+_paramObj.matchId+"/"+_paramObj.userId;
-		Ti.API.info('getMatchInfo api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);

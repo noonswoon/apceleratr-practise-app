@@ -75,7 +75,6 @@ exports.queryUserLikes = function(_streamIdList) {
 				friendsWhoLikeList.push(dataArray[i].user_id);
 			}
 		}
-		Ti.API.info('userLikes Length: '+ friendsWhoLikeList.length);
 		Ti.App.fireEvent('completedUserLikeQuery', {friendsWhoLikeList: friendsWhoLikeList});
 	});
 };

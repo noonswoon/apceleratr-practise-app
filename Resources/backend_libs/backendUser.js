@@ -4,7 +4,7 @@
 exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/edit/"+_userId;
-		Ti.API.info('edit api point: '+url);
+//		Ti.API.info('edit api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 	        onload : function(e) {
 	        	Ti.API.info('saveEditUserInfo: '+this.responseText);
@@ -52,7 +52,6 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"userasync/connect_server";
-		Ti.API.info('sending to connect to server');
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);

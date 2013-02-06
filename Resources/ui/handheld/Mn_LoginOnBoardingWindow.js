@@ -117,7 +117,6 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 
 	function facebookAuthenCallback(e) {
 		if (e.success) {
-			Ti.API.info('in fbAuthenCallback e.success');
 			Ti.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
@@ -128,15 +127,19 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        sendingObj.fbAuthToken = Ti.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "82DFA37CD520A0CBF2EF92A2138550AE88829C08EC01DE2109FE61FC3ADE82D5";
-			        if(Ti.Platform.os === 'iPhone')
+			        if(Ti.Platform.os === 'iphone' || Ti.Platform.os === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
-			        		        
+			        	alert('testing deviceId: '+sendingObj.deviceId);
+			        }
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
 			        
 			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
 			        	// check the result data whether it is a new user or existing one
 			        	Ti.App.fireEvent('userLoginCompleted', {userId: _userLogin.meta.user_id});
+			        	var CreditSystem = require('internal_libs/creditSystem');
+			        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
+			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
 			        	if(_userLogin.content.user_status === "new_user") {
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1
