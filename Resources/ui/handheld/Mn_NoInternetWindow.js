@@ -1,4 +1,4 @@
-NoInternetWindow = function(_userId) {
+NoInternetWindow = function() {
 	
 	//create component instance
 	var self = Ti.UI.createWindow({
@@ -44,6 +44,13 @@ NoInternetWindow = function(_userId) {
 	});
 	self.add(retryImage);
 
+	retryImage.addEventListener('click', function() {
+		Ti.App.fireEvent('restartApp');
+	});
+	
+	description1Lbl.addEventListener('click', function(){
+		Ti.App.fireEvent('restartApp');
+	});
 
 	return self;
 };

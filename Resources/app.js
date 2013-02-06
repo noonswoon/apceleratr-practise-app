@@ -101,6 +101,7 @@ if (Ti.version < 1.8 ) {
 	var ModelReligion = require('model/religion');
 	var ModelTargetedCity = require('model/targetedCity');
 	var ModelFacebookLike = require('model/facebookLike');
+	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -210,20 +211,38 @@ if (Ti.version < 1.8 ) {
 	});
 	
 	//pull static data from server
-	numWaitingEvent++;
-	if(!CacheHelper.isFetchedData('StaticData')) {
-		CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
-		BackendGeneralInfo.getStaticData(function(e) {
-			//load data into religion table
-			ModelReligion.populateReligion(e.religion);
-			ModelEthnicity.populateEthnicity(e.ethnicity);
-			ModelTargetedCity.populateTargetedCity(e.city);
-			Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
+	var noInternetWindow = null;
+	var launchTheApp = function() {
+		numWaitingEvent++;
+		if(!CacheHelper.isFetchedData('StaticData')) {
+			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
+			BackendGeneralInfo.getStaticData(function(e) {
+				//load data into religion table
+				ModelReligion.populateReligion(e.religion);
+				ModelEthnicity.populateEthnicity(e.ethnicity);
+				ModelTargetedCity.populateTargetedCity(e.city);
+				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
+				Ti.App.fireEvent('doneWaitingEvent');
+			});
+		} else {
+			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 			Ti.App.fireEvent('doneWaitingEvent');
-		});
+		}
+	};
+	
+	var launchTheAppWrapper = function() {
+		if(Ti.Network.networkType != Ti.Network.NETWORK_NONE) {
+			launchTheApp();
+			noInternetWindow.close();
+		}
+	};
+	
+	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+		noInternetWindow = new NoInternetWindowModule();
+		noInternetWindow.open();
+		Ti.App.addEventListener('restartApp', launchTheAppWrapper);
 	} else {
-		Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
-		Ti.App.fireEvent('doneWaitingEvent');
-	}
+		launchTheApp();
+	} 
 	
 })();
