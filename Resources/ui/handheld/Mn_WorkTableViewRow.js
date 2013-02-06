@@ -34,6 +34,8 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		color: '#4e5866',
 		top: 10, 
 		left: 64,
+		width: 241,
+		height: 20,
 		font:{fontWeight:'bold',fontSize:14},
 	});
 	tableRow.add(employerLabel);
@@ -63,6 +65,8 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		color: '#4e5866',
 		top: 30, 
 		left: 64,
+		width: 241,
+		height: 20,
 		font:{fontSize:14},
 	});
 	tableRow.add(occupationLabel);	

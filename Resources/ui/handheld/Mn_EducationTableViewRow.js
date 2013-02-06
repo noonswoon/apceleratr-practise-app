@@ -35,6 +35,8 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 		color: '#4e5866',
 		top: 10, 
 		left: 64,
+		width: 241,
+		height: 20,
 		font:{fontWeight:'bold',fontSize:14},
 	});
 	tableRow.add(schoolNameLabel);
@@ -79,6 +81,8 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 			color: '#4e5866',
 			top: 60 + (i - 1) * 50, 
 			left: 64,
+			width: 241,
+			height: 20,
 			font:{fontWeight:'bold',fontSize:14},
 		});
 		tableRow.add(additionalSchoolNameLabel);
