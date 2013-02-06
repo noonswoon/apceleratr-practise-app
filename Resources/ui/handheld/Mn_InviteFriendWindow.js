@@ -1,6 +1,8 @@
 InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		
 	var InviteFriendTableViewRow = require('ui/handheld/Mn_InviteFriendTableViewRow');
+	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
+	
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendCredit = require('backend_libs/backendCredit');
@@ -192,6 +194,11 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var friendList = FacebookFriend.getFacebookFriends();
 	var friendTableRowData = createFriendTable(friendList);
+	
+	//add empty row here
+	var emptyRow = new EmptyTableViewRow()
+	friendTableRowData.push(emptyRow);
+	
 	facebookFriendTableView.setData(friendTableRowData);
 
 	self.add(facebookFriendTableView);

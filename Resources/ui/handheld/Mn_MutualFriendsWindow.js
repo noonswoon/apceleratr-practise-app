@@ -41,6 +41,12 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 	};
 	
 	var mutualFriendTableRowData = createTable(_mutualFriendsArray);
+	if(_mutualFriendsArray.length >= 9) {
+		var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
+		var emptyRow = new EmptyTableViewRow()
+		mutualFriendTableRowData.push(emptyRow);
+	}
+	
 	mutualFriendTableView.setData(mutualFriendTableRowData);
 
 	self.add(mutualFriendTableView);
