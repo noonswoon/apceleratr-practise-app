@@ -48,7 +48,6 @@ exports.getChatHistory = function(connectionObj, pageOffset) {
 	}
 	result.close();
 	db.close();
-	
-	Ti.API.info('getChatHistory: '+JSON.stringify(chatMessages));
+
 	return chatMessages;
 };

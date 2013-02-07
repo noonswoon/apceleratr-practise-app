@@ -136,7 +136,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        
 			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
 			        	// check the result data whether it is a new user or existing one
-			        	Ti.App.fireEvent('userLoginCompleted', {userId: _userLogin.meta.user_id});
+			        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 			        	var CreditSystem = require('internal_libs/creditSystem');
 			        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
@@ -145,12 +145,12 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 							//this will go to onboarding step 1
 							
 							var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
-							var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, _userLogin.meta.user_id);
+							var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id));
 							navGroup.open(onBoardingStep1Window);
 			        	} else {
 			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new ApplicationWindowModule(_userLogin.meta.user_id);
+							var mainApp = new ApplicationWindowModule(parseInt(_userLogin.meta.user_id));
 							mainApp.open();
 							mainApp.closeBlankWindow();
 							self.close();

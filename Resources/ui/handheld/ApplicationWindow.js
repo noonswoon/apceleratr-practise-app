@@ -60,8 +60,7 @@ function ApplicationWindow(_userId, _userImage) {
 
 
 	var openChatWindowCallback = function(e) {
-		var chatRoomName = e.ChatRoomName;
-		Ti.API.info('openning chatroom: '+chatRoomName); 
+		Ti.API.info('openning chatroom: '+e.chatRoomName); 
 		var pubnubChatWindow = Ti.App.Chat({
 		    "chat-room" : e.chatRoomName,
 		    "window"    : {backgroundColor:'transparent'},

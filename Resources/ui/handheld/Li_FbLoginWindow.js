@@ -167,12 +167,12 @@ var FbLoginWindow = function() {
 							//this will go to onboarding step 1
 
 			        		var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');		        		
-			        		var editProfileWindow = new EditProfileWindowModule(navGroup, _userLogin.meta.user_id, true);
+			        		var editProfileWindow = new EditProfileWindowModule(navGroup, parseInt(_userLogin.meta.user_id), true);
 							navGroup.open(editProfileWindow);
 			        	} else {
 			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new ApplicationWindowModule(_userLogin.meta.user_id);
+							var mainApp = new ApplicationWindowModule(parseInt(_userLogin.meta.user_id));
 							mainApp.open();
 							
 							self.close();

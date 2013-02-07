@@ -61,7 +61,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 				};
 				facebookLikeArray.push(likeObj);
 			}
-			ModelFacebookLike.populateFacebookLike(_userInfo.meta.user_id, _userInfo.meta.user_id, facebookLikeArray);
+			ModelFacebookLike.populateFacebookLike(parseInt(_userInfo.meta.user_id), parseInt(_userInfo.meta.user_id), facebookLikeArray);
 			
 			//set credit of the user
 			CreditSystem.setUserCredit(_userInfo.content.credit); 

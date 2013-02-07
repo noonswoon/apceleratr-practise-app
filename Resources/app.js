@@ -46,9 +46,9 @@ Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
 Ti.Facebook.appid = "132344853587370";
-Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 
+Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships'];
+							'user_about_me', 'friends_location', 'friends_relationships, read_stream'];
 Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
 
 //include require
@@ -126,7 +126,7 @@ if (Ti.version < 1.8 ) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
-							currentUserId = _userInfo.meta.user_id; 
+							currentUserId = parseInt(_userInfo.meta.user_id); 
 							var currentUserImage = _userInfo.content.pictures[0].src;
 							var facebookLikeArray = [];
 							for(var i = 0; i < _userInfo.content.likes.length; i++) {

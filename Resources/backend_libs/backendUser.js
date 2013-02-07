@@ -153,7 +153,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		var resultObj = JSON.parse(contents.text); 
 		if(resultObj.meta.status == "ok") {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
-			_callbackFn(resultObj.meta.user_id);
+			_callbackFn(parseInt(resultObj.meta.user_id));
 		} else {
 			Ti.API.error("something wrong with backendUser.getUserIdFromFbId")
 		}		

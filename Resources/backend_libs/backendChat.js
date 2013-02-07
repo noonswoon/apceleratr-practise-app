@@ -57,10 +57,9 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+					_callbackFn(resultObj.content);
 				} else {
 					Ti.API.info("something wrong with backendChat.saveChatMessage: "+JSON.stringify(resultObj));
-					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {

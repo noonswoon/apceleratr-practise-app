@@ -54,7 +54,7 @@ MatchWindow = function(_userId, _matchId) {
 						};
 			facebookLikeArray.push(likeObj);
 		}
-		ModelFacebookLike.populateFacebookLike(_matchInfo.meta.user_id, _matchInfo.content.general.user_id, facebookLikeArray);
+		ModelFacebookLike.populateFacebookLike(parseInt(_matchInfo.meta.user_id), _matchInfo.content.general.user_id, facebookLikeArray);
 		
 		data = []; //reset table data
 		matchId = _matchInfo.meta.match_id; 
