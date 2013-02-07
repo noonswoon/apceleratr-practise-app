@@ -71,7 +71,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
 		var mainApp = new ApplicationWindowModule(_userId);
 		mainApp.open();
-		mainApp.closeBlankWindow();
+		mainApp.unhideCoverView();
 	});
 	return self;
 };

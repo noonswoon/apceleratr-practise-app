@@ -10,7 +10,7 @@ LeftMenuWindow = function(_userId) {
 		backgroundColor: '#585858',
 		zIndex:0,
 	});
-
+	
 	// EDIT SECTION
 	var editProfileView = Ti.UI.createView({
 		backgroundImage: 'images/menu-bar-stretchable.png',
@@ -21,7 +21,6 @@ LeftMenuWindow = function(_userId) {
 		zIndex: 0,
 	});
 
-	
 	var editProfileIcon = Ti.UI.createImageView({
 		image: 'images/menubar-glyph-edit-profile.png',
 		left: 10,
@@ -43,6 +42,7 @@ LeftMenuWindow = function(_userId) {
 	editProfileView.add(editProfileIcon);
 	editProfileView.add(editProfileLbl);
 	editProfileView.add(creditView);
+	
 	
 	editProfileIcon.addEventListener('click', function() {
 		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
@@ -108,6 +108,19 @@ LeftMenuWindow = function(_userId) {
 	var topFriendsView = new TopFriendsViewModule(_userId);
 	self.add(topFriendsView);
 	//END INVITE FRIENDS TABLE SECTION
+	
+	var coverView = Titanium.UI.createView({
+		top:0,
+		left:0,
+		width:260,
+		backgroundColor: '#eeeeee',
+		zIndex:5,
+	});
+	self.add(coverView);
+	
+	self.unhideCoverView = function() {
+		self.remove(coverView);
+	};
 			
 	return self;
 }

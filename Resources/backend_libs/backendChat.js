@@ -17,11 +17,13 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error getChatHistory: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow');
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('getChatHistory Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn({success:false});
+	            Ti.App.fireEvent('openErrorWindow');
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -60,11 +62,13 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 					_callbackFn(resultObj.content);
 				} else {
 					Ti.API.info("something wrong with backendChat.saveChatMessage: "+JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("server error with backendChat.saveChatMessage: "+JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -99,6 +103,7 @@ exports.sendNotification = function(_messageObj, _callbackFn) {
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("server error with backendChat.saveChatMessage: "+JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		    },
 		    timeout:50000  // in milliseconds
 		});

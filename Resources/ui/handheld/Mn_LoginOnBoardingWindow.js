@@ -152,7 +152,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
 							var mainApp = new ApplicationWindowModule(parseInt(_userLogin.meta.user_id));
 							mainApp.open();
-							mainApp.closeBlankWindow();
+							mainApp.unhideCoverView();
 							self.close();
 			        	}
 			        });

@@ -64,6 +64,16 @@ ErrorWindow = function(_userId) {
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
+	
+	retryImage.addEventListener('click', function() {
+		Ti.API.info('firing event to restartApp..');
+		Ti.App.fireEvent('restartApp');
+	});
+	
+	description1Lbl.addEventListener('click', function(){
+		Ti.API.info('firing event to restartApp..');
+		Ti.App.fireEvent('restartApp');
+	});
 	return self;
 };
 

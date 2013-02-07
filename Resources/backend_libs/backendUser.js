@@ -38,6 +38,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			setTimeout(_callbackFn, 5000);
 		} else {
+			Ti.App.fireEvent('openErrorWindow');
 			Ti.API.error("something wrong with backendUser.saveEditUserInfo")
 		}
 	}
@@ -63,6 +64,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in user_connectToServer..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
@@ -98,6 +100,7 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in getUserInfo ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
@@ -130,6 +133,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 					//Ti.API.info('userInfoFromFbId: '+JSON.stringify(resultObj));
 					_callbackFn(resultObj);
 				} else {
+					Ti.App.fireEvent('openErrorWindow');
 					Ti.API.info('Error getUserIdFromFbId: '+ JSON.stringify(resultObj));
 					//need to send them back to the login page --> fire an event
 				}
@@ -138,6 +142,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in getUserIdFromFbId ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
@@ -183,6 +188,7 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn({success:false}); //change here
+	            Ti.App.fireEvent('openErrorWindow');
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

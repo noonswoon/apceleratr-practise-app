@@ -124,11 +124,13 @@ exports.getStaticData = function(_callbackFn) {
 					_callbackFn(resultObj.content);
 				} else {
 					alert("something wrong with ServerCall backendGeneralInfo.getStaticData");
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        alert("in getStaticData, onerror"+JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds

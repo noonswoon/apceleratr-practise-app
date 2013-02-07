@@ -97,6 +97,19 @@ ConnectionWindow = function(_userId) {
 	self.add(editSection);
 	self.add(connectionTableView);	
 	
+	var coverView = Titanium.UI.createView({
+		top:0,
+		right:0,
+		width:260,
+		backgroundColor: '#eeeeee',
+		zIndex:5,
+	});
+	self.add(coverView);
+	
+	self.unhideCoverView = function() {
+		self.remove(coverView);
+	};
+	
 	return self;
 }
 module.exports = ConnectionWindow;

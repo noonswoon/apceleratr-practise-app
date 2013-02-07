@@ -22,9 +22,26 @@ Ti.App.Chat = function(_chatParams) {
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
 	var userObject = {id: _chatParams.userId, imageUrl: _chatParams.userImage}; //real data --> {id: _chatParams.userId,imageUrl: ''};
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: _chatParams.otherUserImage}; //{id: _chatParams.otherUserId,imageUrl: ''};
-	//var adminUserObject = {id: '', imageUrl: 'http://dummy.com/test.png'}; //for the greet message
 	var navGroup = _chatParams.navGroup;
-	
+/*
+	var userImageView = Ti.UI.createImageView({
+		image: _chatParams.userImage
+	});
+					
+	// Convert your imageView into a blob
+	var userImageBlob = userImageView.toImage();
+	userImageBlob = userImageBlob.imageAsThumbnail(35);	 
+											
+	var otherUserImageView = Ti.UI.createImageView({
+		image: _chatParams.otherUserImage
+	});
+	// Convert your imageView into a blob
+	var otherUserImageBlob = otherUserImageView.toImage();
+	otherUserImageBlob = otherUserImageBlob.imageAsThumbnail(35);	 											
+
+	userObject.imageUrl = userImageBlob;
+	otherUserObject.imageUrl = otherUserImageBlob; 
+*/	
 	var chatMessagesTableView = Ti.UI.createTableView({
 		top:0,
 		height:377,
@@ -85,28 +102,24 @@ Ti.App.Chat = function(_chatParams) {
 				var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, 0);
 				
 				for(var i = 0; i < chatHistory.length; i++) { //fixing this
-						var historyUserObj = otherUserObject; 
-						var isYourMessage = false;
-						//Ti.API.info('senderId: '+historyMessages[i].sender_id +', userId: '+userObject.id);
-						if(chatHistory[i].senderId == userObject.id) {
-							isYourMessage = true;
-							historyUserObj = userObject;
-						}
-						var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
-			          	if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
-				          	chatMessagesTableView.insertRowAfter(chatMessagesTableView.data[0].rowCount - 1,newChatRow);
-						} else { 
-				        	chatMessagesTableView.setData([loadHistoryMessagesRow, newChatRow]);
-						}
-					}
-					if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
-						chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+					var historyUserObj = otherUserObject; 
+					var isYourMessage = false;
+					//Ti.API.info('senderId: '+historyMessages[i].sender_id +', userId: '+userObject.id);
+					if(chatHistory[i].senderId == userObject.id) {
+						isYourMessage = true;
+						historyUserObj = userObject;
 					}
 					
+					var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
+					chatMessagesTableView.insertRowAfter(0,newChatRow);
+				}
+				
+				chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+
 				BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:1}, function(_chatHistory) {
 					var chatHistoryMsgs = _chatHistory.content.chat_messages;
 					for(var i = 0; i < chatHistoryMsgs.length; i++) {
-						Ti.API.info('chatHistoryMsg: '+JSON.stringify(chatHistoryMsgs[i]));
+						//Ti.API.info('chatHistoryMsg: '+JSON.stringify(chatHistoryMsgs[i]));
 						var messageObj = {};
 						messageObj.userId = userObject.id;
 						messageObj.targetedUserId = otherUserObject.id;
@@ -388,7 +401,7 @@ Ti.App.Chat = function(_chatParams) {
     });
 	
 	profileButton.addEventListener('click', function() {
-		Ti.API.info('open profile click');
+		//Ti.API.info('open profile click');
 		
 		var userProfileWindow = new UserProfileWindowModule(navGroup, userObject.id, otherUserObject.id);
 		navGroup.open(userProfileWindow, {animated:true});

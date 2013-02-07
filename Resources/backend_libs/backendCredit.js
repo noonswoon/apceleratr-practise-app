@@ -13,12 +13,14 @@ exports.getUserCredit = function(_userId, _callbackFn) {
 					_callbackFn(resultObj.content.credit);
 				} else {
 					Ti.API.info('Error getUserCredit: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendGetUserCredit ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:5000  // in milliseconds
@@ -57,12 +59,14 @@ exports.transaction = function(_paramObj, _callbackFn) {
 					_callbackFn(resultObj.content.credit);
 				} else {
 					Ti.API.info('Error credit.transaction: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendCredit.transaction ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds

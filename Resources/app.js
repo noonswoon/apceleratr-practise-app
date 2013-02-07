@@ -102,6 +102,7 @@ if (Ti.version < 1.8 ) {
 	var ModelTargetedCity = require('model/targetedCity');
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
+	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -144,7 +145,7 @@ if (Ti.version < 1.8 ) {
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
 							var mainApp = new MainApplicationModule(currentUserId, currentUserImage);
 							mainApp.open();
-							mainApp.closeBlankWindow();
+							mainApp.unhideCoverView();
 						});
 					} else {
 						//open login page
@@ -212,6 +213,7 @@ if (Ti.version < 1.8 ) {
 	
 	//pull static data from server
 	var noInternetWindow = null;
+	var errorWindow = null;
 	var launchTheApp = function() {
 		numWaitingEvent++;
 		if(!CacheHelper.isFetchedData('StaticData')) {
@@ -231,16 +233,31 @@ if (Ti.version < 1.8 ) {
 	};
 	
 	var launchTheAppWrapper = function() {
+		Ti.API.info('try to launch the app again...');
 		if(Ti.Network.networkType != Ti.Network.NETWORK_NONE) {
 			launchTheApp();
-			noInternetWindow.close();
+			if(noInternetWindow !== null) {
+				noInternetWindow.close();
+				noInternetWindow = null;
+			}
+			if(errorWindow !== null) {
+				errorWindow.close();
+				errorWindow = null;
+			}
 		}
 	};
+
+	Ti.App.addEventListener('restartApp', launchTheAppWrapper);
+	
+	Ti.App.addEventListener('openErrorWindow', function() {
+		errorWindow = new ErrorWindowModule();
+		errorWindow.open();
+	});
+	
 	
 	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 		noInternetWindow = new NoInternetWindowModule();
 		noInternetWindow.open();
-		Ti.App.addEventListener('restartApp', launchTheAppWrapper);
 	} else {
 		launchTheApp();
 	} 

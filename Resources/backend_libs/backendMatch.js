@@ -14,11 +14,13 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getLatestMatchInfo: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 					//need to send them back to the login page --> fire an event
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
+	            Ti.App.fireEvent('openErrorWindow');
 	            _callbackFn({success:false}); //change here
 	        },
 		    timeout:50000  // in milliseconds 
@@ -47,10 +49,12 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
+	            Ti.App.fireEvent('openErrorWindow');
 	            _callbackFn(); //change here
 	        },
 		    timeout:50000  // in milliseconds 
@@ -85,6 +89,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.saveResponse: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
@@ -92,7 +97,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		        Ti.API.info("in backendMatch.saveResponse ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
-		        //Ti.API.debug(e.error);
+		        Ti.App.fireEvent('openErrorWindow');
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -119,6 +124,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.updateDisplayMutualFriend: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
@@ -126,6 +132,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		        Ti.API.info("in backendMatch.updateDisplayMutualFriend..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
@@ -148,11 +155,13 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow');
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn(); //change here
+	            Ti.App.fireEvent('openErrorWindow');
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -189,6 +198,7 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.deleteConnectedMatch: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
@@ -196,6 +206,7 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		        Ti.API.info("in backendMatch.deleteConnectedMatch ..server NOT ready yet");
 		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
+		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
