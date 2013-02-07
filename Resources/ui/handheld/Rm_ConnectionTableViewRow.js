@@ -52,6 +52,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	self.matchId = _matchInfo.match_id;
 	self.profileId = _matchInfo.user_id;
 	self.firstName = _matchInfo.first_name;
+	self.profileImage = _matchInfo.image;
 	
 	self.addEventListener('click', function() {
 		Ti.API.info('the connection row is clicked!');

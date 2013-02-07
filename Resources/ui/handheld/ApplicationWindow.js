@@ -1,5 +1,5 @@
 //Application Window Component Constructor
-function ApplicationWindow(_userId) {
+function ApplicationWindow(_userId, _userImage) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
 	var BlankWindowModule = require('ui/handheld/Mn_BlankWindow');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
@@ -67,8 +67,10 @@ function ApplicationWindow(_userId) {
 		    "window"    : {backgroundColor:'transparent'},
 		    matchId	: e.matchId,
 		    userId	: _userId, 
+		    userImage: _userImage,
 		    otherUserId : e.otherUserId,
 		    otherUserFirstName: e.otherUserFirstName,
+		    otherUserImage: e.otherUserImage,
 		    navGroup: navigationGroup,
 		});	
 		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});

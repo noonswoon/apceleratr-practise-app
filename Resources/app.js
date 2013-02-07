@@ -127,7 +127,7 @@ if (Ti.version < 1.8 ) {
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
 							currentUserId = _userInfo.meta.user_id; 
-							
+							var currentUserImage = _userInfo.content.pictures[0].src;
 							var facebookLikeArray = [];
 							for(var i = 0; i < _userInfo.content.likes.length; i++) {
 								var likeObj = {
@@ -142,7 +142,7 @@ if (Ti.version < 1.8 ) {
 							CreditSystem.setUserCredit(_userInfo.content.credit); 
 							//getting real data
 							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplicationModule(currentUserId);
+							var mainApp = new MainApplicationModule(currentUserId, currentUserImage);
 							mainApp.open();
 							mainApp.closeBlankWindow();
 						});

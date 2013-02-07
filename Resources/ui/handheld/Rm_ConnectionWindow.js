@@ -72,7 +72,7 @@ ConnectionWindow = function(_userId) {
 		Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
 			
 		Ti.App.fireEvent('openChatWindow', {chatRoomName:chatRoomName, matchId: e.row.matchId, 
-			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName});
+			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName, otherUserImage: e.row.profileImage});
 	});
 	
 	BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	

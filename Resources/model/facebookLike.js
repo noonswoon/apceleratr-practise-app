@@ -1,5 +1,5 @@
 var db = Ti.Database.open(Ti.App.DATABASE_NAME);
-db.execute('CREATE TABLE IF NOT EXISTS FacebookLike(Id INTEGER PRIMARY KEY, UserId Integer, Category Text, Name TEXT);');
+db.execute('CREATE TABLE IF NOT EXISTS FacebookLike(Id INTEGER PRIMARY KEY, UserId INTEGER, Category Text, Name TEXT);');
 db.close();
 
 // MY CHECKIN PART
