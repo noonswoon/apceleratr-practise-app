@@ -23,6 +23,7 @@ Ti.App.Chat = function(_chatParams) {
 	var userObject = {id: _chatParams.userId, imageUrl: _chatParams.userImage}; //real data --> {id: _chatParams.userId,imageUrl: ''};
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: _chatParams.otherUserImage}; //{id: _chatParams.otherUserId,imageUrl: ''};
 	var navGroup = _chatParams.navGroup;
+	var nextHistoryPage = 2;
 /*
 	var userImageView = Ti.UI.createImageView({
 		image: _chatParams.userImage
@@ -76,9 +77,57 @@ Ti.App.Chat = function(_chatParams) {
 	loadHistoryMessagesRow.add(loadMoreView);
 	
 	moreText.addEventListener('click', function() {
-		Ti.API.info('load more messages...');
+		BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:nextHistoryPage}, function(_chatHistory) {
+			var chatHistoryMsgs = _chatHistory.content.chat_messages;
+			for(var i = 0; i < chatHistoryMsgs.length; i++) {
+				var messageObj = {};
+				messageObj.userId = userObject.id;
+				messageObj.targetedUserId = otherUserObject.id;
+				messageObj.senderId = chatHistoryMsgs[i].sender_id;
+				messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
+				messageObj.message = chatHistoryMsgs[i].message;
+				messageObj.time = chatHistoryMsgs[i].time;
+				ModelChatHistory.insertChatMessage(messageObj);
+			}
+			var pageOffset = (nextHistoryPage - 1) * 10;
+			var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, pageOffset);		
+			for(var i = 0; i < chatHistory.length; i++) { //fixing this
+				var historyUserObj = otherUserObject; 
+				var isYourMessage = false;
+				if(chatHistory[i].senderId == userObject.id) {
+					isYourMessage = true;
+					historyUserObj = userObject;
+				}
+				var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
+				chatMessagesTableView.insertRowAfter(0,newChatRow);
+			}
+			nextHistoryPage++;
+		});
 	});
-		
+	
+	var repopulateChatTable = function() {
+		chatMessagesTableView.setData([loadHistoryMessagesRow]);
+	    
+	    //load chat history data and populate into the table
+		//scroll to the last one
+		var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, 0);		
+		for(var i = 0; i < chatHistory.length; i++) { //fixing this
+			var historyUserObj = otherUserObject; 
+			var isYourMessage = false;
+			if(chatHistory[i].senderId == userObject.id) {
+				isYourMessage = true;
+				historyUserObj = userObject;
+			}
+			var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
+			chatMessagesTableView.insertRowAfter(0,newChatRow);
+		}
+		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+	};
+	
+	Ti.App.addEventListener('updateChatData', function() {
+		Ti.API.info('listening at updateChatData event');
+		repopulateChatTable();
+	});
 	 // ----------------------------------
     // LISTEN FOR MESSAGES
     // ----------------------------------
@@ -94,29 +143,9 @@ Ti.App.Chat = function(_chatParams) {
 	        channel  : currentChatRoom,
 	        connect  : function() {
 	            Ti.API.info("connecting...");
-	            //chatMessagesTableView.setData([welcomeChatRow]);
-	            chatMessagesTableView.setData([loadHistoryMessagesRow]);
-	                			
-    			//load chat history data and populate into the table
-				//scroll to the last one
-				var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, 0);
-				
-				for(var i = 0; i < chatHistory.length; i++) { //fixing this
-					var historyUserObj = otherUserObject; 
-					var isYourMessage = false;
-					//Ti.API.info('senderId: '+historyMessages[i].sender_id +', userId: '+userObject.id);
-					if(chatHistory[i].senderId == userObject.id) {
-						isYourMessage = true;
-						historyUserObj = userObject;
-					}
-					
-					var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
-					chatMessagesTableView.insertRowAfter(0,newChatRow);
-				}
-				
-				chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
-
+	            repopulateChatTable();
 				BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:1}, function(_chatHistory) {
+					var isNewRecord = false;
 					var chatHistoryMsgs = _chatHistory.content.chat_messages;
 					for(var i = 0; i < chatHistoryMsgs.length; i++) {
 						//Ti.API.info('chatHistoryMsg: '+JSON.stringify(chatHistoryMsgs[i]));
@@ -127,7 +156,12 @@ Ti.App.Chat = function(_chatParams) {
 						messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
 						messageObj.message = chatHistoryMsgs[i].message;
 						messageObj.time = chatHistoryMsgs[i].time;
-						ModelChatHistory.insertChatMessage(messageObj);			
+						var insertResult = ModelChatHistory.insertChatMessage(messageObj);			
+						if(insertResult)
+							isNewRecord = true;
+					}
+					if(isNewRecord) {
+						Ti.App.fireEvent('updateChatData');
 					}
 				});
 	        },
@@ -175,8 +209,6 @@ Ti.App.Chat = function(_chatParams) {
 			messageObj.message = message;
 			messageObj.time = Ti.App.moment().format('YYYY-MM-DDTHH:mm:ss');
 			*/
-			
-			Ti.API.info('save sentData: '+JSON.stringify(_sendData));
 			
 			messageObj.senderId = _sentData.sender_id;
 			messageObj.receiverId = _sentData.receiver_id;
@@ -236,34 +268,7 @@ Ti.App.Chat = function(_chatParams) {
 		zIndex: 2,
 		backgroundImage: 'images/chat/chat-bar-background.png'
 	});
-/*	
-	var chatInputBackgroundImageLeft = Ti.UI.createImageView({
-		image: 'images/chat/chat-bar-white-left.png',
-		top: 0, 
-		left: 6, 
-		width: 12, 
-		height: 41
-	});
-	chatInputView.add(chatInputBackgroundImageLeft); 
-	
-	var chatInputBackgroundImageCenter = Ti.UI.createImageView({
-		image: 'images/chat/chat-bar-white-middle.png',
-		top: 0, 
-		left: 6 + 12, 
-		width: 221, 
-		height: 41
-	});
-	chatInputView.add(chatInputBackgroundImageCenter); 
-	
-	var chatInputBackgroundImageRight = Ti.UI.createImageView({
-		image: 'images/chat/chat-bar-white-right.png',
-		top: 0, 
-		left: 6 + 12 + 221, 
-		width: 12, 
-		height: 41
-	});
-	chatInputView.add(chatInputBackgroundImageRight); 	
-*/	
+
 	var chatSendButtonLeft = Ti.UI.createImageView({
 		image: 'images/chat/green-button-left.png',
 		top: 8,
@@ -377,7 +382,6 @@ Ti.App.Chat = function(_chatParams) {
 			hintTextLabel.visible = true;
 		}
 		chatMessagesTableView.animate(animateDown_chatView);
-	//	chatInputView.top = 375;
 		chatInputView.animate(animateDown_inputView);
 		chatInputView.height = 40;
 		chatInputTextField.height = 30;

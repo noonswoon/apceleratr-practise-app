@@ -21,7 +21,7 @@ exports.insertChatMessage = function(chatMessageObj) {
 	if(isExisted) {
 		result.close();
 		db.close();
-		return;
+		return false;
 	} 
 	
 	var userId = chatMessageObj.userId;
@@ -32,6 +32,7 @@ exports.insertChatMessage = function(chatMessageObj) {
 	db.execute("INSERT INTO ChatHistory(Id, UserId, TargetedUserId, SenderId, ReceiverId, Message, Time) VALUES(NULL,?,?,?,?,?,?)", userId, targetedUserId, senderId, receiverId, message, sentTime);
 	
 	db.close();
+	return true;
 };
 
 exports.getChatHistory = function(connectionObj, pageOffset) {

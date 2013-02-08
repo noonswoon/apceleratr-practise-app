@@ -10,6 +10,7 @@ ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	
+	Ti.API.info('imageUrl: '+ _chatOwner.imageUrl);
 	var userPic = Ti.UI.createImageView({
 		image: _chatOwner.imageUrl,
 		width: 35,
