@@ -5,6 +5,9 @@ db.close();
 // MY CHECKIN PART
 // create data for local database
 exports.populateFacebookLike = function(_userId, _targetedUserId, _fbLikeCollection) {
+	if(_fbLikeCollection.length === 0)
+		return;
+		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME);
 	if(_userId === _targetedUserId) {
 		db.execute('DELETE FROM FacebookLike'); //delete all

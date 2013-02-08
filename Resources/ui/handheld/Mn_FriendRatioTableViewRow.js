@@ -1,8 +1,16 @@
 //TODO: change all these to be just a label
 FriendRatioTableViewRow = function(_fieldName, _content) {
 	var fieldName = _fieldName; 
-	var numFemaleFriends = parseInt(_content['female']);
-	var numMaleFriends = parseInt(_content['male']);
+	
+	var numFemaleFriends = 0;
+	var numMaleFriends = 0;
+	
+	if(_content['female'] !== "")
+		numFemaleFriends = parseInt(_content['female']);
+	
+	if(_content['male'] !== "")
+		numMaleFriends = parseInt(_content['male']);
+
 	var totalFriends = numFemaleFriends + numMaleFriends; 
 	
 	var femaleFriendPercent = 50;  //default

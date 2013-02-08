@@ -69,13 +69,22 @@ TopFriendsView = function(_userId) {
 	});
 
 	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {
+		Ti.API.info('have NOT fetched fb data');
 		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
 		FacebookQuery.queryFacebookFriends();
 	}  else {
+		Ti.API.info('already fetched fb data...');
 		//might not have the data in the scenario where the user deleted the app and re-install again
-		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends()
-		var friendTableRowData = createTopFriendTableRowData(targetedList);
-		topFriendsTableView.setData(friendTableRowData);
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends(); 
+		if(targetedList.length === 0) {
+			Ti.API.info('refresh again...');
+			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
+			FacebookQuery.queryFacebookFriends();
+		} else {
+			Ti.API.info('top five friends: '+JSON.stringify(targetedList));
+			var friendTableRowData = createTopFriendTableRowData(targetedList);
+			topFriendsTableView.setData(friendTableRowData);
+		}
 	}
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		//update local database for those people who already got invited

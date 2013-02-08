@@ -5,6 +5,9 @@ db.close();
 // MY CHECKIN PART
 // create data for local database
 exports.populateReligion = function(_religionsCollection) {
+	if(_religionsCollection.length === 0)
+		return;
+		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	db.execute('DELETE FROM Religion');
 	for(var i = 0; i < _religionsCollection.length; i++) {

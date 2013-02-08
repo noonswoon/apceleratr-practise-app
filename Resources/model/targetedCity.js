@@ -5,6 +5,8 @@ db.close();
 // MY CHECKIN PART
 // create data for local database
 exports.populateTargetedCity = function(_targetedCityCollection) {
+	if(_targetedCityCollection.length === 0)
+		return;
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	db.execute('DELETE FROM TargetedCity');
 	for(var i = 0; i < _targetedCityCollection.length; i++) {

@@ -14,7 +14,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					resultObj.success = false;
-					alert("something wrong with ServerCall backendGeneralInfo.getReligion");
+					alert("something wrong with ServerCall backendGeneralInfo.saveEditUserInfo" + this.responseText);
 				}
 	        },
 	        onerror : function(e) {

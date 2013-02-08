@@ -194,6 +194,7 @@ if (Ti.version < 1.8 ) {
 	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
 		var candidateList = e.candidateList;
 		
+		Ti.API.info('candidateList: '+JSON.stringify(candidateList));
 		FacebookFriendModel.populateFacebookFriend(candidateList);
 		Ti.API.info('calling Backend: getInvitedList of userId: '+currentUserId);
 		BackendInvite.getInvitedList(currentUserId, function(invitedList) {
@@ -223,11 +224,14 @@ if (Ti.version < 1.8 ) {
 				ModelReligion.populateReligion(e.religion);
 				ModelEthnicity.populateEthnicity(e.ethnicity);
 				ModelTargetedCity.populateTargetedCity(e.city);
+				
 				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
+				Ti.API.info('pull data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
 		} else {
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
+			Ti.API.info('db data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
 			Ti.App.fireEvent('doneWaitingEvent');
 		}
 	};

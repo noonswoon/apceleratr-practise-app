@@ -5,6 +5,9 @@ db.close();
 // MY CHECKIN PART
 // create data for local database
 exports.populateEthnicity = function(_ethnicitiesCollection) {
+	if(_ethnicitiesCollection.length === 0)
+		return;
+		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	db.execute('DELETE FROM Ethnicity');
 	for(var i = 0; i < _ethnicitiesCollection.length; i++) {
