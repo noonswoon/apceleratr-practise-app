@@ -62,10 +62,6 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(fbButton);
 	self.add(fbButtonTextDropShadow);
 	self.add(fbButtonText);
-
-	fbButton.addEventListener('click', function() {
-		Ti.Facebook.authorize();
-	});
 	
 	fbButton.addEventListener('touchstart', function() {
 		fbButtonText.color = '#888888';
@@ -171,7 +167,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		} else if (e.cancelled) {
 			Ti.API.info("fb login Canceled");
 		} else {
-			alert("Facebook Login Error...please try again");
+			Ti.API.info(JSON.stringify(e));
 		}
 	}	
 	// register for push notifications
@@ -190,6 +186,14 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 
 	Ti.Facebook.addEventListener('login', facebookAuthenCallback);
 
+	fbButton.addEventListener('click', function() {
+		if(!Ti.Facebook.loggedIn) {
+			Ti.Facebook.authorize();
+		} else { //if already logged in, but somehow land in this page, just fire the event
+			Ti.Facebook.fireEvent('login',{success:true});
+		}
+	});
+	
 	self.addEventListener('close', function() {
 		Ti.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});

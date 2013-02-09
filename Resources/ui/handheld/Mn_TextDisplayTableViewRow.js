@@ -50,8 +50,9 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 		color: textColor,
 		top: 15, 
 		left: 64,
+		width: 241,
+		height: 20,
 		font:{fontWeight:'bold',fontSize:18},
-		height: 20
 	});
 	tableRow.add(contentLabel);
 	
@@ -62,8 +63,9 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 			color: '#a3a7ad',
 			top: 15, 
 			left: 64 + (numChars * 10) + 10,
+			width: 241 - ((numChars * 10) + 10),
+			height: 20,
 			font:{fontWeight:'bold',fontSize:18},
-			height: 20
 		});
 		tableRow.add(additionalContentLabel);
 	}

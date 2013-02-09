@@ -150,7 +150,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	
 	likeButton.addEventListener("click", function() {
 		Ti.API.info('like button is clicked');
-		setSelectedState("like");
 		
 		var currentCredit = CreditSystem.getUserCredit();
 		if(currentCredit < 10) {
@@ -168,8 +167,10 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			//save that the user like the person
 			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 			BackendMatch.saveResponse(matchResponseObj, function(e){
-				if(e.success) Ti.API.info('save response (like) successfully');
-				else Ti.API.info('save response (like) failed');
+				if(e.success) {
+					Ti.API.info('save response (like) successfully');
+					setSelectedState("like");
+				} else Ti.API.info('save response (like) failed');
 			});	
 		}
 	});

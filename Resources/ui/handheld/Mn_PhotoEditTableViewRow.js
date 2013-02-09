@@ -34,7 +34,6 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		// Turn blob into a square thumbnail
 		blob = blob.imageAsThumbnail(94);
 		
-		
 		var imageCountView = Ti.UI.createImageView({
 			image: 'images/edit/profile-picture-count.png',
 			top: 15, 
