@@ -33,7 +33,7 @@ Ti.App.NUM_TOP_FRIENDS = 5;
 
 Ti.App.NUM_INVITE_ALL = 10;
 
-Ti.App.IS_ON_DEVICE = false;
+Ti.App.IS_ON_DEVICE = true;
 Ti.App.IS_PRODUCTION_BUILD = false;
 Ti.App.ACTUAL_FB_INVITE = false;
 

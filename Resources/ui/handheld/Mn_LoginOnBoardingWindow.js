@@ -85,22 +85,28 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
     	alert(L("Error during registration: ") + e.error);
 	}
 	
+	//continue here...
 	function messageNotifCallback(e) {
 		// called when a push notification is received.
 		//Debug.debug_print("Received a push notification\n\nPayload:\n\n"+JSON.stringify(e));
 		var message;
 		if(e.data['aps'] != undefined) {
 			if(e.data['aps']['alert'] != undefined){
-				if(e.data['aps']['alert']['body'] != undefined){
-					message = e.data['aps']['alert']['body'];
-				} else {
-					message = e.data['aps']['alert'];
-					//try openning window here
-				}
+				message = e.data['aps']['alert'];
+				
+				//try openning window here with the data
+/*
+				var matchId = e.data['aps']['match_id'];
+				var senderId = e.data['aps']['sender_id'];
+				var senderImage = e.data['aps']['sender_image'];
+				var senderFirstname = e.data['aps']['sender_firstname'];
+				var receiverId = e.data['aps']['receiver_id'];
+				var receiverImage = e.data['aps']['receiver_image'];
+*/				
 				var msgDialog = Titanium.UI.createAlertDialog({
-						title:'Message from...',
-						message:message
-					});
+					title:'Message from...',
+					message:message
+				});
 				msgDialog.show();
 			} else {
 				message = 'No Alert content';
@@ -123,10 +129,13 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        sendingObj.fbAuthToken = Ti.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "82DFA37CD520A0CBF2EF92A2138550AE88829C08EC01DE2109FE61FC3ADE82D5";
-			        if(Ti.Platform.os === 'iphone' || Ti.Platform.os === 'ipad') {
+			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
-			        	alert('testing deviceId: '+sendingObj.deviceId);
+			        	alert('testing '+Ti.Platform.osname+', deviceId: '+sendingObj.deviceId);
+			        } else {
+			        	alert('not setting the deviceId...: '+Ti.Platform.osname);
 			        }
+			        
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
 			        
