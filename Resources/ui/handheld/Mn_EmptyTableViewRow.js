@@ -16,6 +16,10 @@ EmptyTableViewRow = function() {
 		return 'empty_row';
 	};
 
+	tableRow.isInvited = function() {
+	    return false;
+	};
+	
 	return tableRow;		
 };
 

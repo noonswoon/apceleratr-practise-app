@@ -149,8 +149,10 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 							navGroup.open(onBoardingStep1Window);
 			        	} else {
 			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
-			        		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new ApplicationWindowModule(parseInt(_userLogin.meta.user_id));
+			        		var currentUserId = parseInt(_userLogin.meta.user_id); 
+							var currentUserImage = _userLogin.content.pictures[0].src;
+							var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+							var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
 							mainApp.open();
 							mainApp.unhideCoverView();
 							self.close();

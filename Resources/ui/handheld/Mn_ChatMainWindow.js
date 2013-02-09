@@ -24,6 +24,11 @@ Ti.App.Chat = function(_chatParams) {
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: _chatParams.otherUserImage}; //{id: _chatParams.otherUserId,imageUrl: ''};
 	var navGroup = _chatParams.navGroup;
 	var nextHistoryPage = 2;
+	var otherUserGuid =  _chatParams.otherUserGuid;
+	var cartoonMsgs = [	"Nice to meet you! However, I am just a cartoon.", 
+						"I would love to meet up with you if I am a person.",
+						"Can you come to the cartoon world?"];
+	var cartoonIndexMsg = 0;
 /*
 	var userImageView = Ti.UI.createImageView({
 		image: _chatParams.userImage
@@ -393,9 +398,17 @@ Ti.App.Chat = function(_chatParams) {
 
 		var newChatRow = new ChatMessageTableViewRow(chatInputTextField.value,userObject,true);
         chatMessagesTableView.appendRow(newChatRow);
-								
-		send_a_message(chatInputTextField.value);
-	
+		
+		//check if it is just the cartoon, if so don't send the message
+		if(otherUserGuid === "") { //normal user has an empty guid
+			send_a_message(chatInputTextField.value);
+		} else {
+			var cartoonChatBackRow = new ChatMessageTableViewRow(cartoonMsgs[cartoonIndexMsg],otherUserObject,false);
+			cartoonIndexMsg++;
+			chatMessagesTableView.appendRow(cartoonChatBackRow);
+			if(cartoonIndexMsg >= cartoonMsgs.length) 
+				cartoonIndexMsg = 0;
+		}
 		chatInputTextField.value = "";
     	chatInputTextField.blur();
     	setTimeout(function() {

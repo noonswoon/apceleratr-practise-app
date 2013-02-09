@@ -1,7 +1,7 @@
 ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	
-	var numLines = Math.ceil(_chatMessage.length / 24); 
-	
+	var numLines = Math.ceil(_chatMessage.length / 18);
+
 	var self = Ti.UI.createTableViewRow({
 		height: 30 + numLines * 15,
 		borderColor: 'black', 
@@ -9,8 +9,7 @@ ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	});
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-	
-	Ti.API.info('imageUrl: '+ _chatOwner.imageUrl);
+
 	var userPic = Ti.UI.createImageView({
 		image: _chatOwner.imageUrl,
 		width: 35,

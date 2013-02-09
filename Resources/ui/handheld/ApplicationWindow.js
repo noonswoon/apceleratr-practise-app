@@ -68,6 +68,7 @@ function ApplicationWindow(_userId, _userImage) {
 		    otherUserId : e.otherUserId,
 		    otherUserFirstName: e.otherUserFirstName,
 		    otherUserImage: e.otherUserImage,
+		    otherUserGuid: e.otherUserGuid,
 		    navGroup: navigationGroup,
 		});	
 		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});

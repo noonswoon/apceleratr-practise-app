@@ -65,13 +65,17 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 			
 			//set credit of the user
 			CreditSystem.setUserCredit(_userInfo.content.credit); 
+			
+			
+			var currentUserId = parseInt(_userInfo.meta.user_id); 
+			var currentUserImage = _userInfo.content.pictures[0].src;
+			var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+			var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
+			mainApp.open();
+			mainApp.unhideCoverView();
+			
 			self.close();
-		});
-					
-		var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-		var mainApp = new ApplicationWindowModule(_userId);
-		mainApp.open();
-		mainApp.unhideCoverView();
+		});		
 	});
 	return self;
 };

@@ -51,6 +51,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	
 	self.matchId = _matchInfo.match_id;
 	self.profileId = _matchInfo.user_id;
+	self.guid = _matchInfo.guid;
 	self.firstName = _matchInfo.first_name;
 	self.profileImage = _matchInfo.image;
 	

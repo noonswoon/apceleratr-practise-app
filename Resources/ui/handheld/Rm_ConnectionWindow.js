@@ -71,8 +71,11 @@ ConnectionWindow = function(_userId) {
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
 		Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
 			
-		Ti.App.fireEvent('openChatWindow', {chatRoomName:chatRoomName, matchId: e.row.matchId, 
-			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName, otherUserImage: e.row.profileImage});
+		Ti.App.fireEvent('openChatWindow', {
+			chatRoomName:chatRoomName, matchId: e.row.matchId, 
+			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName,
+			otherUserImage: e.row.profileImage, otherUserGuid: e.row.guid
+		});
 	});
 	
 	BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	

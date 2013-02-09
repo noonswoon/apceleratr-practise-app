@@ -1,8 +1,9 @@
 // TODO: 
 /*
- * 1. get the invite all screen to load up faster
- * 2. the invite all screen might need: 'load more'
- * 3. need to freeze the main screen when the left or right menu is showing
+ * - work on the cartoon chat
+ * - work on caching the Facebook edit photo
+ * - work on Facebook signup button when the user doesn't login at first
+ * - push notification
  */
 
 /*
@@ -34,7 +35,7 @@ Ti.App.NUM_INVITE_ALL = 10;
 
 Ti.App.IS_ON_DEVICE = false;
 Ti.App.IS_PRODUCTION_BUILD = false;
-Ti.App.ACTUAL_FB_INVITE = true;
+Ti.App.ACTUAL_FB_INVITE = false;
 
 Ti.App.ACS_API_KEY = 'Gncin2EPt9KCUYCuWehXHI6EdojdrdF6';
 if(Ti.App.IS_PRODUCTION_BUILD)
