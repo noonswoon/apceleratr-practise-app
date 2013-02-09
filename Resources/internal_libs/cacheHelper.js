@@ -33,7 +33,7 @@ exports.fetchDataOrCache = function(key, callback, param, eventToFire, cacheTime
 		Ti.App.Properties.setString(key,nowStr);
 	} else {
 		var cacheDateStr = Ti.App.Properties.getString(key);
-		var cacheDate = moment(cacheDateStr,"YYYY-MM-DDTHH:mm:ss");		
+		var cacheDate = Ti.App.moment(cacheDateStr,"YYYY-MM-DDTHH:mm:ss");		
 		var elapsedTime = Ti.App.moment().diff(cacheDate,'minutes');
 		if (elapsedTime < cacheTimeout) { //if still in cache, just fire event
 			//Ti.API.info('cache and able to bypass: '+key);
@@ -49,9 +49,27 @@ exports.fetchDataOrCache = function(key, callback, param, eventToFire, cacheTime
 	}	
 };
 
-exports.isFetchedData = function(key) {
-	if(Ti.App.Properties.hasProperty(key)) return true;
-	else return false;
+exports.shouldFetchData = function(key, cacheTimeout) {
+	if(!Ti.App.Properties.hasProperty(key)) {
+		Ti.API.info(key + ' never has the key..fetching..');
+		return true;
+	} else {
+		if(cacheTimeout === 0) {
+			Ti.API.info(key + ' never expire.. no fetch');
+			return false; //never expire, no need to fetch
+		} else {
+			var cacheDateStr = Ti.App.Properties.getString(key);
+			var cacheDate = Ti.App.moment(cacheDateStr,"YYYY-MM-DDTHH:mm:ss");		
+			var elapsedTime = Ti.App.moment().diff(cacheDate,'minutes');
+			if (elapsedTime < cacheTimeout) {
+				Ti.API.info(key + ' :still not expire..no fetch');
+				return false; //still not expire	
+			} else {
+				Ti.API.info(key + ' :already expired...fetch');
+				return true; //already expired...need to fetchData
+			}
+		}
+	}
 };
 
 exports.recordFetchedData = function(key) {

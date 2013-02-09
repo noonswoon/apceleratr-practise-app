@@ -223,7 +223,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			showPreloader(self,'Loading...');
 			//get the facebook photos and build the facebook album here
 			
-			if(!CacheHelper.isFetchedData('fbProfileImagesLoaded')) {
+			if(CacheHelper.shouldFetchData('fbProfileImagesLoaded', 60*24*3)) {
+				Ti.API.info('fetching from fb...');
 				Titanium.Facebook.requestWithGraphPath('me/albums', {
 	            	fields : 'id, type'
 		        }, 'GET', function(e) {
@@ -264,6 +265,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		        });
 		    } else {
 		    	numThumbnailsToWait = 1;
+		    	Ti.API.info('caching..no loading fp profile pic');
 		    	Ti.App.fireEvent('thumbnailLoadedComplete');
 		    }
 		} else if(e.index == 1) {

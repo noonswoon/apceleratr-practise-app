@@ -55,7 +55,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		_navGroup.open(editProfileWindow);
 	});
 	
-	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {
+	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.Facebook.uid, 0)) {
 		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
 		FacebookQuery.queryFacebookFriends();	
 	} 

@@ -68,7 +68,7 @@ TopFriendsView = function(_userId) {
 		topFriendsTableView.setData(friendTableRowData);
 	});
 
-	if(!CacheHelper.isFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid)) {
+	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.Facebook.uid, 0)) {
 		Ti.API.info('have NOT fetched fb data');
 		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
 		FacebookQuery.queryFacebookFriends();

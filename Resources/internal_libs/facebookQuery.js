@@ -18,16 +18,13 @@ exports.queryFacebookFriends = function() {
 			Ti.API.info('offeredCities: '+offeredCities);
 			//need to exclude people from out-of-town			
 			if(offeredCities === 'all') {
-				Ti.API.info('in offeredCities..all');
 				for(var i = 0; i < friendList.length; i++) {
 					var cityStr = 'none';
-					Ti.API.info('in adding candidate for-loop all');
 					if(friendList[i].current_location && friendList[i].current_location.city) {
 						cityStr = friendList[i].current_location.city;
 					}
 					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
 											pic_square: friendList[i].pic_square, city: cityStr});
-					Ti.API.info('adding candidate in all');
 				}
 			} else {
 				for(var i = 0; i < friendList.length; i++) {
@@ -35,7 +32,6 @@ exports.queryFacebookFriends = function() {
 					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
 						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
 											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
-						Ti.API.info('adding candidate in '+friendList[i].current_location.city);
 					}
 				}
 			}

@@ -41,7 +41,6 @@ exports.populateFacebookFriend = function(_friendsCollection) {
 	for(var i = 0; i < _friendsCollection.length; i++) {
 
 		var curFriend = _friendsCollection[i];
-		Ti.API.info('inserting fbFriend: '+JSON.stringify(curFriend));
 		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,0,0)";
 		db.execute(insertString, curFriend.uid+"", curFriend.name, curFriend.pic_square, curFriend.city); //+"" for converting long to str
 	}

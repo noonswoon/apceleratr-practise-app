@@ -218,7 +218,7 @@ if (Ti.version < 1.8 ) {
 	var errorWindow = null;
 	var launchTheApp = function() {
 		numWaitingEvent++;
-		if(!CacheHelper.isFetchedData('StaticData')) {
+		if(CacheHelper.shouldFetchData('StaticData', 0)) {
 			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
 			BackendGeneralInfo.getStaticData(function(e) {
 				//load data into religion table
