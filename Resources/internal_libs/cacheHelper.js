@@ -50,8 +50,8 @@ exports.fetchDataOrCache = function(key, callback, param, eventToFire, cacheTime
 };
 
 exports.isFetchedData = function(key) {
-	if(!Ti.App.Properties.hasProperty(key)) return false;
-	else return true
+	if(Ti.App.Properties.hasProperty(key)) return true;
+	else return false;
 };
 
 exports.recordFetchedData = function(key) {

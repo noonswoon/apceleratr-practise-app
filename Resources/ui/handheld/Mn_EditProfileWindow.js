@@ -8,6 +8,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var AboutMeEditTableViewRow = require('ui/handheld/Mn_AboutMeEditTableViewRow');
 	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
 	
+	var CacheHelper = require('internal_libs/cacheHelper');
 	var BackendUser = require('backend_libs/backendUser');
 	
 	var ModelEthnicity = require('model/ethnicity');
@@ -203,7 +204,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		numThumbnailsToWait--;	
 		Ti.API.info('numThumbnailsToWait: '+numThumbnailsToWait);
 		if(numThumbnailsToWait === 0) {
-			
+
+			//mark as already cached			
+			CacheHelper.recordFetchedData('fbProfileImagesLoaded');
+
 			//close loading screen
 			hidePreloader(self);
 			
@@ -218,47 +222,50 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		if(e.index == 0) { //facebook
 			showPreloader(self,'Loading...');
 			//get the facebook photos and build the facebook album here
-			Titanium.Facebook.requestWithGraphPath('me/albums', {
-            	fields : 'id, type'
-	        }, 'GET', function(e) {
-	            if(e.success) {
-	                var profileAlbumId = 0;
-	                if(e.result) {
-	                    var albumData = JSON.parse(e.result).data;
-	                    
-	                    for(curAlbum in albumData) {
-	                        if(albumData[curAlbum].type === 'profile') { 
-	                        	profileAlbumId = albumData[curAlbum].id;
-								Ti.API.info('**dummy**-found profile pic album: '+profileAlbumId);
-	                        	break;
-	                        }
-	                    }
-
-	                    //get images from the album
-	                     Titanium.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
-	                     	fields: 'id, picture, link'}, 'GET', function(e) {
-	                     	if(e.result) {
-	                     		var photoData = JSON.parse(e.result).data;
-	                     		numThumbnailsToWait = photoData.length;
-								for(var i=0;i < photoData.length; i++) {
-									var photoObj = photoData[i];
-									
-									//saving facebook photo to iPhone
-									get_remote_file('fbPics/fbPic_'+i+"_"+photoObj.id+".jpg", photoObj.picture, true, onThumbnailImageError, onThumbnailImageProgress, onThumbnailImageComplete);
+			
+			if(!CacheHelper.isFetchedData('fbProfileImagesLoaded')) {
+				Titanium.Facebook.requestWithGraphPath('me/albums', {
+	            	fields : 'id, type'
+		        }, 'GET', function(e) {
+		        	if(e.success) {
+		        		var profileAlbumId = 0;
+		        		if(e.result) {
+		        			var albumData = JSON.parse(e.result).data;
+		        			for(curAlbum in albumData) {
+		        				if(albumData[curAlbum].type === 'profile') { 
+		                        	profileAlbumId = albumData[curAlbum].id;
+									break;
 								}
-	                     	} else if(e.cancelled) {
-				                Ti.API.debug("user cancelled");         		
-	                     	} else {
-	                     		Ti.API.debug(e.result);
-	                     	}
-	                     });
-	                }
-	            } else if(e.cancelled) {
-	            	Ti.API.debug("user cancelled");
-	            } else {
-	                Ti.API.debug(e.result);
-	            }
-	        });
+		                    }
+		                    
+		                    //get images from the album
+		                    Titanium.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
+		                     	fields: 'id, picture, link'}, 'GET', function(e) {
+		                     	if(e.result) {
+		                     		var photoData = JSON.parse(e.result).data;
+		                     		numThumbnailsToWait = photoData.length;
+									for(var i=0;i < photoData.length; i++) {
+										var photoObj = photoData[i];	
+										//saving facebook photo to iPhone
+										get_remote_file('fbPics/fbPic_'+i+"_"+photoObj.id+".jpg", photoObj.picture, true, onThumbnailImageError, onThumbnailImageProgress, onThumbnailImageComplete);
+									}
+		                     	} else if(e.cancelled) {
+					                Ti.API.debug("user cancelled");         		
+		                     	} else {
+		                     		Ti.API.debug(e.result);
+		                     	}
+		                     });
+		            	}
+		            } else if(e.cancelled) {
+		            	Ti.API.debug("user cancelled");
+		            } else {
+		                Ti.API.debug(e.result);
+		            }
+		        });
+		    } else {
+		    	numThumbnailsToWait = 1;
+		    	Ti.App.fireEvent('thumbnailLoadedComplete');
+		    }
 		} else if(e.index == 1) {
 			openGallery();	
 		} else if(e.index == 2) {
