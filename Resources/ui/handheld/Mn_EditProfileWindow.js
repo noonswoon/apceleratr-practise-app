@@ -372,7 +372,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			        	Ti.API.info('found modified content: '+row.getFieldName()+', value: '+row.getContent());
 			        	editParams[row.getFieldName()] =  row.getContent();
 		        	} else { //special case for education
-		        		editParams['grad_school'] =  row.getContent()['graduate_school']; //TODO: will fix this to graduate_school once Amm changed it!
+		        		editParams['graduate_school'] =  row.getContent()['graduate_school'];
 		        		editParams['college'] =  row.getContent()['college'];
 		        		editParams['high_school'] =  row.getContent()['high_school'];	
 		        	}
