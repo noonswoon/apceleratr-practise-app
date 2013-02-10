@@ -128,12 +128,9 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        sendingObj.userFbId = Ti.Facebook.uid;
 			        sendingObj.fbAuthToken = Ti.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
-			        sendingObj.deviceId = "82DFA37CD520A0CBF2EF92A2138550AE88829C08EC01DE2109FE61FC3ADE82D5";
+			        sendingObj.deviceId = "";
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
-			        	alert('testing '+Ti.Platform.osname+', deviceId: '+sendingObj.deviceId);
-			        } else {
-			        	alert('not setting the deviceId...: '+Ti.Platform.osname);
 			        }
 			        
 			        var BackendUser = require('backend_libs/backendUser');
