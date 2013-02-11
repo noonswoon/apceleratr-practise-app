@@ -104,6 +104,7 @@ if (Ti.version < 1.8 ) {
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
+	var RateReminder = require('internal_libs/rateReminder');
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -218,6 +219,8 @@ if (Ti.version < 1.8 ) {
 	var errorWindow = null;
 	var launchTheApp = function() {
 		numWaitingEvent++;
+		RateReminder.checkReminderToRate();
+
 		if(CacheHelper.shouldFetchData('StaticData', 0)) {
 			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
 			BackendGeneralInfo.getStaticData(function(e) {
