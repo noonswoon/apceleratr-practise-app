@@ -229,13 +229,14 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		self.add(contentView);
 	}	
 
-	
+	showPreloader(self,'Loading...');
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
 		if(_userInfo.meta.status === 'error') {
 			Ti.App.fireEvent('openErrorWindow');
 		} else {
 			populateInfoDataTableView(_userInfo);
 		}
+		hidePreloader(self);
 	});	
 
 	editButton.addEventListener('click', function() {

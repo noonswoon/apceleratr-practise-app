@@ -199,20 +199,24 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	if(_matchId === null) {
+		showPreloader(self,'Loading...');
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 			if(_matchInfo.meta.status === 'error') {
 				Ti.App.fireEvent('openNoMatchWindow');
 			} else {
 				populateMatchDataTableView(_matchInfo);
 			}
+			hidePreloader(self);
 		});	
 	} else {
+		showPreloader(self,'Loading...');
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 			if(_matchInfo.meta.status === 'error') {
 				Ti.App.fireEvent('openNoMatchWindow');	
 			} else {
 				populateMatchDataTableView(_matchInfo);
 			}
+			hidePreloader(self);
 		});
 	}
 
