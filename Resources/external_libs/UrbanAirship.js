@@ -12,15 +12,14 @@ var getDeviceToken = function() {
 		var deviceToken = "";
 		if(Ti.App.Properties.hasProperty(MY_DEVICE_TOKEN_SYM)) {
 			deviceToken =  Ti.App.Properties.getString(MY_DEVICE_TOKEN_SYM);
-		} else deviceToken = "NO_TOKEN_DEVICE";
-		//alert('deviceToken: '+deviceToken);
+		}
 		return deviceToken;
 	}
 };
 exports.getDeviceToken = getDeviceToken;
 
 var setDeviceToken = function(_deviceToken) {
-	Ti.App.Properties.setString(MY_DEVICE_TOKEN_SYM,_deviceToken);
+	Ti.App.Properties.setString(MY_DEVICE_TOKEN_SYM,_deviceToken.toUpperCase());
 };
 exports.setDeviceToken = setDeviceToken;
 

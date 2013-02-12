@@ -131,6 +131,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        sendingObj.deviceId = "";
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
+			        	sendingObj.devicePlatform = 'iphone';
 			        }
 			        
 			        var BackendUser = require('backend_libs/backendUser');

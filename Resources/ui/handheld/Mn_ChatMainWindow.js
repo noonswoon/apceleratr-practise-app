@@ -29,6 +29,7 @@ Ti.App.Chat = function(_chatParams) {
 						"I would love to meet up with you if I am a person.",
 						"Can you come to the cartoon world?"];
 	var cartoonIndexMsg = 0;
+	var isLoadMorePresent = true;
 /*
 	var userImageView = Ti.UI.createImageView({
 		image: _chatParams.userImage
@@ -84,35 +85,65 @@ Ti.App.Chat = function(_chatParams) {
 	moreText.addEventListener('click', function() {
 		BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:nextHistoryPage}, function(_chatHistory) {
 			var chatHistoryMsgs = _chatHistory.content.chat_messages;
-			for(var i = 0; i < chatHistoryMsgs.length; i++) {
-				var messageObj = {};
-				messageObj.userId = userObject.id;
-				messageObj.targetedUserId = otherUserObject.id;
-				messageObj.senderId = chatHistoryMsgs[i].sender_id;
-				messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
-				messageObj.message = chatHistoryMsgs[i].message;
-				messageObj.time = chatHistoryMsgs[i].time;
-				ModelChatHistory.insertChatMessage(messageObj);
-			}
-			var pageOffset = (nextHistoryPage - 1) * 10;
-			var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, pageOffset);		
-			for(var i = 0; i < chatHistory.length; i++) { //fixing this
-				var historyUserObj = otherUserObject; 
-				var isYourMessage = false;
-				if(chatHistory[i].senderId == userObject.id) {
-					isYourMessage = true;
-					historyUserObj = userObject;
+			if(chatHistoryMsgs.length > 0) {
+				for(var i = 0; i < chatHistoryMsgs.length; i++) {
+					var messageObj = {};
+					messageObj.userId = userObject.id;
+					messageObj.targetedUserId = otherUserObject.id;
+					messageObj.senderId = chatHistoryMsgs[i].sender_id;
+					messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
+					messageObj.message = chatHistoryMsgs[i].message;
+					messageObj.time = chatHistoryMsgs[i].time;
+					ModelChatHistory.insertChatMessage(messageObj);
 				}
-				var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
-				chatMessagesTableView.insertRowAfter(0,newChatRow);
+				var pageOffset = (nextHistoryPage - 1) * 10;
+				var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, pageOffset);		
+				for(var i = 0; i < chatHistory.length; i++) { //fixing this
+					var historyUserObj = otherUserObject; 
+					var isYourMessage = false;
+					if(chatHistory[i].senderId == userObject.id) {
+						isYourMessage = true;
+						historyUserObj = userObject;
+					}
+					var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
+					if(isLoadMorePresent) {
+						chatMessagesTableView.insertRowAfter(0,newChatRow);
+					} else {
+						if(chatMessagesTableView.data !== null && chatMessagesTableView.data[0] !== null) {
+							chatMessagesTableView.insertRowBefore(0,newChatRow);
+						} else {
+							chatMessagesTableView.appendRow(newChatRow);
+						}
+					}
+				}			
+				if(chatHistoryMsgs.length < 10) {
+					chatMessagesTableView.deleteRow(0);
+					isLoadMorePresent = false;
+				} else {
+					isLoadMorePresent = true;
+					nextHistoryPage++;
+				}
+			} else {
+				var noMoreHistory = Ti.UI.createAlertDialog({
+						title:L('History ends here'),
+						message:L('No more chat history with '+_chatParams.otherUserFirstName +'. Be confident! Chat up :)')
+					});
+				noMoreHistory.show();
+				chatMessagesTableView.deleteRow(0);
+				isLoadMorePresent = false;
 			}
-			nextHistoryPage++;
 		});
 	});
 	
-	var repopulateChatTable = function() {
-		chatMessagesTableView.setData([loadHistoryMessagesRow]);
-	    
+	var repopulateChatTable = function(_showLoadHistoryRow) {
+		if(_showLoadHistoryRow) {
+			chatMessagesTableView.setData([loadHistoryMessagesRow]);
+			isLoadMorePresent = true;
+		} else { 
+	    	chatMessagesTableView.setData([]);
+	   		isLoadMorePresent = false;
+	   }
+	   
 	    //load chat history data and populate into the table
 		//scroll to the last one
 		var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, 0);		
@@ -124,14 +155,21 @@ Ti.App.Chat = function(_chatParams) {
 				historyUserObj = userObject;
 			}
 			var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
-			chatMessagesTableView.insertRowAfter(0,newChatRow);
+			if(isLoadMorePresent) {
+				chatMessagesTableView.insertRowAfter(0,newChatRow);
+			} else {
+				if(chatMessagesTableView.data !== null && chatMessagesTableView.data[0] !== null) {
+					chatMessagesTableView.insertRowBefore(0,newChatRow);
+				} else {
+					chatMessagesTableView.appendRow(newChatRow);
+				}
+			}
 		}
 		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
 	};
 	
 	Ti.App.addEventListener('updateChatData', function() {
-		Ti.API.info('listening at updateChatData event');
-		repopulateChatTable();
+		repopulateChatTable(true);
 	});
 	 // ----------------------------------
     // LISTEN FOR MESSAGES
@@ -148,25 +186,36 @@ Ti.App.Chat = function(_chatParams) {
 	        channel  : currentChatRoom,
 	        connect  : function() {
 	            Ti.API.info("connecting...");
-	            repopulateChatTable();
+	            repopulateChatTable(true);
 				BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:1}, function(_chatHistory) {
 					var isNewRecord = false;
 					var chatHistoryMsgs = _chatHistory.content.chat_messages;
-					for(var i = 0; i < chatHistoryMsgs.length; i++) {
-						//Ti.API.info('chatHistoryMsg: '+JSON.stringify(chatHistoryMsgs[i]));
-						var messageObj = {};
-						messageObj.userId = userObject.id;
-						messageObj.targetedUserId = otherUserObject.id;
-						messageObj.senderId = chatHistoryMsgs[i].sender_id;
-						messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
-						messageObj.message = chatHistoryMsgs[i].message;
-						messageObj.time = chatHistoryMsgs[i].time;
-						var insertResult = ModelChatHistory.insertChatMessage(messageObj);			
-						if(insertResult)
-							isNewRecord = true;
-					}
-					if(isNewRecord) {
-						Ti.App.fireEvent('updateChatData');
+					if(chatHistoryMsgs.length > 0) {
+						for(var i = 0; i < chatHistoryMsgs.length; i++) {
+							//Ti.API.info('chatHistoryMsg: '+JSON.stringify(chatHistoryMsgs[i]));
+							var messageObj = {};
+							messageObj.userId = userObject.id;
+							messageObj.targetedUserId = otherUserObject.id;
+							messageObj.senderId = chatHistoryMsgs[i].sender_id;
+							messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
+							messageObj.message = chatHistoryMsgs[i].message;
+							messageObj.time = chatHistoryMsgs[i].time;
+							var insertResult = ModelChatHistory.insertChatMessage(messageObj);			
+							if(insertResult)
+								isNewRecord = true;
+						}
+						if(isNewRecord) {
+							Ti.App.fireEvent('updateChatData');
+						}
+						if(chatHistoryMsgs.length < 10) {
+							chatMessagesTableView.deleteRow(0);
+							isLoadMorePresent = false;
+						} else {
+							isLoadMorePresent = true;
+						}
+					} else {
+						 isLoadMorePresent = false;
+						 repopulateChatTable(false);
 					}
 				});
 	        },
