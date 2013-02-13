@@ -1,7 +1,15 @@
 ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	
+	/* TEST CASE
+	 * [	"Nice to meet you! However, I am just a cartoon.", 
+						"I would love to meet up with you if I am a person.",
+						"Can you come to the cartoon world?"];
+	 * 
+	 */
+	
 	var numLines = Math.ceil(_chatMessage.length / 18);
-
+	Ti.API.info('chatMessageLength: '+ _chatMessage.length +', numLines: '+ numLines);
+	
 	var self = Ti.UI.createTableViewRow({
 		height: 30 + numLines * 15,
 		borderColor: 'black', 

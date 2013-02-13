@@ -9,6 +9,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var BackendInvite = require('backend_libs/backendInvite');
 	var FacebookFriend = require('model/facebookFriend');
 
+	var FacebookFriendModel = require('model/facebookFriend');
+
 	var descriptionText1 = 'Receive';
 	var descriptionText2 = '2 credits';
 	var descriptionText3 = 'for each friend you invite';
@@ -158,7 +160,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	};
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
-		
+		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		//iterate to remove the table view row	
 		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
@@ -175,6 +177,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 		
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
+		
+		//need to record who already got invited to the local db
+		
 		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
 			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
 			else Ti.API.info('saveInvitePeople from fb failed');
@@ -188,7 +193,10 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		} else {
 			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
 			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
-			_navGroup.open(onBoardingStep3Window);
+			//_navGroup.open(onBoardingStep3Window);
+			onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+			//self.close();
 		}
 	});
 	

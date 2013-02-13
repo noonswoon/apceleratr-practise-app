@@ -58,7 +58,10 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	
 	button.addEventListener('click', function() {
 		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, true);
-		_navGroup.open(inviteFriendWindow);
+		inviteFriendWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
+													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+		//self.close();
+		//_navGroup.open(inviteFriendWindow);
 	});
 	return self;
 };

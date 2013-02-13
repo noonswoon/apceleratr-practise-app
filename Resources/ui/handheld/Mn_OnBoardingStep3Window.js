@@ -74,7 +74,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 			mainApp.open();
 			mainApp.unhideCoverView();
 			
-			self.close();
+			//self.close();
 		});		
 	});
 	return self;

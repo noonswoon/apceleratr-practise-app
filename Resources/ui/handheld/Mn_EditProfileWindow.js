@@ -397,7 +397,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 					if(_newUser) {
 						var OnBoardingStep2Module = require('ui/handheld/Mn_OnBoardingStep2Window');
 						var onBoardingStep2Window = new OnBoardingStep2Module(_navGroup, _userId);
-						_navGroup.open(onBoardingStep2Window);
+						onBoardingStep2Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+						//self.close();
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));

@@ -52,7 +52,11 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	
 	viewProfileBtn.addEventListener('click', function() {
 		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, true);
-		_navGroup.open(editProfileWindow);
+		editProfileWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
+											modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+		//self.close();
+		//_navGroup.open(editProfileWindow, { modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
+		//									modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
 	});
 	
 	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.Facebook.uid, 0)) {
