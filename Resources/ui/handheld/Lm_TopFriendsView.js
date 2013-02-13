@@ -104,7 +104,7 @@ TopFriendsView = function(_userId) {
 			topFriendsTableView.deleteRow(targetedRow);	
 			topupAmount += 2;
 		}
-		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		
 		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
@@ -149,7 +149,7 @@ TopFriendsView = function(_userId) {
 		if(Ti.App.ACTUAL_FB_INVITE) {
 			FacebookSharing.sendRequestOnFacebook(batchInviteList.join(','));	
 		} else {
-			Ti.App.fireEvent('inviteCompleted', {inviteeList:batchInviteList});
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:batchInviteList,trackingCode:'FROM_SIMULATOR'});
 		}
 	});	
 	

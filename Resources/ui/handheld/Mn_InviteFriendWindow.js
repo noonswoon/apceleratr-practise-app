@@ -176,7 +176,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			topupAmount += 2;
 		}
 		
-		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList};
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		
 		//need to record who already got invited to the local db
 		
@@ -225,7 +225,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		if(Ti.App.ACTUAL_FB_INVITE) {
 			FacebookSharing.sendRequestOnFacebook(invitedList.join(','));
 		} else {
-			Ti.App.fireEvent('inviteCompleted', {inviteeList:invitedList});
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:invitedList, trackingCode:'FROM_SIMULATOR'});
 		}
 	};
 	inviteButton.addEventListener('click', inviteButtonClickCallback);

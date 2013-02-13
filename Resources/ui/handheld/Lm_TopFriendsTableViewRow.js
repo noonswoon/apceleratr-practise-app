@@ -47,7 +47,7 @@ TopFriendsTableViewRow = function(_fbUser) {
 		if(Ti.App.ACTUAL_FB_INVITE) {
 			FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
 		} else {
-			Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id]});
+			Ti.App.fireEvent('inviteCompleted', {inviteeList:[_fbUser.facebook_id], trackingCode:'FROM_SIMULATOR'});
 		}
 	});
 	

@@ -35,7 +35,7 @@ Ti.App.NUM_INVITE_ALL = 10;
 
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.IS_PRODUCTION_BUILD = false;
-Ti.App.ACTUAL_FB_INVITE = false;
+Ti.App.ACTUAL_FB_INVITE = true;
 
 Ti.App.ACS_API_KEY = 'Gncin2EPt9KCUYCuWehXHI6EdojdrdF6';
 if(Ti.App.IS_PRODUCTION_BUILD)
