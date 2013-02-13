@@ -36,15 +36,23 @@ MutualFriendTableViewRow = function(_fbId) {
 		Ti.Facebook.requestWithGraphPath(_fbId, {}, 'GET', function(e) {
 			if (e.success) {
 			    var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object	
-			  
+			  	var userName = fbGraphObj.first_name + ' ' + fbGraphObj.last_name;
 			    var userLabel = Ti.UI.createLabel({
-					text: fbGraphObj.first_name + ' ' + fbGraphObj.last_name,
+					text: userName,
 					font: {fontSize:15, fontWeight:'bold'},
 					left: 50,
 					top: 15,
 					color: '#595959'
 				});
 				self.add(userLabel);
+				
+				//do the update to the local database
+				//Ti.API.info('fbGraphObj: '+ JSON.stringify(fbGraphObj));
+				var userLocation = null;
+				if(fbGraphObj.location !== null && fbGraphObj.location.name !== null) {
+					userLocation = 	fbGraphObj.location.name;
+				}
+				ModelFacebookFriend.updateFacebookFriendName(_fbId, userName, 'http://graph.facebook.com/'+ _fbId +'/picture?type=square', userLocation); 
 			} else if (e.error) {
 				Ti.API.info('cannot request GraphPath: '+ JSON.stringify(e));		
 			} else {

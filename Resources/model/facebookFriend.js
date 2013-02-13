@@ -160,6 +160,23 @@ exports.updateClosenessScoreBatch = function(_fbIdsArray) {
 	}
 	Ti.App.fireEvent('facebookFriendClosenessScoreUpdated');
 };
+
+exports.updateFacebookFriendName = function(_fbId, _fbName, _fbPicUrl, _city){
+	var allFriends = [];
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	//need to find whether there is a friend in the local db or not
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE FacebookId = "' + _fbId + '"');
+	if(result.isValidRow()) { 	//if so, just update
+		var updateQuery = 'UPDATE FacebookFriend SET Name = "' + _fbName + '" WHERE FacebookId = "' + _fbId + '"';
+		db.execute(updateQuery);
+	} else { //if not..do the insertion
+		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,0,0)";
+		db.execute(insertString, _fbId, _fbName, _fbPicUrl, _city); //+"" for converting long to str
+	}
+	result.close();
+	db.close();
+	return allFriends;
+};
 /*		
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	var dummy = []

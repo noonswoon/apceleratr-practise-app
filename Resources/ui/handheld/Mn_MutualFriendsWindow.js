@@ -17,16 +17,21 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 		title: L('Mutual Friends'),
 		navBarHidden: false,
 		leftNavButton: backButton,
-		backgroundColor: '#eeeeee'
+		backgroundColor: '#eeeeee',
+		height: '100%'
 	});
 	
 	var isScrollable = false; 
-	if(_mutualFriendsArray.length >= 9) isScrollable = true;
-	
+	var tableViewHeight = _mutualFriendsArray.length * 50;
+	if(_mutualFriendsArray.length >= 9) {
+		isScrollable = true;
+		tableViewHeight = '100%';
+	}
+
 	var mutualFriendTableView = Ti.UI.createTableView({
 		top: 0,
 		width: '100%',
-		height: _mutualFriendsArray.length * 50,
+		height: tableViewHeight,
 		scrollable: isScrollable
 	});	
 	
