@@ -5,6 +5,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	var BackendCredit = require('backend_libs/backendCredit');	
 		
 	var navGroup = null;
+	var isActionTaken = false;
 	
 	var viewsForScrollView = [];
 	var imagesArray = [];
@@ -149,42 +150,47 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	self.setSelectedState = setSelectedState;
 	
 	likeButton.addEventListener("click", function() {
-		Ti.API.info('like button is clicked');
-		
-		var currentCredit = CreditSystem.getUserCredit();
-		if(currentCredit < 10) {
-			var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
-				title:'Insufficient Credits',
-				message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
-			});
-			notEnoughCreditsDialog.show();
-		} else {				
-			//send off the point deductions to server
-			BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-			});
-				
-			//save that the user like the person
-			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
-			BackendMatch.saveResponse(matchResponseObj, function(e){
-				if(e.success) {
-					Ti.API.info('save response (like) successfully');
-					setSelectedState("like");
-				} else Ti.API.info('save response (like) failed');
-			});	
+		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
+			isActionTaken = true;
+			Ti.API.info('like button is clicked');
+			
+			var currentCredit = CreditSystem.getUserCredit();
+			if(currentCredit < 10) {
+				var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
+					title:'Insufficient Credits',
+					message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
+				});
+				notEnoughCreditsDialog.show();
+			} else {				
+				//send off the point deductions to server
+				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
+					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+				});
+					
+				//save that the user like the person
+				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
+				BackendMatch.saveResponse(matchResponseObj, function(e){
+					if(e.success) {
+						Ti.API.info('save response (like) successfully');
+					} else Ti.API.info('save response (like) failed');
+				});
+				setSelectedState("like");
+			}
 		}
 	});
 
 	passButton.addEventListener("click", function() {
-		Ti.API.info('pass button is clicked');
-		setSelectedState("pass");
-
-		var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
-		BackendMatch.saveResponse(matchResponseObj, function(e){
-			if(e.success) Ti.API.info('save response (pass) successfully');
-			else Ti.API.info('save response (pass) failed');
-		});
-		
+		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
+			isActionTaken = true;
+			Ti.API.info('pass button is clicked');
+			setSelectedState("pass");
+	
+			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
+			BackendMatch.saveResponse(matchResponseObj, function(e){
+				if(e.success) Ti.API.info('save response (pass) successfully');
+				else Ti.API.info('save response (pass) failed');
+			});
+		}
 	});	
 
 	return self;
