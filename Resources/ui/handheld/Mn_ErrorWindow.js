@@ -1,5 +1,7 @@
 ErrorWindow = function(_userId) {
 	
+	Ti.App.Flurry.logEvent('error-screen');
+	
 	//create component instance
 	var self = Ti.UI.createWindow({
 		left: 0,
@@ -66,11 +68,13 @@ ErrorWindow = function(_userId) {
 	});
 	
 	retryImage.addEventListener('click', function() {
+		Ti.App.Flurry.logEvent('error-screen-retry');
 		Ti.API.info('firing event to restartApp..');
 		Ti.App.fireEvent('restartApp');
 	});
 	
 	description1Lbl.addEventListener('click', function(){
+		Ti.App.Flurry.logEvent('error-screen-retry');
 		Ti.API.info('firing event to restartApp..');
 		Ti.App.fireEvent('restartApp');
 	});

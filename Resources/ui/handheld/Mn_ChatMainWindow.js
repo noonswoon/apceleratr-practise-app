@@ -13,13 +13,26 @@
 	    origin        : 'pubsub.pubnub.com'
 	});
 	
-Ti.App.Chat = function(_chatParams) {    
+Ti.App.Chat = function(_chatParams) {   
+	Ti.App.Flurry.logTimedEvent('chat-screen');
+	
 	var ModelChatHistory = require('model/chatHistory');
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 	
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
+	var hasSentMessage = true;
+	
+	if(!Ti.App.Properties.hasProperty('chat-first-enter-room' + currentChatRoom)) {
+		Ti.App.Flurry.logEvent('chat-first-enter-room');	
+		Ti.App.Properties.setInt('chat-first-enter-room' + currentChatRoom, 1);
+	}
+	
+	if(!Ti.App.Properties.hasProperty('chat-first-sent-msg' + currentChatRoom)) {
+		hasSentMessage = false;
+	}
+	
 	var userObject = {id: _chatParams.userId, imageUrl: _chatParams.userImage}; //real data --> {id: _chatParams.userId,imageUrl: ''};
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: _chatParams.otherUserImage}; //{id: _chatParams.otherUserId,imageUrl: ''};
 	var navGroup = _chatParams.navGroup;
@@ -270,6 +283,11 @@ Ti.App.Chat = function(_chatParams) {
 			messageObj.time = _sentData.time;
 			
 			ModelChatHistory.insertChatMessage(messageObj);		
+			if(!hasSentMessage) {
+				Ti.App.Flurry.logEvent('chat-first-sent-msg');
+				Ti.App.Properties.setInt('chat-first-sent-msg' + currentChatRoom, 1);
+			}
+			
 			pubnub.publish({
 	            channel  : currentChatRoom,
 	            message  : { text : message, senderId: userObject.id, time: messageObj.time},
@@ -476,6 +494,7 @@ Ti.App.Chat = function(_chatParams) {
 	
 	chatWindow.addEventListener('close', function(){
 		//unsubscribe here...
+		Ti.App.Flurry.endTimedEvent('chat-screen');
 		Ti.API.info('unsubscribe from channel: '+currentChatRoom);
 		pubnub.unsubscribe({ channel : currentChatRoom });
 	});	

@@ -1,4 +1,8 @@
 InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
+	if(_forcedInvite) {
+		Ti.App.Flurry.logEvent('after-signup-onboard-2-invite');
+	}	
+	Ti.App.Flurry.logTimedEvent('invite-screen');
 		
 	var InviteFriendTableViewRow = require('ui/handheld/Mn_InviteFriendTableViewRow');
 	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
@@ -160,6 +164,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	};
 	
 	Ti.App.addEventListener('inviteCompleted', function(e){
+		
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		//iterate to remove the table view row	
 		var topupAmount = 0;
@@ -186,11 +191,13 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		});
 		
 		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
+			Ti.App.Flurry.logEvent('invite-number-invites', { numberInvites: e.inviteeList.length});
 			BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
 				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
 			});
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
+			Ti.App.Flurry.logEvent('after-signup-onboard-2-number-invites', { numberInvites: e.inviteeList.length});
 			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
 			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
 			//_navGroup.open(onBoardingStep3Window);
@@ -198,6 +205,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
 			//self.close();
 		}
+		Ti.App.Flurry.endTimedEvent('invite-screen');
 	});
 	
 	var friendList = FacebookFriend.getFacebookFriends();
@@ -231,6 +239,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	inviteButton.addEventListener('click', inviteButtonClickCallback);
 
 	backButton.addEventListener('click', function() {
+		Ti.App.Flurry.endTimedEvent('invite-screen');
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
 

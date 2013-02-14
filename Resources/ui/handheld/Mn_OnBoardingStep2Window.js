@@ -1,4 +1,5 @@
 OnBoardingStep2Window = function(_navGroup, _userId) {
+	Ti.App.Flurry.logEvent('after-signup-onboard-2-pre-invite');
 	
 	//create component instance
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');

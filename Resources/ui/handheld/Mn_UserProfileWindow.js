@@ -1,5 +1,10 @@
 UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
-
+	if(_userId === _targetedUserId) {
+		Ti.App.Flurry.logTimedEvent('user-profile-own-profile');
+	} else {
+		Ti.App.Flurry.logTimedEvent('user-profile-other-profile', {targetedUserId: _targetedUserId});
+	}
+	
 	var BackendUser = require('backend_libs/backendUser');
 	var CacheHelper = require('internal_libs/cacheHelper');
 
@@ -257,6 +262,11 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	Ti.App.addEventListener('editProfileSuccess', editProfileSuccessCallback);
 	
 	var windowCloseCallback = function() {
+		if(_userId === _targetedUserId) {
+			Ti.App.Flurry.endTimedEvent('user-profile-own-profile');
+		} else {
+			Ti.App.Flurry.endTimedEvent('user-profile-other-profile');
+		}
 		Ti.App.removeEventListener('editProfileSuccess', editProfileSuccessCallback);
 	};
 

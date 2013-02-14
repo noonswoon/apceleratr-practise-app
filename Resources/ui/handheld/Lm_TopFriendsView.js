@@ -87,6 +87,7 @@ TopFriendsView = function(_userId) {
 		}
 	}
 	Ti.App.addEventListener('inviteCompleted', function(e){
+		Ti.App.Flurry.logEvent('left-menu-invite-success', {numberInvites: e.inviteeList.length});
 		//update local database for those people who already got invited
 		FacebookFriendModel.updateIsInvited(e.inviteeList); //can either be just 1 or 5
 		
@@ -137,6 +138,7 @@ TopFriendsView = function(_userId) {
 	});
 
 	inviteButton.addEventListener('click', function() {
+		Ti.App.Flurry.logEvent('left-menu-batch-invite');
 		var batchInviteList = [];
 		if(topFriendsTableView.data === null || topFriendsTableView.data[0] === null) 
 			return; //data isn't ready yet

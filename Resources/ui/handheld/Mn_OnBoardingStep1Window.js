@@ -1,4 +1,5 @@
 OnBoardingStep1Window = function(_navGroup, _userId) {
+	Ti.App.Flurry.logEvent('after-signup-onboard-1-pre-edit');
 	
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
 	var FacebookQuery = require('internal_libs/facebookQuery');

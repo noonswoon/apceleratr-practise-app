@@ -1,4 +1,6 @@
 MatchWindow = function(_userId, _matchId) {
+	Ti.App.Flurry.logTimedEvent('main-match-window');
+	
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
 	var BackendCredit = require('backend_libs/backendCredit');	
@@ -221,6 +223,7 @@ MatchWindow = function(_userId, _matchId) {
 	}
 
 	var closeCallback = function() {
+		Ti.App.Flurry.endTimedEvent('main-match-window');
 		Ti.API.info('closing todayMatchWindow...');
 		Ti.App.removeEventListener('close', closeCallback);	
 	};

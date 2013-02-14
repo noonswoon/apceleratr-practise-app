@@ -1,4 +1,5 @@
 NoMatchWindow = function(_userId) {
+	Ti.App.Flurry.logEvent('no-match-screen');
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

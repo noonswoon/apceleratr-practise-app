@@ -138,6 +138,14 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        var Admin = require('backend_libs/backendUser');
 			        
 			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
+			        	Ti.App.Flurry.age = parseInt(_userLogin.content.general.age);
+						Ti.App.Flurry.userID = _userLogin.meta.user_id;
+						if(_userLogin.content.general.gender === "female") {
+							Ti.App.Flurry.gender = 'f';
+						} else {
+							Ti.App.Flurry.gender = 'm';
+						}
+						 	
 			        	// check the result data whether it is a new user or existing one
 			        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 			        	var CreditSystem = require('internal_libs/creditSystem');
@@ -145,6 +153,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
 			        	//if(true) {
 			        	if(_userLogin.content.user_status === "new_user") {
+			        		Ti.App.Flurry.logEvent('signupCompleted');
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1
 							
@@ -152,6 +161,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 							var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id));
 							navGroup.open(onBoardingStep1Window);
 			        	} else {
+			        		Ti.App.Flurry.logEvent('loginSucceeded');
 			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 			        		var currentUserId = parseInt(_userLogin.meta.user_id); 
 							var currentUserImage = _userLogin.content.pictures[0].src;

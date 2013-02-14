@@ -1,9 +1,6 @@
 // TODO: 
 /*
- * - work on the cartoon chat
- * - work on caching the Facebook edit photo
- * - work on Facebook signup button when the user doesn't login at first
- * - push notification
+ * work on the analytics tracking
  */
 
 /*
@@ -35,7 +32,7 @@ Ti.App.NUM_INVITE_ALL = 10;
 
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.IS_PRODUCTION_BUILD = false;
-Ti.App.ACTUAL_FB_INVITE = true;
+Ti.App.ACTUAL_FB_INVITE = false;
 
 Ti.App.ACS_API_KEY = 'Gncin2EPt9KCUYCuWehXHI6EdojdrdF6';
 if(Ti.App.IS_PRODUCTION_BUILD)
@@ -62,6 +59,15 @@ if(Ti.Platform.osname == 'iphone') {
 }
 
 Ti.App.moment = require('external_libs/moment');
+
+Ti.App.Flurry = require('ti.flurry');
+Ti.App.Flurry.debugLogEnabled = true;
+Ti.App.Flurry.eventLoggingEnabled = true;
+Ti.App.Flurry.reportOnClose = true;
+
+Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
+
+
 var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
@@ -130,6 +136,15 @@ if (Ti.version < 1.8 ) {
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
 							currentUserId = parseInt(_userInfo.meta.user_id); 
+							
+							Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
+							Ti.App.Flurry.userID = _userInfo.meta.user_id;
+							if(_userInfo.content.general.gender === "female") {
+								Ti.App.Flurry.gender = 'f';
+							} else {
+								Ti.App.Flurry.gender = 'm';
+							}
+							
 							var currentUserImage = _userInfo.content.pictures[0].src;
 							var facebookLikeArray = [];
 							for(var i = 0; i < _userInfo.content.likes.length; i++) {
@@ -228,14 +243,23 @@ if (Ti.version < 1.8 ) {
 				ModelReligion.populateReligion(e.religion);
 				ModelEthnicity.populateEthnicity(e.ethnicity);
 				ModelTargetedCity.populateTargetedCity(e.city);
+				Ti.App.NUM_INVITE_ALL = e.invites_signup;
+				Ti.App.Properties.setInt('invitesSignup',e.invites_signup);
 				
 				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
 				Ti.API.info('pull data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
 		} else {
+			if(Ti.App.Properties.hasProperty('invitesSignup')) {
+				Ti.App.NUM_INVITE_ALL = Ti.App.Properties.getInt('invitesSignup');			
+			} else {
+				Ti.App.NUM_INVITE_ALL = 10;
+			}
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 			Ti.API.info('db data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
+			
+			Ti.API.info('db for invitesSignup: '+ Ti.App.NUM_INVITE_ALL);
 			Ti.App.fireEvent('doneWaitingEvent');
 		}
 	};
