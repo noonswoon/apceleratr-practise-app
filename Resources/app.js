@@ -63,10 +63,7 @@ Ti.App.moment = require('external_libs/moment');
 Ti.App.Flurry = require('ti.flurry');
 Ti.App.Flurry.debugLogEnabled = true;
 Ti.App.Flurry.eventLoggingEnabled = true;
-Ti.App.Flurry.reportOnClose = true;
-
 Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
-
 
 var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
@@ -130,6 +127,7 @@ if (Ti.version < 1.8 ) {
 				else {
 					//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
+					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
 					if(Ti.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');

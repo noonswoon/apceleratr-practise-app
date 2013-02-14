@@ -40,7 +40,7 @@ var getAppSecret = function() {
 };
 exports.getAppSecret = getAppSecret;
 
-exports.registerDeviceToken = function(_deviceToken) {
+var registerDeviceToken = function(_deviceToken) {
 	setDeviceToken(_deviceToken);
 	var xhr = Titanium.Network.createHTTPClient({
 		onload:function(e) {
@@ -60,12 +60,11 @@ exports.registerDeviceToken = function(_deviceToken) {
 	xhr.setRequestHeader('Authorization','Basic '  + Titanium.Utils.base64encode(getAppKey() + ':' + getAppSecret()));
 	
 	var registerParameters = {
-	    // "alias": "mickey_id",
 	    "tags": [
 	        "v0_1",
-	        "development"
+	        "beta"
 	    ],
-	    // "badge": 2,
+	    "badge": 0,
 	    // "quiettime": {
 	        // "start": "6:00",
 	        // "end": "7:00"
@@ -73,6 +72,11 @@ exports.registerDeviceToken = function(_deviceToken) {
 	    // "tz": "Asia/Bangkok"
 	};
 	xhr.send(JSON.stringify(registerParameters));
+};
+exports.registerDeviceToken = registerDeviceToken;
+
+exports.resetBadge = function(_deviceToken) {
+	registerDeviceToken(_deviceToken);
 };
 
 exports.unRegisterDeviceToken = function() {

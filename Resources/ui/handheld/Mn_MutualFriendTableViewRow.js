@@ -48,8 +48,9 @@ MutualFriendTableViewRow = function(_fbId) {
 				
 				//do the update to the local database
 				//Ti.API.info('fbGraphObj: '+ JSON.stringify(fbGraphObj));
-				var userLocation = null;
-				if(fbGraphObj.location !== null && fbGraphObj.location.name !== null) {
+				var userLocation = "";
+				Ti.API.info('fbGraphObject.location: '+ fbGraphObj.location)
+				if(fbGraphObj.location !== undefined && fbGraphObj.location.name !== null) {
 					userLocation = 	fbGraphObj.location.name;
 				}
 				ModelFacebookFriend.updateFacebookFriendName(_fbId, userName, 'http://graph.facebook.com/'+ _fbId +'/picture?type=square', userLocation); 
