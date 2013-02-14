@@ -92,6 +92,7 @@ TopFriendsView = function(_userId) {
 		FacebookFriendModel.updateIsInvited(e.inviteeList); //can either be just 1 or 5
 		
 		//iterate to remove the table view row	
+		var numRowsAffected = 0;
 		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
 			var targetedRow = -1;			
@@ -99,6 +100,7 @@ TopFriendsView = function(_userId) {
 				var row = topFriendsTableView.data[0].rows[j];
 				if(row.fbId === e.inviteeList[i]) {
 					targetedRow = j;
+					numRowsAffected++;
 					break;
 				}
 			}
@@ -117,10 +119,8 @@ TopFriendsView = function(_userId) {
 		});
 		
 		//add the next row to the table
-		if(e.inviteeList.length === 1) {
+		for(var i = 0; i < numRowsAffected; i++) {
 			insertNextCandidate();
-		} else {
-			insertNextCandidateBatch();
 		}
 	});
 	
