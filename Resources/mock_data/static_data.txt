@@ -2,8 +2,8 @@
  	"meta": {"status":"ok", "return_obj":"static_data"}, 
  	"content":
 	{
-		"religion": ["Asian","White/Caucasian","Black/African-descent","South Asian","Mixed"],
-		"ethnicity": ["Buddhist","Christian","Catholic","Muslim","Spiritual but not religious","Other"],
+		"ethnicity": ["Asian","White/Caucasian","Black/African-descent","South Asian","Mixed"],
+		"religion": ["Buddhist","Christian","Catholic","Muslim","Spiritual but not religious","Other"],
 		"city": ["Bangkok","San Francisco","Los Angeles" ],
 		"invites_signup": 5
 	}
