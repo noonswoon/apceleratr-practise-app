@@ -107,25 +107,30 @@ Ti.App.Chat = function(_chatParams) {
 					messageObj.receiverId = chatHistoryMsgs[i].receiver_id;
 					messageObj.message = chatHistoryMsgs[i].message;
 					messageObj.time = chatHistoryMsgs[i].time;
-					ModelChatHistory.insertChatMessage(messageObj);
+					if(messageObj.message.trim() !== "") {
+						ModelChatHistory.insertChatMessage(messageObj);
+					}
 				}
+				
 				var pageOffset = (nextHistoryPage - 1) * 10;
 				var chatHistory = ModelChatHistory.getChatHistory({userId:_chatParams.userId, targetedUserId:_chatParams.otherUserId}, pageOffset);		
 				for(var i = 0; i < chatHistory.length; i++) { //fixing this
-					var historyUserObj = otherUserObject; 
-					var isYourMessage = false;
-					if(chatHistory[i].senderId == userObject.id) {
-						isYourMessage = true;
-						historyUserObj = userObject;
-					}
-					var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
-					if(isLoadMorePresent) {
-						chatMessagesTableView.insertRowAfter(0,newChatRow);
-					} else {
-						if(chatMessagesTableView.data !== null && chatMessagesTableView.data[0] !== null) {
-							chatMessagesTableView.insertRowBefore(0,newChatRow);
+					if(chatHistory[i].message.trim() !== "") {
+						var historyUserObj = otherUserObject; 
+						var isYourMessage = false;
+						if(chatHistory[i].senderId == userObject.id) {
+							isYourMessage = true;
+							historyUserObj = userObject;
+						}
+						var newChatRow = new ChatMessageTableViewRow(chatHistory[i].message,historyUserObj,isYourMessage);
+						if(isLoadMorePresent) {
+							chatMessagesTableView.insertRowAfter(0,newChatRow);
 						} else {
-							chatMessagesTableView.appendRow(newChatRow);
+							if(chatMessagesTableView.data !== null && chatMessagesTableView.data[0] !== null) {
+								chatMessagesTableView.insertRowBefore(0,newChatRow);
+							} else {
+								chatMessagesTableView.appendRow(newChatRow);
+							}
 						}
 					}
 				}			
@@ -233,6 +238,7 @@ Ti.App.Chat = function(_chatParams) {
 				});
 	        },
 	        callback : function(message) {
+	        	Ti.API.info('messageJSON: '+JSON.stringify(message));
 	        	//since pubnub is a broadcaster, sender will receive his own message as well
 	        	//prevent from having the user sees his own message when it got broadcasted
 	        	if(userObject.id !== message.senderId) {
@@ -460,9 +466,12 @@ Ti.App.Chat = function(_chatParams) {
 	});
 	
     sendLabel.addEventListener('click', function() {
-		if(chatInputTextField.value === "")
+		if(chatInputTextField.value.trim() === "") {
+			chatInputTextField.value = "";
+			chatInputTextField.blur();
 			return;
-
+		}
+		
 		var newChatRow = new ChatMessageTableViewRow(chatInputTextField.value,userObject,true);
         chatMessagesTableView.appendRow(newChatRow);
 		
