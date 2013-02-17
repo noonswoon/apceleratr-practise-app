@@ -476,7 +476,6 @@ Ti.App.Chat = function(_chatParams) {
         chatMessagesTableView.appendRow(newChatRow);
 		
 		//check if it is just the cartoon, if so don't send the message
-		Ti.API.info('otherUserGuid: '+otherUserGuid);
 		if(otherUserGuid === "") { //normal user has an empty guid
 			send_a_message(chatInputTextField.value);
 		} else {

@@ -116,8 +116,9 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	self.add(pagingControl);
 	
 	scrollView.addEventListener('click', function() {
+		var currentPage = scrollView.getCurrentPage();
 		var ImageFullScreenWindowModule = require('ui/handheld/Mn_ImageFullScreenWindow');
-		var imageFullScreenWindow = new ImageFullScreenWindowModule(_navGroup, imagesArray); 
+		var imageFullScreenWindow = new ImageFullScreenWindowModule(_navGroup, imagesArray, currentPage); 
 		_navGroup.open(imageFullScreenWindow, {animated: false});
 	});
 	

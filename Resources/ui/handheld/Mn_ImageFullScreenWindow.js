@@ -1,4 +1,4 @@
-var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
+var ImageFullScreenWindow = function(_navGroup, _imagesArray, _currentPage) {
 		
 	//UI STUFF
 	var self = Ti.UI.createWindow({
@@ -46,7 +46,7 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray) {
 		views:viewsForScrollView,
 		showPagingControl:true,
 		pagingControlHeight:20,
-		currentPage:0,
+		currentPage:_currentPage,
 		zIndex:1
 	});
 	
