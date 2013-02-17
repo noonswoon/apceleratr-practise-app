@@ -174,7 +174,33 @@ function ApplicationWindow(_userId, _userImage) {
 	toggleRightMenuBtn.addEventListener('click',function(e){
 		toggleRightMenu();
 	});
-	
+
+	self.addEventListener('swipe', function(e) {
+		if (e.direction == 'left') {
+			if( !isToggled ) {
+				matchWindow.touchEnabled = false;
+				rightMenu.visible = true;
+				self.animate(animateNegativeLeft);
+				isToggled = true;
+			} else {
+				matchWindow.touchEnabled = true;
+				self.animate(animateRight);
+				isToggled = false;
+			}
+		} else if (e.direction == 'right') {
+			if( !isToggled ) { //show left menu
+				matchWindow.touchEnabled = false;
+				rightMenu.visible = false;
+				self.animate(animateLeft);
+				isToggled = true;
+			} else {
+				matchWindow.touchEnabled = true;
+				self.animate(animateRight);
+				isToggled = false;
+			}
+		}	
+	});
+		
 	self.unhideCoverView = function() {
 		leftMenu.unhideCoverView();
 		rightMenu.unhideCoverView();
