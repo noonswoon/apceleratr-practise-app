@@ -8,7 +8,7 @@ ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	 */
 	
 	var numLines = Math.ceil(_chatMessage.length / 18);
-	Ti.API.info('chatMessageLength: '+ _chatMessage.length +', numLines: '+ numLines);
+//	Ti.API.info('chatMessageLength: '+ _chatMessage.length +', numLines: '+ numLines);
 	
 	var self = Ti.UI.createTableViewRow({
 		height: 30 + numLines * 15,

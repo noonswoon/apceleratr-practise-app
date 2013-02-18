@@ -7,7 +7,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 //		Ti.API.info('edit api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 	        onload : function(e) {
-	        	Ti.API.info('saveEditUserInfo: '+this.responseText);
+	        	//Ti.API.info('saveEditUserInfo: '+this.responseText);
 	        	var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					resultObj.success = true;
@@ -27,7 +27,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
-	    Ti.API.info('sending edit data to server: '+JSON.stringify(_editObj));
+	    //Ti.API.info('sending edit data to server: '+JSON.stringify(_editObj));
 	    xhr.send(_editObj); 
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_edit_result.txt');
@@ -56,7 +56,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
-		    	Ti.API.info('success connect_to_server: '+JSON.stringify(resultObj));
+		    	//Ti.API.info('success connect_to_server: '+JSON.stringify(resultObj));
 		      	_callbackFn(resultObj);
 		      	//get the user session ? may be no need to
 		    },
@@ -170,11 +170,11 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	sendingObj.user_id = _reportObj.userId; 
 	sendingObj.targeted_user_id = _reportObj.targetedUserId;
 	sendingObj.reason = _reportObj.reason; 
-	Ti.API.info('saveUserReport: '+JSON.stringify(sendingObj));	
+	//Ti.API.info('saveUserReport: '+JSON.stringify(sendingObj));	
 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/report/";
-		Ti.API.info('edit api point: '+url);
+		//Ti.API.info('edit api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);

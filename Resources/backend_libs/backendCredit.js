@@ -45,7 +45,7 @@ exports.getUserCredit = function(_userId, _callbackFn) {
 
 exports.transaction = function(_paramObj, _callbackFn) {
 	var sendingObj = {};
-	Ti.API.info('transaction params: '+ JSON.stringify(_paramObj));
+	//Ti.API.info('transaction params: '+ JSON.stringify(_paramObj));
 	sendingObj.user_id = _paramObj.userId; 
 	sendingObj.amount = _paramObj.amount; 
 	sendingObj.action = _paramObj.action;

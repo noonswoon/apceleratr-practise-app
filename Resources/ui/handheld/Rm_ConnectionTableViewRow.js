@@ -16,6 +16,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	});
 	self.add(personNameLbl);
 	
+/*
 	var dm = Ti.App.moment(_matchInfo.connected_date, "YYYY-MM-DDTHH:mm:ss");
 	var connectedStr = dm.format('DD/MM/YY');
 	var connectDateLbl = Ti.UI.createLabel({
@@ -26,8 +27,8 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		top: 30,
 		font:{fontSize:10},
 	});
-//	self.add(connectDateLbl);
-
+	self.add(connectDateLbl);
+*/
 	var personImage = Ti.UI.createImageView({
 		image: _matchInfo.image,
 		width:35,
@@ -51,14 +52,15 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	
 	self.matchId = _matchInfo.match_id;
 	self.profileId = _matchInfo.user_id;
-	self.guid = _matchInfo.guid;			//TODO: Amm needs to add guid to the matchConnection API!
+	self.guid = _matchInfo.guid;
 	self.firstName = _matchInfo.first_name;
 	self.profileImage = _matchInfo.image;
 	
+/*	
 	self.addEventListener('click', function() {
 		Ti.API.info('the connection row is clicked!');
 	});
-	
+*/	
 	return self;
 }
 module.exports = ConnectionTableViewRow;

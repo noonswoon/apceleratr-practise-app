@@ -6,7 +6,7 @@
 exports.getReligion = function(_callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"religion_data/";
-		Ti.API.info('getReligion url: '+url);
+		//Ti.API.info('getReligion url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
@@ -42,7 +42,7 @@ exports.getReligion = function(_callbackFn) {
 exports.getEthnicity = function(_callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"ethnicity_data/";
-		Ti.API.info('getEthnicity url: '+url);
+		//Ti.API.info('getEthnicity url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
@@ -78,7 +78,7 @@ exports.getEthnicity = function(_callbackFn) {
 exports.getTargetedCity = function(_callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"targeted_city_data/";
-		Ti.API.info('getTargetedCity url: '+url);
+		//Ti.API.info('getTargetedCity url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
@@ -116,7 +116,7 @@ exports.getStaticData = function(_callbackFn) {
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"get_static_data/";
-		Ti.API.info('getStaticData url: '+url);
+		//Ti.API.info('getStaticData url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);

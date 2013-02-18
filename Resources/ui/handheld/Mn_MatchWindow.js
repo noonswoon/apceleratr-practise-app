@@ -45,7 +45,7 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	function populateMatchDataTableView(_matchInfo) {		
-		Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
+		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
 
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);

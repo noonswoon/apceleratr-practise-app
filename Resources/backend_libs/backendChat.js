@@ -7,7 +7,7 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_chat_history/"+_paramObj.userId+"/"+_paramObj.page;
-		Ti.API.info('getChatHistory api point: '+url);
+		//Ti.API.info('getChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -51,7 +51,7 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 	sendingObj.receiver_id = _messageObj.receiverId;
 	sendingObj.message = _messageObj.message;
 	
-	Ti.API.info('sending this obj to save to server: '+JSON.stringify(sendingObj));
+	//Ti.API.info('sending this obj to save to server: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"chat/save/";
@@ -86,7 +86,7 @@ exports.sendNotification = function(_messageObj, _callbackFn) {
 	sendingObj.receiver_id = _messageObj.receiverId;
 	sendingObj.message = _messageObj.message;
 	
-	Ti.API.info('sendNotification to server: '+JSON.stringify(sendingObj));
+	//Ti.API.info('sendNotification to server: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"chat/send_notification/";

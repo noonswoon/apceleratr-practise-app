@@ -112,7 +112,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 	var sendingObj = {};
 	sendingObj.match_id = _matchUserObj.matchId; 
 	sendingObj.user_id = _matchUserObj.userId;
-	Ti.API.info('sendingObj updateDisplayMutualFriend: '+JSON.stringify(sendingObj));
+	//Ti.API.info('sendingObj updateDisplayMutualFriend: '+JSON.stringify(sendingObj));
 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"match/update_display_mutual_friend/";
@@ -147,7 +147,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 exports.getConnectedMatch = function(_userId, _callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get_connected_match/"+_userId;
-		Ti.API.info('getMatchInfo api point: '+url);
+		//Ti.API.info('getMatchInfo api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -185,11 +185,11 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 	var sendingObj = {}; 
 	sendingObj.match_id = _matchObj.matchId;
 	sendingObj.user_id = _matchObj.userId
-	Ti.API.info('sending this obj to flag as delete at server: '+JSON.stringify(sendingObj));
+	//Ti.API.info('sending this obj to flag as delete at server: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"match/delete_connected_match/";
-		Ti.API.info('url for delete: '+url);
+		//Ti.API.info('url for delete: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
