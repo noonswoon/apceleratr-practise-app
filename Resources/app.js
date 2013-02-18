@@ -245,7 +245,6 @@ if (Ti.version < 1.8 ) {
 				Ti.App.Properties.setInt('invitesSignup',e.invites_signup);
 				
 				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
-				Ti.API.info('pull data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
 		} else {
@@ -255,9 +254,6 @@ if (Ti.version < 1.8 ) {
 				Ti.App.NUM_INVITE_ALL = 10;
 			}
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
-			Ti.API.info('db data offered city: '+JSON.stringify(Ti.App.OFFERED_CITIES));
-			
-			Ti.API.info('db for invitesSignup: '+ Ti.App.NUM_INVITE_ALL);
 			Ti.App.fireEvent('doneWaitingEvent');
 		}
 	};

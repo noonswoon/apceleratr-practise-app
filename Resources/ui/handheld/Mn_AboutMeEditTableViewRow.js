@@ -13,7 +13,6 @@ AboutMeEditTableViewRow = function(_content) {
 	
 	var numChars = _content.length;
 	var rowHeightOffset = Math.floor(numChars / 33);
-	Ti.API.info('numChars: '+numChars+', rowHeightOffset: '+rowHeightOffset);
 	
 	//2532 -base, 2632 >> 100 >> 50; 2674 --> 42/2
 	var tableRow = Ti.UI.createTableViewRow({
