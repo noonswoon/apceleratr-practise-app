@@ -58,7 +58,7 @@ function ApplicationWindow(_userId, _userImage) {
 	var rightMenu = new ConnectionWindowModule(_userId);
 
 	var openChatWindowCallback = function(e) {
-		Ti.API.info('openning chatroom: '+e.chatRoomName); 
+		//Ti.API.info('openning chatroom: '+e.chatRoomName); 
 		var pubnubChatWindow = Ti.App.Chat({
 		    "chat-room" : e.chatRoomName,
 		    "window"    : {backgroundColor:'transparent'},

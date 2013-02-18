@@ -22,6 +22,7 @@ Ti.App.Chat = function(_chatParams) {
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 	
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
+	//Ti.API.info('currentChatRoom: '+currentChatRoom);
 	var hasSentMessage = true;
 	
 	if(!Ti.App.Properties.hasProperty('chat-first-enter-room' + currentChatRoom)) {

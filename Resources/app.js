@@ -1,6 +1,6 @@
 // TODO: 
 /*
- * work on the analytics tracking
+ * CODE FREEZE!
  */
 
 /*
