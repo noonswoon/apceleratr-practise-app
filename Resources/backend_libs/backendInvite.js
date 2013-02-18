@@ -49,7 +49,7 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 	sendingObj.user_id = _invitedData.userId; 
 	sendingObj.invited_fb_ids = _invitedData.invitedFbIds;
 	sendingObj.tracking_code = _invitedData.trackingCode;
-	Ti.API.info('saveInvitedPeople, sendingObj: '+JSON.stringify(sendingObj));
+	//Ti.API.info('saveInvitedPeople, sendingObj: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"invite/saved_invited_people";
