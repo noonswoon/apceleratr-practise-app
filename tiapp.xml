@@ -23,10 +23,6 @@
                 <key>UIAppFonts</key>
                 <array>
                     <string>/fonts/Harabara.ttf</string>
-                    <string>/fonts/Ds-digi.ttf</string>
-                    <string>/fonts/Ds-digib.ttf</string>
-                    <string>/fonts/Ds-digii.ttf</string>
-                    <string>/fonts/Ds-digit.ttf</string>
                 </array>
                 <key>UIPrerenderedIcon</key>
                 <true/>

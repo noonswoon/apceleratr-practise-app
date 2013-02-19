@@ -1,10 +1,24 @@
 var getZodiacGlyph = function(_zodiacStr, _isColorGlyph) {
 	//zodiac str can be: aquarius, aries, cancer, capricorn, gemini, leo, libra, pisces, sagittarius, 
 	//scopio, taurus, virgo
-	if(_isColorGlyph)
-		return 'images/glyph/glyph-zodiac-' + _zodiacStr.toLowerCase() + '.png'; 
-	else 
-		return 'images/glyph/glyph-profile-zodiac-' + _zodiacStr.toLowerCase() + '.png'; 
+	
+	var zodiacArray = ['aquarius', 'aries', 'cancer', 'capricorn', 'gemini', 'leo', 'libra', 'pisces', 'sagittarius', 'scopio', 'taurus', 'virgo'];
+	var validZodiac = false;
+	var zodiacStrLower = _zodiacStr.toLowerCase();
+	for(var i = 0; i < zodiacArray.length; i++) {
+		if(zodiacStrLower === zodiacArray[i]) {
+			validZodiac = true;
+			break;
+		}
+	}
+	
+	if(validZodiac) {
+		if(_isColorGlyph) return 'images/glyph/glyph-zodiac-' + zodiacStrLower + '.png'; 
+		else return 'images/glyph/glyph-profile-zodiac-' + zodiacStrLower + '.png'; 
+	} else {
+		if(_isColorGlyph) return 'images/glyph/glyph-zodiac-aquarius.png'; 
+		else return 'images/glyph/glyph-profile-zodiac-aquarius.png'; 
+	}
 };
 exports.getZodiacGlyph = getZodiacGlyph;
 
@@ -68,7 +82,7 @@ exports.getTopicGlyph = function(_category, _value, _isColorGlyph) {
 			return 'images/glyph/glyph-about.png';		
 		else {
 			Ti.API.info('wtf: category: '+_category);
-			return 'images/glyph/glyph-notfound.png';
+			return 'images/glyph/glyph-profile-about.png';
 		} 
 	} else {
 		if(_category === "name") 
@@ -105,7 +119,7 @@ exports.getTopicGlyph = function(_category, _value, _isColorGlyph) {
 			return 'images/glyph/glyph-profile-about.png';		
 		else {
 			Ti.API.info('wtf: category: '+_category);
-			return 'images/glyph/glyph-profile-notfound.png';
+			return 'images/glyph/glyph-profile-about.png';
 		} 	
 	}
 };

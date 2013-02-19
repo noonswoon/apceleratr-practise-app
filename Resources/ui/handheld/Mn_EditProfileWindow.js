@@ -227,7 +227,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			showPreloader(self,'Loading...');
 			//get the facebook photos and build the facebook album here
 			
-			if(CacheHelper.shouldFetchData('fbProfileImagesLoaded', 60*24*3)) {
+			if(CacheHelper.shouldFetchData('fbProfileImagesLoaded', 60*24*3)) { //60*24*3
 				Ti.API.info('fetching from fb...');
 				Titanium.Facebook.requestWithGraphPath('me/albums', {
 	            	fields : 'id, type'
@@ -245,14 +245,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		                    
 		                    //get images from the album
 		                    Titanium.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
-		                     	fields: 'id, picture, link'}, 'GET', function(e) {
+		                     	fields: 'id, picture, source, link'}, 'GET', function(e) {
 		                     	if(e.result) {
 		                     		var photoData = JSON.parse(e.result).data;
 		                     		numThumbnailsToWait = photoData.length;
 									for(var i=0;i < photoData.length; i++) {
 										var photoObj = photoData[i];	
 										//saving facebook photo to iPhone
-										get_remote_file('fbPics/fbPic_'+i+"_"+photoObj.id+".jpg", photoObj.picture, true, onThumbnailImageError, onThumbnailImageProgress, onThumbnailImageComplete);
+										get_remote_file('fbPics/fbPic_'+i+"_"+photoObj.id+".jpg", photoObj.source, true, onThumbnailImageError, onThumbnailImageProgress, onThumbnailImageComplete);
 									}
 		                     	} else if(e.cancelled) {
 					                Ti.API.debug("user cancelled");         		
