@@ -128,14 +128,24 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	};
 	
 	var setSelectedState = function(_state) {
+		var textOnImageLbl = Ti.UI.createLabel({
+			center: {x:'50%', y:'75%'},
+			color: '#f1f2f3',
+			font:{fontWeight:'bold',fontSize:24},		
+			zIndex:4
+		});
+		
 		var notificationImageUrl = "";
 		if(_state === "like") {
 			likeButton.backgroundImage = 'images/like-button-active.png';
 			notificationImageUrl = 'images/notification-liked.png';
+			textOnImageLbl.text = "Like";
 		} else {
 			passButton.backgroundImage = 'images/pass-button-active.png';
 			notificationImageUrl = 'images/notification-passed.png';
+			textOnImageLbl.text = "Pass";
 		}
+		
 		var notificationImage = Ti.UI.createImageView({
 			image: notificationImageUrl,
 			width: 145,
@@ -144,6 +154,8 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			left: 90,
 			zIndex: 2
 		});
+		notificationImage.add(textOnImageLbl);
+		
 		self.add(notificationImage);
 		likeButton.enabled = false;
 		passButton.enabled = false;
