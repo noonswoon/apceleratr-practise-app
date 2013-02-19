@@ -46,7 +46,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description3Lbl);
 	
 	var button = Ti.UI.createButton({
-		title: 'Invite 10 friends',
+		title: 'Invite '+Ti.App.NUM_INVITE_ALL+' friends',
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67

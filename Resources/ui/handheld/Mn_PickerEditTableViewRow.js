@@ -153,6 +153,9 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	});
 
 	done.addEventListener('click',function() {
+		if(_fieldName === 'height' && contentTextfield.value === "")
+			contentTextfield.value = 170;
+		
 		pickerView.animate(slideOutAnimation);
 		_parentWindow.remove(opacityView);
 	});

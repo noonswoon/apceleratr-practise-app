@@ -421,13 +421,13 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			var warningTitle = L('Missing information');
 			var warningMsg = L('Please specify your height, ethnicity, and religion. It only takes 2 seconds.');
 			if(heightWarning) {
-				warningTitle = L('Height must be a number');
-				warningMsg = L('Please re-enter your height again.');
+				warningTitle = L('Please select your height');
+				warningMsg = L('Select your height again.');
 			}
 			var warningDialog = Titanium.UI.createAlertDialog({
-						title:warningTitle,
-						message:warningMsg
-					});
+				title:warningTitle,
+				message:warningMsg
+			});
 			warningDialog.show();
 		}
 	});

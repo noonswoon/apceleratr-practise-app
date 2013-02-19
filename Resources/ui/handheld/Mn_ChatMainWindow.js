@@ -40,7 +40,7 @@ Ti.App.Chat = function(_chatParams) {
 	var nextHistoryPage = 2;
 	var otherUserGuid =  _chatParams.otherUserGuid;
 	var cartoonMsgs = [	"Nice to meet you! However, I am just a cartoon.", 
-						"I would love to meet up with you if I am a person.",
+						"I would love to meet up with you if I were a real person.",
 						"Can you come to the cartoon world?"];
 	var cartoonIndexMsg = 0;
 	var isLoadMorePresent = true;

@@ -27,7 +27,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var inviteBtnFontColor = '#f6f7fa';
 	if(_forcedInvite) {
 		descriptionText1 = 'Invite';
-		descriptionText2 = '10 friends';
+		descriptionText2 = Ti.App.NUM_INVITE_ALL + ' friends';
 		descriptionText3 = 'to get started';	
 		textOffset1 = 62;
 		textOffset2 = 102;

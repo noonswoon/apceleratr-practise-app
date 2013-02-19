@@ -4,7 +4,7 @@ AboutMeTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	
 	var numChars = _content.length;
 	var rowHeightOffset = Math.floor(numChars / 33);
-	Ti.API.info('numChars: '+numChars+', rowHeightOffset: '+rowHeightOffset);
+
 	var rowBackgroundImage = 'images/match-info-white-row.png';	
 	if(!_isWhiteBackground) {
 		rowBackgroundImage = 'images/match-info-gray-row.png';
