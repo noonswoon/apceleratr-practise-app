@@ -15,14 +15,14 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow');
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendInvite.getInvitedList, server error: ' + resultObj.meta.description});
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in getInvitedList ..server NOT ready yet: "+JSON.stringify(e));
 		        _callbackFn({success:false});
-		        Ti.App.fireEvent('openErrorWindow');
+		        Ti.App.fireEvent('openErrorWindow', {description: 'backendInvite.getInvitedList, network error'});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -61,14 +61,11 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendInvite.saveInvitedPeople: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendInvite.saveInvitedPeople ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds

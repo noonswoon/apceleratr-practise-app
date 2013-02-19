@@ -9,19 +9,19 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
-	        	if(resultObj.meta !== undefined) {
+	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
 					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getLatestMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow');
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
 					//need to send them back to the login page --> fire an event
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	            Ti.App.fireEvent('openErrorWindow');
 	            _callbackFn({success:false}); //change here
+	            Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, network error'});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -45,16 +45,16 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
-	        	if(resultObj.meta !== undefined) {
+	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow');
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getMatchInfo, server error: ' + resultObj.meta.description});
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	            Ti.App.fireEvent('openErrorWindow');
+	           	Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getMatchInfo, network error'});
 	            _callbackFn(); //change here
 	        },
 		    timeout:50000  // in milliseconds 
@@ -89,15 +89,12 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.saveResponse: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendMatch.saveResponse ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
-		        Ti.App.fireEvent('openErrorWindow');
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -124,15 +121,12 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.updateDisplayMutualFriend: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendMatch.updateDisplayMutualFriend..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
-		        Ti.App.fireEvent('openErrorWindow');
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
@@ -155,13 +149,13 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow');
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getConnectedMatch, server error: ' + resultObj.meta.description});
 				}
 	        },
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn(); //change here
-	            Ti.App.fireEvent('openErrorWindow');
+	           	Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getConnectedMatch, network error'});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -198,16 +192,12 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 				} else {
 					Ti.API.info('Error backendMatch.deleteConnectedMatch: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow');
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in backendMatch.deleteConnectedMatch ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
 		        _callbackFn({success:false});
-		        Ti.App.fireEvent('openErrorWindow');
-		        //Ti.API.debug(e.error);
 		    },
 		    timeout:50000  // in milliseconds
 		});

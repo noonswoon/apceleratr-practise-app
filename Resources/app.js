@@ -176,26 +176,32 @@ if (Ti.version < 1.8 ) {
 	
 	//register Facebook Event here..pulling the data in TopFriendsView/OnBoardingStep1 [fn: FacebookQuery.queryFacebookFriends]
 	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		//Ti.API.info('completedPhotoTagQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
 	});
 	
 	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
+		//Ti.API.info('completedUserPhotoQuery...');
 		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
 	});
 	
 	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
+		//Ti.API.info('completedUserLikeQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
 	});
 	
 	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
+		//Ti.API.info('completedUserCommentQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
 	});
 	
 	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		//Ti.API.info('completedPhotoTagQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
 	});
 	
 	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
+		//Ti.API.info('completedUserStreamQuery...');
 		FacebookQuery.queryUserLikes(e.userStreamIdList);
 		FacebookQuery.queryUserComments(e.userStreamIdList);
 		FacebookQuery.queryUserPhotos();
@@ -203,16 +209,15 @@ if (Ti.version < 1.8 ) {
 	});
 	
 	Ti.App.addEventListener('userLoginCompleted', function(e) {
-		Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
+		//Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
 		currentUserId = e.userId;
 	});
 	
 	Ti.App.addEventListener('completedFacebookFriendQuery', function(e) {
 		var candidateList = e.candidateList;
-		
-		Ti.API.info('candidateList: '+JSON.stringify(candidateList));
+		//Ti.API.info('completedFacebookFriendQuery: candidateList: '+JSON.stringify(candidateList));
 		FacebookFriendModel.populateFacebookFriend(candidateList);
-		Ti.API.info('calling Backend: getInvitedList of userId: '+currentUserId);
+		//Ti.API.info('calling Backend: getInvitedList of userId: '+currentUserId);
 		BackendInvite.getInvitedList(currentUserId, function(invitedList) {
 			//update the local db for invitedList
 			FacebookFriendModel.updateIsInvited(invitedList);
@@ -276,7 +281,10 @@ if (Ti.version < 1.8 ) {
 
 	Ti.App.addEventListener('restartApp', launchTheAppWrapper);
 	
-	Ti.App.addEventListener('openErrorWindow', function() {
+	Ti.App.addEventListener('openErrorWindow', function(e) {
+		//somehow need to find a way to log this to the server
+		Ti.API.error('Error occur: '+e.description);
+		
 		errorWindow = new ErrorWindowModule();
 		errorWindow.open();
 	});

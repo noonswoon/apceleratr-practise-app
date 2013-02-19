@@ -14,7 +14,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					resultObj.success = false;
-					alert("something wrong with ServerCall backendGeneralInfo.saveEditUserInfo" + this.responseText);
+					alert("Cannot edit user info: " + this.responseText);
 				}
 	        },
 	        onerror : function(e) {
@@ -56,16 +56,17 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
-		    	//Ti.API.info('success connect_to_server: '+JSON.stringify(resultObj));
-		      	_callbackFn(resultObj);
-		      	//get the user session ? may be no need to
+		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					_callbackFn(resultObj);
+				} else {
+					Ti.API.info('Error backendUser.connectToServer: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, server error: ' + resultObj.meta.description});
+				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in user_connectToServer..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow');
-		        //Ti.API.debug(e.error);
+		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, network error'});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -92,16 +93,18 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 		//Ti.API.info('getUserInfo url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
-		    	//Ti.API.info('getUserInfo: '+this.responseText);
-		    	_callbackFn(JSON.parse(this.responseText));
-		      	//get the user session ? may be no need to
+		    	var resultObj = JSON.parse(this.responseText);
+		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					_callbackFn(resultObj);
+				} else {
+					Ti.API.info('Error backendUser.getUserInfo: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserInfo, server error: ' + resultObj.meta.description});
+				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in getUserInfo ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow');
-		        //Ti.API.debug(e.error);
+		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserInfo, network error'});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -130,20 +133,16 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					//Ti.API.info('userInfoFromFbId: '+JSON.stringify(resultObj));
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow');
-					Ti.API.info('Error getUserIdFromFbId: '+ JSON.stringify(resultObj));
-					//need to send them back to the login page --> fire an event
+					Ti.API.info('Error backendUser.getUserIdFromFbId: '+ JSON.stringify(resultObj));
+					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserIdFromFbId, server error: ' + resultObj.meta.description});
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
 		        Ti.API.info("in getUserIdFromFbId ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow');
-		        //Ti.API.debug(e.error);
+		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserIdFromFbId, network error'});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -188,7 +187,6 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	        onerror : function(e) {
 	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn({success:false}); //change here
-	            Ti.App.fireEvent('openErrorWindow');
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

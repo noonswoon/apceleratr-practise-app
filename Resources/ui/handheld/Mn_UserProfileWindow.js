@@ -237,7 +237,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	showPreloader(self,'Loading...');
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
 		if(_userInfo.meta.status === 'error') {
-			Ti.App.fireEvent('openErrorWindow');
+			Ti.App.fireEvent('openErrorWindow', {description: _userInfo.meta.description});
 		} else {
 			populateInfoDataTableView(_userInfo);
 		}

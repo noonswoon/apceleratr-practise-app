@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.noonswoon.beta</id>
+    <id>com.noonswoon.launch</id>
     <name>Noonswoon</name>
     <version>1.0</version>
     <publisher>Noonswoon Inc.</publisher>
     <url>http://noonswoon.com</url>
-    <description>not specified</description>
+    <description>Find the One!</description>
     <copyright>2013 by noonswoon</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -18,30 +18,33 @@
     <guid>73d419b0-00f6-4aeb-bdec-1770a1f2b52e</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
     <ios>
-		<plist>
-			<dict>
-				<key>UIAppFonts</key>
-				<array>
-					<string>/fonts/Harabara.ttf</string>
-					<string>/fonts/Ds-digi.ttf</string>
-					<string>/fonts/Ds-digib.ttf</string>
-					<string>/fonts/Ds-digii.ttf</string>
-					<string>/fonts/Ds-digit.ttf</string>
-				</array>
-				<key>UIPrerenderedIcon</key><true/>
-				<key>UIStatusBarStyle</key><string>UIStatusBarStyleBlackTranslucent</string>  
-				 <key>UIApplicationExitsOnSuspend</key><true/> 
-				<key>UISupportedInterfaceOrientations</key>
-				<array>
-				    <string>UIInterfaceOrientationPortrait</string>
-				</array>
-				<key>UIBackgroundModes</key>
-				<array>
-				    <string>location</string>
-			    </array>
-			</dict>  
-		</plist>
-	</ios> 
+        <plist>
+            <dict>
+                <key>UIAppFonts</key>
+                <array>
+                    <string>/fonts/Harabara.ttf</string>
+                    <string>/fonts/Ds-digi.ttf</string>
+                    <string>/fonts/Ds-digib.ttf</string>
+                    <string>/fonts/Ds-digii.ttf</string>
+                    <string>/fonts/Ds-digit.ttf</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <true/>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleBlackTranslucent</string>
+                <key>UIApplicationExitsOnSuspend</key>
+                <true/>
+                <key>UISupportedInterfaceOrientations</key>
+                <array>
+                    <string>UIInterfaceOrientationPortrait</string>
+                </array>
+                <key>UIBackgroundModes</key>
+                <array>
+                    <string>location</string>
+                </array>
+            </dict>
+        </plist>
+    </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <mobileweb>
         <precache/>

@@ -1,9 +1,9 @@
-#appname: noonswoon
-#appid: com.noonswoon.beta
-#type: mobile
-#guid: 73d419b0-00f6-4aeb-bdec-1770a1f2b52e
-#version: 1.0
-#publisher: not specified
-#url: not specified
-#image: appicon.png
-#desc: not specified
+#appname:noonswoon
+#appid:com.noonswoon.launch
+#type:mobile
+#guid:73d419b0-00f6-4aeb-bdec-1770a1f2b52e
+#version:1.0
+#publisher:Noonswoon Inc.
+#url:http://noonswoon.com
+#image:appicon.png
+#desc:Find the One!
