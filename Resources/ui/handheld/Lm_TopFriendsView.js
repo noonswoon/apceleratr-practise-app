@@ -108,13 +108,15 @@ TopFriendsView = function(_userId) {
 		
 		//add the next row to the table
 		var friendCandidates = [];
-		if(numRowsAffected > 1)  {
-			friendCandidates = FacebookFriendModel.getNInvitableFacebookFriend(numRowsAffected);
-		} else {
-			var nextCandidate = FacebookFriendModel.getFacebookFriendAtIndex(4);
-			friendCandidates.push(nextCandidate);
-		}
-		
+		if(numRowsAffected >= 1)  {
+			if(numRowsAffected > 1) {
+				friendCandidates = FacebookFriendModel.getNInvitableFacebookFriend(numRowsAffected);
+			} else {
+				var nextCandidate = FacebookFriendModel.getFacebookFriendAtIndex(4);
+				friendCandidates.push(nextCandidate);				
+			}
+		} 
+				
 		if(friendCandidates.length > 0) {
 			for(var i = 0; i < friendCandidates.length; i++) {
 				var candidate = friendCandidates[i];
