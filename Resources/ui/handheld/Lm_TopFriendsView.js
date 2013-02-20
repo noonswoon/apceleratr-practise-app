@@ -24,26 +24,14 @@ TopFriendsView = function(_userId) {
 		topFriendsTableView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	}			
 	var targetedList = [];
-	var insertNextCandidate = function() {
-		var nextFriendData = FacebookFriendModel.getFacebookFriendAtIndex(4); //not 5 because already account for the just-invited friend
-		if(nextFriendData === null)
-			return; 
- 
-		var topFriendsRow = new TopFriendsTableViewRow(nextFriendData);
-		topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, topFriendsRow, true);
-	};
 	
-	var insertNextCandidateBatch = function() {
-		var nextFriendBatchData = FacebookFriendModel.getFacebookFriendNextBatch();
-		if(nextFriendBatchData.length === 0)
-			return; 
-
- 		var nextBatchData = [];
- 		for(var i = 0; i < nextFriendBatchData.length; i++) {
-			var topFriendsRow = new TopFriendsTableViewRow(nextFriendBatchData[i]);
-			nextBatchData.push(topFriendsRow);
- 		}
- 		topFriendsTableView.setData(nextBatchData);
+	var insertNextCandidate = function(_friendData) {
+		var topFriendsRow = new TopFriendsTableViewRow(_friendData);
+		if(topFriendsTableView.data[0].rowCount > 0) {
+			topFriendsTableView.insertRowAfter(topFriendsTableView.data[0].rowCount -1, topFriendsRow, true);
+		} else { 
+			topFriendsTableView.appendRow(topFriendsRow);
+		}
 	};
 	
 	var createTopFriendTableRowData = function(_friendList){
@@ -89,7 +77,7 @@ TopFriendsView = function(_userId) {
 	Ti.App.addEventListener('inviteCompleted', function(e){
 		Ti.App.Flurry.logEvent('left-menu-invite-success', {numberInvites: e.inviteeList.length});
 		//update local database for those people who already got invited
-		FacebookFriendModel.updateIsInvited(e.inviteeList); //can either be just 1 or 5
+		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		
 		//iterate to remove the table view row	
 		var numRowsAffected = 0;
@@ -119,8 +107,19 @@ TopFriendsView = function(_userId) {
 		});
 		
 		//add the next row to the table
-		for(var i = 0; i < numRowsAffected; i++) {
-			insertNextCandidate();
+		var friendCandidates = [];
+		if(numRowsAffected > 1)  {
+			friendCandidates = FacebookFriendModel.getNInvitableFacebookFriend(numRowsAffected);
+		} else {
+			var nextCandidate = FacebookFriendModel.getFacebookFriendAtIndex(4);
+			friendCandidates.push(nextCandidate);
+		}
+		
+		if(friendCandidates.length > 0) {
+			for(var i = 0; i < friendCandidates.length; i++) {
+				var candidate = friendCandidates[i];
+				insertNextCandidate(candidate);
+			}			
 		}
 	});
 	

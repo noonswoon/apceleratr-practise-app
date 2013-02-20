@@ -67,7 +67,7 @@ exports.getTopFiveFacebookFriends = function(){
 exports.getFacebookFriendAtIndex = function(_indexAt){
 	var friend = null;
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
-	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT '+_indexAt+',1');
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT ?,1', _indexAt);
 	if(result.isValidRow()) {
 		friend = {
 					facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
@@ -94,6 +94,23 @@ exports.getNextInvitableFacebookFriend = function(){
 	result.close();
 	db.close();
 	return friend;
+};
+
+exports.getNInvitableFacebookFriend = function(_numberFriends){
+	var friends = [];
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT 0,?', _numberFriends);
+	while(result.isValidRow()) {
+		friends.push({
+					facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
+				  	picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 
+				  	is_invited: result.fieldByName('IsInvited'), closeness_score: result.fieldByName('ClosenessScore')	
+				});
+		result.next();
+	}
+	result.close();
+	db.close();
+	return friends;
 };
 
 exports.getFacebookFriendNextBatch = function(){
