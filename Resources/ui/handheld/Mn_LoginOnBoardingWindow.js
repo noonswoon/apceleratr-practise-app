@@ -44,23 +44,16 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		zIndex: 0,
 	});
 	
-	var fbButtonTextDropShadow = Ti.UI.createLabel({
-		text: 'Sign in with Facebook',
-		color: '#3d4d67',
-		center: {x: '53%', y:426},
-		font:{fontWeight:'bold',fontSize:16},
-		zIndex: 1
-	});
-	
 	var fbButtonText = Ti.UI.createLabel({
-		text: 'Sign in with Facebook',
+		text: L('Sign in with Facebook'),
 		color: '#ffffff',
 		center: {x: '53%', y:427},
 		font:{fontWeight:'bold',fontSize:16},
+		shadowColor: '#3d4d67',
+		shadowOffset: {x:0,y:-1},
 		zIndex: 2
 	});
 	self.add(fbButton);
-	self.add(fbButtonTextDropShadow);
 	self.add(fbButtonText);
 	
 	fbButton.addEventListener('touchstart', function() {
@@ -71,7 +64,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		fbButtonText.color = '#ffffff';
 	});
 	
-//FUNCTIONS CALLBACK
+	//FUNCTIONS CALLBACK
 	function successNotifCallback(e) {
 		var deviceToken = e.deviceToken;
 		Debug.debug_print("Push notification device token is: "+deviceToken);
@@ -104,7 +97,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 				var receiverImage = e.data['aps']['receiver_image'];
 */				
 				var msgDialog = Titanium.UI.createAlertDialog({
-					title:'Message from...',
+					title: L('Message from...'),
 					message:message
 				});
 				msgDialog.show();
@@ -151,8 +144,8 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        	var CreditSystem = require('internal_libs/creditSystem');
 			        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-			        	//if(true) {
-			        	if(_userLogin.content.user_status === "new_user") {
+			        	if(true) {
+			        	//if(_userLogin.content.user_status === "new_user") {
 			        		Ti.App.Flurry.logEvent('signupCompleted');
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1

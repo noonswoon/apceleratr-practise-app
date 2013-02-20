@@ -15,7 +15,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 				
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'Personalize',
+		text: L('Personalize'),
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
@@ -24,7 +24,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'View and edit your profile',
+		text: L('View and edit your profile'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -32,7 +32,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: 'and put yourself in the best light!',
+		text: L('and put yourself in the best light!'),
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -40,7 +40,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	self.add(description2Lbl);
 	
 	var viewProfileBtn = Ti.UI.createButton({
-		title: 'View my profile',
+		title: L('View my profile'),
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67

@@ -11,7 +11,7 @@ LoginOnBoarding1View = function() {
 	
 	//87878f welcome to
 	var firstline1 = Ti.UI.createLabel({
-		text: 'Welcome to',
+		text: L('Welcome to'),
 		left: 44,
 		top: 275,
 		color: '#87878f',
@@ -37,7 +37,7 @@ LoginOnBoarding1View = function() {
 		
 	//4e5866 dating reimagined
 	var description2 = Ti.UI.createLabel({
-		text: 'Find the One',
+		text: L('Find the One'),
 		center: {x:'50%', y:315}, //x:67
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},

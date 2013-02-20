@@ -11,22 +11,15 @@ LoginOnBoarding3View = function() {
 	});
 		
 	var description = Ti.UI.createLabel({
-		text: 'Invite friends, get credits',
+		text: L('Invite friends, get credits'),
 		center: {x:'50%', y:315}, //x:67
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},
 		zIndex:3,
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
 	});
 	self.add(description);
-	
-	var descriptionShadow = Ti.UI.createLabel({
-		text: 'Invite friends, get credits',
-		center: {x:'50%', y:316}, //x:67
-		color: '#ffffff',
-		font:{fontWeight:'bold',fontSize:20},
-		zIndex:2,
-	});
-	self.add(descriptionShadow);	
 	
 	return self;
 };

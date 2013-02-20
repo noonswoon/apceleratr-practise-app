@@ -12,7 +12,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 				
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'Finding match',
+		text: L('Finding match'),
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
@@ -21,7 +21,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'You\'re all set! Your first match will',
+		text: L('You\'re all set! Your first match will'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -29,7 +29,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: 'be available soon!',
+		text: L('be available soon!'),
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -37,7 +37,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	self.add(description2Lbl);
 	
 	var buttton = Ti.UI.createButton({
-		title: 'Done',
+		title: L('Done'),
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67

@@ -13,7 +13,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 				
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'Invite',
+		text: L('Invite'),
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
@@ -22,7 +22,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'When you and your friends are on',
+		text: L('When you and your friends are on'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -30,7 +30,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: 'Noonswoon together, everyone\'s',
+		text: L('Noonswoon together, everyone\'s'),
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -38,7 +38,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description2Lbl);
 	
 	var description3Lbl = Ti.UI.createLabel({
-		text: 'matches are better',
+		text: L('matches are better'),
 		center: {x:'50%', y:333}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -46,7 +46,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description3Lbl);
 	
 	var button = Ti.UI.createButton({
-		title: 'Invite '+Ti.App.NUM_INVITE_ALL+' friends',
+		title: String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")),
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
