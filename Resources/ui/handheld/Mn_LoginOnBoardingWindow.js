@@ -144,8 +144,8 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        	var CreditSystem = require('internal_libs/creditSystem');
 			        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-			        	if(true) {
-			        	//if(_userLogin.content.user_status === "new_user") {
+			        	//if(true) {
+			        	if(_userLogin.content.user_status === "new_user") {
 			        		Ti.App.Flurry.logEvent('signupCompleted');
 			        		Ti.API.info('***NEW USER****');
 							//this will go to onboarding step 1
