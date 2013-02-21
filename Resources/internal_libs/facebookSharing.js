@@ -44,7 +44,11 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	    title: 'Noonswoon',
 	    message: 'Find The One!',
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
+<<<<<<< HEAD
 	    //to: 202852, 2535734, 1064101575, 810675370',
+=======
+	    //to: '202852, 2535734, 1064101575, 810675370',
+>>>>>>> READY to resubmit - smoked test!
 	    to: _fbIds,
 	    data: trackingCode
 	 };
