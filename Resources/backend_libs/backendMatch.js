@@ -13,9 +13,16 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error getLatestMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
-					//need to send them back to the login page --> fire an event
+					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
+						if(resultObj.meta.status_code === 501) {
+							Ti.App.fireEvent('openNoMatchWindow');
+						} else {
+							Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
+						}
+					} else {
+						Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: somethingwrong'});
+						//need to send them back to the login page --> fire an event
+					}
 				}
 	        },
 	        onerror : function(e) {
@@ -38,7 +45,6 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 	}	
 };
 
-
 exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for matchChat page
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get/"+_paramObj.matchId+"/"+_paramObj.userId;
@@ -48,8 +54,16 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getMatchInfo, server error: ' + resultObj.meta.description});
+					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
+						if(resultObj.meta.status_code === 501) {
+							Ti.App.fireEvent('openNoMatchWindow');
+						} else {
+							Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
+						}
+					} else {
+						Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: somethingwrong'});
+						//need to send them back to the login page --> fire an event
+					}
 				}
 	        },
 	        onerror : function(e) {
