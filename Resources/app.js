@@ -20,6 +20,7 @@ Titanium.UI.setBackgroundColor('#000');
 //GLOBAL VARIABLES DECARATION
 Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
@@ -109,6 +110,8 @@ if (Ti.version < 1.8 ) {
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
 	var RateReminder = require('internal_libs/rateReminder');
+	var LogSystem = require('internal_libs/logSystem');
+	
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -283,18 +286,17 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
+		LogSystem.logEntry(e.description);
 		Ti.API.error('Error occur: '+e.description);
 		
 		errorWindow = new ErrorWindowModule();
 		errorWindow.open();
 	});
-	
-	
+			
 	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 		noInternetWindow = new NoInternetWindowModule();
 		noInternetWindow.open();
 	} else {
 		launchTheApp();
 	} 
-	
 })();
