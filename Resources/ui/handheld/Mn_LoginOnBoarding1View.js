@@ -3,8 +3,7 @@ LoginOnBoarding1View = function() {
 	var self = Ti.UI.createImageView({
 		left: 0, 
 		top: 0,
-		width: '100%', 
-		height: '100%',
+		width: '100%',
 		image: 'images/onboarding-1.png',
 		zIndex: 0,
 	});

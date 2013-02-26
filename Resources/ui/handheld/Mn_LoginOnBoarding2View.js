@@ -5,7 +5,6 @@ LoginOnBoarding2View = function() {
 		left: 0, 
 		top: 0,
 		width: '100%', 
-		height: '100%',
 		image: 'images/onboarding-2.png',
 		zIndex: 0,
 	});

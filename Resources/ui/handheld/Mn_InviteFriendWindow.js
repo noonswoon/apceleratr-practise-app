@@ -136,13 +136,17 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		borderWidth: 0,
 	});
 
+	var tableHeight = 423; //480 - 57
+	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
+		tableHeight = 511; // 568 - 57 = 511
+	}
 	var facebookFriendTableView = Ti.UI.createTableView({
 		searchHidden:false,
 		search: facebookFriendSearch,
 		filterAttribute: 'filter',
 		top: 57,
 		width: 320,
-		height: 423
+		height: tableHeight
 	});
 
 	facebookFriendSearch.addEventListener('return', function(e) {

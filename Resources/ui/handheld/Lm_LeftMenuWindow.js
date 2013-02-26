@@ -7,7 +7,7 @@ LeftMenuWindow = function(_userId) {
 		top:0,
 		left:0,
 		width:260,
-		backgroundColor: '#585858',
+		backgroundColor: '#4a4949',
 		zIndex:0,
 	});
 	
