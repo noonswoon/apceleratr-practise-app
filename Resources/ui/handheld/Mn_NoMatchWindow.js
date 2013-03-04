@@ -19,7 +19,7 @@ NoMatchWindow = function(_userId) {
 					
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'There\'s no match today',
+		text: L('There\'s no match today'),
 		center: {x:'50%', y:'50%'}, //x:70
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
@@ -30,7 +30,7 @@ NoMatchWindow = function(_userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'Check back again at noon tomorrow',
+		text: L('Check back again at noon tomorrow'),
 		center: {x:'50%', y:'58%'}, //x:88
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:14},
@@ -38,7 +38,7 @@ NoMatchWindow = function(_userId) {
 	self.add(description1Lbl);
 
 	var notifyBtn = Ti.UI.createButton({
-		title: 'Notify Noonswoon',
+		title: L('Notify Noonswoon'),
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:375}, //x:67
@@ -51,7 +51,7 @@ NoMatchWindow = function(_userId) {
 	
 	notifyBtn.addEventListener('click', function() {
 		var emailDialog = Ti.UI.createEmailDialog()
-		emailDialog.subject = "No Match - Assistant";
+		emailDialog.subject = L("No Match - Assistant");
 		emailDialog.toRecipients = ['support@noonswoon.com'];
 		emailDialog.messageBody = '';
 		emailDialog.barColor = '#850f16';

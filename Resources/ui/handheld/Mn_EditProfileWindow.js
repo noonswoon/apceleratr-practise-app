@@ -20,12 +20,12 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	
 	var ethnicityValue = ModelEthnicity.getEthnicity();
 	ethnicityValue.reverse(); 
-	ethnicityValue.push('Choose your ethnicity'); 
+	ethnicityValue.push(L('Choose your ethnicity')); 
 	ethnicityValue.reverse(); 
 	
 	var religionValue = ModelReligion.getReligion();
 	religionValue.reverse(); 
-	religionValue.push('Choose your religion'); 
+	religionValue.push(L('Choose your religion')); 
 	religionValue.reverse(); 
 	
 	var heightArray = [];
@@ -49,7 +49,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
 		font:{fontSize:14,fontWeight:'bold'},
-		title:'Save',
+		title: L('Save'),
 		width:64,
 		height:30,
 	});
@@ -57,7 +57,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
 		navBarHidden: false,
-		title: 'Edit Profile',
+		title: L('Edit Profile'),
 		barImage: 'images/top-bar-stretchable.png',
 		leftNavButton: cancelButton,
 		rightNavButton: saveButton
@@ -125,7 +125,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}	
 	
 	var optionsDialogOpts = {
-		options:['Choose from Facebook', 'Choose from Library', 'Take Photo', 'Cancel'],
+		options:[ L('Choose from Facebook'), L('Choose from Library'), L('Take Photo'), L('Cancel')],
 		cancel:3
 	};
 
@@ -310,9 +310,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 	
 	var unsavedWarningDialog = Titanium.UI.createAlertDialog({
-		title:'Profile is not saved.',
-		message:'You will lose your unsaved data.',
-		buttonNames: ['Cancel','Continue'],
+		title: L('Profile is not saved.'),
+		message:L('You will lose your unsaved data.'),
+		buttonNames: [L('Cancel'),L('Continue')],
 		cancel: 0
 	});
 	

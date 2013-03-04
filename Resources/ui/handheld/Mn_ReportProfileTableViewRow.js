@@ -23,7 +23,7 @@ ReportProfileTableViewRow = function(_userId, _targetedUserId) {
 	tableRow.add(reportImageView);
 	
 	var reportLabel = Ti.UI.createLabel({
-		text: 'Report profile',
+		text: L('Report profile'),
 		color: '#b3b3b3',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0,y:1},
@@ -35,13 +35,13 @@ ReportProfileTableViewRow = function(_userId, _targetedUserId) {
 	
 	var saveReportCallback = function(e) {
 		var reportDialog = Titanium.UI.createAlertDialog({
-			title:'Thank you so much!',
-			message:'We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com',
-			buttonNames: ['Ok'],
+			title: L('Thank you so much!'),
+			message: L('We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com'),
+			buttonNames: [L('Ok')],
 		});
 		if(!e.success) {
-			reportDialog.title = 'Oops..something is wrong';
-			reportDialog.message = 'Please report again';
+			reportDialog.title = L('Oops..something is wrong');
+			reportDialog.message = L('Please report again');
 		}
 		reportDialog.show();
 	};

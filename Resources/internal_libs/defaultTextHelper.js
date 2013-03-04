@@ -1,21 +1,21 @@
 exports.getDefaultText = function(_category) {
 	if(_category === "height")
-		return 'Height (cm)';
+		return L('Height (cm)');
 	else if(_category === "ethnicity")
-		return 'Ethnicity';
+		return L('Ethnicity');
 	else if(_category === "religion")
-		return 'Religion';
+		return L('Religion');
 	else if(_category === "graduate_school")
-		return 'Graduate School';		
+		return L('Graduate School');		
 	else if(_category === "college")
-		return 'Undergraduate School';
+		return L('Undergraduate School');
 	else if(_category === "high_school")
-		return 'High School';
+		return L('High School');
 	else if(_category === "occupation")
-		return 'Occupation';
+		return L('Occupation');
 	else if(_category === "employer")
-		return 'Employer';
+		return L('Employer');
 	else if(_category === "about_me")
-		return 'Write something about yourself...';	
+		return L('Write something about yourself...');	
 	else return "";
 };

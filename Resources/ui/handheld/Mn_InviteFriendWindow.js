@@ -15,9 +15,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 
 	var FacebookFriendModel = require('model/facebookFriend');
 
-	var descriptionText1 = 'Receive';
-	var descriptionText2 = '2 credits';
-	var descriptionText3 = 'for each friend you invite';
+	var descriptionText1 = L('Receive');
+	var descriptionText2 = L('2 credits');
+	var descriptionText3 = L('for each friend you invite');
 	var textOffset1 = 19;
 	var textOffset2 = 75;
 	var textOffset3 = 137;	
@@ -26,9 +26,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var inviteBtnEnable = true;
 	var inviteBtnFontColor = '#f6f7fa';
 	if(_forcedInvite) {
-		descriptionText1 = 'Invite';
-		descriptionText2 = Ti.App.NUM_INVITE_ALL + ' friends';
-		descriptionText3 = 'to get started';	
+		descriptionText1 = L('Invite');
+		descriptionText2 = Ti.App.NUM_INVITE_ALL + ' ' + L('friends');
+		descriptionText3 = L('to get started');	
 		textOffset1 = 62;
 		textOffset2 = 102;
 		textOffset3 = 172;
@@ -48,7 +48,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		width:84,
 		height:30,
 		font:{fontSize:14,fontWeight:'bold'},
-		title:'Invite ('+numInvites+')',
+		title: L('Invite') + ' (' + numInvites + ')',
 		enabled: inviteBtnEnable
 	});
 	
@@ -95,7 +95,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		zIndex: 1
 	});
 
-
 	var descriptionLabel1 = Ti.UI.createLabel({
 		text: descriptionText1,
 		left: textOffset1,
@@ -131,7 +130,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var facebookFriendSearch = Titanium.UI.createSearchBar({
 		barColor:'#d3dbdf',
 		showCancel:false,
-		hintText:'Search',
+		hintText: L('Search'),
 		backgroundImage: 'images/searchbar_white.png',
 		borderWidth: 0,
 	});
@@ -249,7 +248,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 
 	var invitedFriendCallback = function(){
 		numInvites++;
-		inviteButton.title = 'Invite ('+numInvites+')';
+		inviteButton.title = L('Invite') +' ('+numInvites+')';
 		if(_forcedInvite && !inviteBtnEnable && numInvites >= Ti.App.NUM_INVITE_ALL) {
 			//BAD DESIGN --  just to get the nav button text color to change..cannot change the text
 			//color once already put in the right nav menu bar, so need to re-create a new button and replace it
@@ -261,7 +260,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				width:84,
 				height:30,
 				font:{fontSize:14,fontWeight:'bold'},
-				title:'Invite ('+numInvites+')',
+				title: L('Invite') + ' ('+numInvites+')',
 				enabled: inviteBtnEnable
 			});			
 			inviteButton.addEventListener('click', inviteButtonClickCallback);
@@ -272,7 +271,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var uninvitedFriendCallback = function(){
 		numInvites--;
-		inviteButton.title = 'Invite ('+numInvites+')';
+		inviteButton.title = L('Invite') +' ('+numInvites+')';
 		if(_forcedInvite && inviteBtnEnable && numInvites < Ti.App.NUM_INVITE_ALL) {
 			//BAD DESIGN --  just to get the nav button text color to change..cannot change the text
 			//color once already put in the right nav menu bar, so need to re-create a new button and replace it
@@ -284,7 +283,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				width:84,
 				height:30,
 				font:{fontSize:14,fontWeight:'bold'},
-				title:'Invite ('+numInvites+')',
+				title: L('Invite')+ ' (' + numInvites + ')',
 				enabled: inviteBtnEnable
 			});			
 			inviteButton.addEventListener('click', inviteButtonClickCallback);
@@ -292,6 +291,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 	};
 	Ti.App.addEventListener('uninvitedFriend', uninvitedFriendCallback);
+	
 	return self;
 }
 module.exports = InviteFriendWindow;

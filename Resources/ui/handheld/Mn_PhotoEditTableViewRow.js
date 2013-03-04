@@ -72,7 +72,7 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		});
 
 		var editLabel = Ti.UI.createLabel({
-			text: 'edit',
+			text: L('edit'),
 			center: {x:'50%', y:'50%'},
 			color:'#ffffff',
 			zIndex: 3,

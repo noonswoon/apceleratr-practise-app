@@ -39,9 +39,9 @@ Ti.App.Chat = function(_chatParams) {
 	var navGroup = _chatParams.navGroup;
 	var nextHistoryPage = 2;
 	var otherUserGuid =  _chatParams.otherUserGuid;
-	var cartoonMsgs = [	"Nice to meet you! However, I am just a cartoon.", 
-						"I would love to meet up with you if I were a real person.",
-						"Can you come to the cartoon world?"];
+	var cartoonMsgs = [	L("Nice to meet you! However, I am just a cartoon."), 
+						L("I would love to meet up with you if I were a real person."),
+						L("Can you come to the cartoon world?")];
 	var cartoonIndexMsg = 0;
 	var isLoadMorePresent = true;
 /*
@@ -94,7 +94,7 @@ Ti.App.Chat = function(_chatParams) {
 	});
 	
 	var moreText = Ti.UI.createLabel({
-		text: 'Load more...', 
+		text: L('Load more...'), 
 		center: {x:'50%', y:'50%'},
 		color: '#e6e6e6', 
 		font:{fontWeight:'bold',fontSize:12},
@@ -151,7 +151,7 @@ Ti.App.Chat = function(_chatParams) {
 			} else {
 				var noMoreHistory = Ti.UI.createAlertDialog({
 						title:L('History ends here'),
-						message:L('No more chat history with '+_chatParams.otherUserFirstName +'. Be confident! Chat up :)')
+						message:L('No more chat history with') + " " + _chatParams.otherUserFirstName + L('. Be confident! Chat up :)')
 					});
 				noMoreHistory.show();
 				chatMessagesTableView.deleteRow(0);
@@ -245,7 +245,6 @@ Ti.App.Chat = function(_chatParams) {
 				});
 	        },
 	        callback : function(message) {
-	        	Ti.API.info('messageJSON: '+JSON.stringify(message));
 	        	//since pubnub is a broadcaster, sender will receive his own message as well
 	        	//prevent from having the user sees his own message when it got broadcasted
 	        	if(userObject.id !== message.senderId) {
@@ -335,7 +334,7 @@ Ti.App.Chat = function(_chatParams) {
 	
 	var chatWindow = Ti.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
-		title: 'Chat with '+_chatParams.otherUserFirstName,
+		title: L('Chat with') + ' ' +_chatParams.otherUserFirstName,
 		navBarHidden: false,
 		backgroundColor: '#eeeeee',
 		leftNavButton: backButton,
@@ -382,7 +381,7 @@ Ti.App.Chat = function(_chatParams) {
 	chatInputView.add(chatSendButtonRight);
 	
 	var sendLabel = Ti.UI.createLabel({
-		text: 'Send', 
+		text: L('Send'), 
 		top: 12,
 		left: 256 + 13,
 		color: '#a8c98e', 
@@ -408,7 +407,7 @@ Ti.App.Chat = function(_chatParams) {
 	chatInputView.add(chatInputTextField);
 
 	var hintTextLabel = Ti.UI.createLabel({
-		text: 'Message', 
+		text: L('Message'), 
 		top: 12,
 		left: 24,
 		color: '#ababab', 

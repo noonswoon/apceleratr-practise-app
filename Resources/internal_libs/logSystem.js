@@ -25,7 +25,6 @@ exports.logEntry = function(_errorMessage) {
 	var socket = Ti.Network.Socket.createTCP({
 	    host: 'api.logentries.com', port: 10000,
 	    connected: function (e) {
-	        Ti.API.info('Socket opened!');
 	        Ti.Stream.pump(e.socket, readCallback, 1024, true);
 	        Ti.Stream.write(socket, Ti.createBuffer({
 	            value: logMessage

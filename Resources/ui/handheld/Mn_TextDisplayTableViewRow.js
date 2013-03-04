@@ -46,7 +46,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	}
 	
 	var contentLabel = Ti.UI.createLabel({
-		text: content,
+		text: L(content),
 		color: textColor,
 		top: 15, 
 		left: 64,

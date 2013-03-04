@@ -37,7 +37,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
 		font:{fontSize:14,fontWeight:'bold'},
-		title:'Edit',
+		title: L('Edit'),
 		width:64,
 		height:30,
 	});
@@ -70,7 +70,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 
 
 	function populateInfoDataTableView(_userInfo) {		
-		Ti.API.info('_userInfo: '+JSON.stringify(_userInfo));
+		//Ti.API.info('_userInfo: '+JSON.stringify(_userInfo));
 
 		if(_userId !== _targetedUserId) {
 			var facebookLikeArray = [];
@@ -103,9 +103,9 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
     	var	nameStr = _userInfo.content['general'].first_name; 
     	if(_userId === _targetedUserId) {
     		//nameStr += ' ' +  _userInfo.content['general'].last_name;		
-    		self.title = 'My Profile';
+    		self.title = L('My Profile');
     	} else {
-    		self.title = _userInfo.content['general'].first_name +'\'s Profile';
+    		self.title = _userInfo.content['general'].first_name + L('\'s Profile');
     	}
 		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
 		nameTableViewRow.getContentLabel().color = '#4e5866';
@@ -208,7 +208,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			});
 			
 			var logoutButton = Ti.UI.createButton({
-				title: 'Logout',
+				title: L('Logout'),
 				backgroundImage: 'images/post-onboarding-button.png',
 				backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 				center: {x:'50%', y:'50%'}, //x:67
@@ -234,7 +234,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		self.add(contentView);
 	}	
 
-	showPreloader(self,'Loading...');
+	showPreloader(self, L('Loading...'));
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
 		if(_userInfo.meta.status === 'error') {
 			Ti.App.fireEvent('openErrorWindow', {description: _userInfo.meta.description});

@@ -134,8 +134,8 @@ TopFriendsView = function(_userId) {
 		width:240,
 		height:35,
 		color: '#a4a3a3',
-		font:{fontSize:14,fontWeight:'bold'},
-		title:'Invite these 5 friends'
+		font: {fontSize:14,fontWeight:'bold'},
+		title: L('Invite these 5 friends')
 	});
 
 	inviteButton.addEventListener('click', function() {

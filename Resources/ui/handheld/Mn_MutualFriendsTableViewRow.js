@@ -33,11 +33,11 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	});
 	tableRow.add(activeImageView);
 	
-	var pluralized = 's';
+	var pluralized = L('s');
 	if(numMutualFriends === 1) pluralized = ''; 
 
 	var mutualFriendsLabel = Ti.UI.createLabel({
-		text: numMutualFriends + ' mutual friend'+pluralized,
+		text: numMutualFriends + ' ' + L('mutual friend')+ pluralized,
 		color: '#7c838b',
 		center: {x:'50%', y:'52%'},
 		font: {fontSize: 12, fontWeight: 'bold'},
@@ -46,15 +46,15 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	tableRow.add(mutualFriendsLabel);
 
 	var insufficientCreditsDialog = Titanium.UI.createAlertDialog({
-		title:'Not enough credits',
-		message:'Get credits by inviting your friends to Noonswoon!',
-		buttonNames: ['Ok'],
+		title: L('Not enough credits'),
+		message: L('Get credits by inviting your friends to Noonswoon!'),
+		buttonNames: [L('Ok')],
 	});
 	
 	var mutualFriendsDialog = Titanium.UI.createAlertDialog({
-		title:'Reveal Mutual Friends',
-		message:'5 credits will be deducted from your account for this action',
-		buttonNames: ['Cancel','Use credits'],
+		title: L('Reveal Mutual Friends'),
+		message: L('5 credits will be deducted from your account for this action'),
+		buttonNames: [L('Cancel'), L('Use credits')],
 		cancel: 0
 	});
 	

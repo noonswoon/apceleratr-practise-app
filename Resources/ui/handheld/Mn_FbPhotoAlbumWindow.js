@@ -14,7 +14,7 @@ FbPhotoAlbumWindow = function(_navGroup) {
 	var self = Ti.UI.createWindow({
 		backgroundColor:'#eeeeee',
 		navBarHidden: false,
-		title: 'Facebook Photos',
+		title: L('Facebook Photos'),
 		barImage: 'images/top-bar-stretchable.png',
 		leftNavButton: backButton,
 	});
@@ -28,11 +28,7 @@ FbPhotoAlbumWindow = function(_navGroup) {
     	separatorColor: 'transparent',
     });
 	if(Ti.Platform.osname === 'iphone')
-		tableview.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;    
-       
-    var activityIndicator = Ti.UI.createActivityIndicator({
-    	message:' Loading...',
-    });
+		tableview.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
 	function filenameComparator(a, b) {
 		var orderA = parseInt(a.split('_')[1]);
@@ -92,7 +88,7 @@ FbPhotoAlbumWindow = function(_navGroup) {
 			(function() {
 				var photoId = fbPicId;
 				thumbnailImageView.addEventListener('click', function() {
-					Ti.API.info('firing event selectedFbPhoto');
+					//Ti.API.info('firing event selectedFbPhoto');
 					Ti.App.fireEvent('selectedFbPhoto', {photoId: photoId} ); 
 					navGroup.close(self, {animated:true});
 				});

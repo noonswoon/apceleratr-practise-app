@@ -59,14 +59,7 @@ MatchWindow = function(_userId, _matchId) {
 		ModelFacebookLike.populateFacebookLike(parseInt(_matchInfo.meta.user_id), _matchInfo.content.general.user_id, facebookLikeArray);
 		
 		data = []; //reset table data
-		matchId = _matchInfo.meta.match_id; 
-		var pronoun = "she";
-		var possessive = "her";
-		
-		if(_matchInfo.content.general.gender === "male") {
-			pronoun = "he";
-			possessive = "his";
-		}
+		matchId = _matchInfo.meta.match_id;
 
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
@@ -108,7 +101,7 @@ MatchWindow = function(_userId, _matchId) {
 		data.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' years old', whiteOrGrayFlag);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + L(' years old'), whiteOrGrayFlag);
 		data.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
@@ -199,13 +192,13 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	if(_matchId === null) {
-		showPreloader(self,'Loading...');
+		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 			populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
 		});	
 	} else {
-		showPreloader(self,'Loading...');
+		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 			populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
@@ -214,7 +207,6 @@ MatchWindow = function(_userId, _matchId) {
 
 	var closeCallback = function() {
 		Ti.App.Flurry.endTimedEvent('main-match-window');
-		Ti.API.info('closing todayMatchWindow...');
 		Ti.App.removeEventListener('close', closeCallback);	
 	};
 	
@@ -228,4 +220,3 @@ MatchWindow = function(_userId, _matchId) {
 };
 
 module.exports = MatchWindow;
-

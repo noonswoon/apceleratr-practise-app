@@ -31,8 +31,8 @@ EducationEditTableViewRow = function(_educationArray) {
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
-	var schoolNameDefaultStr = ['Your Graduate School', 'Your Undergraduate School', 'Your High School'];
-	var schoolLevelStr = ['Graduate Degree', 'Undergraduate Degree', 'High School'];
+	var schoolNameDefaultStr = [L('Your Graduate School'), L('Your Undergraduate School'), L('Your High School')];
+	var schoolLevelStr = [L('Graduate Degree'), L('Undergraduate Degree'), L('High School')];
 	
 	for(var i = 0; i < 3; i++) {
 		var glyphImageUrl = 'images/glyph/glyph-profile-education.png';

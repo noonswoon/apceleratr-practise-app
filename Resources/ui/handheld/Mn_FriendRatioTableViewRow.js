@@ -63,7 +63,7 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 	tableRow.add(numberOfFriends);
 
 	var friendsLbl = Ti.UI.createLabel({
-		text: 'FRIENDS',
+		text: L('FRIENDS'),
 		left: 138,
 		top: 53,
 		color: '#a0a0a0', 

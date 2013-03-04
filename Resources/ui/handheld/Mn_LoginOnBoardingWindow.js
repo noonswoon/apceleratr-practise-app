@@ -45,7 +45,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	});
 	
 	var fbButtonText = Ti.UI.createLabel({
-		text: L('Sign in with Facebook'),
+		text: L('Connect Privately'),
 		color: '#ffffff',
 		center: {x: '53%', y:427},
 		font:{fontWeight:'bold',fontSize:16},

@@ -42,9 +42,9 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 	tableRow.add(schoolNameLabel);
 
 	var levelStr = '';
-	if(_educationArray[0].level === 'graduate_school') levelStr = 'Graduate degree';
-	else if(_educationArray[0].level === 'college') levelStr = 'Undergraduate degree';
-	else levelStr = 'High school';
+	if(_educationArray[0].level === 'graduate_school') levelStr = L('Graduate degree');
+	else if(_educationArray[0].level === 'college') levelStr = L('Undergraduate degree');
+	else levelStr = L('High school');
 	
 	var schoolLevelLabel = Ti.UI.createLabel({
 		text: levelStr,
@@ -87,9 +87,9 @@ EducationTableViewRow = function(_fieldName, _educationArray, _isWhiteBackground
 		});
 		tableRow.add(additionalSchoolNameLabel);
 	
-		if(_educationArray[i].level === 'graduate_school') levelStr = 'Graduate degree';
-		else if(_educationArray[i].level === 'college') levelStr = 'Undergraduate degree';
-		else levelStr = 'High school';
+		if(_educationArray[i].level === 'graduate_school') levelStr = L('Graduate degree');
+		else if(_educationArray[i].level === 'college') levelStr = L('Undergraduate degree');
+		else levelStr = L('High school');
 		
 		var additionalSchoolLevelLabel = Ti.UI.createLabel({
 			text: levelStr,

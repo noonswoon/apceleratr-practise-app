@@ -18,9 +18,14 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
-Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_ON_DEVICE = true;
+Ti.App.ACTUAL_FB_INVITE = true;
+
+Ti.App.API_SERVER = "http://noonswoon.com/";  	//need to change to test server
+Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+Ti.Facebook.appid = "132344853587370";
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
@@ -31,21 +36,17 @@ Ti.App.NUM_TOP_FRIENDS = 5;
 
 Ti.App.NUM_INVITE_ALL = 10;
 
-Ti.App.IS_ON_DEVICE = true;
-Ti.App.IS_PRODUCTION_BUILD = true;
-Ti.App.ACTUAL_FB_INVITE = true;
-
 if(Ti.App.IS_PRODUCTION_BUILD) {
-	Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
+	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.Facebook.appid = "132344853587370";
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
-
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
-Ti.Facebook.appid = "132344853587370";
 Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
 							'user_about_me', 'friends_location', 'friends_relationships, read_stream'];
@@ -286,8 +287,8 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
+		Ti.API.info('error to log: '+e.description);
 		LogSystem.logEntry(e.description);
-		Ti.API.error('Error occur: '+e.description);
 		
 		errorWindow = new ErrorWindowModule();
 		errorWindow.open();

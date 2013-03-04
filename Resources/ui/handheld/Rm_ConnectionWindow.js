@@ -23,7 +23,7 @@ ConnectionWindow = function(_userId) {
 	});	
 	
 	var connectionsLbl = Ti.UI.createLabel({
-		text: 'CONNECTIONS',
+		text: L('CONNECTIONS'),
 		left: 11,
 		top: 11,
 		color: '#ababab',
@@ -33,7 +33,7 @@ ConnectionWindow = function(_userId) {
 	});
 	
 	var editLbl = Ti.UI.createLabel({
-		text: 'EDIT',
+		text: L('EDIT'),
 		color: '#ababab',
 		right: 10,
 		top: 10,
@@ -51,11 +51,11 @@ ConnectionWindow = function(_userId) {
 		if(!isInEditMode) {
 			connectionTableView.editing = true;
 			isInEditMode = true;
-			editLbl.text = 'DONE';
+			editLbl.text = L('DONE');
 		} else {
 			connectionTableView.editing = false;
 			isInEditMode = false;
-			editLbl.text = 'EDIT';
+			editLbl.text = L('EDIT');
 		}
 	});
 
