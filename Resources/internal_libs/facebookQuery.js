@@ -59,6 +59,7 @@ exports.queryUserStream = function() {
 	});
 };
 
+//currently not using coz we are not requesting read_stream permission
 exports.queryUserLikes = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');
@@ -81,6 +82,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	});
 };
 
+//currently not using coz we are not requesting read_stream permission
 exports.queryUserComments = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');

@@ -69,7 +69,6 @@ TopFriendsView = function(_userId) {
 			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
 			FacebookQuery.queryFacebookFriends();
 		} else {
-			Ti.API.info('top five friends: '+JSON.stringify(targetedList));
 			var friendTableRowData = createTopFriendTableRowData(targetedList);
 			topFriendsTableView.setData(friendTableRowData);
 		}

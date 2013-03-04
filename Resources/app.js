@@ -183,34 +183,32 @@ if (Ti.version < 1.8 ) {
 		//Ti.API.info('completedPhotoTagQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
 	});
-	
+
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		//Ti.API.info('completedPhotoTagQuery...');
+		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
+	});
+		
 	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
 		//Ti.API.info('completedUserPhotoQuery...');
 		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
 	});
 	
+/*	-- not asking for read stream anymore
 	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
-		//Ti.API.info('completedUserLikeQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
 	});
 	
 	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
-		//Ti.API.info('completedUserCommentQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
 	});
-	
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		//Ti.API.info('completedPhotoTagQuery...');
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-	
+		
 	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
-		//Ti.API.info('completedUserStreamQuery...');
 		FacebookQuery.queryUserLikes(e.userStreamIdList);
 		FacebookQuery.queryUserComments(e.userStreamIdList);
-		FacebookQuery.queryUserPhotos();
 		//query likes, comments, photo albums
 	});
+*/
 	
 	Ti.App.addEventListener('userLoginCompleted', function(e) {
 		//Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
@@ -227,8 +225,10 @@ if (Ti.version < 1.8 ) {
 			FacebookFriendModel.updateIsInvited(invitedList);
 		});
 		
-		//query some read stream and get the comments/like
-		FacebookQuery.queryUserStream();
+		FacebookQuery.queryUserPhotos();
+		
+		//query some read stream and get the comments/like -- get rid off since we won't ask for the permission
+		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
 	Ti.Facebook.addEventListener('logout', function() {
