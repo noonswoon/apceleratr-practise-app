@@ -290,7 +290,12 @@ if (Ti.version < 1.8 ) {
 		Ti.API.info('error to log: '+e.description);
 		LogSystem.logEntry(e.description);
 		
-		errorWindow = new ErrorWindowModule();
+		var errorCode = -1; 
+		Ti.API.info('e.error_code: '+e.error_code + ', desc: '+e.description); 
+		if(e.error_code !== undefined)
+			errorCode = e.error_code;
+
+		errorWindow = new ErrorWindowModule(errorCode);
 		errorWindow.open();
 	});
 			

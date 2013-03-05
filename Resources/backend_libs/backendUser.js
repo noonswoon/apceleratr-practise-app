@@ -60,7 +60,18 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.API.info('Error backendUser.connectToServer: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, server error: ' + resultObj.meta.description});
+
+					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
+						if(resultObj.meta.status_code === 402) {
+							Ti.App.fireEvent('openErrorWindow', {error_code: 402, description: resultObj.meta.description});
+						} else if(resultObj.meta.status_code === 403) {
+							Ti.App.fireEvent('openErrorWindow', {error_code: 403, description: resultObj.meta.description});
+						} else if(resultObj.meta.status_code === 404) {
+							Ti.App.fireEvent('openErrorWindow', {error_code: 404, description: resultObj.meta.description});
+						}
+					} else {
+						Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, something wrong with server error '});
+					}
 				}
 		    },
 		    onerror: function(e) {

@@ -21,6 +21,7 @@ MatchWindow = function(_userId, _matchId) {
 	//create component instance
 	
 	var self = Ti.UI.createWindow({
+		top:0,
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',

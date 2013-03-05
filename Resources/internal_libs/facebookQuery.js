@@ -28,7 +28,6 @@ exports.queryFacebookFriends = function() {
 				}
 			} else {
 				for(var i = 0; i < friendList.length; i++) {
-					Ti.API.info('in adding candidate for-loop specific countries');
 					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
 						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
 											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});

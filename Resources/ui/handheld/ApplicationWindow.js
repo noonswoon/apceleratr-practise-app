@@ -47,6 +47,7 @@ function ApplicationWindow(_userId, _userImage) {
 		
 	//create component instance
 	var self = Ti.UI.createWindow({
+		top:0,
 		left: 0,
 		zIndex: 1,
 		backgroundColor:'#7e8185',
@@ -106,6 +107,9 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
+	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	var dummyOnBoard = new TargetedModule(404);
+		
 	var openNoMatchWindowCallback = function(e) {
 		var noMatchWindow = new NoMatchWindowModule(_userId);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
@@ -128,9 +132,6 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.leftNavButton = toggleLeftMenuBtn;
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
-	
-	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	var dummyOnBoard = new TargetedModule();
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	//window: dummyOnBoard,

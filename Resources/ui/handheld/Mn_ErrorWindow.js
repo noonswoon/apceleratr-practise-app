@@ -1,6 +1,25 @@
-ErrorWindow = function(_userId) {
+ErrorWindow = function(_errorCode) {
 	
 	Ti.App.Flurry.logEvent('error-screen');
+	
+	var errorText1 = L('A problem occurred');
+	var errorText2 = "";
+	
+	var showRetryOption = true;
+	
+	if(_errorCode === 402) {
+		errorText1 = L('Noonswoon is not offered');
+		errorText2 = L('in your city yet.');
+		showRetryOption = false;
+	} else if(_errorCode === 403) {
+		errorText1 = L('You need at least 50 Facebook');
+		errorText2 = L('friends to use Noonswoon');
+		showRetryOption = false;
+	} else if(_errorCode === 404) {
+		errorText1 = L('Your account');
+		errorText2 = L('is currently blocked');
+		showRetryOption = false;
+	}
 	
 	//create component instance
 	var self = Ti.UI.createWindow({
@@ -19,15 +38,25 @@ ErrorWindow = function(_userId) {
 	self.add(imageView); 
 					
 	//80868e  headline
-	var headlineLbl = Ti.UI.createLabel({
-		text: L('A problem occurred'),
-		center: {x:'50%', y:'50%'}, //x:70
+	var headlineLbl1 = Ti.UI.createLabel({
+		text: errorText1,
+		center: {x:'50%', y:'48%'}, //x:70
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0,y:1}
 	});
-	self.add(headlineLbl); 
+	self.add(headlineLbl1); 
+	
+	var headlineLbl2 = Ti.UI.createLabel({
+		text: errorText2,
+		center: {x:'50%', y:'54%'}, //x:70
+		color: '#e01124',
+		font:{fontWeight:'bold',fontSize:20},
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0,y:1}
+	});
+	self.add(headlineLbl2); 
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
@@ -36,16 +65,14 @@ ErrorWindow = function(_userId) {
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:18},
 	});
-	self.add(description1Lbl);
-
+	
 	var retryImage = Ti.UI.createImageView({
 		image: 'images/error/error-retry.png',
 		width: 16, 
 		height: 15,
 		center: {x:'44%', y:'63%'}, //x:88
 	});
-	self.add(retryImage);
-
+	
 	var contactBtn = Ti.UI.createButton({
 		title: L('Contact support'),
 		backgroundImage: 'images/post-onboarding-button.png',
@@ -67,15 +94,21 @@ ErrorWindow = function(_userId) {
 		emailDialog.open();
 	});
 	
-	retryImage.addEventListener('click', function() {
-		Ti.App.Flurry.logEvent('error-screen-retry');
-		Ti.App.fireEvent('restartApp');
-	});
-	
-	description1Lbl.addEventListener('click', function(){
-		Ti.App.Flurry.logEvent('error-screen-retry');
-		Ti.App.fireEvent('restartApp');
-	});
+	if(showRetryOption) {
+		self.add(description1Lbl);
+		self.add(retryImage);
+
+		description1Lbl.addEventListener('click', function(){
+			Ti.App.Flurry.logEvent('error-screen-retry');
+			Ti.App.fireEvent('restartApp');
+		});
+			
+		retryImage.addEventListener('click', function() {
+			Ti.App.Flurry.logEvent('error-screen-retry');
+			Ti.App.fireEvent('restartApp');
+		});
+	}
+
 	return self;
 };
 

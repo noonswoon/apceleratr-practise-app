@@ -33,7 +33,16 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	pagingControl.top = 370;
 	self.add(pagingControl); 
 	self.add(scrollView);
-		
+	
+	var neverPostToFb = Ti.UI.createLabel({
+		text: L('We never post to Facebook'),
+		color: '#ffffff',
+		center: {x: '50%', y:394},
+		font:{fontSize:13},
+		zIndex: 2
+	});
+	self.add(neverPostToFb);
+	
 	var fbButton = Ti.UI.createButton({
 		backgroundImage: 'images/onboarding-facebook-btn.png',
 		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
