@@ -49,7 +49,7 @@ Ti.App.LIVE_DATA = true;
 
 Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships, read_stream'];
+							'user_about_me', 'friends_location', 'friends_relationships'];
 Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
 
 //include require
