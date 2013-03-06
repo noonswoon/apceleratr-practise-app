@@ -169,7 +169,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			if(currentCredit < 10) {
 				var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
 					title: L('Not enough credits'),
-					message: L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
+					message: L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits')
 				});
 				notEnoughCreditsDialog.show();
 			} else {				

@@ -310,8 +310,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 	
 	var unsavedWarningDialog = Titanium.UI.createAlertDialog({
-		title: L('Profile is not saved.'),
-		message:L('You will lose your unsaved data.'),
+		title: L('Profile is not saved'),
+		message:L('You will lose your unsaved data'),
 		buttonNames: [L('Cancel'),L('Continue')],
 		cancel: 0
 	});
@@ -419,10 +419,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			});
 		} else {
 			var warningTitle = L('Missing information');
-			var warningMsg = L('Please specify your height, ethnicity, and religion. It only takes 2 seconds.');
+			var warningMsg = L('Please specify your height, ethnicity, and religion');
 			if(heightWarning) {
 				warningTitle = L('Please select your height');
-				warningMsg = L('Select your height again.');
+				warningMsg = L('Select your height again');
 			}
 			var warningDialog = Titanium.UI.createAlertDialog({
 				title:warningTitle,
