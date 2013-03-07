@@ -22,10 +22,10 @@ Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
-Ti.App.API_SERVER = "http://noonswoon.com/";  	//need to change to test server
+Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-Ti.Facebook.appid = "132344853587370";
+Ti.Facebook.appid = "492444750818688";
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
