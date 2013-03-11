@@ -6,11 +6,11 @@ exports.getDefaultText = function(_category) {
 	else if(_category === "religion")
 		return L('Religion');
 	else if(_category === "graduate_school")
-		return L('Graduate School');		
+		return L('Your Graduate School');		
 	else if(_category === "college")
-		return L('Undergraduate School');
+		return L('Your Undergraduate School');
 	else if(_category === "high_school")
-		return L('High School');
+		return L('Your High School');
 	else if(_category === "occupation")
 		return L('Occupation');
 	else if(_category === "employer")
