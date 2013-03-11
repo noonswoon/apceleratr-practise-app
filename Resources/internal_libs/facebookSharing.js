@@ -44,8 +44,8 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	    title: 'Noonswoon',
 	    message: 'Find the One!',
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
-	    to: '202852, 2535734, 1064101575, 810675370',
-	    //to: _fbIds,
+	    //to: '202852, 2535734, 1064101575, 810675370',
+	    to: _fbIds,
 	    data: trackingCode
 	 };
 	Titanium.Facebook.dialog("apprequests", data, showRequestResult);

@@ -166,8 +166,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		return tableData;
 	};
 	
-	Ti.App.addEventListener('inviteCompleted', function(e){
-		
+	var removedInviteCompletedBallbackFlag = false;
+
+	var inviteCompletedCallback = function(e) {
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		//iterate to remove the table view row	
 		var topupAmount = 0;
@@ -205,11 +206,14 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
 			//_navGroup.open(onBoardingStep3Window);
 			onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});	
 			//self.close();
 		}
+		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
+		removedInviteCompletedBallbackFlag = true;
 		Ti.App.Flurry.endTimedEvent('invite-screen');
-	});
+	};
+	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	
 	var friendList = FacebookFriend.getFacebookFriends();
 	var friendTableRowData = createFriendTable(friendList);
@@ -291,6 +295,14 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 	};
 	Ti.App.addEventListener('uninvitedFriend', uninvitedFriendCallback);
+	
+	self.addEventListener('close', function() {
+		if(!removedInviteCompletedBallbackFlag) {
+			Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
+		}
+		Ti.App.removeEventListener('invitedFriend', invitedFriendCallback);
+		Ti.App.removeEventListener('uninvitedFriend', uninvitedFriendCallback);
+	});
 	
 	return self;
 }
