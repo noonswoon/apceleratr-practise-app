@@ -26,8 +26,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var inviteBtnEnable = true;
 	var inviteBtnFontColor = '#f6f7fa';
 	if(_forcedInvite) {
-		descriptionText1 = L('Invite');
-		descriptionText2 = Ti.App.NUM_INVITE_ALL + ' ' + L('friends');
+		descriptionText1 = L('Invitex');	
+		descriptionText2 = String.format(L('x friends'), (Ti.App.NUM_INVITE_ALL+''))
 		descriptionText3 = L('to get started');	
 		textOffset1 = 62;
 		textOffset2 = 102;

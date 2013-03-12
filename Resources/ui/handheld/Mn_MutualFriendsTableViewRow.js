@@ -37,7 +37,7 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	if(numMutualFriends === 1) pluralized = ''; 
 
 	var mutualFriendsLabel = Ti.UI.createLabel({
-		text: numMutualFriends + ' ' + L('mutual friend')+ pluralized,
+		text: String.format(L('x mutual friend'), (numMutualFriends+"")) + pluralized,
 		color: '#7c838b',
 		center: {x:'50%', y:'52%'},
 		font: {fontSize: 12, fontWeight: 'bold'},

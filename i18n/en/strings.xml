@@ -6,6 +6,7 @@
 	<string name="Get a new match every day">Get a new match every day</string>
 	<string name="Invite friends, get credits">Invite friends, get credits</string>
 	<string name="Chat with your matches">Chat with your matches</string>
+	<string name="We never post to Facebook">We never post to Facebook</string>
 	<string name="Connect Privately">Connect Privately</string>
 	<string name="Message from...">Message from...</string>
 	<string name="Personalize">Personalize</string>
@@ -13,10 +14,12 @@
 	<string name="and put yourself in the best light!">and put yourself in the best light!</string>
 	<string name="View my profile">View my profile</string>
 	<string name="Invite">Invite</string>
+	<string name="Invitex">Invite</string>
 	<string name="When you and your friends are on">When you and your friends are on</string>
 	<string name="Noonswoon together, everyone\'s">Noonswoon together, everyone\'s</string>
 	<string name="matches are better">matches are better</string>
 	<string name="invite x friends">Invite %s friends</string>	
+	<string name="x friends">%s friends</string>	
 	<string name="Finding match">Finding match</string>
 	<string name="You\'re all set! Your first match will">You\'re all set! Your first match will</string>
 	<string name="be available soon!">be available soon!</string>
@@ -42,8 +45,8 @@
 	<string name="Choose from Library">Choose from Library</string>
 	<string name="Take Photo">Take Photo</string>
 	<string name="Cancel">Cancel</string>
-	<string name="Profile is not saved.">Profile is not saved.</string>
-	<string name="You will lose your unsaved data.">You will lose your unsaved data.</string>
+	<string name="Profile is not saved">Profile is not saved</string>
+	<string name="You will lose your unsaved data">You will lose your unsaved data</string>
 	<string name="Continue">Continue</string>
 	<string name="Missing information">Missing information</string>
 	<string name="Please specify your height, ethnicity, and religion. It only takes 2 seconds.">Please specify your height, ethnicity, and religion. It only takes 2 seconds.</string>
@@ -83,6 +86,7 @@
 	<string name="Loading...">Loading...</string>
 	
 	<string name="s">s</string>
+	<string name="x mutual friend">%s mutual friend</string>		
 	<string name="mutual friend">mutual friend</string>
 	<string name="Not enough credits">Not enough credits</string>
 	<string name="Get credits by inviting your friends to Noonswoon!">Get credits by inviting your friends to Noonswoon!</string>
@@ -135,7 +139,9 @@
 	<string name="Employer">Employer</string>
 	<string name="Write something about yourself...">Write something about yourself...</string>
 	
-	<string name=" years old"> years old</string>
+	<string name="private until connected">private until connected</string>
+	<string name="years old">years old</string>
+	<string name="cm">cm</string>	
 
 	<string name="Aquarius">Aquarius</string>
 	<string name="Aries">Aries</string>
@@ -149,6 +155,19 @@
 	<string name="Scopio">Scopio</string>
 	<string name="Taurus">Taurus</string>
 	<string name="Virgo">Virgo</string>
+	
+	<string name="Asian">Asian</string>
+	<string name="White/Caucasian">White/Caucasian</string>
+	<string name="Black/African-descent">Black/African-descent</string>
+	<string name="South Asian">South Asian</string>
+	<string name="Mixed">Mixed</string>
+
+	<string name="Buddhist">Buddhist</string>
+	<string name="Christian">Christian</string>
+	<string name="Catholic">Catholic</string>
+	<string name="Muslim">Muslim</string>
+	<string name="Spiritual but not religious">Spiritual but not religious</string>
+	<string name="Other">Other</string>
 	
 	<string name="Noonswoon is not offered">Noonswoon is not offered</string>
 	<string name="in your city yet.">in your city yet.</string>

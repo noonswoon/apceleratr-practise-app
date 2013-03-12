@@ -94,7 +94,7 @@ MatchWindow = function(_userId, _matchId) {
 		
 		var whiteOrGrayFlag = true;
 		//GENERAL SECTION
-		var nameStr = 'private until connected';
+		var nameStr = L('private until connected');
 		if(_matchInfo.content.is_connected)
     		nameStr = _matchInfo.content['general'].first_name;		
 		
@@ -102,7 +102,7 @@ MatchWindow = function(_userId, _matchId) {
 		data.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + L(' years old'), whiteOrGrayFlag);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' ' + L('years old'), whiteOrGrayFlag);
 		data.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
@@ -117,7 +117,7 @@ MatchWindow = function(_userId, _matchId) {
 		}
 		
 		if(_matchInfo.content['height'] !== "" ) {
-			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + " cm", whiteOrGrayFlag);
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + ' ' + L('cm'), whiteOrGrayFlag);
 			data.push(heightTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}

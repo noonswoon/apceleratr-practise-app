@@ -24,7 +24,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	
 	var contentTextfield = Titanium.UI.createTextField({
-		value: content,
+		value: L(content),
 		top: 15, 
 		left: 64,
 		width: 241,
@@ -122,7 +122,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 		}
 			
 		var pickerLabel = Ti.UI.createLabel({
-			text: curContent,
+			text: L(curContent),
 			width: 300,
 			left: 45
 		});

@@ -112,7 +112,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		data.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' years old', whiteOrGrayFlag);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' '+ L('years old'), whiteOrGrayFlag);
 		data.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
@@ -128,7 +128,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		}
 		
 		if(_userInfo.content['height'] !== "" ) {
-			var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + " cm", whiteOrGrayFlag);
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + ' '+ L('cm'), whiteOrGrayFlag);
 			data.push(heightTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
