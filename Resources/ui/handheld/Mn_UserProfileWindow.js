@@ -208,17 +208,22 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			});
 			
 			var logoutButton = Ti.UI.createButton({
-				title: L('Logout'),
 				backgroundImage: 'images/post-onboarding-button.png',
 				backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 				center: {x:'50%', y:'50%'}, //x:67
-				color: '#616a75',
-				font:{fontWeight:'bold',fontSize:18},
 				width: 300, 
 				height: 50
 			});
 			if(Ti.Platform.osname === 'iphone')
 				logoutBtnTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+
+			var logoutButtonText = Ti.UI.createLabel({
+				text: L('Logout'),
+				color: '#616a75',
+				font:{fontWeight:'bold',fontSize:18},
+				center: {x:'50%', y:'50%'}
+			});
+			logoutButton.add(logoutButtonText);
 		
 			logoutBtnTableViewRow.add(logoutButton);
 			data.push(logoutBtnTableViewRow);

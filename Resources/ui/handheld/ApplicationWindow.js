@@ -103,12 +103,18 @@ function ApplicationWindow(_userId, _userImage) {
 	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(inviteFriendWindow, {animated:false});
-		toggleLeftMenu();
+		var toggleFlag = false;
+		if(e.toggle !== undefined) {
+			toggleFlag = e.toggle;
+		}
+		if(toggleFlag) {
+			toggleLeftMenu();
+		}
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	//var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	//var dummyOnBoard = new TargetedModule('Network Error|Please reopen Noonswoon');
+	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	//var dummyOnBoard = new TargetedModule('');
 		
 	var openNoMatchWindowCallback = function(e) {
 		var noMatchWindow = new NoMatchWindowModule(_userId);
@@ -134,8 +140,8 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.titleControl = timerView;
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	//window: dummyOnBoard,
-	  	window: matchWindow,
+	  	window: dummyOnBoard,
+	  	//window: matchWindow,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});

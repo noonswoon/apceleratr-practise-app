@@ -68,19 +68,23 @@ ErrorWindow = function(_errorMessage) {
 		center: {x:'44%', y:'63%'}, //x:88
 	});
 	
-	var contactBtn = Ti.UI.createButton({
-		title: L('Contact support'),
+	var contactButton = Ti.UI.createButton({
+		width: 300, 
+		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:375}, //x:67
+	});
+	
+	var contactButtonText = Ti.UI.createLabel({
+		text: L('Contact support'),
 		color: '#616a75',
 		font:{fontWeight:'bold',fontSize:18},
-		width: 300, 
-		height: 50
-	})
-	self.add(contactBtn);
+		center: {x:'50%', y:'50%'}
+	});
+	contactButton.add(contactButtonText);
 	
-	contactBtn.addEventListener('click', function() {
+	contactButton.addEventListener('click', function() {
 		var emailDialog = Ti.UI.createEmailDialog()
 		emailDialog.subject = L("Noonswoon Assistant");
 		emailDialog.toRecipients = ['sorry@noonswoon.com'];
@@ -88,6 +92,8 @@ ErrorWindow = function(_errorMessage) {
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
+	
+	self.add(contactButton);
 	
 	if(showRetryOption) {
 		self.add(description1Lbl);

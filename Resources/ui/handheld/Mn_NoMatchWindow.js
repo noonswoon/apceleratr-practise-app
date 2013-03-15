@@ -1,4 +1,4 @@
-NoMatchWindow = function(_userId) {
+NoMatchWindow = function() {
 	Ti.App.Flurry.logEvent('no-match-screen');
 	
 	//create component instance
@@ -37,26 +37,28 @@ NoMatchWindow = function(_userId) {
 	});
 	self.add(description1Lbl);
 
-	var notifyBtn = Ti.UI.createButton({
-		title: L('Notify Noonswoon'),
+	var inviteFriendsButton = Ti.UI.createButton({
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:375}, //x:67
-		color: '#616a75',
-		font:{fontWeight:'bold',fontSize:18},
 		width: 300, 
 		height: 50
 	})
-	self.add(notifyBtn);
 	
-	notifyBtn.addEventListener('click', function() {
-		var emailDialog = Ti.UI.createEmailDialog()
-		emailDialog.subject = L("No Match - Assistant");
-		emailDialog.toRecipients = ['support@noonswoon.com'];
-		emailDialog.messageBody = '';
-		emailDialog.barColor = '#850f16';
-		emailDialog.open();
+	var inviteFriendsButtonText = Ti.UI.createLabel({
+		text: L('Invite more friends'),
+		color: '#616a75',
+		font:{fontWeight:'bold',fontSize:18},
+		center: {x:'50%', y:'50%'}
 	});
+	inviteFriendsButton.add(inviteFriendsButtonText);
+
+	inviteFriendsButton.addEventListener('click', function() {
+		Ti.App.fireEvent('openInviteFriendWindow', {toggle:false});
+	});
+	
+	self.add(inviteFriendsButton);
+	
 	return self;
 };
 

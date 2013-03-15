@@ -132,10 +132,15 @@ TopFriendsView = function(_userId) {
 		left: 10,
 		width:240,
 		height:35,
+	});
+	
+	var inviteButtonText = Ti.UI.createLabel({
+		text: L('Invite these 5 friends'),
 		color: '#a4a3a3',
 		font: {fontSize:14,fontWeight:'bold'},
-		title: L('Invite these 5 friends')
+		center: {x:'50%', y:'50%'}
 	});
+	inviteButton.add(inviteButtonText);
 
 	inviteButton.addEventListener('click', function() {
 		Ti.App.Flurry.logEvent('left-menu-batch-invite');
