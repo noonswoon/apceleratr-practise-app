@@ -47,7 +47,7 @@ Ti.App.CACHE_TIMEOUT = 1;
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
-Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 'user_birthday',
+Ti.Facebook.permissions = [	'email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
 							'user_about_me', 'friends_location', 'friends_relationships'];
 Ti.Facebook.forceDialogAuth = false; //fb sso not working on actual device
@@ -287,15 +287,14 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.API.info('error to log: '+e.description);
-		LogSystem.logEntry(e.description);
+		Ti.API.info('error to log: '+ JSON.stringify(e));
+		LogSystem.logEntry(e.meta.description);
 		
-		var errorCode = -1; 
-		Ti.API.info('e.error_code: '+e.error_code + ', desc: '+e.description); 
-		if(e.error_code !== undefined)
-			errorCode = e.error_code;
+		var displayError = '';
+		if(e.meta.string_to_display !== undefined)
+			displayError = e.meta.string_to_display;
 
-		errorWindow = new ErrorWindowModule(errorCode);
+		errorWindow = new ErrorWindowModule(displayError);
 		errorWindow.open();
 	});
 			

@@ -170,9 +170,11 @@
 	<string name="Other">Other</string>
 	
 	<string name="Noonswoon is not offered">Noonswoon is not offered</string>
-	<string name="in your city yet.">in your city yet.</string>
+	<string name="in your city yet">in your city yet.</string>
 	<string name="You need at least 50 Facebook">You need at least 50 Facebook</string>
 	<string name="friends to use Noonswoon">friends to use Noonswoon</string>
 	<string name="Your account">Your account</string>
 	<string name="is currently blocked">is currently blocked</string>
+	<string name="You are not single">You are not single</string>
+	<string name="Come back when you are">Come back when you are</string>	
 </resources>

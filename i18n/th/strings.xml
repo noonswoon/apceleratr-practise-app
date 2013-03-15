@@ -169,9 +169,11 @@
 	<string name="Other">อื่นๆ</string>
 	
 	<string name="Noonswoon is not offered">Noonswoon ยังไม่ได้ให้บริการ</string>
-	<string name="in your city yet.">ในจังหวัดของคุณ</string>
+	<string name="in your city yet">ในจังหวัดของคุณ</string>
 	<string name="You need at least 50 Facebook">คุณต้องมีเพื่อนในเฟสบุ๊คอย่างน้อย</string>
 	<string name="friends to use Noonswoon">50 คนเพื่อใช้ Noonswoon</string>
 	<string name="Your account">Account ของคุณ</string>
 	<string name="is currently blocked">ถูกระงับการใช้</string>
+	<string name="You are not single">คุณไม่ใช่คนโสด</string>
+	<string name="Come back when you are">กลับมาใหม่ตอนที่โสดนะ</string>	
 </resources>
