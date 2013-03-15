@@ -107,8 +107,8 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	var dummyOnBoard = new TargetedModule(404);
+	//var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	//var dummyOnBoard = new TargetedModule('Network Error|Please reopen Noonswoon');
 		
 	var openNoMatchWindowCallback = function(e) {
 		var noMatchWindow = new NoMatchWindowModule(_userId);

@@ -13,16 +13,13 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 					//Ti.API.info('backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
 					_callbackFn(resultObj.content.invited_people);
 				} else {
-					Ti.API.info('Error backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendInvite.getInvitedList, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in getInvitedList ..server NOT ready yet: "+JSON.stringify(e));
 		        _callbackFn({success:false});
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendInvite.getInvitedList, network error'});
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -59,14 +56,12 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
-					Ti.API.info('Error backendInvite.saveInvitedPeople: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendInvite.saveInvitedPeople ..server NOT ready yet");
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

@@ -12,15 +12,11 @@ exports.getUserCredit = function(_userId, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content.credit);
 				} else {
-					Ti.API.info('Error getUserCredit: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendCredit.getUserCredit, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendCredit.getUserCredit', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendGetUserCredit ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendCredit.getUserCredit, network error'});
+		    	Ti.App.fireEvent('openErrorWindow', {src: 'backendCredit.getUserCredit', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:5000  // in milliseconds
@@ -58,16 +54,11 @@ exports.transaction = function(_paramObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content.credit);
 				} else {
-					Ti.API.info('Error credit.transaction: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendCredit.transaction, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendCredit.transaction', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendCredit.transaction ..server NOT ready yet");
-		        Ti.API.info(JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendCredit.transaction, network error'});
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendCredit.transaction', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

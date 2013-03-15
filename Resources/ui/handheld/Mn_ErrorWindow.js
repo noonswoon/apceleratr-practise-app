@@ -1,24 +1,19 @@
-ErrorWindow = function(_errorCode) {
+ErrorWindow = function(_errorMessage) {
 	
 	Ti.App.Flurry.logEvent('error-screen');
 	
 	var errorText1 = L('A problem occurred');
 	var errorText2 = "";
+	var showRetryOption = false;
 	
-	var showRetryOption = true;
-	
-	if(_errorCode === 402) {
-		errorText1 = L('Noonswoon is not offered');
-		errorText2 = L('in your city yet.');
-		showRetryOption = false;
-	} else if(_errorCode === 403) {
-		errorText1 = L('You need at least 50 Facebook');
-		errorText2 = L('friends to use Noonswoon');
-		showRetryOption = false;
-	} else if(_errorCode === 404) {
-		errorText1 = L('Your account');
-		errorText2 = L('is currently blocked');
-		showRetryOption = false;
+	if(_errorMessage === "") {
+		errorText1 = L('A problem occurred');
+		errorText2 = "";
+		showRetryOption = true;
+	} else {
+		errorMessageArray = _errorMessage.split('|');
+		errorText1 = L(errorMessageArray[0]);
+		errorText2 = L(errorMessageArray[1]);
 	}
 	
 	//create component instance

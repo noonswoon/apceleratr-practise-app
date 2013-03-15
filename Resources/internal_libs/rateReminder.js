@@ -20,7 +20,7 @@ exports.checkReminderToRate = function() {
 		                    if (Ti.Android) {
 		                        Ti.Platform.openURL('URL TO YOUR APP IN THE GOOGLE MARKETPLACE');
 		                    } else {
-		                        Ti.Platform.openURL('https://itunes.apple.com/us/app/noonswoon/id605218289?ls=1&mt=8');
+		                        Ti.Platform.openURL('https://itunes.apple.com/th/app/noonswoon/id605218289?ls=1&mt=8');
 		                    }
 		                    break;
 		                case 1:
