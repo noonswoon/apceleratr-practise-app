@@ -103,7 +103,7 @@ function ApplicationWindow(_userId, _userImage) {
 	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(inviteFriendWindow, {animated:false});
-		var toggleFlag = false;
+		var toggleFlag = true;
 		if(e.toggle !== undefined) {
 			toggleFlag = e.toggle;
 		}
@@ -140,8 +140,8 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.titleControl = timerView;
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	window: dummyOnBoard,
-	  	//window: matchWindow,
+	  	//window: dummyOnBoard,
+	  	window: matchWindow,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});

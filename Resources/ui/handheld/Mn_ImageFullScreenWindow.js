@@ -47,6 +47,7 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray, _currentPage) {
 		showPagingControl:true,
 		pagingControlHeight:20,
 		currentPage:_currentPage,
+		disableBounce: true,
 		zIndex:1
 	});
 	

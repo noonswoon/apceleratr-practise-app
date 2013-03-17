@@ -10,6 +10,7 @@ PagingControl = function(scrollableView){
 	// Keep a global reference of the available pages
 	var numberOfPages = scrollableView.getViews().length;
 	var widthOffset = 15;
+	var currentPage = 0;
 	
 	var container = Titanium.UI.createView({
 		height: 14,
@@ -17,7 +18,6 @@ PagingControl = function(scrollableView){
 		width: numberOfPages * widthOffset,
 		zIndex: 2
 	});
-
 	
 	var pages = []; // without this, the current page won't work on future references of the module
 	
@@ -38,15 +38,14 @@ PagingControl = function(scrollableView){
 	
 	// Mark the initial selected page
 	pages[scrollableView.getCurrentPage()].image = 'images/carousel-dot-active.png';
+	currentPage = scrollableView.getCurrentPage(); 
 	
 	// Callbacks
 	onScroll = function(event){
 		// Go through each and reset it's opacity
-		for (var i = 0; i < numberOfPages; i++) {
-			pages[i].image = 'images/carousel-dot-inactive.png';
-		}
-		// Bump the opacity of the new current page
+		pages[currentPage].image = 'images/carousel-dot-inactive.png';
 		pages[event.currentPage].image = 'images/carousel-dot-active.png';
+		currentPage = event.currentPage;
 	};
 	
 	// Attach the scroll event to this scrollableView, so we know when to update things

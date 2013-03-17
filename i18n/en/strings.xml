@@ -75,7 +75,8 @@
 
 	<string name="FRIENDS">FRIENDS</string>
 	<string name="Friends">Friends</string>
-	
+	<string name="FriendsInvite">Friends</string>
+		
 	<string name="Receive">Receive</string>
 	<string name="2 credits">2 credits</string>
 	<string name="for each friend you invite">for each friend you invite</string>

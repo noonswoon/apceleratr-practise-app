@@ -69,10 +69,10 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	if(_forcedInvite) {
 		self.leftNavButton = emptyView;
-		self.title = L('Friends');
+		self.title = L('FriendsInvite');
 	} else {
 		self.leftNavButton = backButton;
-		self.title = L('Friends');
+		self.title = L('FriendsInvite');
 	}
 	
 	//description section
