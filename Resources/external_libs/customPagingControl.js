@@ -43,9 +43,11 @@ PagingControl = function(scrollableView){
 	// Callbacks
 	onScroll = function(event){
 		// Go through each and reset it's opacity
-		pages[currentPage].image = 'images/carousel-dot-inactive.png';
-		pages[event.currentPage].image = 'images/carousel-dot-active.png';
-		currentPage = event.currentPage;
+		if(currentPage !== event.currentPage) {
+			pages[currentPage].image = 'images/carousel-dot-inactive.png';
+			pages[event.currentPage].image = 'images/carousel-dot-active.png';
+			currentPage = event.currentPage;
+		}
 	};
 	
 	// Attach the scroll event to this scrollableView, so we know when to update things
