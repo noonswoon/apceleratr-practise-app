@@ -139,6 +139,14 @@ Ti.App.Chat = function(_chatParams) {
 								chatMessagesTableView.appendRow(newChatRow);
 							}
 						}
+						
+						//double binding - changing the execution context
+						(function() {
+							var curChatRow = newChatRow;
+							setTimeout(function() {
+					    		curChatRow.appear();
+							}, 500);
+						})();
 					}
 				}			
 				if(chatHistoryMsgs.length < 10) {
@@ -189,6 +197,13 @@ Ti.App.Chat = function(_chatParams) {
 					chatMessagesTableView.appendRow(newChatRow);
 				}
 			}
+			//double binding - changing the execution context
+			(function() {
+				var curChatRow = newChatRow;
+				setTimeout(function() {
+					curChatRow.appear();
+				}, 500);
+			})();
 		}
 		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
 	};
@@ -253,10 +268,12 @@ Ti.App.Chat = function(_chatParams) {
 	           		var newChatRow = new ChatMessageTableViewRow(message.text,senderObj,false);
 	           		chatMessagesTableView.appendRow(newChatRow);
 	           		
+	           		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+				   		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+				   			
 	           	   	setTimeout(function() {
-	           	   		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
-				   			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //add some delay-fixing stuff here scroll to the latest row
-					}, 1000);
+	           	   		newChatRow.appear();	           	   		
+					}, 500);
 	           	}
 	        },
 	        error : function() {
@@ -479,13 +496,14 @@ Ti.App.Chat = function(_chatParams) {
 		}
 		
 		var newChatRow = new ChatMessageTableViewRow(chatInputTextField.value,userObject,true);
+        var cartoonChatBackRow = null;
         chatMessagesTableView.appendRow(newChatRow);
 		
 		//check if it is just the cartoon, if so don't send the message
 		if(otherUserGuid === "") { //normal user has an empty guid
 			send_a_message(chatInputTextField.value);
 		} else {
-			var cartoonChatBackRow = new ChatMessageTableViewRow(cartoonMsgs[cartoonIndexMsg],otherUserObject,false);
+			cartoonChatBackRow = new ChatMessageTableViewRow(cartoonMsgs[cartoonIndexMsg],otherUserObject,false);
 			cartoonIndexMsg++;
 			chatMessagesTableView.appendRow(cartoonChatBackRow);
 			if(cartoonIndexMsg >= cartoonMsgs.length) 
@@ -493,9 +511,14 @@ Ti.App.Chat = function(_chatParams) {
 		}
 		chatInputTextField.value = "";
     	chatInputTextField.blur();
+    	if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
+    		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+		}
+			
     	setTimeout(function() {
-    		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
-    			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //fixing stuff here scroll to the latest row
+    		newChatRow.appear();
+			if(cartoonChatBackRow !== null)
+				cartoonChatBackRow.appear();
 		}, 500); 	
     });
 	

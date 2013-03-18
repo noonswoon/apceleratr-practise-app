@@ -59,10 +59,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		height: 338,
 		top:0,
 		left:0,
-//		overlayEnabled: true,
-//		pagingControlAlpha: 0.5,
-//		pagingControlHeight: 20,
-//		pagingControlOnTop: true,
 		disableBounce: true,
 		zIndex: 0
 	});	

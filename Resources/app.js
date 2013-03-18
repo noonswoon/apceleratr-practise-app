@@ -25,7 +25,7 @@ Ti.App.ACTUAL_FB_INVITE = true;
 Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-Ti.Facebook.appid = "492444750818688";
+Titanium.Facebook.appid = "492444750818688";
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
@@ -40,17 +40,17 @@ if(Ti.App.IS_PRODUCTION_BUILD) {
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-	Ti.Facebook.appid = "132344853587370";
+	Titanium.Facebook.appid = "132344853587370";
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
 
-Ti.Facebook.permissions = [	'email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
+Titanium.Facebook.permissions = [	'email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
 							'user_about_me', 'friends_location', 'friends_relationships'];
-Ti.Facebook.forceDialogAuth = false; //fb sso not working on actual device
+Titanium.Facebook.setForceDialogAuth(false); //fb sso not working on actual device
 
 //include require
 if(Ti.Platform.osname == 'iphone') {
@@ -133,7 +133,7 @@ if (Ti.version < 1.8 ) {
 					//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
 					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-					if(Ti.Facebook.loggedIn) {
+					if(Titanium.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
@@ -231,7 +231,7 @@ if (Ti.version < 1.8 ) {
 		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
-	Ti.Facebook.addEventListener('logout', function() {
+	Titanium.Facebook.addEventListener('logout', function() {
 		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 		var loginProcessWindow = new LoginProcessWindowModule();			
 		loginProcessWindow.open();
