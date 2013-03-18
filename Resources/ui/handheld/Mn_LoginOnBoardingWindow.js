@@ -12,11 +12,22 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 
 	var viewsForScrollView = [];
 	var view = null;
-	for(var i = 1; i <= 4; i++) {
-		var LoginOnBoardingModule = require('ui/handheld/Mn_LoginOnBoarding'+i+'View');
-		var loginOnBoardingView = new LoginOnBoardingModule();
-		viewsForScrollView.push(loginOnBoardingView);
-	}
+
+	var LoginOnBoarding1Module = require('ui/handheld/Mn_LoginOnBoarding1View');
+	var loginOnBoarding1View = new LoginOnBoarding1Module();
+	viewsForScrollView.push(loginOnBoarding1View);
+		
+	var LoginOnBoarding2Module = require('ui/handheld/Mn_LoginOnBoarding2View');
+	var loginOnBoarding2View = new LoginOnBoarding2Module();
+	viewsForScrollView.push(loginOnBoarding2View);
+		
+	var LoginOnBoarding3Module = require('ui/handheld/Mn_LoginOnBoarding3View');
+	var loginOnBoarding3View = new LoginOnBoarding3Module();
+	viewsForScrollView.push(loginOnBoarding3View);
+		
+	var LoginOnBoarding4Module = require('ui/handheld/Mn_LoginOnBoarding4View');
+	var loginOnBoarding4View = new LoginOnBoarding4Module();
+	viewsForScrollView.push(loginOnBoarding4View);
 	
 	var scrollView = Titanium.UI.createScrollableView({
 		views:viewsForScrollView,
@@ -26,6 +37,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		height: '100%',
 		showPagingControl:false,
 		currentPage:0,
+		disableBounce: true,
 		zIndex: 0,
 	});
 	
@@ -33,21 +45,12 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	pagingControl.top = 370;
 	self.add(pagingControl); 
 	self.add(scrollView);
-	
-	var neverPostToFb = Ti.UI.createLabel({
-		text: L('We never post to Facebook'),
-		color: '#ffffff',
-		center: {x: '50%', y:394},
-		font:{fontSize:13},
-		zIndex: 2
-	});
-	self.add(neverPostToFb);
-	
+
 	var fbButton = Ti.UI.createButton({
 		backgroundImage: 'images/onboarding-facebook-btn.png',
 		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
 		backgroundFocusedImage: 'images/onboarding-facebook-btn-active.png',
-		center: {x:'50%', y:428}, //x:67
+		center: {x:'50%', y:414}, //y: 428
 		width: 250, 
 		height: 45,
 		zIndex: 0,
@@ -56,7 +59,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var fbButtonText = Ti.UI.createLabel({
 		text: L('Connect Privately'),
 		color: '#ffffff',
-		center: {x: '53%', y:427},
+		center: {x: '53%', y:413},
 		font:{fontWeight:'bold',fontSize:16},
 		shadowColor: '#3d4d67',
 		shadowOffset: {x:0,y:-1},
@@ -64,14 +67,24 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	});
 	self.add(fbButton);
 	self.add(fbButtonText);
-	
-	fbButton.addEventListener('touchstart', function() {
-		fbButtonText.color = '#888888';
+
+/*
+	var lockImage = Ti.UI.createImageView({
+		image: 'images/private-lock.png',
+		center: {x:70, y:445}, 
+		zIndex: 10,
 	});
-	
-	fbButton.addEventListener('touchend', function() {
-		fbButtonText.color = '#ffffff';
+	self.add(lockImage);
+*/
+	var neverPostToFb = Ti.UI.createLabel({
+		text: '100% confidential. We never post to Facebook',
+		color: '#ffffff',
+		center: {x:'50%', y:445},
+		font:{fontSize:12},
+		zIndex: 3,
+		//left: 82, color: '#898c81',
 	});
+	self.add(neverPostToFb);
 	
 	//FUNCTIONS CALLBACK
 	function successNotifCallback(e) {
@@ -119,16 +132,17 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		Debug.debug_print(message);	
 	}	
 
+	var newConnectFlag = true;
 	function facebookAuthenCallback(e) {
 		if (e.success) {
-			Ti.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
+			Titanium.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
 					
 			        var sendingObj = {}; 
 			        
-			        sendingObj.userFbId = Ti.Facebook.uid;
-			        sendingObj.fbAuthToken = Ti.Facebook.accessToken;
+			        sendingObj.userFbId =  Titanium.Facebook.uid;
+			        sendingObj.fbAuthToken = Titanium.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "";
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
@@ -139,42 +153,45 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
 			        
-			        BackendUser.connectToServer(sendingObj, function(_userLogin) {
-			        	Ti.App.Flurry.age = parseInt(_userLogin.content.general.age);
-						Ti.App.Flurry.userID = _userLogin.meta.user_id;
-						if(_userLogin.content.general.gender === "female") {
-							Ti.App.Flurry.gender = 'f';
-						} else {
-							Ti.App.Flurry.gender = 'm';
-						}
-						 	
-			        	// check the result data whether it is a new user or existing one
-			        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
-			        	var CreditSystem = require('internal_libs/creditSystem');
-			        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
-			        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-			        	//if(true) {
-			        	if(_userLogin.content.user_status === "new_user") {
-			        		Ti.App.Flurry.logEvent('signupCompleted');
-			        		Ti.API.info('***NEW USER****');
-							//this will go to onboarding step 1
-							
-							var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
-							var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id));
-							navGroup.open(onBoardingStep1Window);
-			        	} else {
-			        		Ti.App.Flurry.logEvent('loginSucceeded');
-			        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
-			        		var currentUserId = parseInt(_userLogin.meta.user_id); 
-							var currentUserImage = _userLogin.content.pictures[0].src;
-							var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
-							mainApp.open();
-							mainApp.unhideCoverView();
-							self.close();
-			        	}
-			        });
-					
+			        if(newConnectFlag) {
+			        	newConnectFlag = false;
+				        BackendUser.connectToServer(sendingObj, function(_userLogin) {
+				        	Ti.App.Flurry.age = parseInt(_userLogin.content.general.age);
+							Ti.App.Flurry.userID = _userLogin.meta.user_id;
+							if(_userLogin.content.general.gender === "female") {
+								Ti.App.Flurry.gender = 'f';
+							} else {
+								Ti.App.Flurry.gender = 'm';
+							}
+							 	
+				        	// check the result data whether it is a new user or existing one
+				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
+				        	var CreditSystem = require('internal_libs/creditSystem');
+				        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
+				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
+				        	//if(true) {
+				        	if(_userLogin.content.user_status === "new_user") {
+				        		Ti.App.Flurry.logEvent('signupCompleted');
+				        		Ti.API.info('***NEW USER****');
+								//this will go to onboarding step 1
+								
+								var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
+								var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id));
+								navGroup.open(onBoardingStep1Window);
+				        	} else {
+				        		Ti.App.Flurry.logEvent('loginSucceeded');
+				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
+				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
+								var currentUserImage = _userLogin.content.pictures[0].src;
+								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
+								mainApp.open();
+								mainApp.unhideCoverView();
+								self.close();
+				        	}
+				        	newConnectFlag = true;
+				        });
+			        }
 				} else if (e.error) {
 					Debug.debug_print('cannot request GraphPath: '+ JSON.stringify(e));		
 				} else {
@@ -204,18 +221,18 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		});
 	}
 
-	Ti.Facebook.addEventListener('login', facebookAuthenCallback);
+	Titanium.Facebook.addEventListener('login', facebookAuthenCallback);
 
 	fbButton.addEventListener('click', function() {
-		if(!Ti.Facebook.loggedIn) {
-			Ti.Facebook.authorize();
+		if(!Titanium.Facebook.loggedIn) {
+			Titanium.Facebook.authorize();
 		} else { //if already logged in, but somehow land in this page, just fire the event
-			Ti.Facebook.fireEvent('login',{success:true});
+			Titanium.Facebook.fireEvent('login',{success:true});
 		}
 	});
 	
 	self.addEventListener('close', function() {
-		Ti.Facebook.removeEventListener('login', facebookAuthenCallback);
+		Titanium.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});
 	
 	self.setNavGroup = function(_navigationGroup) {

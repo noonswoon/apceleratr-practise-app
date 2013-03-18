@@ -2,11 +2,11 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.noonswoon.launch</id>
     <name>Noonswoon</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <publisher>Noonswoon Inc.</publisher>
     <url>http://noonswoon.com</url>
     <description>Find the One!</description>
-    <copyright>2013 by noonswoon</copyright>
+    <copyright>2013 by Noonswoon, Inc</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
@@ -57,5 +57,5 @@
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>3.0.2.GA</sdk-version>
+    <sdk-version>3.0.0.GA</sdk-version>
 </ti:app>

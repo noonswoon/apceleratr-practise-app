@@ -15,11 +15,12 @@ LoginOnBoarding3View = function() {
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},
 		zIndex:3,
-		shadowColor: '#ffffff',
+		shadowColor: '#ffffff', 
 		shadowOffset: {x:0, y:1},
 	});
 	self.add(description);
 	
 	return self;
 };
+
 module.exports = LoginOnBoarding3View;
