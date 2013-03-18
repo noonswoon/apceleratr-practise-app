@@ -171,7 +171,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var inviteCompletedCallback = function(e) {
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		//iterate to remove the table view row	
-		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
 			var targetedRow = -1;			
 			for(var j = 0; j < facebookFriendTableView.data[0].rowCount; j++) {
@@ -182,23 +181,11 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				}
 			}
 			facebookFriendTableView.deleteRow(targetedRow);	
-			topupAmount += 2;
 		}
-		
-		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		
 		//need to record who already got invited to the local db
 		
-		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
-			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
-			else Ti.API.info('saveInvitePeople from fb failed');
-		});
-		
 		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
-			Ti.App.Flurry.logEvent('invite-number-invites', { numberInvites: e.inviteeList.length});
-			BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
-				CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-			});
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
 			Ti.App.Flurry.logEvent('after-signup-onboard-2-number-invites', { numberInvites: e.inviteeList.length});

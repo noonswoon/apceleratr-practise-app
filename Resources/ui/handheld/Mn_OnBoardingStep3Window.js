@@ -36,19 +36,25 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	});
 	self.add(description2Lbl);
 	
-	var buttton = Ti.UI.createButton({
-		title: L('Done'),
+	var button = Ti.UI.createButton({
+		width: 250, 
+		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
+	});
+	
+	var buttonText = Ti.UI.createLabel({
+		text: L('Done'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
-		width: 250, 
-		height: 50
-	})
-	self.add(buttton);
+		center: {x:'50%', y:'50%'}
+	});
+	button.add(buttonText);
 	
-	buttton.addEventListener('click', function() {
+	self.add(button);
+	
+	button.addEventListener('click', function() {
 		var BackendUser = require('backend_libs/backendUser');
 		var CreditSystem = require('internal_libs/creditSystem');
 		var ModelFacebookLike = require('model/facebookLike');

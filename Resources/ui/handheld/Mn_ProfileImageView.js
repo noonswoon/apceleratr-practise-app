@@ -139,11 +139,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		if(_state === "like") {
 			likeButton.backgroundImage = 'images/like-button-active.png';
 			notificationImageUrl = 'images/notification-liked.png';
-			textOnImageLbl.text = L("Like");
+			textOnImageLbl.text = L("Liked");
 		} else {
 			passButton.backgroundImage = 'images/pass-button-active.png';
 			notificationImageUrl = 'images/notification-passed.png';
-			textOnImageLbl.text = L("Pass");
+			textOnImageLbl.text = L("Passed");
 		}
 		
 		var notificationImage = Ti.UI.createImageView({
@@ -174,11 +174,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				});
 				notEnoughCreditsDialog.show();
 			} else {				
-				//send off the point deductions to server
-				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-				});
-					
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
@@ -187,6 +182,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					} else Ti.API.info('save response (like) failed');
 				});
 				setSelectedState("like");
+
+				//send off the point deductions to server
+				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
+					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+				});				
 			}
 		}
 	});

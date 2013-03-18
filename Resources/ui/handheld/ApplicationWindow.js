@@ -1,16 +1,19 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId, _userImage) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
-	var TimerViewModule = require('ui/handheld/Mn_TimerView');
-	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');
-	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
+	var BackendInvite = require('backend_libs/backendInvite');
+	var BackendCredit = require('backend_libs/backendCredit');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
-	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
-	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
+	var CreditSystem = require('internal_libs/creditSystem');
+	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');	
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
+	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');	
+	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
+	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
-	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');
-	
+	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
+
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -133,6 +136,27 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 
+	var inviteCompletedCallback = function(e) {
+		Ti.API.info('in inviteCompletedCallback...');
+		Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
+		var topupAmount = 0;
+		for(var i = 0; i < e.inviteeList.length; i++) {
+			topupAmount += 2;
+		}
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
+		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
+		
+		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
+			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
+			else Ti.API.info('saveInvitePeople from fb failed');
+		});
+		
+		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
+			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+		});
+	};
+	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
+	
 	//main match page
 	var matchWindow = new MatchWindowModule(_userId, null);
 	matchWindow.leftNavButton = toggleLeftMenuBtn;
@@ -222,6 +246,7 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
+		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);

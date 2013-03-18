@@ -6,7 +6,7 @@
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
 	<string name="Invite friends, get credits">ชวนเพื่อนคนโสดมาใช้ และรับเครดิต</string>
 	<string name="Chat with your matches">แชทกับ match ของคุณ</string>
-	<string name="We never post to Facebook">เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
+	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
 	<string name="Connect Privately">เชื่อมต่อด้วยความเป็นส่วนตัว</string>
 	<string name="Message from...">ข้อความจาก...</string>
 	<string name="Personalize">สร้างโปรไฟล์</string>
@@ -114,7 +114,11 @@
 	<string name="DONE">DONE</string>
 			
 	<string name="Like">ถูกใจ</string>
+	<string name="Liked">ถูกใจ</string>
+		
 	<string name="Pass">ผ่าน</string>
+	<string name="Passed">ผ่าน</string>
+	
 	<string name="You need 10 credits to \'Like\' a person. Invite more friends to get more credits.">คุณต้องมีอย่างน้อย 10 เครดิต เพื่อ \'ถูกใจ\' ชวนเพื่อนคนโสดของคุณเพื่อรับเครดิตเพิ่ม</string>
 	
 	<string name="Report profile">แจ้งโปรไฟล์นี้ไม่เหมาะสม</string>

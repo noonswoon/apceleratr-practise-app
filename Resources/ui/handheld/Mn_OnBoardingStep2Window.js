@@ -46,15 +46,21 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description3Lbl);
 	
 	var button = Ti.UI.createButton({
-		title: String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")),
+		width: 250, 
+		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
+	});
+	
+	var buttonText = Ti.UI.createLabel({
+		text: String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
-		width: 250, 
-		height: 50
-	})
+		center: {x:'50%', y:'50%'}
+	});
+	button.add(buttonText);
+	
 	self.add(button);
 	
 	button.addEventListener('click', function() {

@@ -103,7 +103,7 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		text: femaleFriendPercent + '%',
 		left: (127 - femaleBarLength - 11 - 5 - 31), //starting point is 126..need to offset to the left by minus the lenght of the bar
 		top: 40,
-		color: '#fa7dcf',
+		color: '#f8989f',
 		font: {fontSize: 14, fontWeight: 'bold'},
 	});
 	tableRow.add(femalePercent);
@@ -129,7 +129,7 @@ FriendRatioTableViewRow = function(_fieldName, _content) {
 		text: maleFriendPercent + '%',
 		left: (194 + maleBarLength + 5 + 11 + 2),  //(194 + maleBarLength + 5) => position of icon, +11 width of icon, + 5 spacing
 		top: 40,
-		color: '#6cbdf0',
+		color: '#53bfe8',
 		font: {fontSize: 14, fontWeight: 'bold'},
 	});
 	tableRow.add(malePercent);

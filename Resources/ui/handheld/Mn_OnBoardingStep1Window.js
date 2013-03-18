@@ -39,19 +39,25 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	});
 	self.add(description2Lbl);
 	
-	var viewProfileBtn = Ti.UI.createButton({
-		title: L('View my profile'),
+	var viewProfileButton = Ti.UI.createButton({
+		width: 250, 
+		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
+	})
+	
+	var viewProfileButtonText = Ti.UI.createLabel({
+		text: L('View my profile'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
-		width: 250, 
-		height: 50
-	})
-	self.add(viewProfileBtn);
+		center: {x:'50%', y:'50%'}
+	});
+	viewProfileButton.add(viewProfileButtonText);
 	
-	viewProfileBtn.addEventListener('click', function() {
+	self.add(viewProfileButton);
+	
+	viewProfileButton.addEventListener('click', function() {
 		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, true);
 		editProfileWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
 											modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
