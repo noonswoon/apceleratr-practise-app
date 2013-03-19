@@ -10,8 +10,15 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		left: 0,
 		navBarHidden: true,
 		barImage: 'images/top-bar-stretchable.png',
-		backgroundImage: 'images/post-onboarding-1.png'
 	});
+	
+	var backgroundView = Ti.UI.createImageView({
+		image: 'images/post-onboarding-1.png',
+		top: 0,
+		left: 0,
+		zIndex: 1,
+	});
+	self.add(backgroundView);
 				
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
@@ -19,6 +26,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
+		zIndex: 2,
 	});
 	self.add(headlineLbl); 
 	
@@ -28,6 +36,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
+		zIndex: 2,
 	});
 	self.add(description1Lbl);
 	
@@ -36,6 +45,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
+		zIndex: 2,
 	});
 	self.add(description2Lbl);
 	
@@ -45,13 +55,15 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
+		zIndex: 2,
 	})
 	
 	var viewProfileButtonText = Ti.UI.createLabel({
 		text: L('View my profile'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
-		center: {x:'50%', y:'50%'}
+		center: {x:'50%', y:'50%'},
+		zIndex: 2,
 	});
 	viewProfileButton.add(viewProfileButtonText);
 	
