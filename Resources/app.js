@@ -25,7 +25,11 @@ Ti.App.ACTUAL_FB_INVITE = true;
 Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+Titanium.Facebook.forceDialogAuth = false;
 Titanium.Facebook.appid = "492444750818688";
+Titanium.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
+							'user_religion_politics', 'user_work_history', 'user_photos', 
+							'user_about_me', 'friends_location', 'friends_relationships'];
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
@@ -46,11 +50,6 @@ if(Ti.App.IS_PRODUCTION_BUILD) {
 Ti.App.CACHE_TIMEOUT = 1;
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
-
-Titanium.Facebook.permissions = [	'email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
-							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships'];
-Titanium.Facebook.setForceDialogAuth(false); //fb sso not working on actual device
 
 //include require
 if(Ti.Platform.osname == 'iphone') {

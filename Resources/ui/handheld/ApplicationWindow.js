@@ -247,14 +247,14 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
-		Ti.Facebook.removeEventListener('logout', facebookLogoutCallback); 
+		Titanium.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);
 	
 	var facebookLogoutCallback = function() {
 		self.close();
 	};
-	Ti.Facebook.addEventListener('logout', facebookLogoutCallback);
+	Titanium.Facebook.addEventListener('logout', facebookLogoutCallback);
 	self.add(navigationGroup);
 				
 	return self;

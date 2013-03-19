@@ -68,6 +68,12 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(fbButton);
 	self.add(fbButtonText);
 
+/*	TESTING SSO HERE!!!!
+	self.add(Titanium.Facebook.createLoginButton({
+		style:Ti.Facebook.BUTTON_STYLE_WIDE,
+		bottom:10
+	}));
+*/	
 /*
 	var lockImage = Ti.UI.createImageView({
 		image: 'images/private-lock.png',
@@ -77,7 +83,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(lockImage);
 */
 	var neverPostToFb = Ti.UI.createLabel({
-		text: '100% confidential. We never post to Facebook',
+		text: L('100% confidential. We never post to Facebook'),
 		color: '#ffffff',
 		center: {x:'50%', y:445},
 		font:{fontSize:12},

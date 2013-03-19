@@ -5,7 +5,7 @@
 	<string name="Find the One">หาคนพิเศษคนนั้นของคุณ</string>
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
 	<string name="Invite friends, get credits">ชวนเพื่อนคนโสดมาใช้ และรับเครดิต</string>
-	<string name="Chat with your matches">แชทกับ match ของคุณ</string>
+	<string name="Chat with your match">แชทกับ match ของคุณ</string>
 	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
 	<string name="Connect Privately">เชื่อมต่อด้วยความเป็นส่วนตัว</string>
 	<string name="Message from...">ข้อความจาก...</string>
@@ -66,8 +66,8 @@
 	<string name="High school">มัธยมศึกษา</string>
 		
 	<string name="A problem occurred">มีปัญหาเกิดขึ้น</string>
-	<string name="Retry">Retry</string>
-	<string name="Contact support">Contact support</string>
+	<string name="Retry">ลองอีกครั้ง</string>
+	<string name="Contact support">แจ้งปัญหา</string>
 	<string name="Noonswoon Support">Noonswoon Support</string>
 	<string name="\n\n\nPlease let us know what went wrong with an app">\n\n\nกรุณาบอกว่าแอพพลิเคชั่นผิดพลาดอย่างไร</string>
 

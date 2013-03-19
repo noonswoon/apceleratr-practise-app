@@ -145,7 +145,7 @@ Ti.App.Chat = function(_chatParams) {
 							var curChatRow = newChatRow;
 							setTimeout(function() {
 					    		curChatRow.appear();
-							}, 500);
+							}, 100);
 						})();
 					}
 				}			
@@ -202,7 +202,7 @@ Ti.App.Chat = function(_chatParams) {
 				var curChatRow = newChatRow;
 				setTimeout(function() {
 					curChatRow.appear();
-				}, 500);
+				}, 100);
 			})();
 		}
 		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
@@ -273,7 +273,7 @@ Ti.App.Chat = function(_chatParams) {
 				   			
 	           	   	setTimeout(function() {
 	           	   		newChatRow.appear();	           	   		
-					}, 500);
+					}, 100);
 	           	}
 	        },
 	        error : function() {
@@ -488,7 +488,7 @@ Ti.App.Chat = function(_chatParams) {
 		chatInputTextField.height = 30;
 	});
 	
-    sendLabel.addEventListener('click', function() {
+    chatSendButtonCenter.addEventListener('click', function() {
 		if(chatInputTextField.value.trim() === "") {
 			chatInputTextField.value = "";
 			chatInputTextField.blur();
@@ -519,7 +519,7 @@ Ti.App.Chat = function(_chatParams) {
     		newChatRow.appear();
 			if(cartoonChatBackRow !== null)
 				cartoonChatBackRow.appear();
-		}, 500); 	
+		}, 100); 	
     });
 	
 	profileButton.addEventListener('click', function() {
