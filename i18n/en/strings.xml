@@ -68,8 +68,8 @@
 	<string name="A problem occurred">A problem occurred</string>
 	<string name="Retry">Retry</string>
 	<string name="Contact support">Contact support</string>
-	<string name="Noonswoon Assistant">Noonswoon Assistant</string>
-	<string name="Please let us know what went wrong with an app">Please let us know what went wrong with an app</string>
+	<string name="Noonswoon Support">Noonswoon Support</string>
+	<string name="\n\n\nPlease let us know what went wrong with an app">\n\n\nPlease let us know what went wrong with an app</string>
 
 	<string name="Facebook Photos">Facebook Photos</string>
 

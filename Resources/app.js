@@ -294,7 +294,7 @@ if (Ti.version < 1.8 ) {
 		if(e.meta.string_to_display !== undefined)
 			displayError = e.meta.string_to_display;
 
-		errorWindow = new ErrorWindowModule(displayError);
+		errorWindow = new ErrorWindowModule(displayError, currentUserId);
 		errorWindow.open();
 	});
 			

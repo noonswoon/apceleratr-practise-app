@@ -14,7 +14,7 @@
 	Ti.API.info('after update: '+JSON.stringify(dummy));
 **/
 var db = Ti.Database.open(Ti.App.DATABASE_NAME);
-db.execute('CREATE TABLE IF NOT EXISTS FacebookFriend(Id INTEGER PRIMARY KEY, FacebookId TEXT, Name TEXT, PictureUrl TEXT, City TEXT, IsInvited INTEGER, ClosenessScore INTEGER);');
+db.execute('CREATE TABLE IF NOT EXISTS FacebookFriend(Id INTEGER PRIMARY KEY, FacebookId TEXT, Name TEXT, Sex TEXT, PictureUrl TEXT, City TEXT, IsInvited INTEGER, ClosenessScore INTEGER);');
 db.close();
 
 // MY CHECKIN PART
@@ -41,8 +41,14 @@ exports.populateFacebookFriend = function(_friendsCollection) {
 	for(var i = 0; i < _friendsCollection.length; i++) {
 
 		var curFriend = _friendsCollection[i];
-		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,0,0)";
-		db.execute(insertString, curFriend.uid+"", curFriend.name, curFriend.pic_square, curFriend.city); //+"" for converting long to str
+		var curFriendSex = curFriend.sex; 
+		var closenessScore = 0;
+		if(curFriendSex === 'female') {
+			closenessScore = 2;
+		}
+		
+		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, Sex, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,?,0,?)";
+		db.execute(insertString, curFriend.uid+"", curFriend.name, curFriendSex, curFriend.pic_square, curFriend.city, closenessScore); //+"" for converting long to str
 	}
 	db.close();
 //	Ti.App.fireEvent('ethnicitiesLoaded');	

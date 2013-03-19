@@ -1,4 +1,4 @@
-ErrorWindow = function(_errorMessage) {
+ErrorWindow = function(_errorMessage, _userId) {
 	
 	Ti.App.Flurry.logEvent('error-screen');
 	
@@ -56,7 +56,7 @@ ErrorWindow = function(_errorMessage) {
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
 		text: L('Retry'),
-		center: {x:'56%', y:'63%'}, //x:88
+		center: {x:'56%', y:'60%'}, //x:88
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:18},
 	});
@@ -65,7 +65,7 @@ ErrorWindow = function(_errorMessage) {
 		image: 'images/error/error-retry.png',
 		width: 16, 
 		height: 15,
-		center: {x:'44%', y:'63%'}, //x:88
+		center: {x:'44%', y:'60%'}, //x:88
 	});
 	
 	var contactButton = Ti.UI.createButton({
@@ -86,9 +86,9 @@ ErrorWindow = function(_errorMessage) {
 	
 	contactButton.addEventListener('click', function() {
 		var emailDialog = Ti.UI.createEmailDialog()
-		emailDialog.subject = L("Noonswoon Assistant");
-		emailDialog.toRecipients = ['sorry@noonswoon.com'];
-		emailDialog.messageBody = L('Please let us know what went wrong with an app');
+		emailDialog.subject = L("Noonswoon Support");
+		emailDialog.toRecipients = ['support@noonswoon.com'];
+		emailDialog.messageBody = L('\n\n\nPlease let us know what went wrong with an app') + ' (UserId: '+_userId + ').';
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
