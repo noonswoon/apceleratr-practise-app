@@ -1,13 +1,8 @@
-var APP_STORE_OR_AD_HOC_BUILD = false;
-var URBAN_AIRSHIP_APP_DEV_KEY = "-iH8x1gCSA-myDRSkHtW1A";
-var URBAN_AIRSHIP_APP_DEV_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
-var URBAN_AIRSHIP_APP_PROD_KEY = "";
-var URBAN_AIRSHIP_APP_PROD_SECRET = "";
 var MY_DEVICE_TOKEN_SYM = 'myDeviceToken';
 
 var getDeviceToken = function() {
 	if(!Ti.App.IS_ON_DEVICE)
-		return "82DFA37CD520A0CBF2EF92A2138550AE88829C08EC01DE2109FE61FC3ADE82D5";
+		return "";
 	else {
 		var deviceToken = "";
 		if(Ti.App.Properties.hasProperty(MY_DEVICE_TOKEN_SYM)) {
@@ -25,8 +20,8 @@ exports.setDeviceToken = setDeviceToken;
 
 var getAppKey = function() {
 	var appKey = "";
-	if(APP_STORE_OR_AD_HOC_BUILD)  appKey = URBAN_AIRSHIP_APP_PROD_KEY;
-	else appKey = URBAN_AIRSHIP_APP_DEV_KEY;
+	if(Ti.App.IS_PRODUCTION_BUILD)  appKey = Ti.App.URBAN_AIRSHIP_APP_KEY;
+	else appKey = Ti.App.URBAN_AIRSHIP_APP_KEY;
 	//alert('appKey: '+appKey);
 	return appKey;
 }
@@ -34,8 +29,8 @@ exports.getAppKey = getAppKey;
 
 var getAppSecret = function() {
 	var appSecret = "";
-	if(APP_STORE_OR_AD_HOC_BUILD)  appSecret = URBAN_AIRSHIP_APP_PROD_SECRET;
-	else appSecret = URBAN_AIRSHIP_APP_DEV_SECRET;
+	if(Ti.App.IS_PRODUCTION_BUILD)  appSecret = Ti.App.URBAN_AIRSHIP_APP_SECRET;
+	else appSecret = Ti.App.URBAN_AIRSHIP_APP_SECRET;
 	return appSecret;
 };
 exports.getAppSecret = getAppSecret;
@@ -61,7 +56,7 @@ var registerDeviceToken = function(_deviceToken) {
 	
 	var registerParameters = {
 	    "tags": [
-	        "v0_1",
+	        "v1_1",
 	        "beta"
 	    ],
 	    "badge": 0,

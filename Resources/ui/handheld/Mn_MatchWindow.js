@@ -205,18 +205,33 @@ MatchWindow = function(_userId, _matchId) {
 			hidePreloader(self);
 		});
 	}
-
+	
 	var closeCallback = function() {
 		Ti.App.Flurry.endTimedEvent('main-match-window');
 		Ti.App.removeEventListener('close', closeCallback);	
 	};
+	self.addEventListener('close', closeCallback);	
 	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
 	};
 	
-	self.addEventListener('close', closeCallback);
-		
+	self.reloadMatch = function() {
+		if(_matchId === null) {
+			showPreloader(self, L('Loading...'));
+			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+				populateMatchDataTableView(_matchInfo);
+				hidePreloader(self);
+			}); 
+		} else {
+			showPreloader(self, L('Loading...'));
+			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
+				populateMatchDataTableView(_matchInfo);
+				hidePreloader(self);
+			});
+		}
+	};
+
 	return self;
 };
 

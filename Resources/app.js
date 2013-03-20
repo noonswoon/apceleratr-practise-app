@@ -22,29 +22,32 @@ Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
-Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
-Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
-Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-Titanium.Facebook.forceDialogAuth = false;
-Titanium.Facebook.appid = "492444750818688";
-Titanium.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
+Ti.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
 							'user_religion_politics', 'user_work_history', 'user_photos', 
 							'user_about_me', 'friends_location', 'friends_relationships'];
+Ti.Facebook.forceDialogAuth = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
-
 Ti.App.NUM_TOP_FRIENDS = 5; 
+Ti.App.NUM_INVITE_ALL = 5;
 
-Ti.App.NUM_INVITE_ALL = 10;
-
-if(Ti.App.IS_PRODUCTION_BUILD) {
+if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-	Titanium.Facebook.appid = "132344853587370";
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
+	Ti.Facebook.appid = "132344853587370";
+} else {
+	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
+	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
+	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
+	Ti.Facebook.appid = "492444750818688";
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
@@ -260,7 +263,7 @@ if (Ti.version < 1.8 ) {
 			if(Ti.App.Properties.hasProperty('invitesSignup')) {
 				Ti.App.NUM_INVITE_ALL = Ti.App.Properties.getInt('invitesSignup');			
 			} else {
-				Ti.App.NUM_INVITE_ALL = 10;
+				Ti.App.NUM_INVITE_ALL = 5;
 			}
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 			Ti.App.fireEvent('doneWaitingEvent');

@@ -163,6 +163,12 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
 	
+	var resumeCallback = function() {
+		matchWindow.reloadMatch(); //refresh the content of the match
+		rightMenu.reloadConnections();
+	};
+	Ti.App.addEventListener('resume', resumeCallback); 
+	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	//window: dummyOnBoard,
 	  	window: matchWindow,
@@ -247,6 +253,7 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
+		Ti.App.removeEventListener('resume', resumeCallback); 
 		Titanium.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);

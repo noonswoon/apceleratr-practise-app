@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
+    <deployment-targets>
+        <target device="mobileweb">false</target>
+        <target device="iphone">true</target>
+        <target device="ipad">false</target>
+        <target device="android">true</target>
+        <target device="blackberry">false</target>
+    </deployment-targets>
+    <sdk-version>3.0.0.GA</sdk-version>
+    <property name="ti.android.threadstacksize" type="int">327680</property>
     <id>com.noonswoon.launch</id>
     <name>Noonswoon</name>
     <version>1.0.1</version>
@@ -9,35 +18,21 @@
     <copyright>2013 by Noonswoon, Inc</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
-    <prerendered-icon>false</prerendered-icon>
-    <statusbar-style>default</statusbar-style>
+    <prerendered-icon>true</prerendered-icon>
+    <statusbar-style>opaque</statusbar-style>
     <statusbar-hidden>false</statusbar-hidden>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
     <guid>73d419b0-00f6-4aeb-bdec-1770a1f2b52e</guid>
-    <property name="ti.ui.defaultunit" type="string">system</property>
     <property name="ti.facebook.appid">132344853587370</property>
-    <ios>
-        <plist>
-            <dict>
-                <key>UIAppFonts</key>
-                <array>
-                    <string>/fonts/Harabara.ttf</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <true/>
-                <key>UIStatusBarStyle</key>
-                <string>UIStatusBarStyleBlackTranslucent</string>
-                <key>UIApplicationExitsOnSuspend</key>
-                <true/>
-                <key>UISupportedInterfaceOrientations</key>
-                <array>
-                    <string>UIInterfaceOrientationPortrait</string>
-                </array>
-            </dict>
-        </plist>
-    </ios>
+    <property name="ti.ui.defaultunit">system</property>
+	<iphone>
+        <orientations device="iphone">
+            <orientation>Ti.UI.PORTRAIT</orientation>
+        </orientations>
+    </iphone>
+
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <mobileweb>
         <precache/>
@@ -50,12 +45,4 @@
     <modules>
         <module platform="iphone" version="1.3.0">ti.flurry</module>
     </modules>
-    <deployment-targets>
-        <target device="blackberry">false</target>
-        <target device="android">true</target>
-        <target device="ipad">false</target>
-        <target device="iphone">true</target>
-        <target device="mobileweb">false</target>
-    </deployment-targets>
-    <sdk-version>3.0.0.GA</sdk-version>
 </ti:app>

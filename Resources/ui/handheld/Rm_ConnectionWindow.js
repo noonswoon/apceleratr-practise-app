@@ -67,6 +67,19 @@ ConnectionWindow = function(_userId) {
 		editable: true
 	});	
 	
+	var loadConnectedMatches = function() {
+		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
+			connectionTableData = []; //reset table data
+			var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+			for(var i = 0; i < connectedMatches.length; i++) {
+				var curConnect = connectedMatches[i];
+				var personRow = new ConnectionTableViewRow(_userId, curConnect);
+				connectionTableData.push(personRow);
+			}
+			connectionTableView.setData(connectionTableData);
+		});	
+	};
+	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
 		//Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
@@ -78,16 +91,7 @@ ConnectionWindow = function(_userId) {
 		});
 	});
 	
-	BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
-		connectionTableData = []; //reset table data
-		connectedMatches = _connectedMatchInfo.content.connected_matches; 
-		for(var i = 0; i < connectedMatches.length; i++) {
-			var curConnect = connectedMatches[i];
-			var personRow = new ConnectionTableViewRow(_userId, curConnect);
-			connectionTableData.push(personRow);
-		}
-		connectionTableView.setData(connectionTableData);
-	});
+	loadConnectedMatches();
 	
 	// add delete event listener
 	connectionTableView.addEventListener('delete',function(e) {
@@ -111,6 +115,10 @@ ConnectionWindow = function(_userId) {
 	
 	self.unhideCoverView = function() {
 		self.remove(coverView);
+	};
+	
+	self.reloadConnections = function() {
+		loadConnectedMatches();
 	};
 	
 	return self;
