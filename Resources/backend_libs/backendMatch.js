@@ -11,8 +11,10 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
 					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
@@ -22,6 +24,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					} else {
 						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
 					}
+					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {
@@ -50,8 +53,10 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
@@ -61,6 +66,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 					} else {
 						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
 					}
+					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {

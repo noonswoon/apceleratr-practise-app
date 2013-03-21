@@ -169,7 +169,6 @@ MatchWindow = function(_userId, _matchId) {
 		
 		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
 		if(fbLikeCollection.length > 0) {
-			Ti.API.info('fbLikeCollection: '+fbLikeCollection.length);
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
 			data.push(fbLikeTableViewRow);
 		}
@@ -195,13 +194,15 @@ MatchWindow = function(_userId, _matchId) {
 	if(_matchId === null) {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-			populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success)
+				populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
 		});	
 	} else {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-			populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success)
+				populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
 		});
 	}
@@ -218,15 +219,17 @@ MatchWindow = function(_userId, _matchId) {
 	
 	self.reloadMatch = function() {
 		if(_matchId === null) {
-			showPreloader(self, L('Loading...'));
+			showPreloader(self, L('Loading...'));		
 			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-				populateMatchDataTableView(_matchInfo);
+				if(_matchInfo.success)
+					populateMatchDataTableView(_matchInfo);
 				hidePreloader(self);
 			}); 
 		} else {
-			showPreloader(self, L('Loading...'));
+			showPreloader(self, L('Loading...'));		
 			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-				populateMatchDataTableView(_matchInfo);
+				if(_matchInfo.success)
+					populateMatchDataTableView(_matchInfo);
 				hidePreloader(self);
 			});
 		}
