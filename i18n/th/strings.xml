@@ -3,11 +3,17 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">ขอต้อนรับเข้าสู่</string>
 	<string name="Find the One">หาคนพิเศษคนนั้นของคุณ</string>
+	
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
+	<string name="Like or Pass your match">ถูกใจหรือผ่าน match ของคุณ</string>	
+	<string name="Get connected">สร้าง connection</string>		
+	<string name="if you like each other">เมื่อถูกใจกันทั้งสองฝ่าย</string>
+	<string name="Chat anonymously">แชทโดยไม่เปิดเผยข้อมูลส่วนตัว</string>
 	<string name="Invite friends, get credits">ชวนเพื่อนคนโสดมาใช้ และรับเครดิต</string>
-	<string name="Chat with your match">แชทกับ match ของคุณ</string>
-	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
+	
 	<string name="Connect Privately">เชื่อมต่อด้วยความเป็นส่วนตัว</string>
+	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
+	
 	<string name="Message from...">ข้อความจาก...</string>
 	<string name="Personalize">สร้างโปรไฟล์</string>
 	<string name="View and edit your profile">ตรวจสอบและแก้ไขโปรไฟล์ของคุณ</string>
@@ -93,12 +99,12 @@
 	<string name="Not enough credits">มีเครดิตไม่พอ</string>
 	<string name="Get credits by inviting your friends to Noonswoon!">รับเครดิตเพื่อนโดยการชวนเพื่อนคนโสดมาใช้ Noonswoon!</string>
 	<string name="Ok">ตกลง</string>
-	<string name="Reveal Mutual Friends">เปิดเผยว่าใครเป็นเพื่อนของเพื่อน</string>
-	<string name="5 credits will be deducted from your account for this action">คุณจะต้องใช้ 5 เครดิตในการกระทำนี้</string>
-	<string name="Use credits">ใช้เครดิต</string>
+	<string name="Reveal Mutual Friends">เปิดเผยว่าใครเป็น mutual friends</string>
+	<string name="5 credits will be deducted">คุณจะต้องใช้ 5 เครดิต</string>
+	<string name="Reveal">เปิดเผย</string>
 	
 	<string name="No Internet Connection">ไม่มีอินเตอร์เน็ต</string>
-	<string name="There\'s no match today">วันนี้คุณไม่มี Match</string>
+	<string name="There is no match today">วันนี้คุณไม่มี Match</string>
 	<string name="Check back again at noon tomorrow">เข้ามาเช็คอีกครั้ง ในวันพรุ่งนี้ตอนเที่ยง</string>
 	<string name="Invite more friends">ชวนเพื่อนมาใช้</string>	
 	<string name="Notify Noonswoon">แจ้ง Noonswoon</string>
@@ -110,8 +116,8 @@
 
 	<string name="Save">บันทีก</string>
 
-	<string name="Done">Done</string>
-	<string name="DONE">DONE</string>
+	<string name="Done">เสร็จ</string>
+	<string name="DONE">เสร็จ</string>
 			
 	<string name="Like">ถูกใจ</string>
 	<string name="Liked">ถูกใจ</string>

@@ -3,11 +3,17 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">Welcome to</string>
 	<string name="Find the One">Find the One</string>
+
 	<string name="Get a new match every day">Get a new match every day</string>
-	<string name="Invite friends, get credits">Invite friends, get credits</string>
-	<string name="Chat with your match">Chat with your match</string>
+	<string name="Like or Pass your match">Like or Pass your match</string>	
+	<string name="Get connected">Get connected</string>		
+	<string name="if you like each other">if you like each other</string>
+	<string name="Chat anonymously">Chat anonymously</string>
+	<string name="Invite friends, get credits">Invite friends, get credits</string>	
+
+	<string name="Connect Privately">Connect Privately</string>	
 	<string name="100% confidential. We never post to Facebook">100% confidential. We never post to Facebook</string>
-	<string name="Connect Privately">Connect Privately</string>
+
 	<string name="Message from...">Message from...</string>
 	<string name="Personalize">Personalize</string>
 	<string name="View and edit your profile">View and edit your profile</string>
@@ -88,18 +94,17 @@
 	
 	<string name="s">s</string>
 	<string name="x mutual friend">%s mutual friend</string>		
+	<string name="Mutual Friends">Mutual Friends</string>
 	<string name="mutual friend">mutual friend</string>
 	<string name="Not enough credits">Not enough credits</string>
 	<string name="Get credits by inviting your friends to Noonswoon!">Get credits by inviting your friends to Noonswoon!</string>
 	<string name="Ok">Ok</string>
 	<string name="Reveal Mutual Friends">Reveal Mutual Friends</string>
-	<string name="5 credits will be deducted from your account for this action">5 credits will be deducted from your account for this action</string>
-	<string name="Use credits">Use credits</string>
-	
-	<string name="Mutual Friends">Mutual Friends</string>
+	<string name="5 credits will be deducted">5 credits will be deducted</string>
+	<string name="Reveal">Reveal</string>
 	
 	<string name="No Internet Connection">No Internet Connection</string>
-	<string name="There\'s no match today">There\'s no match today</string>
+	<string name="There is no match today">There is no match today</string>
 	<string name="Check back again at noon tomorrow">Check back again at noon tomorrow</string>
 	<string name="Invite more friends">Invite more friends</string>
 	<string name="Notify Noonswoon">Notify Noonswoon</string>
