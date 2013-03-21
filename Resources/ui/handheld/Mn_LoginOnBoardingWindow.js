@@ -29,6 +29,10 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var loginOnBoarding4View = new LoginOnBoarding4Module();
 	viewsForScrollView.push(loginOnBoarding4View);
 	
+	var LoginOnBoarding5Module = require('ui/handheld/Mn_LoginOnBoarding5View');
+	var loginOnBoarding5View = new LoginOnBoarding5Module();
+	viewsForScrollView.push(loginOnBoarding5View);
+	
 	var scrollView = Titanium.UI.createScrollableView({
 		views:viewsForScrollView,
 		left: 0,
@@ -141,6 +145,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var newConnectFlag = true;
 	function facebookAuthenCallback(e) {
 		if (e.success) {
+			showPreloader(self, L('Loading...'));
 			Titanium.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
@@ -196,6 +201,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 								self.close();
 				        	}
 				        	newConnectFlag = true;
+				        	hidePreloader(self);
 				        });
 			        }
 				} else if (e.error) {

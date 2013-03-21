@@ -52,13 +52,23 @@ NoMatchWindow = function() {
 		center: {x:'50%', y:'50%'}
 	});
 	inviteFriendsButton.add(inviteFriendsButtonText);
+	
+	var moreFriendsText = Ti.UI.createLabel({
+		text: L('You get better matches with more friends'),
+		color: '#919191',
+		center: {x:'50%', y:405},
+		font:{fontWeight:'bold',fontSize:12},
+		zIndex: 4,
+	});
+	self.add(moreFriendsText);
+	
 
 	inviteFriendsButton.addEventListener('click', function() {
 		Ti.App.fireEvent('openInviteFriendWindow', {toggle:false});
 	});
 	
 	self.add(inviteFriendsButton);
-	
+
 	return self;
 };
 

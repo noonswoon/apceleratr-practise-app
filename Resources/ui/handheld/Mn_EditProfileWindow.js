@@ -386,8 +386,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		}
 		
 		if(okToSave) {
-			if(Ti.Platform.osname === 'iphone')
+			if(Ti.Platform.osname === 'iphone') {
 				showPreloader(self,'Loading...');
+			}
 			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {

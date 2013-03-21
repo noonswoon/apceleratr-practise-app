@@ -88,7 +88,6 @@ function ApplicationWindow(_userId, _userImage) {
 	Ti.App.addEventListener('openProfileWindow', openProfileWindowCallback);
 
 	var openUserProfileWindowCallback = function(e) {
-		Ti.API.info('ApplicationWindow: listened to openUserProfileWindow event');
 		var targetedUserId = e.targetedUserId;
 		var userProfileWindow = new UserProfileWindowModule(navigationGroup, _userId, targetedUserId);
 		navigationGroup.open(userProfileWindow, {animated:false});
@@ -119,12 +118,13 @@ function ApplicationWindow(_userId, _userImage) {
 	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
 	//var dummyOnBoard = new TargetedModule('');
 		
+	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
-		var noMatchWindow = new NoMatchWindowModule(_userId);
+		var noMatchTimerView = new TimerViewModule();
+		noMatchWindow = new NoMatchWindowModule(navigationGroup);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
 		noMatchWindow.rightNavButton = toggleRightMenuBtn;
-		noMatchWindow.titleControl = timerView;
-		
+		noMatchWindow.titleControl = noMatchTimerView;
 		navigationGroup.open(noMatchWindow, {animated:false});
 	};
 	Ti.App.addEventListener('openNoMatchWindow', openNoMatchWindowCallback);
@@ -164,8 +164,13 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.titleControl = timerView;
 	
 	var resumeCallback = function() {
+		if(noMatchWindow !== null) {
+			navigationGroup.close(noMatchWindow, {animated:false});
+			noMatchWindow = null;
+		}
 		matchWindow.reloadMatch(); //refresh the content of the match
 		rightMenu.reloadConnections();
+		
 	};
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
