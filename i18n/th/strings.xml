@@ -3,6 +3,7 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">ขอต้อนรับเข้าสู่</string>
 	<string name="Find the One">หาคนพิเศษคนนั้นของคุณ</string>
+	<string name="tour ➜">ทัวร์ ➜</string>
 	
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
 	<string name="Like or Pass your match">ถูกใจหรือผ่าน match ของคุณ</string>	
@@ -15,20 +16,21 @@
 	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
 	
 	<string name="Message from...">ข้อความจาก...</string>
+	
 	<string name="Personalize">สร้างโปรไฟล์</string>
-	<string name="View and edit your profile">ตรวจสอบและแก้ไขโปรไฟล์ของคุณ</string>
-	<string name="and put yourself in the best light!"></string>
-	<string name="View my profile">ดูโปรไฟล์ของฉัน</string>
+	<string name="Show your best side!">คุณมีอะไรน่าสนใจบ้าง</string>
+	<string name="Update your profile">อัพเดทโปรไฟล์คุณ</string>
+	
 	<string name="Invite">ชวนเพื่อน</string>
 	<string name="Invitex">ชวน</string>
-	<string name="When you and your friends are on">เมื่อคุณและเพื่อนของคุณใช้</string>
-	<string name="Noonswoon together, everyone\'s">Noonswoon ด้วยกัน ทุกๆคนได้รับ</string>
-	<string name="matches are better">match ที่ดีขึ้น</string>
+	<string name="You get better matches">ได้ match ที่ดีขึ้นเมื่อ</string>
+	<string name="with more friends">คุณมีเพื่อนในระบบมากขึ้น</string>
 	<string name="invite x friends">ชวนเพื่อน %s คน</string>	
 	<string name="x friends">เพื่อน %s คน</string>	
-	<string name="Finding match">สำเร็จ!</string>
-	<string name="You\'re all set! Your first match will">Match แรกของคุณจะปรากฎเร็วๆนี้</string>
-	<string name="be available soon!"></string>
+	
+	<string name="Congrats">ยินดีด้วย!</string>
+	<string name="You will be receiving a new match">คุณจะได้รับ match ของคุณ</string>
+	<string name="every day at noon">ในตอนเที่ยงของทุกๆวัน</string>
 		
 	<string name="My Profile">โปรไฟล์ของฉัน</string>
 	<string name="INVITE OTHER FRIENDS">ชวนเพื่อนคนอื่น</string>
@@ -73,9 +75,9 @@
 		
 	<string name="A problem occurred">มีปัญหาเกิดขึ้น</string>
 	<string name="Retry">ลองอีกครั้ง</string>
-	<string name="Contact support">แจ้งปัญหา</string>
+	<string name="Contact Support">แจ้งปัญหา</string>
 	<string name="Noonswoon Support">Noonswoon Support</string>
-	<string name="\n\n\nPlease let us know what went wrong with an app">\n\n\nกรุณาบอกว่าแอพพลิเคชั่นผิดพลาดอย่างไร</string>
+	<string name="\n\n\nPlease let us know what problem you encountered">\n\n\nกรุณาบอกว่าแอพพลิเคชั่นผิดพลาดอย่างไร</string>
 
 	<string name="Facebook Photos">รูปภาพจากเฟสบุ๊ค</string>
 
@@ -106,7 +108,9 @@
 	<string name="No Internet Connection">ไม่มีอินเตอร์เน็ต</string>
 	<string name="There is no match today">วันนี้คุณไม่มี Match</string>
 	<string name="Check back again at noon tomorrow">เข้ามาเช็คอีกครั้ง ในวันพรุ่งนี้ตอนเที่ยง</string>
-	<string name="Invite more friends">ชวนเพื่อนมาใช้</string>	
+	<string name="Invite more friends">ชวนเพื่อนมาใช้</string>
+	<string name="You get better matches with more friends">You get better matches with more friends</string>		
+
 	<string name="Notify Noonswoon">แจ้ง Noonswoon</string>
 	<string name="No Match - Assistant">No Match - Assistant</string>
 	
@@ -127,7 +131,7 @@
 	
 	<string name="You need 10 credits to \'Like\' a person. Invite more friends to get more credits.">คุณต้องมีอย่างน้อย 10 เครดิต เพื่อ \'ถูกใจ\' ชวนเพื่อนคนโสดของคุณเพื่อรับเครดิตเพิ่ม</string>
 	
-	<string name="Report profile">แจ้งโปรไฟล์นี้ไม่เหมาะสม</string>
+	<string name="Report profile">แจ้งโปรไฟล์ม่เหมาะสม</string>
 	<string name="Thank you so much!">เราขอขอบคุณคุณ</string>
 	<string name="We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าวโดยทันที ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ report@noonswoon.com </string>
 	<string name="Oops..something is wrong">Oops..มีปัญหาเกิดขึ้น</string>
@@ -153,7 +157,7 @@
 	<string name="private until connected">ไม่เปิดเผยจนกว่าจะ connect กัน</string>	
 	<string name="years old">ปี</string>
 	<string name="cm">เซนติเมตร</string>
-	
+
 	<string name="Aquarius">ราศีกุมภ์</string>
 	<string name="Aries">ราศีเมษ</string>
 	<string name="Cancer">ราศีกรกฎ</string>

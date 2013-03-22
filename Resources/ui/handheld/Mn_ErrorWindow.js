@@ -77,7 +77,7 @@ ErrorWindow = function(_errorMessage, _userId) {
 	});
 	
 	var contactButtonText = Ti.UI.createLabel({
-		text: L('Contact support'),
+		text: L('Contact Support'),
 		color: '#616a75',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'}
@@ -88,7 +88,7 @@ ErrorWindow = function(_errorMessage, _userId) {
 		var emailDialog = Ti.UI.createEmailDialog()
 		emailDialog.subject = L("Noonswoon Support");
 		emailDialog.toRecipients = ['support@noonswoon.com'];
-		emailDialog.messageBody = L('\n\n\nPlease let us know what went wrong with an app') + ' (UserId: '+_userId + ').';
+		emailDialog.messageBody = L('\n\n\nPlease let us know what problem you encountered') + ' (UserId: '+_userId + ').';
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});

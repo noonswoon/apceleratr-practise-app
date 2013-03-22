@@ -30,24 +30,14 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	});
 	self.add(headlineLbl); 
 	
-	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: L('View and edit your profile'),
+		text: L('Show your best side!'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
 		zIndex: 2,
 	});
 	self.add(description1Lbl);
-	
-	var description2Lbl = Ti.UI.createLabel({
-		text: L('and put yourself in the best light!'),
-		center: {x:'50%', y:313}, //x:67
-		color: '#a6a9ae',
-		font:{fontWeight:'bold',fontSize:14},
-		zIndex: 2,
-	});
-	self.add(description2Lbl);
 	
 	var viewProfileButton = Ti.UI.createButton({
 		width: 250, 
@@ -59,7 +49,7 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	})
 	
 	var viewProfileButtonText = Ti.UI.createLabel({
-		text: L('View my profile'),
+		text: L('Update your profile'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},

@@ -19,7 +19,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 					
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: L('Finding match'),
+		text: L('Congrats!'),
 		center: {x:'50%', y:246}, //x:70
 		color: '#80868e',
 		font:{fontWeight:'bold',fontSize:36},
@@ -29,7 +29,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: L('You\'re all set! Your first match will'),
+		text: L('You will be receiving a new match'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -38,7 +38,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: L('be available soon!'),
+		text: L('every day at noon'),
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -56,7 +56,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	});
 	
 	var buttonText = Ti.UI.createLabel({
-		text: L('Done'),
+		text: L('Find the One'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},

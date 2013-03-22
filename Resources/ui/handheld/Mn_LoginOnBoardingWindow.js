@@ -46,9 +46,19 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	});
 	
 	var pagingControl = new CustomPagingControl(scrollView);
-	pagingControl.top = 370;
+	pagingControl.top = 368;
 	self.add(pagingControl); 
 	self.add(scrollView);
+	
+	var tourText = Ti.UI.createLabel({
+		text: L('tour ➜'),
+		color: '#ffffff',
+		top: 364,
+		left: 261,
+		font:{fontSize:14, fontWeight:'bold'},
+		zIndex: 3,
+	});
+	self.add(tourText);
 
 	var fbButton = Ti.UI.createButton({
 		backgroundImage: 'images/onboarding-facebook-btn.png',

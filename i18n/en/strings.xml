@@ -3,6 +3,7 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">Welcome to</string>
 	<string name="Find the One">Find the One</string>
+	<string name="tour ➜">tour ➜</string>
 
 	<string name="Get a new match every day">Get a new match every day</string>
 	<string name="Like or Pass your match">Like or Pass your match</string>	
@@ -15,21 +16,22 @@
 	<string name="100% confidential. We never post to Facebook">100% confidential. We never post to Facebook</string>
 
 	<string name="Message from...">Message from...</string>
+	
 	<string name="Personalize">Personalize</string>
-	<string name="View and edit your profile">View and edit your profile</string>
-	<string name="and put yourself in the best light!">and put yourself in the best light!</string>
-	<string name="View my profile">View my profile</string>
+	<string name="Show your best side!">Show your best side!</string>
+	<string name="Update your profile">Update your profile</string>
+	
 	<string name="Invite">Invite</string>
 	<string name="Invitex">Invite</string>
-	<string name="When you and your friends are on">When you and your friends are on</string>
-	<string name="Noonswoon together, everyone\'s">Noonswoon together, everyone\'s</string>
-	<string name="matches are better">matches are better</string>
+	<string name="You get better matches">You get better matches</string>
+	<string name="with more friends">with more friends</string>
 	<string name="invite x friends">Invite %s friends</string>	
 	<string name="x friends">%s friends</string>	
-	<string name="Finding match">Finding match</string>
-	<string name="You\'re all set! Your first match will">You\'re all set! Your first match will</string>
-	<string name="be available soon!">be available soon!</string>
-		
+	
+	<string name="Congrats">Congrats!</string>
+	<string name="You will be receiving a new match">You will be receiving a new match</string>
+	<string name="every day at noon">every day at noon</string>
+			
 	<string name="My Profile">My Profile</string>
 	<string name="INVITE OTHER FRIENDS">INVITE OTHER FRIENDS</string>
 	<string name="Invite these 5 friends">Invite these 5 friends</string>		
@@ -73,9 +75,9 @@
 		
 	<string name="A problem occurred">A problem occurred</string>
 	<string name="Retry">Retry</string>
-	<string name="Contact support">Contact support</string>
+	<string name="Contact Support">Contact Support</string>
 	<string name="Noonswoon Support">Noonswoon Support</string>
-	<string name="\n\n\nPlease let us know what went wrong with an app">\n\n\nPlease let us know what went wrong with an app</string>
+	<string name="\n\n\nPlease let us know what problem you encountered">\n\n\nPlease let us know what problem you encountered</string>
 
 	<string name="Facebook Photos">Facebook Photos</string>
 
@@ -107,6 +109,8 @@
 	<string name="There is no match today">There is no match today</string>
 	<string name="Check back again at noon tomorrow">Check back again at noon tomorrow</string>
 	<string name="Invite more friends">Invite more friends</string>
+	<string name="You get better matches with more friends">You get better matches with more friends</string>
+	
 	<string name="Notify Noonswoon">Notify Noonswoon</string>
 	<string name="No Match - Assistant">No Match - Assistant</string>
 	

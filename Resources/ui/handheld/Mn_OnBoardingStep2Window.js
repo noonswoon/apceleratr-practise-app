@@ -30,7 +30,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: L('When you and your friends are on'),
+		text: L('You get better matches'),
 		center: {x:'50%', y:293}, //x:88
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
@@ -39,22 +39,13 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(description1Lbl);
 	
 	var description2Lbl = Ti.UI.createLabel({
-		text: L('Noonswoon together, everyone\'s'),
+		text: L('with more friends'),
 		center: {x:'50%', y:313}, //x:67
 		color: '#a6a9ae',
 		font:{fontWeight:'bold',fontSize:14},
 		zIndex: 2,
 	});
 	self.add(description2Lbl);
-	
-	var description3Lbl = Ti.UI.createLabel({
-		text: L('matches are better'),
-		center: {x:'50%', y:333}, //x:67
-		color: '#a6a9ae',
-		font:{fontWeight:'bold',fontSize:14},
-		zIndex: 2,
-	});
-	self.add(description3Lbl);
 	
 	var button = Ti.UI.createButton({
 		width: 250, 
