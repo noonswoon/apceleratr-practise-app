@@ -40,7 +40,6 @@ TextAreaEditTableViewRow = function(_fieldName, _category, _content) {
 	contentTextArea.addEventListener('focus', function() {
 		tableRow.resetBorder();
 		modified = true;
-		Ti.API.info('contentTextArea modified...');
 	});
 	
 	tableRow.getFieldName = function() {

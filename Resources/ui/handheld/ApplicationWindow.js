@@ -1,16 +1,20 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId, _userImage) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
-	var TimerViewModule = require('ui/handheld/Mn_TimerView');
-	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');
-	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
+	var BackendInvite = require('backend_libs/backendInvite');
+	var BackendCredit = require('backend_libs/backendCredit');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
-	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
-	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
+	var CreditSystem = require('internal_libs/creditSystem');
+	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');	
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
+	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');	
+	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
+	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
-	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');
-	
+	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var UrbanAirship = require('external_libs/UrbanAirship');
+	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
+
 	//load component dependencies
 	
 	var animateLeft	= Ti.UI.createAnimation({
@@ -47,6 +51,7 @@ function ApplicationWindow(_userId, _userImage) {
 		
 	//create component instance
 	var self = Ti.UI.createWindow({
+		top:0,
 		left: 0,
 		zIndex: 1,
 		backgroundColor:'#7e8185',
@@ -84,7 +89,6 @@ function ApplicationWindow(_userId, _userImage) {
 	Ti.App.addEventListener('openProfileWindow', openProfileWindowCallback);
 
 	var openUserProfileWindowCallback = function(e) {
-		Ti.API.info('ApplicationWindow: listened to openUserProfileWindow event');
 		var targetedUserId = e.targetedUserId;
 		var userProfileWindow = new UserProfileWindowModule(navigationGroup, _userId, targetedUserId);
 		navigationGroup.open(userProfileWindow, {animated:false});
@@ -102,16 +106,26 @@ function ApplicationWindow(_userId, _userImage) {
 	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
 		navigationGroup.open(inviteFriendWindow, {animated:false});
-		toggleLeftMenu();
+		var toggleFlag = true;
+		if(e.toggle !== undefined) {
+			toggleFlag = e.toggle;
+		}
+		if(toggleFlag) {
+			toggleLeftMenu();
+		}
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
+	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	//var dummyOnBoard = new TargetedModule('');
+		
+	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
-		var noMatchWindow = new NoMatchWindowModule(_userId);
+		var noMatchTimerView = new TimerViewModule();
+		noMatchWindow = new NoMatchWindowModule(navigationGroup);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
 		noMatchWindow.rightNavButton = toggleRightMenuBtn;
-		noMatchWindow.titleControl = timerView;
-		
+		noMatchWindow.titleControl = noMatchTimerView;
 		navigationGroup.open(noMatchWindow, {animated:false});
 	};
 	Ti.App.addEventListener('openNoMatchWindow', openNoMatchWindowCallback);
@@ -123,14 +137,45 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 
+	var inviteCompletedCallback = function(e) {
+		Ti.API.info('in inviteCompletedCallback...');
+		Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
+		var topupAmount = 0;
+		for(var i = 0; i < e.inviteeList.length; i++) {
+			topupAmount += 2;
+		}
+		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
+		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
+		
+		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
+			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
+			else Ti.API.info('saveInvitePeople from fb failed');
+		});
+		
+		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
+			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+		});
+	};
+	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
+	
 	//main match page
 	var matchWindow = new MatchWindowModule(_userId, null);
 	matchWindow.leftNavButton = toggleLeftMenuBtn;
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
 	
-	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	var dummyOnBoard = new TargetedModule();
+	var resumeCallback = function() {
+		Ti.UI.iPhone.appBadge = null;
+		UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+		if(noMatchWindow !== null) {
+			navigationGroup.close(noMatchWindow, {animated:false});
+			noMatchWindow = null;
+		}
+		matchWindow.reloadMatch(); //refresh the content of the match
+		rightMenu.reloadConnections();
+		
+	};
+	Ti.App.addEventListener('resume', resumeCallback); 
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	//window: dummyOnBoard,
@@ -215,14 +260,16 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
-		Ti.Facebook.removeEventListener('logout', facebookLogoutCallback); 
+		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
+		Ti.App.removeEventListener('resume', resumeCallback); 
+		Titanium.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);
 	
 	var facebookLogoutCallback = function() {
 		self.close();
 	};
-	Ti.Facebook.addEventListener('logout', facebookLogoutCallback);
+	Titanium.Facebook.addEventListener('logout', facebookLogoutCallback);
 	self.add(navigationGroup);
 				
 	return self;

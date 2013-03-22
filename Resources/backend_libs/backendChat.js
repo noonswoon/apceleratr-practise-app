@@ -14,15 +14,13 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 	        		resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error getChatHistory: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendChat.getChatHistory, server error: '+resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendChat.getChatHistory', meta:resultObj.meta});
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('getChatHistory Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn({success:false});
-	            Ti.App.fireEvent('openErrorWindow', {description: 'backendChat.getChatHistory, network error'});
+	            Ti.App.fireEvent('openErrorWindow', {src: 'backendChat.getChatHistory', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

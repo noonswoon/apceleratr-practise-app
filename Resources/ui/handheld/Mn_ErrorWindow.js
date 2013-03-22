@@ -1,6 +1,20 @@
-ErrorWindow = function(_userId) {
+ErrorWindow = function(_errorMessage, _userId) {
 	
 	Ti.App.Flurry.logEvent('error-screen');
+	
+	var errorText1 = L('A problem occurred');
+	var errorText2 = "";
+	var showRetryOption = false;
+	
+	if(_errorMessage === "") {
+		errorText1 = L('A problem occurred');
+		errorText2 = "";
+		showRetryOption = true;
+	} else {
+		errorMessageArray = _errorMessage.split('|');
+		errorText1 = L(errorMessageArray[0]);
+		errorText2 = L(errorMessageArray[1]);
+	}
 	
 	//create component instance
 	var self = Ti.UI.createWindow({
@@ -19,65 +33,83 @@ ErrorWindow = function(_userId) {
 	self.add(imageView); 
 					
 	//80868e  headline
-	var headlineLbl = Ti.UI.createLabel({
-		text: 'A problem occurred',
-		center: {x:'50%', y:'50%'}, //x:70
+	var headlineLbl1 = Ti.UI.createLabel({
+		text: errorText1,
+		center: {x:'50%', y:'48%'}, //x:70
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0,y:1}
 	});
-	self.add(headlineLbl); 
+	self.add(headlineLbl1); 
+	
+	var headlineLbl2 = Ti.UI.createLabel({
+		text: errorText2,
+		center: {x:'50%', y:'54%'}, //x:70
+		color: '#e01124',
+		font:{fontWeight:'bold',fontSize:20},
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0,y:1}
+	});
+	self.add(headlineLbl2); 
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'Retry',
-		center: {x:'56%', y:'63%'}, //x:88
+		text: L('Retry'),
+		center: {x:'56%', y:'60%'}, //x:88
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:18},
 	});
-	self.add(description1Lbl);
-
+	
 	var retryImage = Ti.UI.createImageView({
 		image: 'images/error/error-retry.png',
 		width: 16, 
 		height: 15,
-		center: {x:'44%', y:'63%'}, //x:88
+		center: {x:'44%', y:'60%'}, //x:88
 	});
-	self.add(retryImage);
-
-	var contactBtn = Ti.UI.createButton({
-		title: 'Contact support',
+	
+	var contactButton = Ti.UI.createButton({
+		width: 300, 
+		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:375}, //x:67
+	});
+	
+	var contactButtonText = Ti.UI.createLabel({
+		text: L('Contact Support'),
 		color: '#616a75',
 		font:{fontWeight:'bold',fontSize:18},
-		width: 300, 
-		height: 50
-	})
-	self.add(contactBtn);
+		center: {x:'50%', y:'50%'}
+	});
+	contactButton.add(contactButtonText);
 	
-	contactBtn.addEventListener('click', function() {
+	contactButton.addEventListener('click', function() {
 		var emailDialog = Ti.UI.createEmailDialog()
-		emailDialog.subject = "Noonswoon Assistant";
-		emailDialog.toRecipients = ['sorry@noonswoon.com'];
-		emailDialog.messageBody = 'Please let us know what went wrong with an app';
+		emailDialog.subject = L("Noonswoon Support");
+		emailDialog.toRecipients = ['support@noonswoon.com'];
+		emailDialog.messageBody = L('\n\n\nPlease let us know what problem you encountered') + ' (UserId: '+_userId + ').';
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});
 	
-	retryImage.addEventListener('click', function() {
-		Ti.App.Flurry.logEvent('error-screen-retry');
-		Ti.API.info('firing event to restartApp..');
-		Ti.App.fireEvent('restartApp');
-	});
+	self.add(contactButton);
 	
-	description1Lbl.addEventListener('click', function(){
-		Ti.App.Flurry.logEvent('error-screen-retry');
-		Ti.API.info('firing event to restartApp..');
-		Ti.App.fireEvent('restartApp');
-	});
+	if(showRetryOption) {
+		self.add(description1Lbl);
+		self.add(retryImage);
+
+		description1Lbl.addEventListener('click', function(){
+			Ti.App.Flurry.logEvent('error-screen-retry');
+			Ti.App.fireEvent('restartApp');
+		});
+			
+		retryImage.addEventListener('click', function() {
+			Ti.App.Flurry.logEvent('error-screen-retry');
+			Ti.App.fireEvent('restartApp');
+		});
+	}
+
 	return self;
 };
 

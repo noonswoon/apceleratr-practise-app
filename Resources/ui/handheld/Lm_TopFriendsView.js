@@ -69,19 +69,16 @@ TopFriendsView = function(_userId) {
 			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
 			FacebookQuery.queryFacebookFriends();
 		} else {
-			Ti.API.info('top five friends: '+JSON.stringify(targetedList));
 			var friendTableRowData = createTopFriendTableRowData(targetedList);
 			topFriendsTableView.setData(friendTableRowData);
 		}
 	}
 	Ti.App.addEventListener('inviteCompleted', function(e){
-		Ti.App.Flurry.logEvent('left-menu-invite-success', {numberInvites: e.inviteeList.length});
 		//update local database for those people who already got invited
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
 		
 		//iterate to remove the table view row	
 		var numRowsAffected = 0;
-		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
 			var targetedRow = -1;			
 			for(var j = 0; j < topFriendsTableView.data[0].rowCount; j++) {
@@ -93,19 +90,7 @@ TopFriendsView = function(_userId) {
 				}
 			}
 			topFriendsTableView.deleteRow(targetedRow);	
-			topupAmount += 2;
-		}
-		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
-		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
-		
-		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
-			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
-			else Ti.API.info('saveInvitePeople from fb failed');
-		});
-		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
-			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-		});
-		
+		}		
 		//add the next row to the table
 		var friendCandidates = [];
 		if(numRowsAffected >= 1)  {
@@ -133,10 +118,15 @@ TopFriendsView = function(_userId) {
 		left: 10,
 		width:240,
 		height:35,
-		color: '#a4a3a3',
-		font:{fontSize:14,fontWeight:'bold'},
-		title:'Invite these 5 friends'
 	});
+	
+	var inviteButtonText = Ti.UI.createLabel({
+		text: L('Invite these 5 friends'),
+		color: '#a4a3a3',
+		font: {fontSize:14,fontWeight:'bold'},
+		center: {x:'50%', y:'50%'}
+	});
+	inviteButton.add(inviteButtonText);
 
 	inviteButton.addEventListener('click', function() {
 		Ti.App.Flurry.logEvent('left-menu-batch-invite');

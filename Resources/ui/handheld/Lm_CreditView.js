@@ -157,7 +157,22 @@ CreditView = function(_credit) {
 	Ti.App.addEventListener('creditChange', function(e) {
 		setCredit(e.currentCredit);
 	});
+
+	var creditInstruction = String.format(L('You have x credits left\n\n'), (_credit+""));
+	creditInstruction += L('Use 10 credits to Like someone\n');
+	creditInstruction += L('Use 5 credits to see mutual friends\n');
+	creditInstruction += L('Get 2 credits per friend invite\n');
+	creditInstruction += L('Get 1 credit per daily login');
+	var creditDialog = Titanium.UI.createAlertDialog({
+		title: L('Credits'),
+		message: creditInstruction,
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
 	
+	self.addEventListener('click', function() {
+		creditDialog.show();
+	});
 	setCredit(_credit);
 	
 	return self;

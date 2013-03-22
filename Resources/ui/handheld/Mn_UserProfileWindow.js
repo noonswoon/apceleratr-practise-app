@@ -20,8 +20,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
 	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
-	
-	
+
 	var userInfo = null;
 	//create component instance
 	
@@ -37,7 +36,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
 		font:{fontSize:14,fontWeight:'bold'},
-		title:'Edit',
+		title: L('Edit'),
 		width:64,
 		height:30,
 	});
@@ -70,7 +69,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 
 
 	function populateInfoDataTableView(_userInfo) {		
-		Ti.API.info('_userInfo: '+JSON.stringify(_userInfo));
+		//Ti.API.info('_userInfo: '+JSON.stringify(_userInfo));
 
 		if(_userId !== _targetedUserId) {
 			var facebookLikeArray = [];
@@ -103,16 +102,16 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
     	var	nameStr = _userInfo.content['general'].first_name; 
     	if(_userId === _targetedUserId) {
     		//nameStr += ' ' +  _userInfo.content['general'].last_name;		
-    		self.title = 'My Profile';
+    		self.title = L('My Profile');
     	} else {
-    		self.title = _userInfo.content['general'].first_name +'\'s Profile';
+    		self.title = _userInfo.content['general'].first_name + L('\'s Profile');
     	}
 		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
 		nameTableViewRow.getContentLabel().color = '#4e5866';
 		data.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' years old', whiteOrGrayFlag);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _userInfo.content['general'].age + ' '+ L('years old'), whiteOrGrayFlag);
 		data.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		
@@ -128,7 +127,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		}
 		
 		if(_userInfo.content['height'] !== "" ) {
-			var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + " cm", whiteOrGrayFlag);
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _userInfo.content['height'] + ' '+ L('cm'), whiteOrGrayFlag);
 			data.push(heightTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
@@ -208,18 +207,18 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			});
 			
 			var logoutButton = Ti.UI.createButton({
-				title: 'Logout',
+				title: L('Log Out'),
 				backgroundImage: 'images/post-onboarding-button.png',
 				backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 				center: {x:'50%', y:'50%'}, //x:67
+				width: 300, 
+				height: 50,
 				color: '#616a75',
 				font:{fontWeight:'bold',fontSize:18},
-				width: 300, 
-				height: 50
 			});
 			if(Ti.Platform.osname === 'iphone')
 				logoutBtnTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		
+
 			logoutBtnTableViewRow.add(logoutButton);
 			data.push(logoutBtnTableViewRow);
 			
@@ -234,13 +233,9 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		self.add(contentView);
 	}	
 
-	showPreloader(self,'Loading...');
+	showPreloader(self, L('Loading...'));
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
-		if(_userInfo.meta.status === 'error') {
-			Ti.App.fireEvent('openErrorWindow', {description: _userInfo.meta.description});
-		} else {
-			populateInfoDataTableView(_userInfo);
-		}
+		populateInfoDataTableView(_userInfo);
 		hidePreloader(self);
 	});	
 

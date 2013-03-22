@@ -18,37 +18,41 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
-Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_ON_DEVICE = true;
+Ti.App.ACTUAL_FB_INVITE = true;
+
+Ti.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
+							'user_religion_politics', 'user_work_history', 'user_photos', 
+							'user_about_me', 'friends_location', 'friends_relationships'];
+Ti.Facebook.forceDialogAuth = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
-
 Ti.App.NUM_TOP_FRIENDS = 5; 
+Ti.App.NUM_INVITE_ALL = 5;
 
-Ti.App.NUM_INVITE_ALL = 10;
-
-Ti.App.IS_ON_DEVICE = true;
-Ti.App.IS_PRODUCTION_BUILD = true;
-Ti.App.ACTUAL_FB_INVITE = true;
-
-if(Ti.App.IS_PRODUCTION_BUILD) {
-	Ti.App.API_SERVER = "http://noonswoon.apphb.com/";
+if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
+	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
+	Ti.Facebook.appid = "132344853587370";
+} else {
+	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
+	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
+	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
+	Ti.Facebook.appid = "492444750818688";
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
-
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
-
-Ti.Facebook.appid = "132344853587370";
-Ti.Facebook.permissions = [	'email', 'user_education_history', 'user_location', 'user_birthday',
-							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships, read_stream'];
-Ti.Facebook.forceDialogAuth = true; //fb sso not working on actual device
 
 //include require
 if(Ti.Platform.osname == 'iphone') {
@@ -109,6 +113,8 @@ if (Ti.version < 1.8 ) {
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
 	var RateReminder = require('internal_libs/rateReminder');
+	var LogSystem = require('internal_libs/logSystem');
+	
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -129,7 +135,7 @@ if (Ti.version < 1.8 ) {
 					//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
 					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-					if(Ti.Facebook.loggedIn) {
+					if(Titanium.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
@@ -179,34 +185,32 @@ if (Ti.version < 1.8 ) {
 		//Ti.API.info('completedPhotoTagQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
 	});
-	
+
+	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
+		//Ti.API.info('completedPhotoTagQuery...');
+		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
+	});
+		
 	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
 		//Ti.API.info('completedUserPhotoQuery...');
 		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
 	});
 	
+/*	-- not asking for read stream anymore
 	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
-		//Ti.API.info('completedUserLikeQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
 	});
 	
 	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
-		//Ti.API.info('completedUserCommentQuery...');
 		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
 	});
-	
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		//Ti.API.info('completedPhotoTagQuery...');
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-	
+		
 	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
-		//Ti.API.info('completedUserStreamQuery...');
 		FacebookQuery.queryUserLikes(e.userStreamIdList);
 		FacebookQuery.queryUserComments(e.userStreamIdList);
-		FacebookQuery.queryUserPhotos();
 		//query likes, comments, photo albums
 	});
+*/
 	
 	Ti.App.addEventListener('userLoginCompleted', function(e) {
 		//Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
@@ -223,11 +227,13 @@ if (Ti.version < 1.8 ) {
 			FacebookFriendModel.updateIsInvited(invitedList);
 		});
 		
-		//query some read stream and get the comments/like
-		FacebookQuery.queryUserStream();
+		FacebookQuery.queryUserPhotos();
+		
+		//query some read stream and get the comments/like -- get rid off since we won't ask for the permission
+		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
-	Ti.Facebook.addEventListener('logout', function() {
+	Titanium.Facebook.addEventListener('logout', function() {
 		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 		var loginProcessWindow = new LoginProcessWindowModule();			
 		loginProcessWindow.open();
@@ -257,7 +263,7 @@ if (Ti.version < 1.8 ) {
 			if(Ti.App.Properties.hasProperty('invitesSignup')) {
 				Ti.App.NUM_INVITE_ALL = Ti.App.Properties.getInt('invitesSignup');			
 			} else {
-				Ti.App.NUM_INVITE_ALL = 10;
+				Ti.App.NUM_INVITE_ALL = 5;
 			}
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 			Ti.App.fireEvent('doneWaitingEvent');
@@ -283,18 +289,21 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.API.error('Error occur: '+e.description);
+		Ti.API.info('error to log: '+ JSON.stringify(e));
+		LogSystem.logEntry(e.meta.description);
 		
-		errorWindow = new ErrorWindowModule();
+		var displayError = '';
+		if(e.meta.string_to_display !== undefined)
+			displayError = e.meta.string_to_display;
+
+		errorWindow = new ErrorWindowModule(displayError, currentUserId);
 		errorWindow.open();
 	});
-	
-	
+			
 	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 		noInternetWindow = new NoInternetWindowModule();
 		noInternetWindow.open();
 	} else {
 		launchTheApp();
 	} 
-	
 })();

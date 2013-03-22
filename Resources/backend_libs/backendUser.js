@@ -14,12 +14,12 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					resultObj.success = false;
-					alert("Cannot edit user info: " + this.responseText);
+					_callbackFn(resultObj);
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveEditUserInfo', meta:resultObj.meta});
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	            _callbackFn({success:false}); //change here
+	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveEditUserInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -38,7 +38,6 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			setTimeout(_callbackFn, 5000);
 		} else {
-			Ti.App.fireEvent('openErrorWindow');
 			Ti.API.error("something wrong with backendUser.saveEditUserInfo")
 		}
 	}
@@ -59,14 +58,11 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error backendUser.connectToServer: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.connectToServer', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in user_connectToServer..server NOT ready yet");
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.connectToServer, network error'});
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.connectToServer', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -97,14 +93,11 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error backendUser.getUserInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserInfo, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserInfo', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in getUserInfo ..server NOT ready yet");
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserInfo, network error'});
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -135,14 +128,11 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error backendUser.getUserIdFromFbId: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserIdFromFbId, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserIdFromFbId', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in getUserIdFromFbId ..server NOT ready yet");
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendUser.getUserIdFromFbId, network error'});
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserIdFromFbId', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -181,12 +171,11 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 					_callbackFn({success:true});
 				} else {
 					_callbackFn({success:false});
-					alert("something wrong with ServerCall backendUser.saveUserReport");
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveUserReport', meta:resultObj.meta});
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	            _callbackFn({success:false}); //change here
+	            Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveUserReport', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

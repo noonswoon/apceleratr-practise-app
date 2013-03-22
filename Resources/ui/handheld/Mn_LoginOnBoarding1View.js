@@ -3,8 +3,7 @@ LoginOnBoarding1View = function() {
 	var self = Ti.UI.createImageView({
 		left: 0, 
 		top: 0,
-		width: '100%', 
-		height: '100%',
+		width: '100%',
 		image: 'images/onboarding-1.png',
 		zIndex: 0,
 	});
@@ -37,7 +36,7 @@ LoginOnBoarding1View = function() {
 		
 	//4e5866 dating reimagined
 	var description2 = Ti.UI.createLabel({
-		text: L('Find the One'),
+		text: L('Find The One'),
 		center: {x:'50%', y:315}, //x:67
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},

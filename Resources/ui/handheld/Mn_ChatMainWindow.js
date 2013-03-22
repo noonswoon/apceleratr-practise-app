@@ -39,9 +39,9 @@ Ti.App.Chat = function(_chatParams) {
 	var navGroup = _chatParams.navGroup;
 	var nextHistoryPage = 2;
 	var otherUserGuid =  _chatParams.otherUserGuid;
-	var cartoonMsgs = [	"Nice to meet you! However, I am just a cartoon.", 
-						"I would love to meet up with you if I were a real person.",
-						"Can you come to the cartoon world?"];
+	var cartoonMsgs = [	L("Nice to meet you! However, I am just a cartoon."), 
+						L("I would love to meet up with you if I were a real person."),
+						L("Can you come to the cartoon world?")];
 	var cartoonIndexMsg = 0;
 	var isLoadMorePresent = true;
 /*
@@ -63,9 +63,15 @@ Ti.App.Chat = function(_chatParams) {
 	userObject.imageUrl = userImageBlob;
 	otherUserObject.imageUrl = otherUserImageBlob; 
 */	
+
+	var tableHeight = 376; //480 - 20 (status bar) - 44 (nav bar) - 40 (input view)
+	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
+		tableHeight = 464; // 568 - 57 = 511
+	}
+
 	var chatMessagesTableView = Ti.UI.createTableView({
-		top:0,
-		height:377,
+		top: 0,
+		height: tableHeight,
 		backgroundColor: 'transparent',
 		separatorColor: 'transparent',
 		scrollable: true
@@ -88,7 +94,7 @@ Ti.App.Chat = function(_chatParams) {
 	});
 	
 	var moreText = Ti.UI.createLabel({
-		text: 'Load more...', 
+		text: L('Load more...'), 
 		center: {x:'50%', y:'50%'},
 		color: '#e6e6e6', 
 		font:{fontWeight:'bold',fontSize:12},
@@ -133,6 +139,14 @@ Ti.App.Chat = function(_chatParams) {
 								chatMessagesTableView.appendRow(newChatRow);
 							}
 						}
+						
+						//double binding - changing the execution context
+						(function() {
+							var curChatRow = newChatRow;
+							setTimeout(function() {
+					    		curChatRow.appear();
+							}, 100);
+						})();
 					}
 				}			
 				if(chatHistoryMsgs.length < 10) {
@@ -145,7 +159,7 @@ Ti.App.Chat = function(_chatParams) {
 			} else {
 				var noMoreHistory = Ti.UI.createAlertDialog({
 						title:L('History ends here'),
-						message:L('No more chat history with '+_chatParams.otherUserFirstName +'. Be confident! Chat up :)')
+						message:L('No more chat history with') + " " + _chatParams.otherUserFirstName + L('. Be confident! Chat up :)')
 					});
 				noMoreHistory.show();
 				chatMessagesTableView.deleteRow(0);
@@ -183,6 +197,13 @@ Ti.App.Chat = function(_chatParams) {
 					chatMessagesTableView.appendRow(newChatRow);
 				}
 			}
+			//double binding - changing the execution context
+			(function() {
+				var curChatRow = newChatRow;
+				setTimeout(function() {
+					curChatRow.appear();
+				}, 100);
+			})();
 		}
 		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
 	};
@@ -239,7 +260,6 @@ Ti.App.Chat = function(_chatParams) {
 				});
 	        },
 	        callback : function(message) {
-	        	Ti.API.info('messageJSON: '+JSON.stringify(message));
 	        	//since pubnub is a broadcaster, sender will receive his own message as well
 	        	//prevent from having the user sees his own message when it got broadcasted
 	        	if(userObject.id !== message.senderId) {
@@ -248,10 +268,12 @@ Ti.App.Chat = function(_chatParams) {
 	           		var newChatRow = new ChatMessageTableViewRow(message.text,senderObj,false);
 	           		chatMessagesTableView.appendRow(newChatRow);
 	           		
+	           		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
+				   		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+				   			
 	           	   	setTimeout(function() {
-	           	   		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
-				   			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //add some delay-fixing stuff here scroll to the latest row
-					}, 1000);
+	           	   		newChatRow.appear();	           	   		
+					}, 100);
 	           	}
 	        },
 	        error : function() {
@@ -329,7 +351,7 @@ Ti.App.Chat = function(_chatParams) {
 	
 	var chatWindow = Ti.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
-		title: 'Chat with '+_chatParams.otherUserFirstName,
+		title: L('Chat with') + ' ' +_chatParams.otherUserFirstName,
 		navBarHidden: false,
 		backgroundColor: '#eeeeee',
 		leftNavButton: backButton,
@@ -342,7 +364,7 @@ Ti.App.Chat = function(_chatParams) {
 	
 	var chatInputView = Ti.UI.createView({
 		bottom: 0,
-		height: 41,
+		height: 40,
 		width: '100%',
 		zIndex: 2,
 		backgroundImage: 'images/chat/chat-bar-background.png'
@@ -376,7 +398,7 @@ Ti.App.Chat = function(_chatParams) {
 	chatInputView.add(chatSendButtonRight);
 	
 	var sendLabel = Ti.UI.createLabel({
-		text: 'Send', 
+		text: L('Send'), 
 		top: 12,
 		left: 256 + 13,
 		color: '#a8c98e', 
@@ -402,7 +424,7 @@ Ti.App.Chat = function(_chatParams) {
 	chatInputView.add(chatInputTextField);
 
 	var hintTextLabel = Ti.UI.createLabel({
-		text: 'Message', 
+		text: L('Message'), 
 		top: 12,
 		left: 24,
 		color: '#ababab', 
@@ -432,13 +454,13 @@ Ti.App.Chat = function(_chatParams) {
 	});
 
 	var animateUp_inputView = Ti.UI.createAnimation({
-		top: 140,
+		bottom: 216,
 		duration: 300,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 	});
 	
 	var animateDown_inputView = Ti.UI.createAnimation({
-		top: 375,
+		bottom: 0,
 		duration: 350,
 		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 	});
@@ -466,7 +488,7 @@ Ti.App.Chat = function(_chatParams) {
 		chatInputTextField.height = 30;
 	});
 	
-    sendLabel.addEventListener('click', function() {
+    chatSendButtonCenter.addEventListener('click', function() {
 		if(chatInputTextField.value.trim() === "") {
 			chatInputTextField.value = "";
 			chatInputTextField.blur();
@@ -474,13 +496,14 @@ Ti.App.Chat = function(_chatParams) {
 		}
 		
 		var newChatRow = new ChatMessageTableViewRow(chatInputTextField.value,userObject,true);
+        var cartoonChatBackRow = null;
         chatMessagesTableView.appendRow(newChatRow);
 		
 		//check if it is just the cartoon, if so don't send the message
 		if(otherUserGuid === "") { //normal user has an empty guid
 			send_a_message(chatInputTextField.value);
 		} else {
-			var cartoonChatBackRow = new ChatMessageTableViewRow(cartoonMsgs[cartoonIndexMsg],otherUserObject,false);
+			cartoonChatBackRow = new ChatMessageTableViewRow(cartoonMsgs[cartoonIndexMsg],otherUserObject,false);
 			cartoonIndexMsg++;
 			chatMessagesTableView.appendRow(cartoonChatBackRow);
 			if(cartoonIndexMsg >= cartoonMsgs.length) 
@@ -488,10 +511,15 @@ Ti.App.Chat = function(_chatParams) {
 		}
 		chatInputTextField.value = "";
     	chatInputTextField.blur();
+    	if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0) {
+    		chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1);
+		}
+			
     	setTimeout(function() {
-    		if(chatMessagesTableView.data[0] !== undefined && chatMessagesTableView.data[0].rowCount > 0)
-    			chatMessagesTableView.scrollToIndex(chatMessagesTableView.data[0].rowCount - 1); //fixing stuff here scroll to the latest row
-		}, 500); 	
+    		newChatRow.appear();
+			if(cartoonChatBackRow !== null)
+				cartoonChatBackRow.appear();
+		}, 100); 	
     });
 	
 	profileButton.addEventListener('click', function() {

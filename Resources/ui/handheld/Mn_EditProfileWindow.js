@@ -19,14 +19,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var ModelReligion = require('model/religion');
 	
 	var ethnicityValue = ModelEthnicity.getEthnicity();
-	ethnicityValue.reverse(); 
-	ethnicityValue.push('Choose your ethnicity'); 
-	ethnicityValue.reverse(); 
+//	ethnicityValue.reverse(); 
+//	ethnicityValue.push(L('Choose your ethnicity')); 
+//	ethnicityValue.reverse(); 
 	
 	var religionValue = ModelReligion.getReligion();
-	religionValue.reverse(); 
-	religionValue.push('Choose your religion'); 
-	religionValue.reverse(); 
+//	religionValue.reverse(); 
+//	religionValue.push(L('Choose your religion')); 
+//	religionValue.reverse(); 
 	
 	var heightArray = [];
 	for(var i = 140; i <= 220; i++) {
@@ -49,7 +49,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
 		font:{fontSize:14,fontWeight:'bold'},
-		title:'Save',
+		title: L('Save'),
 		width:64,
 		height:30,
 	});
@@ -57,7 +57,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var self = Ti.UI.createWindow({
 		backgroundColor:'white',
 		navBarHidden: false,
-		title: 'Edit Profile',
+		title: L('Edit Profile'),
 		barImage: 'images/top-bar-stretchable.png',
 		leftNavButton: cancelButton,
 		rightNavButton: saveButton
@@ -125,7 +125,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}	
 	
 	var optionsDialogOpts = {
-		options:['Choose from Facebook', 'Choose from Library', 'Take Photo', 'Cancel'],
+		options:[ L('Choose from Facebook'), L('Choose from Library'), L('Take Photo'), L('Cancel')],
 		cancel:3
 	};
 
@@ -310,9 +310,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 	
 	var unsavedWarningDialog = Titanium.UI.createAlertDialog({
-		title:'Profile is not saved.',
-		message:'You will lose your unsaved data.',
-		buttonNames: ['Cancel','Continue'],
+		title: L('Warning'),
+		message:L('You will lose any unsaved data'),
+		buttonNames: [L('Cancel'),L('Continue')],
 		cancel: 0
 	});
 	
@@ -335,6 +335,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var editParams = {}; 
 		var okToSave = true; 
 		var heightWarning = false;
+		var religionWarning = false;
+		var ethnicityWarning = false;
 		
 		//when click save, go through each image and element in the table
 		//see which one is modified, build the content to send to the server
@@ -357,19 +359,21 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		    for(var j = 0; j < section.rowCount; j++) {
 		        var row = section.rows[j];
 		        
+		        Ti.API.info('getContent: '+row.getContent()+', fieldName: '+row.getFieldName());
 		        if(row.getContent() === '' && (
 		        	row.getFieldName() === 'height' ||
 		        	row.getFieldName() === 'religion' ||
 		        	row.getFieldName() === 'ethnicity')
 		        ) {
+		        	if(row.getFieldName() === 'height')
+		        		heightWarning = true;
+		        	else if(row.getFieldName() === 'religion')
+		        		religionWarning = true;
+		        	else if(row.getFieldName() === 'ethnicity')
+		        		ethnicityWarning = true;
+		        		
 		        	row.highlightBorder();
 		        	okToSave = false;
-		        }
-		        
-		        if(row.getFieldName() === 'height' && !IsNumeric(row.getContent())) {
-		        	row.highlightBorder();
-		        	okToSave = false;
-		        	heightWarning = true;
 		        }
 		        
 		        if(row.getModified()) {
@@ -386,8 +390,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		}
 		
 		if(okToSave) {
-			if(Ti.Platform.osname === 'iphone')
+			if(Ti.Platform.osname === 'iphone') {
 				showPreloader(self,'Loading...');
+			}
 			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {
@@ -418,12 +423,25 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				}
 			});
 		} else {
-			var warningTitle = L('Missing information');
-			var warningMsg = L('Please specify your height, ethnicity, and religion. It only takes 2 seconds.');
-			if(heightWarning) {
-				warningTitle = L('Please select your height');
-				warningMsg = L('Select your height again.');
-			}
+			var warningTitle = L('Incomplete Profile');
+			var warningMsg = L('Specify your');
+			
+			if(heightWarning && ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('height, ethnicity, and religion');
+			else if(heightWarning && ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('height and ethnicity');
+			else if(heightWarning && !ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('height and religion');
+			else if(!heightWarning && ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('ethnicity and religion');
+			else if(heightWarning && !ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('height');
+			else if(!heightWarning && ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('ethnicity');
+			else if(!heightWarning && !ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('religion');
+			else warningMsg = warningMsg + ' ' + L('height, ethnicity, and religion');
+			
 			var warningDialog = Titanium.UI.createAlertDialog({
 				title:warningTitle,
 				message:warningMsg

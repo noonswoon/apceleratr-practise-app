@@ -13,13 +13,11 @@ exports.getReligion = function(_callbackFn) {
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content);
 				} else {
-					alert("something wrong with ServerCall backendGeneralInfo.getReligion");
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getReligion', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        alert("in getReligion, onerror"+JSON.stringify(e));
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getReligion', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -49,13 +47,11 @@ exports.getEthnicity = function(_callbackFn) {
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content);
 				} else {
-					alert("something wrong with ServerCall backendGeneralInfo.getReligion");
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getEthnicity', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        alert("in getReligion, onerror"+JSON.stringify(e));
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getEthnicity', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -85,13 +81,11 @@ exports.getTargetedCity = function(_callbackFn) {
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content);
 				} else {
-					alert("something wrong with ServerCall backendGeneralInfo.getTargetedCity");
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getTargetedCity', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        alert("in getTargetedCity, onerror"+JSON.stringify(e));
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getTargetedCity', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -123,15 +117,11 @@ exports.getStaticData = function(_callbackFn) {
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content);
 				} else {
-					alert("something wrong with ServerCall backendGeneralInfo.getStaticData");
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendGeneralInfo.getStaticData, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getStaticData', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        alert("in getStaticData, onerror"+JSON.stringify(e));
-		        Ti.App.fireEvent('openErrorWindow', {description: 'backendGeneralInfo.getStaticData, network error'});
-		        //Ti.API.debug(e.error);
+				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getStaticData', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

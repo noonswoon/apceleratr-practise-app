@@ -52,7 +52,6 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 			contentTextfield.value = "";
 			contentTextfield.color = "#4e5866";
 		}
-		Ti.API.info('contentTextfield modified...');
 	});
 	
 	tableRow.getFieldName = function() {
@@ -60,7 +59,9 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	};
 	
 	tableRow.getContent = function() {
-		return contentTextfield.value;
+		if(contentTextfield.value === DefaultTextHelper.getDefaultText(fieldName))
+			return "";
+		else return contentTextfield.value;
 	};
 	
 	tableRow.getModified = function() {

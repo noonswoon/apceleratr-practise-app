@@ -42,9 +42,9 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	var data = {
 		app_id: Ti.Facebook.appid,
 	    title: 'Noonswoon',
-	    message: 'Find the One!',
+	    message: 'Find The One!',
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
-	    //to: '202852, 2535734, 1064101575, 810675370',
+	    //to: 202852, 2535734, 1064101575, 810675370',
 	    to: _fbIds,
 	    data: trackingCode
 	 };

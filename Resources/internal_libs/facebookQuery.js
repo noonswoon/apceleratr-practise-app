@@ -1,7 +1,7 @@
 exports.queryFacebookFriends = function() {
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 		
-	var query = "SELECT uid, name, pic_square, current_location FROM user ";
+	var query = "SELECT uid, name, pic_square, current_location,sex FROM user ";
 		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Titanium.Facebook.uid + ")";
 		query += " and not is_app_user";
 		query += " and (relationship_status != 'In a relationship' and relationship_status != 'Engaged'";
@@ -20,18 +20,22 @@ exports.queryFacebookFriends = function() {
 			if(offeredCities === 'all') {
 				for(var i = 0; i < friendList.length; i++) {
 					var cityStr = 'none';
-					if(friendList[i].current_location && friendList[i].current_location.city) {
+					var sex = "";
+					if(friendList[i].sex !== null)
+						sex = friendList[i].sex;
+					if(friendList[i].current_location && friendList[i].current_location.city)
 						cityStr = friendList[i].current_location.city;
-					}
 					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-											pic_square: friendList[i].pic_square, city: cityStr});
+											pic_square: friendList[i].pic_square, city: cityStr, sex:sex});
 				}
 			} else {
 				for(var i = 0; i < friendList.length; i++) {
-					Ti.API.info('in adding candidate for-loop specific countries');
+					var sex = "";
+					if(friendList[i].sex !== null)
+						sex = friendList[i].sex;
 					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
 						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city});
+											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city, sex:sex});
 					}
 				}
 			}
@@ -59,6 +63,7 @@ exports.queryUserStream = function() {
 	});
 };
 
+//currently not using coz we are not requesting read_stream permission
 exports.queryUserLikes = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');
@@ -81,6 +86,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	});
 };
 
+//currently not using coz we are not requesting read_stream permission
 exports.queryUserComments = function(_streamIdList) {
 	
 	var streamIds = _streamIdList.join(',');

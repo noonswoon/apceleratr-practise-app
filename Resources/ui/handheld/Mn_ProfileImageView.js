@@ -59,6 +59,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		height: 338,
 		top:0,
 		left:0,
+		disableBounce: true,
 		zIndex: 0
 	});	
 	self.add(scrollView);
@@ -77,7 +78,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	var likeLbl = Ti.UI.createLabel({
 		left: 84,
 		bottom: 30,
-		text: 'Like', 
+		text: L('Like'), 
 		color: '#777777',
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
@@ -97,12 +98,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	var passLbl = Ti.UI.createLabel({
 		left: 230,
 		bottom: 30,
-		text: 'Pass', 
+		text: L('Pass'), 
 		color: '#777777',
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
-	
 
 	if(_showButtons) {
 		self.add(likeButton);
@@ -139,11 +139,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		if(_state === "like") {
 			likeButton.backgroundImage = 'images/like-button-active.png';
 			notificationImageUrl = 'images/notification-liked.png';
-			textOnImageLbl.text = "Like";
+			textOnImageLbl.text = L("Liked");
 		} else {
 			passButton.backgroundImage = 'images/pass-button-active.png';
 			notificationImageUrl = 'images/notification-passed.png';
-			textOnImageLbl.text = "Pass";
+			textOnImageLbl.text = L("Passed");
 		}
 		
 		var notificationImage = Ti.UI.createImageView({
@@ -165,21 +165,15 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	likeButton.addEventListener("click", function() {
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 			isActionTaken = true;
-			Ti.API.info('like button is clicked');
 			
 			var currentCredit = CreditSystem.getUserCredit();
 			if(currentCredit < 10) {
 				var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
-					title:'Insufficient Credits',
-					message:L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits.')
+					title: L('Not enough credits'),
+					message: L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits')
 				});
 				notEnoughCreditsDialog.show();
 			} else {				
-				//send off the point deductions to server
-				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-				});
-					
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
@@ -188,6 +182,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					} else Ti.API.info('save response (like) failed');
 				});
 				setSelectedState("like");
+
+				//send off the point deductions to server
+				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
+					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+				});				
 			}
 		}
 	});
@@ -195,7 +194,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	passButton.addEventListener("click", function() {
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 			isActionTaken = true;
-			Ti.API.info('pass button is clicked');
 			setSelectedState("pass");
 	
 			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		

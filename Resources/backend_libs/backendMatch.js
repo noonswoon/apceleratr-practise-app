@@ -11,24 +11,25 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
 					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
 						} else {
-							Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
+							Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:resultObj.meta});
 						}
 					} else {
-						Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: somethingwrong'});
-						//need to send them back to the login page --> fire an event
+						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
 					}
+					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
 	            _callbackFn({success:false}); //change here
-	            Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, network error'});
+	            Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -52,23 +53,24 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
 						} else {
-							Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: ' + resultObj.meta.description});
+							Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:resultObj.meta});
 						}
 					} else {
-						Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getLatestMatchInfo, server error: somethingwrong'});
-						//need to send them back to the login page --> fire an event
+						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
 					}
+					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	           	Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getMatchInfo, network error'});
+	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	            _callbackFn(); //change here
 	        },
 		    timeout:50000  // in milliseconds 
@@ -101,14 +103,13 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
-					Ti.API.info('Error backendMatch.saveResponse: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendMatch.saveResponse ..server NOT ready yet");
 		        _callbackFn({success:false});
+		    	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -133,15 +134,13 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
-					Ti.API.info('Error backendMatch.updateDisplayMutualFriend: '+ JSON.stringify(resultObj));
 					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:resultObj.meta});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendMatch.updateDisplayMutualFriend..server NOT ready yet");
 		        _callbackFn({success:false});
-		        //Ti.API.debug(e.error);
+		    	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -162,14 +161,11 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.API.info('Error getMatchInfo: '+ JSON.stringify(resultObj));
-					Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getConnectedMatch, server error: ' + resultObj.meta.description});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getConnectedMatch', meta:resultObj.meta});
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.API.info('Network Connection Error. ' + JSON.stringify(e));
-	            _callbackFn(); //change here
-	           	Ti.App.fireEvent('openErrorWindow', {description: 'backendMatch.getConnectedMatch, network error'});
+	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getConnectedMatch', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

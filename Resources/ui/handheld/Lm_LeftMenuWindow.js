@@ -7,7 +7,7 @@ LeftMenuWindow = function(_userId) {
 		top:0,
 		left:0,
 		width:260,
-		backgroundColor: '#585858',
+		backgroundColor: '#4a4949',
 		zIndex:0,
 	});
 	
@@ -30,7 +30,7 @@ LeftMenuWindow = function(_userId) {
 	});
 			
 	var editProfileLbl = Ti.UI.createLabel({
-		text: 'My Profile',
+		text: L('My Profile'),
 		color: '#cac9c9',
 		left: 41,
 		top: 12,
@@ -68,7 +68,7 @@ LeftMenuWindow = function(_userId) {
 	});	
 	
 	var inviteFriendsLbl = Ti.UI.createLabel({
-		text: 'INVITE OTHER FRIENDS',
+		text: L('INVITE OTHER FRIENDS'),
 		left: 11,
 		top: 11,
 		color: '#ababab',

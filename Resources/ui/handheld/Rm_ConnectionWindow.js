@@ -23,7 +23,7 @@ ConnectionWindow = function(_userId) {
 	});	
 	
 	var connectionsLbl = Ti.UI.createLabel({
-		text: 'CONNECTIONS',
+		text: L('CONNECTIONS'),
 		left: 11,
 		top: 11,
 		color: '#ababab',
@@ -33,7 +33,7 @@ ConnectionWindow = function(_userId) {
 	});
 	
 	var editLbl = Ti.UI.createLabel({
-		text: 'EDIT',
+		text: L('EDIT'),
 		color: '#ababab',
 		right: 10,
 		top: 10,
@@ -51,11 +51,11 @@ ConnectionWindow = function(_userId) {
 		if(!isInEditMode) {
 			connectionTableView.editing = true;
 			isInEditMode = true;
-			editLbl.text = 'DONE';
+			editLbl.text = L('DONE');
 		} else {
 			connectionTableView.editing = false;
 			isInEditMode = false;
-			editLbl.text = 'EDIT';
+			editLbl.text = L('EDIT');
 		}
 	});
 
@@ -66,6 +66,19 @@ ConnectionWindow = function(_userId) {
 		left: 0,
 		editable: true
 	});	
+	
+	var loadConnectedMatches = function() {
+		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
+			connectionTableData = []; //reset table data
+			var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+			for(var i = 0; i < connectedMatches.length; i++) {
+				var curConnect = connectedMatches[i];
+				var personRow = new ConnectionTableViewRow(_userId, curConnect);
+				connectionTableData.push(personRow);
+			}
+			connectionTableView.setData(connectionTableData);
+		});	
+	};
 	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
@@ -78,16 +91,7 @@ ConnectionWindow = function(_userId) {
 		});
 	});
 	
-	BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
-		connectionTableData = []; //reset table data
-		connectedMatches = _connectedMatchInfo.content.connected_matches; 
-		for(var i = 0; i < connectedMatches.length; i++) {
-			var curConnect = connectedMatches[i];
-			var personRow = new ConnectionTableViewRow(_userId, curConnect);
-			connectionTableData.push(personRow);
-		}
-		connectionTableView.setData(connectionTableData);
-	});
+	loadConnectedMatches();
 	
 	// add delete event listener
 	connectionTableView.addEventListener('delete',function(e) {
@@ -111,6 +115,10 @@ ConnectionWindow = function(_userId) {
 	
 	self.unhideCoverView = function() {
 		self.remove(coverView);
+	};
+	
+	self.reloadConnections = function() {
+		loadConnectedMatches();
 	};
 	
 	return self;

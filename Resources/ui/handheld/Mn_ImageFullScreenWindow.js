@@ -16,7 +16,7 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray, _currentPage) {
 	});
 	
 	var doneText = Ti.UI.createLabel({
-		text: 'Done', 
+		text: L('Done'), 
 		center: {x:'50%', y:'50%'},
 		color: '#e6e6e6', 
 		font:{fontWeight:'bold',fontSize:12},
@@ -47,6 +47,7 @@ var ImageFullScreenWindow = function(_navGroup, _imagesArray, _currentPage) {
 		showPagingControl:true,
 		pagingControlHeight:20,
 		currentPage:_currentPage,
+		disableBounce: true,
 		zIndex:1
 	});
 	

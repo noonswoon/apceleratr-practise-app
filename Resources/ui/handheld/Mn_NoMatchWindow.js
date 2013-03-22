@@ -1,4 +1,4 @@
-NoMatchWindow = function(_userId) {
+NoMatchWindow = function() {
 	Ti.App.Flurry.logEvent('no-match-screen');
 	
 	//create component instance
@@ -19,7 +19,7 @@ NoMatchWindow = function(_userId) {
 					
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'There\'s no match today',
+		text: L('There\'s no match today'),
 		center: {x:'50%', y:'50%'}, //x:70
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
@@ -30,33 +30,45 @@ NoMatchWindow = function(_userId) {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'Check back again at noon tomorrow',
+		text: L('Check back again at noon tomorrow'),
 		center: {x:'50%', y:'58%'}, //x:88
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:14},
 	});
 	self.add(description1Lbl);
 
-	var notifyBtn = Ti.UI.createButton({
-		title: 'Notify Noonswoon',
+	var inviteFriendsButton = Ti.UI.createButton({
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:375}, //x:67
-		color: '#616a75',
-		font:{fontWeight:'bold',fontSize:18},
 		width: 300, 
 		height: 50
 	})
-	self.add(notifyBtn);
 	
-	notifyBtn.addEventListener('click', function() {
-		var emailDialog = Ti.UI.createEmailDialog()
-		emailDialog.subject = "No Match - Assistant";
-		emailDialog.toRecipients = ['support@noonswoon.com'];
-		emailDialog.messageBody = '';
-		emailDialog.barColor = '#850f16';
-		emailDialog.open();
+	var inviteFriendsButtonText = Ti.UI.createLabel({
+		text: L('Invite more friends'),
+		color: '#616a75',
+		font:{fontWeight:'bold',fontSize:18},
+		center: {x:'50%', y:'50%'}
 	});
+	inviteFriendsButton.add(inviteFriendsButtonText);
+	
+	var moreFriendsText = Ti.UI.createLabel({
+		text: L('You get better matches with more friends'),
+		color: '#919191',
+		center: {x:'50%', y:405},
+		font:{fontWeight:'bold',fontSize:12},
+		zIndex: 4,
+	});
+	self.add(moreFriendsText);
+	
+
+	inviteFriendsButton.addEventListener('click', function() {
+		Ti.App.fireEvent('openInviteFriendWindow', {toggle:false});
+	});
+	
+	self.add(inviteFriendsButton);
+
 	return self;
 };
 

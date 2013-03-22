@@ -58,7 +58,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	timerView.add(remainingHourLbl);
 	
 	var hLabel = Ti.UI.createLabel({
-		text: 'h',
+		text: L('hourLabel'),
 		color: '#e3afba',
 		bottom: 7,
 		left: 33,
@@ -82,7 +82,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	timerView.add(remainingMinuteLbl);
 	
 	var mLabel = Ti.UI.createLabel({
-		text: 'm',
+		text: L('minuteLabel'),
 		color: '#e3afba',
 		bottom: 7,
 		left: 75,
@@ -106,7 +106,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	timerView.add(remainingSecondLbl);
 	
 	var sLabel = Ti.UI.createLabel({
-		text: 's',
+		text: L('secondLabel'),
 		color: '#e3afba',
 		bottom: 7,
 		left: 120,

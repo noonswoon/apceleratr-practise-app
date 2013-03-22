@@ -20,7 +20,7 @@ NoInternetWindow = function() {
 					
 	//80868e  headline
 	var headlineLbl = Ti.UI.createLabel({
-		text: 'No Internet Connection',
+		text: L('No Internet Connection'),
 		center: {x:'50%', y:'50%'}, //x:70
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
@@ -31,7 +31,7 @@ NoInternetWindow = function() {
 	
 	//a6a9ae description
 	var description1Lbl = Ti.UI.createLabel({
-		text: 'Retry',
+		text: L('Retry'),
 		center: {x:'56%', y:'63%'}, //x:88
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:18},

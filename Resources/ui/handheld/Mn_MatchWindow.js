@@ -21,6 +21,7 @@ MatchWindow = function(_userId, _matchId) {
 	//create component instance
 	
 	var self = Ti.UI.createWindow({
+		top:0,
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
@@ -59,14 +60,7 @@ MatchWindow = function(_userId, _matchId) {
 		ModelFacebookLike.populateFacebookLike(parseInt(_matchInfo.meta.user_id), _matchInfo.content.general.user_id, facebookLikeArray);
 		
 		data = []; //reset table data
-		matchId = _matchInfo.meta.match_id; 
-		var pronoun = "she";
-		var possessive = "her";
-		
-		if(_matchInfo.content.general.gender === "male") {
-			pronoun = "he";
-			possessive = "his";
-		}
+		matchId = _matchInfo.meta.match_id;
 
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
@@ -100,7 +94,7 @@ MatchWindow = function(_userId, _matchId) {
 		
 		var whiteOrGrayFlag = true;
 		//GENERAL SECTION
-		var nameStr = 'private until connected';
+		var nameStr = L('private until connected');
 		if(_matchInfo.content.is_connected)
     		nameStr = _matchInfo.content['general'].first_name;		
 		
@@ -108,7 +102,7 @@ MatchWindow = function(_userId, _matchId) {
 		data.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
-		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' years old', whiteOrGrayFlag);
+		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' ' + L('years old'), whiteOrGrayFlag);
 		data.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
@@ -123,7 +117,7 @@ MatchWindow = function(_userId, _matchId) {
 		}
 		
 		if(_matchInfo.content['height'] !== "" ) {
-			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + " cm", whiteOrGrayFlag);
+			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + ' ' + L('cm'), whiteOrGrayFlag);
 			data.push(heightTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
@@ -175,7 +169,6 @@ MatchWindow = function(_userId, _matchId) {
 		
 		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
 		if(fbLikeCollection.length > 0) {
-			Ti.API.info('fbLikeCollection: '+fbLikeCollection.length);
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
 			data.push(fbLikeTableViewRow);
 		}
@@ -199,33 +192,50 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	if(_matchId === null) {
-		showPreloader(self,'Loading...');
+		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-			populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success)
+				populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
 		});	
 	} else {
-		showPreloader(self,'Loading...');
+		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-			populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success)
+				populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);
 		});
 	}
-
+	
 	var closeCallback = function() {
 		Ti.App.Flurry.endTimedEvent('main-match-window');
-		Ti.API.info('closing todayMatchWindow...');
 		Ti.App.removeEventListener('close', closeCallback);	
 	};
+	self.addEventListener('close', closeCallback);	
 	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
 	};
 	
-	self.addEventListener('close', closeCallback);
-		
+	self.reloadMatch = function() {
+		if(_matchId === null) {
+			showPreloader(self, L('Loading...'));		
+			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+				if(_matchInfo.success)
+					populateMatchDataTableView(_matchInfo);
+				hidePreloader(self);
+			}); 
+		} else {
+			showPreloader(self, L('Loading...'));		
+			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
+				if(_matchInfo.success)
+					populateMatchDataTableView(_matchInfo);
+				hidePreloader(self);
+			});
+		}
+	};
+
 	return self;
 };
 
 module.exports = MatchWindow;
-

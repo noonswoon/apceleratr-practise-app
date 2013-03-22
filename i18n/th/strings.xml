@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="welcome">Welcome to %s!</string>
+	<string name="Welcome to">ขอต้อนรับเข้าสู่</string>
+	<string name="Find The One">หาคนพิเศษคนนั้นของคุณ</string>
+	<string name="tour ➜">ทัวร์ ➜</string>
+	
+	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
+	<string name="Like or Pass your match">ถูกใจหรือผ่าน match ของคุณ</string>	
+	<string name="Get connected">สร้าง connection</string>		
+	<string name="if you like each other">เมื่อถูกใจกันทั้งสองฝ่าย</string>
+	<string name="Chat anonymously">แชทโดยไม่เปิดเผยข้อมูลส่วนตัว</string>
+	<string name="Invite friends, get credits">ชวนเพื่อนคนโสดมาใช้ และรับเครดิต</string>
+	
+	<string name="Connect Privately">เชื่อมต่อด้วยความเป็นส่วนตัว</string>
+	<string name="100% confidential. We never post to Facebook">มีความเป็นส่วนตัว 100% เราไม่โพสข้อความใดใดบนเฟสบุ็คของคุณ</string>	
+	
+	<string name="Message from...">ข้อความจาก...</string>
+	
+	<string name="Personalize">สร้างโปรไฟล์</string>
+	<string name="Show your best side!">คุณมีอะไรน่าสนใจบ้าง</string>
+	<string name="Update your profile">อัพเดทโปรไฟล์คุณ</string>
+	
+	<string name="Invite">ชวนเพื่อน</string>
+	<string name="Invitex">ชวน</string>
+	<string name="You get better matches">ได้ match ที่ดีขึ้นเมื่อ</string>
+	<string name="with more friends">คุณมีเพื่อนในระบบมากขึ้น</string>
+	<string name="invite x friends">ชวนเพื่อน %s คน</string>	
+	<string name="x friends">เพื่อน %s คน</string>	
+	
+	<string name="Congrats">ยินดีด้วย!</string>
+	<string name="You will be receiving a new match">คุณจะได้รับ match ของคุณ</string>
+	<string name="every day at noon">ในตอนเที่ยงของทุกๆวัน</string>
+
+	<string name="Credits">เครดิต</string>	
+	<string name="You have x credits left\n\n">คุณมีเครดิตเหลืออยู่ %s เครดิต\n\n</string>
+	<string name="Use 10 credits to Like someone\n">ใช้ 10 เครดิตถ้าคุณจะ ถูกใจ match ของคุณ\n</string>
+	<string name="Use 5 credits to see mutual friends\n">ใช้ 5 เครดิตที่จะดูเพื่อนของเพื่อน\n</string>
+	<string name="Get 2 credits per friend invite\n">รับ 2 เครดิตเมื่อชวนเพื่อนแต่ละคน\n</string>
+	<string name="Get 1 credit per daily login">รับ 1 เครดิตเมื่อเข้าใช้ในแต่ละวัน</string>
+			
+	<string name="My Profile">โปรไฟล์ของฉัน</string>
+	<string name="INVITE OTHER FRIENDS">ชวนเพื่อนคนอื่น</string>
+	<string name="Invite these 5 friends">ชวนเพื่อน 5 คนนี้</string>		
+
+	<string name="Chat with">แชทกับ</string>
+	<string name="Nice to meet you! However, I am just a cartoon.">สวัสดี ยินดีที่ได้รู้จัก แต่ฉันเป็นเพียงแค่การ์ตูน</string>
+	<string name="I would love to meet up with you if I were a real person.">ฉันอยากจะเจอตัวจริงของเธอถ้าฉันเป็นคนจริงๆ</string>
+	<string name="Can you come to the cartoon world?">เธอมาหาฉันในโลกของการ์ตูนได้ไหม</string>
+	<string name="History ends here">ไม่มีข้อมูลแชท</string>
+	<string name="No more chat history with">ไม่มีข้อมูลแชทกับ</string>
+	<string name=". Be confident! Chat up :)"> กล้าๆหน่อย แชทเลย!</string>
+	<string name="Send">ส่ง</string>
+	<string name="Message">ข้อความ</string>
+	
+	<string name="Edit Profile">แก้ไขโปรไฟล์</string>
+	<string name="Choose your ethnicity">เลือกเชื้อชาติของคุณ</string>
+	<string name="Choose your religion">เลือกศาสนาของคุณ</string>
+	<string name="Choose from Facebook">เลือกรูปจากเฟสบุ๊ค</string>
+	<string name="Choose from Library">เลือกรูปภาพ</string>
+	<string name="Take Photo">ถ่ายรูป</string>
+	<string name="Cancel">ยกเลิก</string>
+	<string name="Warning">คำเตือน</string>
+	<string name="You will lose any unsaved data">คุณจะสูญเสียข้อมูลที่ยังไม่ได้ถูกบันทึก</string>
+	<string name="Continue">ทำต่อ</string>
+	<string name="Incomplete Profile">โปรไฟล์ไม่สมบูรณ์</string>
+
+	<string name="Specify your">โปรดระบุ</string>
+	<string name="height, ethnicity, and religion">ส่วนสูง เชื้อชาติ และศาสนาของคุณ</string>
+	<string name="height and ethnicity">ส่วนสูงและเชื้อชาติของคุณ</string>
+	<string name="height and religion">ส่วนสูงและศาสนาของคุณ</string>
+	<string name="ethnicity and religion">เชื้อชาติและศาสนาของคุณ</string>
+	<string name="height">ส่วนสูงของคุณ</string>
+	<string name="ethnicity">เชื้อชาติของคุณ</string>
+	<string name="religion">ศาสนาของคุณ</string>		
+	
+	<string name="Your Graduate School">ระบุบัณฑิตวิทยาลัยของคุณ</string>
+	<string name="Your Undergraduate School">ระบุวิทยาลัยของคุณ</string>
+	<string name="Your High School">ระบุมัธยมศึกษาของคุณ</string>
+
+	<string name="Graduate Degree">บัณฑิตวิทยาลัย</string>
+	<string name="Graduate degree">บัณฑิตวิทยาลัย</string>
+	
+	<string name="Undergraduate Degree">วิทยาลัย</string>
+	<string name="Undergraduate degree">วิทยาลัย</string>
+	
+	<string name="High School">มัธยมศึกษา</string>
+	<string name="High school">มัธยมศึกษา</string>
+		
+	<string name="A problem occurred">มีปัญหาเกิดขึ้น</string>
+	<string name="Retry">ลองอีกครั้ง</string>
+	<string name="Contact Support">แจ้งปัญหา</string>
+	<string name="Noonswoon Support">Noonswoon Support</string>
+	<string name="\n\n\nPlease let us know what problem you encountered">\n\n\nกรุณาบอกว่าแอพพลิเคชั่นผิดพลาดอย่างไร</string>
+
+	<string name="Facebook Photos">รูปภาพจากเฟสบุ๊ค</string>
+
+	<string name="FRIENDS">FRIENDS</string>
+	<string name="Friends">เพื่อน</string>
+	<string name="FriendsInvite">ชวนเพื่อน</string>
+	
+	<string name="Receive">รับ</string>
+	<string name="2 credits">2 เครดิต</string>
+	<string name="for each friend you invite">สำหรับเพื่อนแต่ละคนที่คุณชวน</string>
+	<string name="friends">เพื่อน</string>
+	<string name="to get started">เพื่อเริ่มต้น</string>
+	<string name="Search">ค้นหา</string>
+	
+	<string name="Loading...">กำลังโหลด...</string>
+	
+	<string name="s"></string>
+	<string name="x mutual friend">มีเพื่อนร่วมกัน %s คน</string>	
+	<string name="Mutual Friends">Mutual Friends</string>
+	<string name="mutual friend">mutual friend</string>
+	<string name="Not enough credits">มีเครดิตไม่พอ</string>
+	<string name="Get credits by inviting your friends to Noonswoon!">รับเครดิตเพื่อนโดยการชวนเพื่อนคนโสดมาใช้ Noonswoon!</string>
+	<string name="Ok">ตกลง</string>
+	<string name="Reveal Mutual Friends">เปิดเผยว่าใครเป็น mutual friends</string>
+	<string name="5 credits will be deducted">คุณจะต้องใช้ 5 เครดิต</string>
+	<string name="Reveal">เปิดเผย</string>
+	
+	<string name="No Internet Connection">ไม่มีอินเตอร์เน็ต</string>
+	<string name="There is no match today">วันนี้คุณไม่มี Match</string>
+	<string name="Check back again at noon tomorrow">เข้ามาเช็คอีกครั้ง ในวันพรุ่งนี้ตอนเที่ยง</string>
+	<string name="Invite more friends">ชวนเพื่อนมาใช้</string>
+	<string name="You get better matches with more friends">You get better matches with more friends</string>		
+
+	<string name="Notify Noonswoon">แจ้ง Noonswoon</string>
+	<string name="No Match - Assistant">No Match - Assistant</string>
+	
+	<string name="edit">แก้ไข</string>
+	<string name="Edit">แก้ไข</string>
+	<string name="EDIT">แก้ไข</string>
+
+	<string name="Save">บันทีก</string>
+
+	<string name="Done">เสร็จ</string>
+	<string name="DONE">เสร็จ</string>
+			
+	<string name="Like">ถูกใจ</string>
+	<string name="Liked">ถูกใจ</string>
+		
+	<string name="Pass">ผ่าน</string>
+	<string name="Passed">ผ่าน</string>
+	
+	<string name="You need 10 credits to \'Like\' a person. Invite more friends to get more credits.">คุณต้องมีอย่างน้อย 10 เครดิต เพื่อ \'ถูกใจ\' ชวนเพื่อนคนโสดของคุณเพื่อรับเครดิตเพิ่ม</string>
+	
+	<string name="Report profile">แจ้งโปรไฟล์ไม่เหมาะสม</string>
+	<string name="Profile reported">รับแจ้งโปรไฟล์</string>
+	<string name="We will review this profile. If you want to provide more details, please email us at support@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าว ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ support@noonswoon.com </string>
+	<string name="Oops..something is wrong">Oops..มีปัญหาเกิดขึ้น</string>
+	<string name="Please report again">โปรดแจ้งอีกครั้ง</string>
+	
+	<string name="hourLabel">ช</string>
+	<string name="minuteLabel">น</string>
+	<string name="secondLabel">ว</string>
+	
+	<string name="My Profile">โปรไฟล์ของฉัน</string>
+	<string name="\'s Profile">\'s Profile</string>
+	<string name="CONNECTIONS">CONNECTIONS</string>
+	
+	<string name="Log Out">ออกจากระบบ</string>
+	
+	<string name="Height (cm)">ส่วนสูง (ซม)</string>
+	<string name="Ethnicity">เชื้อชาติ</string>
+	<string name="Religion">ศาสนา</string>
+	<string name="Occupation">อาชีพ</string>
+	<string name="Employer">ที่ทำงาน</string>
+	<string name="Write something about yourself...">เขียนเกี่ยวกับตัวคุณ...</string>
+
+	<string name="private until connected">ไม่เปิดเผยจนกว่าจะ connect กัน</string>	
+	<string name="years old">ปี</string>
+	<string name="cm">เซนติเมตร</string>
+
+	<string name="Aquarius">ราศีกุมภ์</string>
+	<string name="Aries">ราศีเมษ</string>
+	<string name="Cancer">ราศีกรกฎ</string>
+	<string name="Capricorn">ราศีมังกร</string>
+	<string name="Gemini">ราศีเมถุน</string>
+	<string name="Leo">ราศีสิงห์</string>
+	<string name="Libra">ราศีตุลย์</string>
+	<string name="Pisces">ราศีมีน</string>
+	<string name="Sagittarius">ราศีธนู</string>
+	<string name="Scopio">ราศีพิจิก</string>
+	<string name="Taurus">ราศีพฤษภ</string>
+	<string name="Virgo">ราศีกันย์</string>
+	
+	<string name="Asian">คนเอเชีย</string>
+	<string name="White/Caucasian">คนผิวขาว</string>
+	<string name="Black/African-descent">คนผิวดำ</string>
+	<string name="South Asian">คนเอเชียใต้ (แขก)</string>
+	<string name="Mixed">ลูกครึ่ง</string>
+
+	<string name="Buddhist">ศาสนาพุทธ</string>
+	<string name="Christian">ศาสนาคริสต์ (โปรแตสแตนท์)</string>
+	<string name="Catholic">ศาสนาคริสต์ (คาทอลิก)</string>
+	<string name="Muslim">ศาสนาอิสลาม</string>
+	<string name="Spiritual but not religious">นับถือแต่ไม่เคร่งในศาสนาใด</string>
+	<string name="Other">อื่นๆ</string>
+	
+	<string name="Noonswoon is not offered">Noonswoon ยังไม่ได้ให้บริการ</string>
+	<string name="in your city yet">ในจังหวัดของคุณ</string>
+	<string name="You need at least 50 Facebook">คุณต้องมีเพื่อนในเฟสบุ๊คอย่างน้อย</string>
+	<string name="friends to use Noonswoon">50 คนเพื่อใช้ Noonswoon</string>
+	<string name="Your account">Account ของคุณ</string>
+	<string name="is currently blocked">ถูกระงับการใช้</string>
+	<string name="You are not single">คุณไม่ใช่คนโสด</string>
+	<string name="Come back when you are">กลับมาใหม่ตอนที่โสดนะ</string>	
+</resources>

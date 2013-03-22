@@ -1,4 +1,6 @@
 EducationEditTableViewRow = function(_educationArray) {
+	var DefaultTextHelper = require('internal_libs/defaultTextHelper');
+	
 	var fieldName = 'education';
 	var modified = false;
 
@@ -31,8 +33,11 @@ EducationEditTableViewRow = function(_educationArray) {
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
-	var schoolNameDefaultStr = ['Your Graduate School', 'Your Undergraduate School', 'Your High School'];
-	var schoolLevelStr = ['Graduate Degree', 'Undergraduate Degree', 'High School'];
+	var schoolNameDefaultStr = [ DefaultTextHelper.getDefaultText('graduate_school'), 
+								DefaultTextHelper.getDefaultText('college'), 
+								DefaultTextHelper.getDefaultText('high_school')
+								];
+	var schoolLevelStr = [L('Graduate Degree'), L('Undergraduate Degree'), L('High School')];
 	
 	for(var i = 0; i < 3; i++) {
 		var glyphImageUrl = 'images/glyph/glyph-profile-education.png';
@@ -118,10 +123,22 @@ EducationEditTableViewRow = function(_educationArray) {
 	};
 		
 	tableRow.getContent = function() {
+		var graduateStr = tableRow.graduateSchoolTextfield.value; 
+		if(graduateStr === DefaultTextHelper.getDefaultText('graduate_school'))
+			graduateStr = "";
+		
+		var undergraduateStr = tableRow.undergraduateSchoolTextfield.value; 
+		if(undergraduateStr === DefaultTextHelper.getDefaultText('college'))
+			undergraduateStr = "";
+			
+		var highSchoolStr = tableRow.undergraduateSchoolTextfield.value; 
+		if(highSchoolStr === DefaultTextHelper.getDefaultText('high_school'))
+			highSchoolStr = "";
+			
 		return {
-				'graduate_school':tableRow.graduateSchoolTextfield.value,
-				'college':tableRow.undergraduateSchoolTextfield.value,
-				'high_school':tableRow.highSchoolTextfield.value
+				'graduate_school':graduateStr,
+				'college':undergraduateStr,
+				'high_school':highSchoolStr
 		};
 	};
 
