@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-=======
-var APP_STORE_OR_AD_HOC_BUILD = true;
-var URBAN_AIRSHIP_APP_DEV_KEY = "-iH8x1gCSA-myDRSkHtW1A";
-var URBAN_AIRSHIP_APP_DEV_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
-var URBAN_AIRSHIP_APP_PROD_KEY = "y3en0sTuREKQlFvB6Lop0A";
-var URBAN_AIRSHIP_APP_PROD_SECRET = "FTsofROESraMdFuLY-x0RQ";
->>>>>>> added in urban airship production key/secret
 var MY_DEVICE_TOKEN_SYM = 'myDeviceToken';
 
 var getDeviceToken = function() {
