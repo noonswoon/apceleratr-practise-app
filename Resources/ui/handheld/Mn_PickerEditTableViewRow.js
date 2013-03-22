@@ -6,11 +6,12 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	
 	var content = _content;
 	var textColor = "#4e5866";
-	if(_content === "") {
+
+	if(content === "") {
 		textColor =  "#a3a7ad";
 		content = DefaultTextHelper.getDefaultText(_fieldName);
 	}
-	
+		
 	var tableRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -34,7 +35,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	});
 	tableRow.add(contentTextfield);
 	
-	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, _content, false);
+	var topicGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, content, false);
 	
 	var glyphImage = Ti.UI.createImageView({
 		top: 8,
@@ -50,7 +51,9 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	};
 	
 	tableRow.getContent = function() {
-		return contentTextfield.value;
+		if(contentTextfield.value === DefaultTextHelper.getDefaultText(fieldName))
+			return '';
+		else return contentTextfield.value;
 	};
 	
 	tableRow.getModified = function() {
@@ -62,7 +65,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	};
 	
 	tableRow.resetBorder = function() {
-		contentTextfield.borderColor = '#bbb';
+		contentTextfield.borderColor = 'transparent';
 	};
 
 	//Opacity window when picker is shown
@@ -100,10 +103,13 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 		top:43
 	});
 	picker.selectionIndicator = true;
-	
 
+	var selectedRow = -1;
 	for(var i = 0; i < _pickerData.length; i++) {
 		var curContent = _pickerData[i];
+		if(content === curContent)
+			selectedRow = i;
+
 		var row = Ti.UI.createPickerRow({
 			width:100,
 			heigth:100,
@@ -136,13 +142,16 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	var handleFirstPickerChange = false;
 	if(_fieldName === 'height')	{	//auto select for height
 		picker.setSelectedRow(0, 30,false);
+	} else {
+		if(selectedRow !== -1)
+			picker.setSelectedRow(0,selectedRow,false);
 	}
 	
 	var slideInAnimation =  Titanium.UI.createAnimation({bottom:0});
 	var slideOutAnimation =  Titanium.UI.createAnimation({bottom:-251});
 
 	contentTextfield.addEventListener('focus',function() {
-		if(contentTextfield.value === DefaultTextHelper.getDefaultText(_fieldName)) {
+		if(contentTextfield.value === DefaultTextHelper.getDefaultText(fieldName)) {
 			contentTextfield.value = "";
 			contentTextfield.color = "#4e5866";
 		}
@@ -153,30 +162,20 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 	});
 
 	done.addEventListener('click',function() {
-		if(_fieldName === 'height' && contentTextfield.value === "")
-			contentTextfield.value = 170;
+		contentTextfield.color = "#4e5866";
+		tableRow.resetBorder();
+		if(_fieldName === 'height') {
+			var heightContent = picker.getSelectedRow(0).content.split(" ")[0];
+			var heightNumeric = parseInt(heightContent.split(" ")[0]);
+			contentTextfield.value = heightNumeric;
+		} else {
+			contentTextfield.value = picker.getSelectedRow(0).content;
+			var newGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, picker.getSelectedRow(0).content, false);
+			glyphImage.image = newGlyphImage;
+		}	
 		
 		pickerView.animate(slideOutAnimation);
 		_parentWindow.remove(opacityView);
-	});
-	
-	picker.addEventListener('change',function(e) {
-		Ti.API.info('picker change...');
-		if(_fieldName !== 'height') {
-			if(e.rowIndex === 0)
-				contentTextfield.value = '';
-			else {
-				contentTextfield.value = e.row.content;
-				var newGlyphImage = GlyphGraphicsHelper.getTopicGlyph(_fieldName, e.row.content, false);
-				glyphImage.image = newGlyphImage;
-			}
-		} else { //height case
-			if(!handleFirstPickerChange) {
-				handleFirstPickerChange = true; //not doing anything for the first change
-			} else {
-				contentTextfield.value = (e.rowIndex + 140);
-			}
-		}
 	});
 
 	_parentWindow.add(pickerView);

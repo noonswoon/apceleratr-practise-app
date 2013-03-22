@@ -2,7 +2,7 @@
 <resources>
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">Welcome to</string>
-	<string name="Find the One">Find the One</string>
+	<string name="Find The One">Find The One</string>
 	<string name="tour ➜">tour ➜</string>
 
 	<string name="Get a new match every day">Get a new match every day</string>
@@ -56,10 +56,17 @@
 	<string name="Warning">Warning</string>
 	<string name="You will lose any unsaved data">You will lose any unsaved data</string>
 	<string name="Continue">Continue</string>
-	<string name="Missing information">Missing information</string>
-	<string name="Please specify your height, ethnicity, and religion. It only takes 2 seconds.">Please specify your height, ethnicity, and religion. It only takes 2 seconds.</string>
-	<string name="Please select your height">Please select your height</string>
-	<string name="Select your height again.">Select your height again.</string>	
+	<string name="Incomplete Profile">Incomplete Profile</string>
+
+	<string name="Specify your">Specify your</string>
+	<string name="height, ethnicity, and religion">height, ethnicity, and religion</string>
+	<string name="height and ethnicity">height and ethnicity</string>
+	<string name="height and religion">height and religion</string>
+	<string name="ethnicity and religion">ethnicity and religion</string>
+	<string name="height">height</string>
+	<string name="ethnicity">ethnicity</string>
+	<string name="religion">religion</string>	
+		
 	<string name="Your Graduate School">Your Graduate School</string>
 	<string name="Your Undergraduate School">Your Undergraduate School</string>
 	<string name="Your High School">Your High School</string>

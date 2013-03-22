@@ -2,7 +2,7 @@
 <resources>
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">ขอต้อนรับเข้าสู่</string>
-	<string name="Find the One">หาคนพิเศษคนนั้นของคุณ</string>
+	<string name="Find The One">หาคนพิเศษคนนั้นของคุณ</string>
 	<string name="tour ➜">ทัวร์ ➜</string>
 	
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
@@ -56,10 +56,17 @@
 	<string name="Warning">คำเตือน</string>
 	<string name="You will lose any unsaved data">คุณจะสูญเสียข้อมูลที่ยังไม่ได้ถูกบันทึก</string>
 	<string name="Continue">ทำต่อ</string>
-	<string name="Missing information">ข้อมูลไม่ครบ</string>
-	<string name="Please specify your height, ethnicity, and religion. It only takes 2 seconds.">โปรดระบุ ส่วนสูง เชื้อชาติ ศาสนาของคุณ</string>
-	<string name="Please select your height">เลือกความสูงของคุณ</string>
-	<string name="Select your height again.">เลือกความสูงของคุณอีกครั้ง</string>	
+	<string name="Incomplete Profile">โปรไฟล์ไม่สมบูรณ์</string>
+
+	<string name="Specify your">โปรดระบุ</string>
+	<string name="height, ethnicity, and religion">ส่วนสูง เชื้อชาติ และศาสนาของคุณ</string>
+	<string name="height and ethnicity">ส่วนสูงและเชื้อชาติของคุณ</string>
+	<string name="height and religion">ส่วนสูงและศาสนาของคุณ</string>
+	<string name="ethnicity and religion">เชื้อชาติและศาสนาของคุณ</string>
+	<string name="height">ส่วนสูงของคุณ</string>
+	<string name="ethnicity">เชื้อชาติของคุณ</string>
+	<string name="religion">ศาสนาของคุณ</string>		
+	
 	<string name="Your Graduate School">ระบุบัณฑิตวิทยาลัยของคุณ</string>
 	<string name="Your Undergraduate School">ระบุวิทยาลัยของคุณ</string>
 	<string name="Your High School">ระบุมัธยมศึกษาของคุณ</string>

@@ -19,14 +19,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var ModelReligion = require('model/religion');
 	
 	var ethnicityValue = ModelEthnicity.getEthnicity();
-	ethnicityValue.reverse(); 
-	ethnicityValue.push(L('Choose your ethnicity')); 
-	ethnicityValue.reverse(); 
+//	ethnicityValue.reverse(); 
+//	ethnicityValue.push(L('Choose your ethnicity')); 
+//	ethnicityValue.reverse(); 
 	
 	var religionValue = ModelReligion.getReligion();
-	religionValue.reverse(); 
-	religionValue.push(L('Choose your religion')); 
-	religionValue.reverse(); 
+//	religionValue.reverse(); 
+//	religionValue.push(L('Choose your religion')); 
+//	religionValue.reverse(); 
 	
 	var heightArray = [];
 	for(var i = 140; i <= 220; i++) {
@@ -310,8 +310,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 	
 	var unsavedWarningDialog = Titanium.UI.createAlertDialog({
-		title: L('Profile is not saved'),
-		message:L('You will lose your unsaved data'),
+		title: L('Warning'),
+		message:L('You will lose any unsaved data'),
 		buttonNames: [L('Cancel'),L('Continue')],
 		cancel: 0
 	});
@@ -335,6 +335,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var editParams = {}; 
 		var okToSave = true; 
 		var heightWarning = false;
+		var religionWarning = false;
+		var ethnicityWarning = false;
 		
 		//when click save, go through each image and element in the table
 		//see which one is modified, build the content to send to the server
@@ -357,19 +359,21 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		    for(var j = 0; j < section.rowCount; j++) {
 		        var row = section.rows[j];
 		        
+		        Ti.API.info('getContent: '+row.getContent()+', fieldName: '+row.getFieldName());
 		        if(row.getContent() === '' && (
 		        	row.getFieldName() === 'height' ||
 		        	row.getFieldName() === 'religion' ||
 		        	row.getFieldName() === 'ethnicity')
 		        ) {
+		        	if(row.getFieldName() === 'height')
+		        		heightWarning = true;
+		        	else if(row.getFieldName() === 'religion')
+		        		religionWarning = true;
+		        	else if(row.getFieldName() === 'ethnicity')
+		        		ethnicityWarning = true;
+		        		
 		        	row.highlightBorder();
 		        	okToSave = false;
-		        }
-		        
-		        if(row.getFieldName() === 'height' && !IsNumeric(row.getContent())) {
-		        	row.highlightBorder();
-		        	okToSave = false;
-		        	heightWarning = true;
 		        }
 		        
 		        if(row.getModified()) {
@@ -419,12 +423,25 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				}
 			});
 		} else {
-			var warningTitle = L('Missing information');
-			var warningMsg = L('Please specify your height, ethnicity, and religion');
-			if(heightWarning) {
-				warningTitle = L('Please select your height');
-				warningMsg = L('Select your height again');
-			}
+			var warningTitle = L('Incomplete Profile');
+			var warningMsg = L('Specify your');
+			
+			if(heightWarning && ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('height, ethnicity, and religion');
+			else if(heightWarning && ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('height and ethnicity');
+			else if(heightWarning && !ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('height and religion');
+			else if(!heightWarning && ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('ethnicity and religion');
+			else if(heightWarning && !ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('height');
+			else if(!heightWarning && ethnicityWarning && !religionWarning)
+				warningMsg = warningMsg + ' ' + L('ethnicity');
+			else if(!heightWarning && !ethnicityWarning && religionWarning)
+				warningMsg = warningMsg + ' ' + L('religion');
+			else warningMsg = warningMsg + ' ' + L('height, ethnicity, and religion');
+			
 			var warningDialog = Titanium.UI.createAlertDialog({
 				title:warningTitle,
 				message:warningMsg

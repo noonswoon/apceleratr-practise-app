@@ -59,7 +59,9 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 	};
 	
 	tableRow.getContent = function() {
-		return contentTextfield.value;
+		if(contentTextfield.value === DefaultTextHelper.getDefaultText(fieldName))
+			return "";
+		else return contentTextfield.value;
 	};
 	
 	tableRow.getModified = function() {
