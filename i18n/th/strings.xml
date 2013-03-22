@@ -146,8 +146,8 @@
 	<string name="You need 10 credits to \'Like\' a person. Invite more friends to get more credits.">คุณต้องมีอย่างน้อย 10 เครดิต เพื่อ \'ถูกใจ\' ชวนเพื่อนคนโสดของคุณเพื่อรับเครดิตเพิ่ม</string>
 	
 	<string name="Report profile">แจ้งโปรไฟล์ไม่เหมาะสม</string>
-	<string name="Profile reported">รับแจ้งโปรไฟล์</string>
-	<string name="We will review this profile. If you want to provide more details, please email us at support@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าว ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ support@noonswoon.com </string>
+	<string name="Profile Reported">รับแจ้งโปรไฟล์</string>
+	<string name="We will review this profile. If you want to provide more details, email us at support@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าว ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ support@noonswoon.com </string>
 	<string name="Oops..something is wrong">Oops..มีปัญหาเกิดขึ้น</string>
 	<string name="Please report again">โปรดแจ้งอีกครั้ง</string>
 	
