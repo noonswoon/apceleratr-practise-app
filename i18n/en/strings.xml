@@ -36,7 +36,7 @@
 	<string name="You have x credits left\n\n">You have %s credits left\n\n</string>
 	<string name="Use 10 credits to Like someone\n">Use 10 credits to Like someone\n</string>
 	<string name="Use 5 credits to see mutual friends\n">Use 5 credits to see mutual friends\n</string>
-	<string name="Get 2 credits for each friend invite\n">Get 2 credits for each friend invite\n</string>
+	<string name="Get 2 credits per friend invite\n">Get 2 credits per friend invite\n</string>
 	<string name="Get 1 credit per daily login">Get 1 credit per daily login</string>
 					
 	<string name="My Profile">My Profile</string>

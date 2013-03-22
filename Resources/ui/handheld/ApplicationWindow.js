@@ -12,6 +12,7 @@ function ApplicationWindow(_userId, _userImage) {
 	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var UrbanAirship = require('external_libs/UrbanAirship');
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 
 	//load component dependencies
@@ -164,6 +165,8 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.titleControl = timerView;
 	
 	var resumeCallback = function() {
+		Ti.UI.iPhone.appBadge = null;
+		UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
 		if(noMatchWindow !== null) {
 			navigationGroup.close(noMatchWindow, {animated:false});
 			noMatchWindow = null;

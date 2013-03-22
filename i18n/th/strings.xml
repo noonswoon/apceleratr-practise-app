@@ -36,7 +36,7 @@
 	<string name="You have x credits left\n\n">คุณมีเครดิตเหลืออยู่ %s เครดิต\n\n</string>
 	<string name="Use 10 credits to Like someone\n">ใช้ 10 เครดิตถ้าคุณจะ ถูกใจ match ของคุณ\n</string>
 	<string name="Use 5 credits to see mutual friends\n">ใช้ 5 เครดิตที่จะดูเพื่อนของเพื่อน\n</string>
-	<string name="Get 2 credits for each friend invite\n">รับ 2 เครดิตเมื่อชวนเพื่อนแต่ละคน\n</string>
+	<string name="Get 2 credits per friend invite\n">รับ 2 เครดิตเมื่อชวนเพื่อนแต่ละคน\n</string>
 	<string name="Get 1 credit per daily login">รับ 1 เครดิตเมื่อเข้าใช้ในแต่ละวัน</string>
 			
 	<string name="My Profile">โปรไฟล์ของฉัน</string>

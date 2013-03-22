@@ -138,11 +138,12 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 				var receiverId = e.data['aps']['receiver_id'];
 				var receiverImage = e.data['aps']['receiver_image'];
 */				
-				var msgDialog = Titanium.UI.createAlertDialog({
+/*				var msgDialog = Titanium.UI.createAlertDialog({
 					title: L('Message from...'),
 					message:message
 				});
 				msgDialog.show();
+*/
 			} else {
 				message = 'No Alert content';
 			}
