@@ -159,10 +159,11 @@ CreditView = function(_credit) {
 	});
 
 	var creditInstruction = String.format(L('You have x credits left\n\n'), (_credit+""));
-	creditInstruction += L('Use 10 credits to Like someone\n');
+	creditInstruction += L('Get 1 credit for each daily login\n');
+	creditInstruction += L('Get 2 credits for each friend invite\n');	
 	creditInstruction += L('Use 5 credits to see mutual friends\n');
-	creditInstruction += L('Get 2 credits per friend invite\n');
-	creditInstruction += L('Get 1 credit per daily login');
+	creditInstruction += L('Use 10 credits to Like someone');
+
 	var creditDialog = Titanium.UI.createAlertDialog({
 		title: L('Credits'),
 		message: creditInstruction,

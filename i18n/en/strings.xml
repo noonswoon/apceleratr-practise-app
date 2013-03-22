@@ -34,11 +34,11 @@
 	
 	<string name="Credits">Credits</string>
 	<string name="You have x credits left\n\n">You have %s credits left\n\n</string>
-	<string name="Use 10 credits to Like someone\n">Use 10 credits to Like someone\n</string>
+	<string name="Get 1 credit for each daily login\n">Get 1 credit for each daily login\n</string>
+	<string name="Get 2 credits for each friend invite\n">Get 2 credits for each friend invite\n</string>
 	<string name="Use 5 credits to see mutual friends\n">Use 5 credits to see mutual friends\n</string>
-	<string name="Get 2 credits per friend invite\n">Get 2 credits per friend invite\n</string>
-	<string name="Get 1 credit per daily login">Get 1 credit per daily login</string>
-					
+	<string name="Use 10 credits to Like someone">Use 10 credits to Like someone</string>
+								
 	<string name="My Profile">My Profile</string>
 	<string name="INVITE OTHER FRIENDS">INVITE OTHER FRIENDS</string>
 	<string name="Invite these 5 friends">Invite these 5 friends</string>		
