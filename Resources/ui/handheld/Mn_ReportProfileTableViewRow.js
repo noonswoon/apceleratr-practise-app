@@ -35,7 +35,7 @@ ReportProfileTableViewRow = function(_userId, _targetedUserId) {
 	
 	var saveReportCallback = function(e) {
 		var reportDialog = Titanium.UI.createAlertDialog({
-			title: L('Thank you so much!'),
+			title: L('Profile reported'),
 			message: L('We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com'),
 			buttonNames: [L('Ok')],
 		});

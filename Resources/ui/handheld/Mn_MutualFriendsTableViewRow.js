@@ -53,7 +53,7 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	
 	var mutualFriendsDialog = Titanium.UI.createAlertDialog({
 		title: L('Reveal Mutual Friends'),
-		message: L('5 credits will be deducted from your account for this action'),
+		message: L('5 credits will be deducted'),
 		buttonNames: [L('Cancel'), L('Use credits')],
 		cancel: 0
 	});

@@ -20,8 +20,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
 	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
-	
-	
+
 	var userInfo = null;
 	//create component instance
 	
@@ -208,7 +207,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			});
 			
 			var logoutButton = Ti.UI.createButton({
-				title: L('Logout'),
+				title: L('Log Out'),
 				backgroundImage: 'images/post-onboarding-button.png',
 				backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 				center: {x:'50%', y:'50%'}, //x:67

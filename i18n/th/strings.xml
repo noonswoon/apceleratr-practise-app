@@ -53,8 +53,8 @@
 	<string name="Choose from Library">เลือกรูปภาพ</string>
 	<string name="Take Photo">ถ่ายรูป</string>
 	<string name="Cancel">ยกเลิก</string>
-	<string name="Profile is not saved">โปรไฟล์ไม่ได้ถูกบันทึก</string>
-	<string name="You will lose your unsaved data">คุณจะสูญเสียข้อมูลที่ยังไม่ได้ถูกบันทึก</string>
+	<string name="Warning">คำเตือน</string>
+	<string name="You will lose any unsaved data">คุณจะสูญเสียข้อมูลที่ยังไม่ได้ถูกบันทึก</string>
 	<string name="Continue">ทำต่อ</string>
 	<string name="Missing information">ข้อมูลไม่ครบ</string>
 	<string name="Please specify your height, ethnicity, and religion. It only takes 2 seconds.">โปรดระบุ ส่วนสูง เชื้อชาติ ศาสนาของคุณ</string>
@@ -131,9 +131,9 @@
 	
 	<string name="You need 10 credits to \'Like\' a person. Invite more friends to get more credits.">คุณต้องมีอย่างน้อย 10 เครดิต เพื่อ \'ถูกใจ\' ชวนเพื่อนคนโสดของคุณเพื่อรับเครดิตเพิ่ม</string>
 	
-	<string name="Report profile">แจ้งโปรไฟล์ม่เหมาะสม</string>
-	<string name="Thank you so much!">เราขอขอบคุณคุณ</string>
-	<string name="We will review the profile immediately. If you want to provide more details, please email us at report@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าวโดยทันที ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ report@noonswoon.com </string>
+	<string name="Report profile">แจ้งโปรไฟล์ไม่เหมาะสม</string>
+	<string name="Profile reported">รับแจ้งโปรไฟล์</string>
+	<string name="We will review this profile. If you want to provide more details, please email us at support@noonswoon.com">ทีมงานจะตรวจสอบโปรไฟล์ดังกล่าว ถ้าคุณมีข้อมูลเพิ่มเติม สามารถอีเมล์มาได้ที่ support@noonswoon.com </string>
 	<string name="Oops..something is wrong">Oops..มีปัญหาเกิดขึ้น</string>
 	<string name="Please report again">โปรดแจ้งอีกครั้ง</string>
 	
@@ -145,7 +145,7 @@
 	<string name="\'s Profile">\'s Profile</string>
 	<string name="CONNECTIONS">CONNECTIONS</string>
 	
-	<string name="Logout">ออกจาก</string>
+	<string name="Log Out">ออกจากระบบ</string>
 	
 	<string name="Height (cm)">ส่วนสูง (ซม)</string>
 	<string name="Ethnicity">เชื้อชาติ</string>
