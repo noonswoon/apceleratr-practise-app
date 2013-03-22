@@ -50,42 +50,7 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 		message: L('Get credits by inviting your friends to Noonswoon!'),
 		buttonNames: [L('Ok')],
 	});
-	
-	var mutualFriendsDialog = Titanium.UI.createAlertDialog({
-		title: L('Reveal Mutual Friends'),
-		message: L('5 credits will be deducted'),
-		buttonNames: [L('Cancel'), L('Use credits')],
-		cancel: 0
-	});
-	
-	mutualFriendsDialog.addEventListener('click', function(e) {
-		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
-			Ti.API.info('(There was no button to click)');
-		} else {
-			if(e.index === 1) {
-			//need to check if have enough points, deduct points, update show_mutual_friends
-				var userCredit = CreditSystem.getUserCredit();
-				if(userCredit < Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT) {
-					insufficientCreditsDialog.show();
-				} else {
-					BackendCredit.transaction({userId:userId, amount: (-1)*Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT, action:'mutual_friend'}, function(_currentCredit){
-						CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-					});
-							
-					//update show_mutual_friends
-					BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-						if(e.success) Ti.API.info('update mutual friends success');
-						else Ti.API.info('update mutual friends failed');
-					});
-					
-					hasUnlocked = true;
-					//open up the window to show friends
-					Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
-				}
-			}
-		}
-	});			
-	
+
 	tableRow.addEventListener('touchstart', function(){
 		activeImageView.visible = true;
 	});
@@ -93,7 +58,24 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 	tableRow.addEventListener('touchend', function(){
 		activeImageView.visible = false;
 		if(!hasUnlocked) {
-			mutualFriendsDialog.show();
+			var userCredit = CreditSystem.getUserCredit();
+			if(userCredit < Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT) {
+				insufficientCreditsDialog.show();
+			} else {
+				BackendCredit.transaction({userId:userId, amount: (-1)*Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT, action:'mutual_friend'}, function(_currentCredit){
+					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+				});
+							
+				//update show_mutual_friends
+				BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
+					if(e.success) Ti.API.info('update mutual friends success');
+					else Ti.API.info('update mutual friends failed');
+				});
+					
+				hasUnlocked = true;
+				//open up the window to show friends
+				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
+			}
 		} else {
 			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
 		}
