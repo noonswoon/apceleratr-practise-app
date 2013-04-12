@@ -111,7 +111,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			left: 0,
 			width: '100%',
 			height: 5,
-			backgroundImage: 'images/match-bottom.png'
+			backgroundImage: 'images/row-bottom-edge.png'
 		});
 		if(Ti.Platform.osname === 'iphone')
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;

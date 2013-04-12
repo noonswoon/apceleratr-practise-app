@@ -18,7 +18,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_PRODUCTION_BUILD = false;
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
@@ -69,6 +69,10 @@ Ti.App.Flurry = require('ti.flurry');
 Ti.App.Flurry.debugLogEnabled = true;
 Ti.App.Flurry.eventLoggingEnabled = true;
 Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
+
+Ti.App.Storekit = require('ti.storekit');
+Ti.App.Storekit.receiptVerificationSandbox = true;
+Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
 
 var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
@@ -140,6 +144,7 @@ if (Ti.version < 1.8 ) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+							Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 							currentUserId = parseInt(_userInfo.meta.user_id); 
 							
 							Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
