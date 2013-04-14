@@ -71,7 +71,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 		var CreditSystem = require('internal_libs/creditSystem');
 		var ModelFacebookLike = require('model/facebookLike');
 		
-		BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+		BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
 			var facebookLikeArray = [];
 			for(var i = 0; i < _userInfo.content.likes.length; i++) {
 				var likeObj = {

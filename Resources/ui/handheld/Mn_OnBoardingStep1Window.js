@@ -68,8 +68,8 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 		//									modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
 	});
 	
-	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.Facebook.uid, 0)) {
-		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
+	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.App.Facebook.uid, 0)) {
+		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.App.Facebook.uid); //no need to fetch again
 		FacebookQuery.queryFacebookFriends();	
 	} 
 	

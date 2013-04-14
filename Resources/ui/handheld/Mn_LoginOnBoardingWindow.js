@@ -82,12 +82,6 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	self.add(fbButton);
 	self.add(fbButtonText);
 
-/*	TESTING SSO HERE!!!!
-	self.add(Titanium.Facebook.createLoginButton({
-		style:Ti.Facebook.BUTTON_STYLE_WIDE,
-		bottom:10
-	}));
-*/	
 /*
 	var lockImage = Ti.UI.createImageView({
 		image: 'images/private-lock.png',
@@ -157,14 +151,14 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	function facebookAuthenCallback(e) {
 		if (e.success) {
 			showPreloader(self, L('Loading...'));
-			Titanium.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
+			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
 					
 			        var sendingObj = {}; 
 			        
-			        sendingObj.userFbId =  Titanium.Facebook.uid;
-			        sendingObj.fbAuthToken = Titanium.Facebook.accessToken;
+			        sendingObj.userFbId =  Ti.App.Facebook.uid;
+			        sendingObj.fbAuthToken = Ti.App.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "";
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
@@ -244,18 +238,18 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		});
 	}
 
-	Titanium.Facebook.addEventListener('login', facebookAuthenCallback);
+	Ti.App.Facebook.addEventListener('login', facebookAuthenCallback);
 
 	fbButton.addEventListener('click', function() {
-		if(!Titanium.Facebook.loggedIn) {
-			Titanium.Facebook.authorize();
+		if(!Ti.App.Facebook.loggedIn) {
+			Ti.App.Facebook.authorize();
 		} else { //if already logged in, but somehow land in this page, just fire the event
-			Titanium.Facebook.fireEvent('login',{success:true});
+			Ti.App.Facebook.fireEvent('login',{success:true});
 		}
 	});
 	
 	self.addEventListener('close', function() {
-		Titanium.Facebook.removeEventListener('login', facebookAuthenCallback);
+		Ti.App.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});
 	
 	self.setNavGroup = function(_navigationGroup) {

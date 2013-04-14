@@ -229,7 +229,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			
 			if(CacheHelper.shouldFetchData('fbProfileImagesLoaded', 60*24*3)) { //60*24*3
 				Ti.API.info('fetching from fb...');
-				Titanium.Facebook.requestWithGraphPath('me/albums', {
+				Ti.App.Facebook.requestWithGraphPath('me/albums', {
 	            	fields : 'id, type'
 		        }, 'GET', function(e) {
 		        	if(e.success) {
@@ -244,7 +244,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		                    }
 		                    
 		                    //get images from the album
-		                    Titanium.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
+		                    Ti.App.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
 		                     	fields: 'id, picture, source, link'}, 'GET', function(e) {
 		                     	if(e.result) {
 		                     		var photoData = JSON.parse(e.result).data;
@@ -298,10 +298,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	
 	var selectedFbPhotoCallback = function(_photoSelectedEvent) {
 		Ti.API.info('listening to selectedFbPhoto event'+ _photoSelectedEvent.photoId); 
-		Titanium.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
+		Ti.App.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
  			var graphObj = JSON.parse(e.result);
  			//saveBtn.enabled = false;
- 			get_remote_file(Ti.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
+ 			get_remote_file(Ti.App.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
  		});
 	};
 

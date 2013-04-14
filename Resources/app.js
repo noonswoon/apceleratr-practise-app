@@ -1,6 +1,6 @@
 // TODO: 
 /*
- * CODE FREEZE!
+ * 
  */
 
 /*
@@ -18,14 +18,15 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.IS_PRODUCTION_BUILD = false;
+Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
-Ti.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
-							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships'];
-Ti.Facebook.forceDialogAuth = false;
+Ti.App.Facebook = require('facebook');
+Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
+							'user_location', 'user_birthday', 'user_religion_politics', 'user_work_history', 
+							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
+Ti.App.Facebook.forceDialogAuth = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 
@@ -40,14 +41,14 @@ if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
 	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
-	Ti.Facebook.appid = "132344853587370";
+	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
 	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
-	Ti.Facebook.appid = "492444750818688";
+	Ti.App.Facebook.appid = "492444750818688";
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
@@ -139,11 +140,11 @@ if (Ti.version < 1.8 ) {
 					//reset app badge number
 					Ti.UI.iPhone.appBadge = null;
 					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-					if(Titanium.Facebook.loggedIn) {
+					if(Ti.App.Facebook.loggedIn) {
 					//if(false) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
-						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+						BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
 							Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 							currentUserId = parseInt(_userInfo.meta.user_id); 
 							
@@ -238,7 +239,7 @@ if (Ti.version < 1.8 ) {
 		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
-	Titanium.Facebook.addEventListener('logout', function() {
+	Ti.App.Facebook.addEventListener('logout', function() {
 		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 		var loginProcessWindow = new LoginProcessWindowModule();			
 		loginProcessWindow.open();

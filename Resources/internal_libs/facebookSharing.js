@@ -13,7 +13,7 @@ var showRequestResult = function(e) {
 				var curInvitee = resultArray[i].split('=')[1]; 
 				inviteeList.push(curInvitee);
 			}
-			s += ", inviter: "+Titanium.Facebook.uid+ ", invitees: "+ JSON.stringify(inviteeList);
+			s += ", inviter: "+Ti.App.Facebook.uid+ ", invitees: "+ JSON.stringify(inviteeList);
 			
 			//add credit here when the invite goes through and track who get invites
 			Ti.App.fireEvent('inviteCompleted', {inviteeList:inviteeList, trackingCode: trackingCode});
@@ -38,9 +38,9 @@ var showRequestResult = function(e) {
 	
 // http://developer.appcelerator.com/question/74921/switchbox-vs-checkbox#answer-216772
 exports.sendRequestOnFacebook = function(_fbIds) {
-	trackingCode = Ti.Facebook.uid + 'aa' + Ti.App.moment().format('YYYYMMDDTHHmmss'); 
+	trackingCode = Ti.App.Facebook.uid + 'aa' + Ti.App.moment().format('YYYYMMDDTHHmmss'); 
 	var data = {
-		app_id: Ti.Facebook.appid,
+		app_id: Ti.App.Facebook.appid,
 	    title: 'Noonswoon',
 	    message: 'Find The One!',
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
@@ -48,5 +48,5 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	    to: _fbIds,
 	    data: trackingCode
 	 };
-	Titanium.Facebook.dialog("apprequests", data, showRequestResult);
+	Ti.App.Facebook.dialog("apprequests", data, showRequestResult);
 };

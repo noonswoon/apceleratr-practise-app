@@ -224,7 +224,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			
 			logoutButton.addEventListener('click', function() {
 				Ti.API.info('logout from the app');
-				Ti.Facebook.logout();
+				Ti.App.Facebook.logout();
 				self.close();
 			});
 		}

@@ -2,14 +2,14 @@ exports.queryFacebookFriends = function() {
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 		
 	var query = "SELECT uid, name, pic_square, current_location,sex FROM user ";
-		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Titanium.Facebook.uid + ")";
+		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Ti.App.Facebook.uid + ")";
 		query += " and not is_app_user";
 		query += " and (relationship_status != 'In a relationship' and relationship_status != 'Engaged'";
 		query += " and relationship_status != 'Married') order by first_name";
 
 	var candidateList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) alert(r.error);
 			else alert("Fb Call was unsuccessful");
@@ -48,7 +48,7 @@ exports.queryUserStream = function() {
 		
 	var query = "SELECT post_id FROM stream where source_id=me() limit 0,150";
 	var userStreamIdList = []; 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -71,7 +71,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	//Ti.API.info(query);
 	var friendsWhoLikeList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -94,7 +94,7 @@ exports.queryUserComments = function(_streamIdList) {
 	//Ti.API.info(query);
 	var friendsWhoCommentList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -114,7 +114,7 @@ exports.queryUserComments = function(_streamIdList) {
 exports.queryUserPhotos = function() {
 	var query = "SELECT pid, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500";
 	var userFbPhotoIds = []; 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -140,7 +140,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 	var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
 	var taggedFriends = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");

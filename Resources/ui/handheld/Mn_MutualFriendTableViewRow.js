@@ -33,7 +33,7 @@ MutualFriendTableViewRow = function(_fbId) {
 		self.add(userLabel);
 	} else { //don't have data..request from fbGraph
 		Ti.API.info('getting fb graph info coz cannot find user locally');
-		Ti.Facebook.requestWithGraphPath(_fbId, {}, 'GET', function(e) {
+		Ti.App.Facebook.requestWithGraphPath(_fbId, {}, 'GET', function(e) {
 			if (e.success) {
 			    var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object	
 			  	var userName = fbGraphObj.first_name + ' ' + fbGraphObj.last_name;
