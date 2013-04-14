@@ -131,7 +131,7 @@ EducationEditTableViewRow = function(_educationArray) {
 		if(undergraduateStr === DefaultTextHelper.getDefaultText('college'))
 			undergraduateStr = "";
 			
-		var highSchoolStr = tableRow.undergraduateSchoolTextfield.value; 
+		var highSchoolStr = tableRow.highSchoolTextfield.value; 
 		if(highSchoolStr === DefaultTextHelper.getDefaultText('high_school'))
 			highSchoolStr = "";
 			
