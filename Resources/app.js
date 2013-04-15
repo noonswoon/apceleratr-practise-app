@@ -305,10 +305,14 @@ if (Ti.version < 1.8 ) {
 		errorWindow = new ErrorWindowModule(displayError, currentUserId);
 		errorWindow.open();
 	});
-			
-	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+
+	Ti.App.addEventListener('openNoInternetWindow', function(e) {
 		noInternetWindow = new NoInternetWindowModule();
 		noInternetWindow.open();
+	});
+			
+	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+		Ti.App.fireEvent('openNoInternetWindow');
 	} else {
 		launchTheApp();
 	} 

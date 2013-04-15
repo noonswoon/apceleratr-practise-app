@@ -102,6 +102,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	
 	//FUNCTIONS CALLBACK
 	function successNotifCallback(e) {
+		Ti.API.info('in success notif callback..loginonboardingwindow');
 		var deviceToken = e.deviceToken;
 		Debug.debug_print("Push notification device token is: "+deviceToken);
 		Debug.debug_print("Push notification types: "+Titanium.Network.remoteNotificationTypes);

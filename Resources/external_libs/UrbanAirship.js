@@ -56,7 +56,7 @@ var registerDeviceToken = function(_deviceToken) {
 	
 	var registerParameters = {
 	    "tags": [
-	        "v1_1",
+	        "v1_2",
 	        "beta"
 	    ],
 	    "badge": 0,

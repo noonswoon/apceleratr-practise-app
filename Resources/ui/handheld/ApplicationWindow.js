@@ -39,13 +39,46 @@ function ApplicationWindow(_userId, _userImage) {
 		height:30,
 		image: 'images/topbar-glyph-menu.png'
 	});
-	
+
 	var toggleRightMenuBtn = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
 		width: 44,
 		height: 30,
 		image: 'images/topbar-glyph-chat.png'
 	});
+	
+	var topBarNotifView = Ti.UI.createView({
+		height: 17, 
+		width: 35,
+		top: 2, 
+		left: 2,
+		zIndex: 1, 
+	});
+	var topBarNotifCounter = Ti.UI.createLabel({
+		text: 1,
+		top:0,
+		left:0,
+		font:{fontWeight:'bold',fontSize:14},
+		color:'#ffffff',
+		shadowColor: '#3f840d', 
+		shadowOffset: {x:0,y:2},
+		zIndex: 3,
+	});
+		
+	var topBarNotifImage = Ti.UI.createImageView({
+		backgroundImage: 'images/topbar-notification.png',
+		backgroundLeftCap: 2,
+		height: 17,
+		width: 35,  //14
+		top:0,
+		left: 0,
+		zIndex: 2,
+	});
+//	topBarNotifView.add(topBarNotifImage);
+//	topBarNotifView.add(topBarNotifCounter);
+	
+//	toggleRightMenuBtn.add(topBarNotifView);
+	
 	
 	var timerView = new TimerViewModule();
 		
@@ -116,8 +149,8 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	//var dummyOnBoard = new TargetedModule('');
+	var TargetedModule = require('ui/handheld/Mn_CreditWindow');
+	var dummyOnBoard = new TargetedModule('');
 		
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
@@ -147,7 +180,7 @@ function ApplicationWindow(_userId, _userImage) {
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		
-		BackendInvite.saveInvitedPeople(invitedData, Ti.App.API_SERVER, Ti.App.API_ACCESS, function(e){
+		BackendInvite.saveInvitedPeople(invitedData, function(e){
 			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
 			else Ti.API.info('saveInvitePeople from fb failed');
 		});
@@ -165,15 +198,24 @@ function ApplicationWindow(_userId, _userImage) {
 	matchWindow.titleControl = timerView;
 	
 	var resumeCallback = function() {
-		Ti.UI.iPhone.appBadge = null;
-		UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-		if(noMatchWindow !== null) {
-			navigationGroup.close(noMatchWindow, {animated:false});
-			noMatchWindow = null;
-		}
-		matchWindow.reloadMatch(); //refresh the content of the match
-		rightMenu.reloadConnections();
+		//wait for about 2 seconds til the app powers up
 		
+		setTimeout(function() {
+			//check the internet connection here...
+			if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+				//firing the event
+				Ti.App.fireEvent('openNoInternetWindow');
+			} else {
+				Ti.UI.iPhone.appBadge = null;
+				UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+				if(noMatchWindow !== null) {
+					navigationGroup.close(noMatchWindow, {animated:false});
+					noMatchWindow = null;
+				}
+				matchWindow.reloadMatch(); //refresh the content of the match
+				rightMenu.reloadConnections();
+			} 
+		}, 1000);
 	};
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
@@ -262,14 +304,14 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.App.removeEventListener('resume', resumeCallback); 
-		Titanium.Facebook.removeEventListener('logout', facebookLogoutCallback); 
+		Ti.App.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);
 	
 	var facebookLogoutCallback = function() {
 		self.close();
 	};
-	Titanium.Facebook.addEventListener('logout', facebookLogoutCallback);
+	Ti.App.Facebook.addEventListener('logout', facebookLogoutCallback);
 	self.add(navigationGroup);
 				
 	return self;
