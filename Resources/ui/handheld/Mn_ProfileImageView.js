@@ -191,17 +191,34 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		}
 	});
 
-	passButton.addEventListener("click", function() {
-		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
-			isActionTaken = true;
-			setSelectedState("pass");
+	var passWarningDialog = Titanium.UI.createAlertDialog({
+		title: L('Confirmation'),
+		message:L('Are you sure you want to pass this person?'),
+		buttonNames: [L('Cancel'),L('Yes')],
+		cancel: 0
+	});
 	
-			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
-			BackendMatch.saveResponse(matchResponseObj, function(e){
-				if(e.success) Ti.API.info('save response (pass) successfully');
-				else Ti.API.info('save response (pass) failed');
-			});
+	passWarningDialog.addEventListener('click', function(e) {
+		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
+			Ti.API.info('(There was no button to click)');
+		} else {
+			if(e.index === 1) {
+				if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
+					isActionTaken = true;
+					setSelectedState("pass");
+			
+					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
+					BackendMatch.saveResponse(matchResponseObj, function(e){
+						if(e.success) Ti.API.info('save response (pass) successfully');
+						else Ti.API.info('save response (pass) failed');
+					});
+				}
+			}
 		}
+	});		
+	
+	passButton.addEventListener("click", function() {
+		passWarningDialog.show();
 	});	
 
 	return self;
