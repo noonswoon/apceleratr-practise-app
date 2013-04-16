@@ -192,9 +192,9 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	});
 
 	var passWarningDialog = Titanium.UI.createAlertDialog({
-		title: L('Confirmation'),
-		message:L('Are you sure you want to pass this person?'),
-		buttonNames: [L('Cancel'),L('Yes')],
+		title: L('You are Passing'),
+		message:L('Are you sure you want to pass?'),
+		buttonNames: [L('Cancel'),L('Pass')],
 		cancel: 0
 	});
 	

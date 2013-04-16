@@ -19,7 +19,7 @@ Ti.App.Chat = function(_chatParams) {
 	var ModelChatHistory = require('model/chatHistory');
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
-	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
+	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');	
 	
 	var currentChatRoom = _chatParams['chat-room']; //POPULATE on line 304
 	//Ti.API.info('currentChatRoom: '+currentChatRoom);
@@ -523,10 +523,10 @@ Ti.App.Chat = function(_chatParams) {
     });
 	
 	profileButton.addEventListener('click', function() {
-		//Ti.API.info('open profile click');
-		
-		var userProfileWindow = new UserProfileWindowModule(navGroup, userObject.id, otherUserObject.id);
-		navGroup.open(userProfileWindow, {animated:true});
+		//open previous match
+		var previousMatchWindow = new MatchWindowModule(userObject.id, _chatParams.matchId);
+		previousMatchWindow.setNavGroup(navGroup);
+		navGroup.open(previousMatchWindow, {animated:true});
 	});
 	
 	chatWindow.addEventListener('close', function(){

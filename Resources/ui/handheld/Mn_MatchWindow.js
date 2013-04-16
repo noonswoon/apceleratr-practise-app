@@ -17,8 +17,7 @@ MatchWindow = function(_userId, _matchId) {
 	var ModelFacebookLike = require('model/facebookLike');
 	
 	var navGroup = null;
-	
-	//create component instance
+	var showLikePassButtons = true;
 	
 	var self = Ti.UI.createWindow({
 		top:0,
@@ -27,6 +26,20 @@ MatchWindow = function(_userId, _matchId) {
 		barImage: 'images/top-bar-stretchable.png',
 		zIndex:1
 	});
+	
+	var backButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png',
+	});
+	
+	if(_matchId !== null) { //case for pulling previous (connected) match to reveal
+		//only adding the back button if the screen comes from the chat screen
+		self.leftNavButton = backButton;
+		showLikePassButtons = false;
+	}	
 				
 	var contentView = Ti.UI.createTableView({
 		top:0,
@@ -65,7 +78,7 @@ MatchWindow = function(_userId, _matchId) {
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
 		
-		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId, true); 
+		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId, showLikePassButtons); 
 		
 		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
 		if(Ti.Platform.osname === 'iphone')
@@ -74,7 +87,7 @@ MatchWindow = function(_userId, _matchId) {
 		profileImageRow.add(profileImageView);
 		data.push(profileImageRow);
 
-		if(_matchInfo.content.user_response !== "") {
+		if(showLikePassButtons && _matchInfo.content.user_response !== "") { //only show the state if like/pass buttons are showing too
 			var selectedState = "like"; 
 			
 			if(_matchInfo.content.user_response === "pass")
@@ -96,7 +109,11 @@ MatchWindow = function(_userId, _matchId) {
 		//GENERAL SECTION
 		var nameStr = L('private until connected');
 		if(_matchInfo.content.is_connected)
-    		nameStr = _matchInfo.content['general'].first_name;		
+    		nameStr = _matchInfo.content['general'].first_name;
+		
+		if(_matchId !== null) {  //case for pulling previous (connected) match to reveal
+			self.title = _matchInfo.content['general'].first_name + L('\'s Profile');
+		}
 		
 		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
 		data.push(nameTableViewRow);
@@ -215,6 +232,11 @@ MatchWindow = function(_userId, _matchId) {
 	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
+		if(_matchId !== null) {
+			backButton.addEventListener('click', function() {
+				navGroup.close(self, {animated:true}); //go to the main screen
+			});
+		}
 	};
 	
 	self.reloadMatch = function() {
