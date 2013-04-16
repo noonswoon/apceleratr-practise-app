@@ -14,7 +14,7 @@
 	Ti.API.info('after update: '+JSON.stringify(dummy));
 **/
 var db = Ti.Database.open(Ti.App.DATABASE_NAME);
-db.execute('CREATE TABLE IF NOT EXISTS FacebookFriend(Id INTEGER PRIMARY KEY, FacebookId TEXT, Name TEXT, Sex TEXT, PictureUrl TEXT, City TEXT, IsInvited INTEGER, ClosenessScore INTEGER);');
+db.execute('CREATE TABLE IF NOT EXISTS FacebookFriend(Id INTEGER PRIMARY KEY, FacebookId TEXT, Name TEXT, Sex TEXT, RelationshipStatus TEXT, PictureUrl TEXT, City TEXT, IsInvited INTEGER, ClosenessScore INTEGER);');
 db.close();
 
 // MY CHECKIN PART
@@ -33,25 +33,32 @@ exports.getNameByFacebookId = function(_fbId){
 
 exports.populateFacebookFriend = function(_friendsCollection) {
 	Ti.API.info('populating facebook friend...');
-	if(_friendsCollection.length === 0) 
+	if(_friendsCollection.length === 0) {
+		Ti.API.info('no friends to populate..done');
 		return;
+	}
 
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	db.execute('DELETE FROM FacebookFriend');
-	for(var i = 0; i < _friendsCollection.length; i++) {
 
+	for(var i = 0; i < _friendsCollection.length; i++) {
+		
 		var curFriend = _friendsCollection[i];
 		var curFriendSex = curFriend.sex; 
+		var curFriendRelationshipStatus = curFriend.relationship_status;
+		
 		var closenessScore = 0;
-		if(curFriendSex === 'female') {
-			closenessScore = 2;
+		if(curFriendSex === 'female')
+			closenessScore++;
+		
+		if(curFriendRelationshipStatus === 'Single') {
+			closenessScore += 2;
 		}
 		
-		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, Sex, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,?,0,?)";
-		db.execute(insertString, curFriend.uid+"", curFriend.name, curFriendSex, curFriend.pic_square, curFriend.city, closenessScore); //+"" for converting long to str
+		var insertString = "INSERT INTO FacebookFriend(Id, FacebookId, Name, Sex, RelationshipStatus, PictureUrl, City, IsInvited, ClosenessScore) VALUES(NULL,?,?,?,?,?,?,0,?)";
+		db.execute(insertString, curFriend.uid+"", curFriend.name, curFriendSex, curFriendRelationshipStatus, curFriend.pic_square, curFriend.city, closenessScore); //+"" for converting long to str
 	}
 	db.close();
-//	Ti.App.fireEvent('ethnicitiesLoaded');	
 };
 
 exports.getTopFiveFacebookFriends = function(){
