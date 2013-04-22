@@ -206,14 +206,21 @@ function ApplicationWindow(_userId, _userImage) {
 				//firing the event
 				Ti.App.fireEvent('openNoInternetWindow');
 			} else {
-				Ti.UI.iPhone.appBadge = null;
-				UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-				if(noMatchWindow !== null) {
-					navigationGroup.close(noMatchWindow, {animated:false});
-					noMatchWindow = null;
+				//check if authentication still valid
+				if(!Ti.App.Facebook.loggedIn) { //if fb already exipired
+					//clear up cache so we can refresh and load new fb friends
+					Ti.App.Properties.removeProperty('FacebookFriendQuery_'+Ti.App.Facebook.uid);
+					Ti.App.Facebook.logout();
+				} else {
+					Ti.UI.iPhone.appBadge = null;
+					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+					if(noMatchWindow !== null) {
+						navigationGroup.close(noMatchWindow, {animated:false});
+						noMatchWindow = null;
+					}
+					matchWindow.reloadMatch(); //refresh the content of the match
+					rightMenu.reloadConnections();
 				}
-				matchWindow.reloadMatch(); //refresh the content of the match
-				rightMenu.reloadConnections();
 			} 
 		}, 1000);
 	};
