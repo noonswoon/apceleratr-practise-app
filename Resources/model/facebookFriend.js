@@ -145,7 +145,7 @@ exports.getFacebookFriendNextBatch = function(){
 exports.getFacebookFriends = function(){
 	var allFriends = [];
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
-	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT 0,50');
+	var result = db.execute('SELECT * FROM FacebookFriend WHERE IsInvited = 0 ORDER BY ClosenessScore DESC LIMIT 0,300');
 	while(result.isValidRow()) {
 		allFriends.push({facebook_id: result.fieldByName('FacebookId'), name: result.fieldByName('Name'), 
 							picture_url: result.fieldByName('PictureUrl'), city: result.fieldByName('City'), 

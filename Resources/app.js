@@ -119,8 +119,7 @@ if (Ti.version < 1.8 ) {
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
 	var RateReminder = require('internal_libs/rateReminder');
 	var LogSystem = require('internal_libs/logSystem');
-	
-	
+
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
 	

@@ -3,8 +3,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		Ti.App.Flurry.logEvent('after-signup-onboard-2-invite');
 	}	
 	Ti.App.Flurry.logTimedEvent('invite-screen');
-		
-	var InviteFriendTableViewRow = require('ui/handheld/Mn_InviteFriendTableViewRow');
+
 	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
 	
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -136,9 +135,66 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 
 	var tableHeight = 423; //480 - 57
+	var listHeight = 423;
 	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
 		tableHeight = 511; // 568 - 57 = 511
+		listHeight = 511;
 	}
+	
+	var inviteFriendTemplate = {
+		properties: {
+			selectionStyle: Ti.UI.iPhone.ListViewCellSelectionStyle.NONE
+		},
+		childTemplates: [
+			{
+				type: 'Ti.UI.ImageView', 
+				bindId: 'friendImage', 
+				properties: {
+					left: 6, 
+					width: 35, 
+					height: 35, 
+					touchEnabled: false, 
+					borderWidth: 1, 
+					borderRadius: 2, 
+					borderColor: '#d5d5d5',
+				}
+			}, 
+			{
+				type: 'Ti.UI.Label', 
+				bindId: 'friendName', 
+				properties: {
+					top: 10,
+					left: 50, 
+					color: '#919191',
+					font: {fontSize: 15, fontWeight: 'bold'}
+				}
+			},
+			{
+				type: 'Ti.UI.ImageView', 
+				bindId: 'checkboxImage', 
+				properties: {
+					top: 7,
+					left: 275, 
+					width: 29, 
+					height: 30,
+				}
+			}, 
+		]
+	};
+	
+	var inviteFriendListView = Ti.UI.createListView({
+		top: 0,
+		left: 0,
+		height: listHeight,
+		templates: {'inviteFriendTemplate': inviteFriendTemplate}, 
+		defaultItemTemplate: 'inviteFriendTemplate',
+	});
+	
+	var listSection = null;
+	
+	//create data 
+	var inviteFriendData = [];
+
 	var facebookFriendTableView = Ti.UI.createTableView({
 		searchHidden:false,
 		search: facebookFriendSearch,
@@ -147,43 +203,43 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		width: 320,
 		height: tableHeight
 	});
-
-	facebookFriendSearch.addEventListener('return', function(e) {
-		facebookFriendSearch.blur();
-	});
 	
-	facebookFriendSearch.addEventListener('cancel', function(e) {
-		facebookFriendSearch.blur();
-	});		
-	
-	var createFriendTable = function(_friendList) {
-		var tableData = [];
-		for(var i = 0; i<_friendList.length;i++) {
+	var createInviteFriendData = function(_friendList) {
+		var inviteFriendData = [];
+		for(var i = 0; i < _friendList.length; i++) {
 			var curUser = _friendList[i];
-			var userRow = new InviteFriendTableViewRow(curUser,i);
-			tableData.push(userRow);
+			inviteFriendData.push({
+				friendImage: { image: curUser.picture_url},
+				friendName: { text: curUser.name},
+				checkboxImage: {image: 'images/invite_friend/unchecked.png'},
+				friendFbId: curUser.facebook_id, 
+				isInvited: false
+			});	
 		}
-		return tableData;
+		return inviteFriendData;
 	};
 	
 	var removedInviteCompletedBallbackFlag = false;
 
 	var inviteCompletedCallback = function(e) {
+		//need to record who already got invited to the local db
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
-		//iterate to remove the table view row	
-		for(var i = 0; i < e.inviteeList.length; i++) {
-			var targetedRow = -1;			
-			for(var j = 0; j < facebookFriendTableView.data[0].rowCount; j++) {
-				var row = facebookFriendTableView.data[0].rows[j];
-				if(row.fbId === e.inviteeList[i]) {
-					targetedRow = j;
+		
+		var newInviteFriendItems = [];
+		var inviteFriendItems = inviteFriendListView.sections[0].items;
+		for(var i = 0; i < inviteFriendItems.length; i++) {
+			var isStillIncluded = true;
+			var curItem = inviteFriendItems[i]; //friendFbId
+			for(var j = 0; j < e.inviteeList.length; j++) {
+				if(curItem.friendFbId === e.inviteeList[j]) {
+					isIncluded = false; //already invite, not in the list anymore
 					break;
 				}
 			}
-			facebookFriendTableView.deleteRow(targetedRow);	
+			
+			if(isStillIncluded) newInviteFriendItems.push(curItem);				
 		}
-		
-		//need to record who already got invited to the local db
+		listSection.items = newInviteFriendItems; //re-display again
 		
 		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
 			_navGroup.close(self, {animated:true}); //go to the main screen
@@ -203,24 +259,27 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	
 	var friendList = FacebookFriend.getFacebookFriends();
-	var friendTableRowData = createFriendTable(friendList);
+	var friendListViewData = createInviteFriendData(friendList);
+	Ti.API.info('num friends to show: '+ friendListViewData.length);
 	
-	//add empty row here
-	var emptyRow = new EmptyTableViewRow()
-	friendTableRowData.push(emptyRow);
+	listSection = Ti.UI.createListSection({items: friendListViewData});
+	inviteFriendListView.sections = [listSection];
+	self.add(inviteFriendListView);
+
+	backButton.addEventListener('click', function() {
+		Ti.App.Flurry.endTimedEvent('invite-screen');
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
 	
-	facebookFriendTableView.setData(friendTableRowData);
-
-	self.add(facebookFriendTableView);
-
 	inviteButtonClickCallback = function() {
 		//iterate through the table rows to get the selected id
-		var targetedRow = 0;
 		var invitedList = [];
-		for(var i = 0; i < facebookFriendTableView.data[0].rowCount; i++) {
-			var row = facebookFriendTableView.data[0].rows[i];
-			if(row.isInvited()) {
-				invitedList.push(row.fbId);
+		var inviteFriendItems = inviteFriendListView.sections[0].items;
+		for(var i = 0; i < inviteFriendItems.length; i++) {
+			var curItem = inviteFriendItems[i];
+			if(curItem.isInvited) {
+				//Ti.API.info('fbId: '+curItem.friendFbId + ' is invited');
+				invitedList.push(curItem.friendFbId);
 			}
 		}
 		
@@ -231,11 +290,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 	};
 	inviteButton.addEventListener('click', inviteButtonClickCallback);
-
-	backButton.addEventListener('click', function() {
-		Ti.App.Flurry.endTimedEvent('invite-screen');
-		_navGroup.close(self, {animated:true}); //go to the main screen
-	});
 
 	var invitedFriendCallback = function(){
 		numInvites++;
@@ -282,7 +336,24 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 	};
 	Ti.App.addEventListener('uninvitedFriend', uninvitedFriendCallback);
-	
+
+	inviteFriendListView.addEventListener('itemclick', function(e){
+	    var item = e.section.getItemAt(e.itemIndex);
+	    
+	    if(item.isInvited) {
+	    	item.checkboxImage.image = 'images/invite_friend/unchecked.png';
+	    	item.friendName.color = '#919191';
+	    	item.isInvited = false;
+	    	Ti.App.fireEvent('uninvitedFriend');
+	    } else {
+	    	item.checkboxImage.image = 'images/invite_friend/checked.png';
+	    	item.friendName.color = '#595959';
+	    	item.isInvited = true;
+	    	Ti.App.fireEvent('invitedFriend'); 
+	    }
+	    e.section.updateItemAt(e.itemIndex, item);
+	});
+		
 	self.addEventListener('close', function() {
 		if(!removedInviteCompletedBallbackFlag) {
 			Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);

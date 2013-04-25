@@ -22,19 +22,10 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 	
 	var isScrollable = false; 
 	var listViewHeight =  _mutualFriendsArray.length * 50;
-	var tableViewHeight = _mutualFriendsArray.length * 50;
 	if(_mutualFriendsArray.length >= 9) {
 		isScrollable = true;
 		listViewHeight = '100%';
-		tableViewHeight = '100%';
 	}
-
-	var mutualFriendTableView = Ti.UI.createTableView({
-		top: 0,
-		width: '100%',
-		height: tableViewHeight,
-		scrollable: isScrollable
-	});
 	
 	var mutualFriendTemplate = {
 		properties: {
