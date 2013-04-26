@@ -125,19 +125,9 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	self.add(screenDescriptionView);
 	
 	//end description section
-	
-	var facebookFriendSearch = Titanium.UI.createSearchBar({
-		barColor:'#d3dbdf',
-		showCancel:false,
-		hintText: L('Search'),
-		backgroundImage: 'images/searchbar_white.png',
-		borderWidth: 0,
-	});
 
-	var tableHeight = 423; //480 - 57
 	var listHeight = 423;
 	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
-		tableHeight = 511; // 568 - 57 = 511
 		listHeight = 511;
 	}
 	
@@ -194,15 +184,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	//create data 
 	var inviteFriendData = [];
-
-	var facebookFriendTableView = Ti.UI.createTableView({
-		searchHidden:false,
-		search: facebookFriendSearch,
-		filterAttribute: 'filter',
-		top: 57,
-		width: 320,
-		height: tableHeight
-	});
 	
 	var createInviteFriendData = function(_friendList) {
 		var inviteFriendData = [];
