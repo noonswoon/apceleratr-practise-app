@@ -2,9 +2,9 @@ exports.checkReminderToRate = function() {
  	var numberOfUsage = Ti.App.Properties.getInt('numberOfUsage');
 
 	var rateRequestDialog = Titanium.UI.createAlertDialog({
-		title: 'Show us some love!',
-		message: 'Please take a moment to rate Noonswoon',
-		buttonNames: ['OK', 'Remind Me Later', 'Never'],
+		title: 'Noonswoon',
+		message: 'Show us some love! Please take a moment to rate Noonswoon',
+		buttonNames: ['Rate', 'Remind Me Later', 'Never'],
 		cancel: 2
 	});
 
@@ -30,8 +30,8 @@ exports.checkReminderToRate = function() {
 	});
 		
 	var enjoyUsingDialog = Titanium.UI.createAlertDialog({
-		title: L('Feedback'),
-		message: L('Do you enjoy using Noonswoon?'),
+		title: L('Noonswoon'),
+		message: L('Welcome back! Have you enjoyed using Noonswoon?'),
 		buttonNames: [L('No'), L('Very much')],
 		cancel: 0
 	});
@@ -50,11 +50,9 @@ exports.checkReminderToRate = function() {
         Ti.App.Properties.setInt('numberOfUsage', 1);
     } else {
         if(numberOfUsage !== -1) { //if it is -1, never remind the user again
-	        if(numberOfUsage >= 5 && numberOfUsage % 5 == 0) {
+	        if(numberOfUsage >= 5 && numberOfUsage % 5 === 0) {
 		        //show if you enjoy or not
 		        enjoyUsingDialog.show();        	
-	        } else {
-	        	Ti.App.Properties.setInt('numberOfUsage', numberOfUsage + 1);
 	        }
         } //end if !== -1
     }	

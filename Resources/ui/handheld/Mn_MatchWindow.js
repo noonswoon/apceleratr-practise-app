@@ -58,9 +58,7 @@ MatchWindow = function(_userId, _matchId) {
 		else return 0;
 	}
 	
-	function populateMatchDataTableView(_matchInfo) {		
-		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
-
+	function populateMatchDataTableView(_matchInfo) {
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
 		for(var i = 0; i < _matchInfo.content.likes.length; i++) {
@@ -211,6 +209,15 @@ MatchWindow = function(_userId, _matchId) {
 	if(_matchId === null) {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+			
+			//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
+			//check version
+			if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
+				//alert to update the app
+				var UpdateRequester = require('internal_libs/updateReminder');
+				UpdateRequester.requestToUpdate();	
+			}
+			
 			if(_matchInfo.success)
 				populateMatchDataTableView(_matchInfo);
 			hidePreloader(self);

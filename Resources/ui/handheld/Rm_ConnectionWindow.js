@@ -65,7 +65,7 @@ ConnectionWindow = function(_userId) {
 		top: 38,
 		left: 0,
 		editable: true
-	});	
+	});
 	
 	var loadConnectedMatches = function() {
 		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
