@@ -1,9 +1,9 @@
 exports.requestToUpdate = function() {
 
 	var updateRequestDialog = Titanium.UI.createAlertDialog({
-		title: 'Noonswoon',
-		message: 'We just release a new update. Please download it now.',
-		buttonNames: ['Later', 'Download'],
+		title: L('Noonswoon'),
+		message: L('An update for Noonswoon is available. Please download it now.'),
+		buttonNames: [L('Later'), L('Download')],
 		cancel: 0
 	});
 

@@ -149,7 +149,7 @@ Ti.App.Chat = function(_chatParams) {
 									senderObj.imageUrl = _chatParams.userImage;
 									isUserASender = true;
 									chatData.push({
-										properties: {backgroundColor: '#ededed', height: rowHeight},
+										properties: {backgroundColor: '#e0e0e0', height: rowHeight}, //#ededed
 										userPic: { image: senderObj.imageUrl},
 										chatMessage: { text: chatHistoryMsgs[i].message, color: '#818181'},
 										time: messageObj.time
@@ -158,7 +158,7 @@ Ti.App.Chat = function(_chatParams) {
 									senderObj.imageUrl = _chatParams.otherUserImage;
 									isUserASender = false;
 									chatData.push({
-										properties: {backgroundColor: '#f6f6f6', height: rowHeight},
+										properties: {backgroundColor: '#e0e0e0', height: rowHeight}, //#f6f6f6
 										userPic: { image: senderObj.imageUrl},
 										chatMessage: { text: chatHistoryMsgs[i].message, color: '#0b0208'},
 										time: messageObj.time

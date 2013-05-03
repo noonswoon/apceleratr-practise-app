@@ -35,6 +35,8 @@ Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
 
+Ti.App.Properties.setString('clientVersion','1.2');
+
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";

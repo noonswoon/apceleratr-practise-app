@@ -205,5 +205,10 @@
 	<string name="Your account">Your account</string>
 	<string name="is currently blocked">is currently blocked</string>
 	<string name="You are not single">You are not single</string>
-	<string name="Come back when you are">Come back when you are</string>	
+	<string name="Come back when you are">Come back when you are</string>
+	
+	<string name="Noonswoon">Noonswoon</string>
+	<string name="Later">Later</string>
+	<string name="Download">Download</string>		
+	<string name="An update for Noonswoon is available. Please download it now.">An update for Noonswoon is available. Please download it now.</string>		
 </resources>

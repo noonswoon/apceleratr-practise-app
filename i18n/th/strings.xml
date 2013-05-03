@@ -206,4 +206,9 @@
 	<string name="is currently blocked">ถูกระงับการใช้</string>
 	<string name="You are not single">คุณไม่ใช่คนโสด</string>
 	<string name="Come back when you are">กลับมาใหม่ตอนที่โสดนะ</string>	
+	
+	<string name="Noonswoon">นูนสวูน</string>
+	<string name="Later">เดี๋ยวก่อน</string>
+	<string name="Download">ดาวน์โหลด</string>		
+	<string name="An update for Noonswoon is available. Please download it now.">อัพเดทใหม่ของนูนสวูนออกแล้ว คุณสามารถดาวน์โหลดได้</string>		
 </resources>
