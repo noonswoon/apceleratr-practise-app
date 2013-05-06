@@ -226,6 +226,13 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
 			Ti.App.Flurry.logEvent('after-signup-onboard-2-number-invites', { numberInvites: e.inviteeList.length});
+			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
+	
+			BackendInvite.saveInvitedPeople(invitedData, function(e){
+				if(e.success) Ti.API.info('postonboarding...saveInvitePeople from fb successful');
+				else Ti.API.info('saveInvitePeople from fb failed');
+			});
+		
 			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
 			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
 			//_navGroup.open(onBoardingStep3Window);

@@ -337,41 +337,15 @@ Ti.App.Chat = function(_chatParams) {
     var send_a_message = function(message) {
         if (!message) return;
 
-		//send to server to save to db
-		var messageObj = {}; 
-		messageObj.matchId = _chatParams.matchId
-		messageObj.message = message; 
-		messageObj.senderId = userObject.id;
-		messageObj.receiverId = otherUserObject.id; 
-		
-		BackendChat.saveChatMessage(messageObj, function(_sentData) {
-			//save to localdb
-			messageObj.userId = userObject.id;
-			messageObj.targetedUserId = otherUserObject.id;			
-			messageObj.senderId = _sentData.sender_id;
-			messageObj.receiverId = _sentData.receiver_id;
-			messageObj.message = _sentData.message;
-			messageObj.time = _sentData.time;
-			
-//			ModelChatHistory.insertChatMessage(messageObj);
-
-			pubnub.publish({
-	            channel  : currentChatRoom,
-	            message  : { text : message, senderId: userObject.id, time: _sentData.time},
-	            callback : function(info) {
-	            	if (!info[0]) setTimeout(function() {
-	                    send_a_message(message)
-	                }, 10000 );
-	            }
-	        });
+		pubnub.publish({
+			channel  : currentChatRoom,
+			message  : { text : message, senderId: userObject.id, time: Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss")},
+			callback : function(info) {
+				if (!info[0]) setTimeout(function() {
+					send_a_message(message)
+				}, 5000 );
+			}
 		});
-
-		//need to check with MatchResponseDetail to see if profile is ok with receiving the message from targetedProfile
-		//checking on the perspective of the receiver not sender
-/*		BackendChat.sendNotification(messageObj, function(e) {
-			if(e.success) Ti.API.info('send push notif successfully');
-		}); */
-		//might or might not able to send
     };
     
     var profileButton = Ti.UI.createButton({
@@ -557,7 +531,29 @@ Ti.App.Chat = function(_chatParams) {
 		});	
 		
 		if(otherUserGuid === "") { //normal user has an empty guid
-			send_a_message(sendingMessage);
+			if(sendingMessage !== "") {
+				var messageObj = {}; 
+				messageObj.matchId = _chatParams.matchId
+				messageObj.message = sendingMessage; 
+				messageObj.senderId = userObject.id;
+				messageObj.receiverId = otherUserObject.id; 
+				
+				BackendChat.saveChatMessage(messageObj, function(_sentData) {
+					//save to localdb
+					/*messageObj.userId = userObject.id;
+					messageObj.targetedUserId = otherUserObject.id;			
+					messageObj.senderId = _sentData.sender_id;
+					messageObj.receiverId = _sentData.receiver_id;
+					messageObj.message = _sentData.message;
+					messageObj.time = _sentData.time;*/
+				});
+
+				BackendChat.sendNotification(messageObj, function(e) {
+					if(e.success) Ti.API.info('send push notif successfully');
+				});
+				send_a_message(sendingMessage);				
+			}
+
 		} else {
 			//add cartoon row			
 			var cartoonLayoutNumbers = computeChatLayoutNumbers(cartoonMsgs[cartoonIndexMsg]);

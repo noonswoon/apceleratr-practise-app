@@ -211,8 +211,20 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 				        });
 			        }
 				} else if (e.error) {
+					hidePreloader(self);
+					var loginFailedDialog = Titanium.UI.createAlertDialog({
+						title:L('Noonswoon'),
+						message:L('There is an error from Facebook login. Please try again.')
+					});
+					loginFailedDialog.show();
 					Debug.debug_print('cannot request GraphPath: '+ JSON.stringify(e));		
 				} else {
+					hidePreloader(self);
+					var loginFailedDialog = Titanium.UI.createAlertDialog({
+						title:L('Noonswoon'),
+						message:L('There is an error from Facebook login. Please try again.')
+					});
+					loginFailedDialog.show();
 					Debug.debug_print("what the hell is going on_2? " + JSON.stringify(e));
 					//ErrorHandling.showNetworkError();
 				}
