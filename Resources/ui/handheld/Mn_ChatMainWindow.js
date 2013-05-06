@@ -213,7 +213,7 @@ Ti.App.Chat = function(_chatParams) {
 		        channel  : currentChatRoom,
 		        connect  : function() {
 		            Ti.API.info("connecting...");
-					BackendChat.getChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId, page:1}, function(_chatHistory) {
+					BackendChat.getAllChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId}, function(_chatHistory) {
 						var chatHistoryMsgs = _chatHistory.content.chat_messages;
 						for(var i = 0; i < chatHistoryMsgs.length; i++) {
 							var curMsg = chatHistoryMsgs[i].message.trim();
