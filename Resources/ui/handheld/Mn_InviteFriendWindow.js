@@ -58,7 +58,16 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		height: 30,
 		image: 'images/topbar-glyph-back.png'
 	});
-		
+				
+	var skipButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width:44,
+		height:30,
+		font:{fontSize:14,fontWeight:'bold'},
+		title: L('Skip'),
+	});
+			
 	var self = Titanium.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
 		title: L('Friends'),
@@ -66,8 +75,11 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		rightNavButton: inviteButton,
 		backgroundColor: '#eeeeee'
 	});
+	
 	if(_forcedInvite) {
-		self.leftNavButton = emptyView;
+		if(Ti.App.NUM_INVITE_ALL === 0)
+			self.leftNavButton = skipButton;
+		else self.leftNavButton = emptyView;
 		self.title = L('FriendsInvite');
 	} else {
 		self.leftNavButton = backButton;
@@ -256,6 +268,13 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	backButton.addEventListener('click', function() {
 		Ti.App.Flurry.endTimedEvent('invite-screen');
 		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+	
+	skipButton.addEventListener('click', function() {
+		var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
+		var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
+		onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
 	});
 	
 	inviteButtonClickCallback = function() {
