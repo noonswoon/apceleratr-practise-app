@@ -89,6 +89,7 @@ ConnectionWindow = function(_userId) {
 			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName,
 			otherUserImage: e.row.profileImage, otherUserGuid: e.row.guid
 		});
+
 	});
 	
 	loadConnectedMatches();

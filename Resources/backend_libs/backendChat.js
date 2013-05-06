@@ -2,7 +2,42 @@
  * @author Mickey Asavanant
  */
 
-////////////////// START REAL-CODE /////////////////////////////
+exports.getAllChatHistory = function(_paramObj, _callbackFn) {
+	if(Ti.App.LIVE_DATA) {
+		
+		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_all_chat_history/"+_paramObj.userId+"/";
+		Ti.API.info('getAllChatHistory api point: '+url);
+		var xhr = Ti.Network.createHTTPClient({
+			onload : function(e) {
+				var resultObj = JSON.parse(this.responseText);
+	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+	        		resultObj.success = true;
+					_callbackFn(resultObj);
+				} else {
+					_callbackFn({success:false});
+					Ti.App.fireEvent('openErrorWindow', {src: 'backendChat.getAllChatHistory', meta:resultObj.meta});
+				}
+	        },
+	        onerror : function(e) {
+	            _callbackFn({success:false});
+	            Ti.App.fireEvent('openErrorWindow', {src: 'backendChat.getAllChatHistory', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	        },
+		    timeout:50000  // in milliseconds 
+	    });
+	    xhr.open("GET", url);
+		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
+	    xhr.setRequestHeader('Content-Type','application/json');
+	    xhr.send();
+	} else {
+		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/chat_all_history_obj.txt');
+		var contents = f.read();
+		var resultObj = JSON.parse(contents.text); 
+		if(resultObj.meta.status == "ok") {
+			_callbackFn(resultObj);
+		}
+	}
+};
+
 exports.getChatHistory = function(_paramObj, _callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_chat_history/"+_paramObj.userId+"/"+_paramObj.page;
@@ -34,8 +69,6 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 		var resultObj = JSON.parse(contents.text); 
 		if(resultObj.meta.status == "ok") {
 			_callbackFn(resultObj);
-		} else {
-			Ti.API.error("something wrong with backendUser.getChatHistory")
 		}
 	}
 };

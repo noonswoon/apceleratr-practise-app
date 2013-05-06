@@ -1,0 +1,186 @@
+{
+   "content":{
+      "match_id":7,
+      "user_id":3,
+      "user_image":"https://s3.amazonaws.com/noonswoon.photos/202852_00001_d7727176-ee4b-4662-8ec2-9177e2a3f6d9.jpg",
+      "other_user_id":7,
+      "other_user_image":"https://s3.amazonaws.com/noonswoon.photos/2535734_00001_c2f2c0e5-f4b8-408d-a113-ac6f21fb100b.jpg",
+      "page":"",
+      "chat_messages":[
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Sawasfde",
+            "time":"2013-05-06T15:48:05"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Sawasdsew",
+            "time":"2013-05-06T15:46:40"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Ok coolio. Making progress :)",
+            "time":"2013-05-06T00:12:46"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"General cases are working but for edge cases are not quite there yet",
+            "time":"2013-05-06T00:11:44"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Haha..thanks! No need for now..just a lot of trials and errors with this UI stuff",
+            "time":"2013-05-06T00:10:58"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Let me know if you want me to type anything to try to break or test chat",
+            "time":"2013-05-06T00:10:23"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Testing chat indeed",
+            "time":"2013-05-06T00:08:42"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Testing chat?",
+            "time":"2013-05-06T00:08:33"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"You had me at Hello and hello and hello and good bye!",
+            "time":"2013-05-06T00:08:05"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"Zjachadjdakmdamdqnaxnxananansnanac as as zanzaaz as. Sa snnacncansnananacnecnecns syncs ax scnscnsns",
+            "time":"2013-05-01T19:30:59"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"dkdjdshsnjskdkskmskmsmndndndndndnndndndnndndndndndndndndndndndnndndfndjdjdjskjdkdnndjdnjdndndnndnjdndndndnndndndndndndnndd",
+            "time":"2013-03-23T01:19:49"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Shit",
+            "time":"2013-03-23T01:08:47"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Chit chat",
+            "time":"2013-03-23T01:08:37"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"hy",
+            "time":"2013-03-23T01:07:25"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"yr",
+            "time":"2013-03-23T01:02:32"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"hay",
+            "time":"2013-03-23T01:01:00"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"It is okie man",
+            "time":"2013-03-23T00:53:58"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Hey man",
+            "time":"2013-03-23T00:43:43"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"djsjjjdd",
+            "time":"2013-03-16T16:16:00"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Yoo",
+            "time":"2013-03-11T19:11:25"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"chat still works",
+            "time":"2013-03-09T14:39:28"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Jdjdjd",
+            "time":"2013-03-08T16:27:09"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"what",
+            "time":"2013-03-08T16:26:50"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Doggie style chat",
+            "time":"2013-03-07T23:55:19"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Coool..chat with me",
+            "time":"2013-03-07T23:55:11"
+         },
+         {
+            "sender_id":3,
+            "receiver_id":7,
+            "message":"Hey dog",
+            "time":"2013-03-07T23:54:50"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"again",
+            "time":"2013-03-07T23:54:03"
+         },
+         {
+            "sender_id":7,
+            "receiver_id":3,
+            "message":"see this?",
+            "time":"2013-03-07T23:52:24"
+         }
+      ]
+   },
+   "meta":{
+      "status":"ok",
+      "return_obj":"chat_history",
+      "user_id":3,
+      "user_fb_id":202852
+   }
+}
