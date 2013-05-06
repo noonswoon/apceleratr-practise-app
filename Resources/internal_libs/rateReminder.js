@@ -3,8 +3,8 @@ exports.checkReminderToRate = function() {
 
 	var rateRequestDialog = Titanium.UI.createAlertDialog({
 		title: 'Noonswoon',
-		message: 'Show us some love! Please take a moment to rate Noonswoon',
-		buttonNames: ['Rate', 'Remind Me Later', 'Never'],
+		message: 'Show us some love! Please take a moment to rate Noonswoon 5 stars in the App Store',
+		buttonNames: ['Rate Noonswoon 5 stars!', 'Remind Me Later', 'Never'],
 		cancel: 2
 	});
 
@@ -31,8 +31,8 @@ exports.checkReminderToRate = function() {
 		
 	var enjoyUsingDialog = Titanium.UI.createAlertDialog({
 		title: L('Noonswoon'),
-		message: L('Welcome back! Have you enjoyed using Noonswoon?'),
-		buttonNames: [L('No'), L('Very much')],
+		message: L('Welcome back! Are you enjoying Noonswoon?'),
+		buttonNames: [L('It\'s ok'), L('I love it!')],
 		cancel: 0
 	});
 	
