@@ -100,7 +100,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:resultObj.meta});
@@ -131,7 +131,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:resultObj.meta});

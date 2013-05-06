@@ -61,17 +61,11 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 			var userCredit = CreditSystem.getUserCredit();
 			if(userCredit < Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT) {
 				insufficientCreditsDialog.show();
-			} else {
-				BackendCredit.transaction({userId:userId, amount: (-1)*Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT, action:'mutual_friend'}, function(_currentCredit){
-					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-				});
-							
+			} else {							
 				//update show_mutual_friends
 				BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-					if(e.success) Ti.API.info('update mutual friends success');
-					else Ti.API.info('update mutual friends failed');
+					CreditSystem.setUserCredit(e.content.credit); //sync the credit
 				});
-					
 				hasUnlocked = true;
 				//open up the window to show friends
 				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});

@@ -177,16 +177,9 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					if(e.success) {
-						Ti.API.info('save response (like) successfully');
-					} else Ti.API.info('save response (like) failed');
+					CreditSystem.setUserCredit(e.content.credit); //sync the credit
 				});
 				setSelectedState("like");
-
-				//send off the point deductions to server
-				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-				});				
 			}
 		}
 	});
@@ -209,8 +202,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			
 					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
 					BackendMatch.saveResponse(matchResponseObj, function(e){
-						if(e.success) Ti.API.info('save response (pass) successfully');
-						else Ti.API.info('save response (pass) failed');
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 					});
 				}
 			}

@@ -229,8 +229,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 	
 			BackendInvite.saveInvitedPeople(invitedData, function(e){
-				if(e.success) Ti.API.info('postonboarding...saveInvitePeople from fb successful');
-				else Ti.API.info('saveInvitePeople from fb failed');
+				CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
 			});
 		
 			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');

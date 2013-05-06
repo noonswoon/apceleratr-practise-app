@@ -181,13 +181,9 @@ function ApplicationWindow(_userId, _userImage) {
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		
-		BackendInvite.saveInvitedPeople(invitedData, function(e){
-			if(e.success) Ti.API.info('saveInvitePeople from fb successful');
-			else Ti.API.info('saveInvitePeople from fb failed');
-		});
-		
-		BackendCredit.transaction({userId:_userId, amount:topupAmount, action:'invite'}, function(_currentCredit){
-			CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
+		BackendInvite.saveInvitedPeople(invitedData, function(e) {
+			Ti.API.info('saveInvitedPeople: '+JSON.stringify(e));
+			CreditSystem.setUserCredit(e.content.credit); //sync the credit
 		});
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
