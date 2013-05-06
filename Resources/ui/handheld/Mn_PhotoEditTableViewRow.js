@@ -121,8 +121,6 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		// check the size of _image, dimension > 400..resizing here
 		var toUploadImage = _image;
 		if(_image.width > 320 || _image.height > 320) {
-			alert('image property, width: '+_image.width+', height: '+_image.height);
-
 		    var ratio = _image.width / _image.height;
 		    var w = 320;
 		    var h = 320 / ratio;
