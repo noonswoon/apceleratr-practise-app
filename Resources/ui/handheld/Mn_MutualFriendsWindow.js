@@ -61,6 +61,7 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 	var mutualFriendListView = Ti.UI.createListView({
 		top: 0, 
 		left: 0,
+		backgroundColor: '#eeeeee',
 		height: listViewHeight,
 		templates: {'mutualFriendTemplate': mutualFriendTemplate}, 
 		defaultItemTemplate: 'mutualFriendTemplate',
