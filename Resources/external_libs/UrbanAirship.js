@@ -43,6 +43,7 @@ var registerDeviceToken = function(_deviceToken) {
 				xhr.onerror(e);
 				return;
 			}
+			alert('registerDeviceToken: '+JSON.stringify(e));
 		},
 		onerror:function(e) {
 			Debug.debug_print("Register with Urban Airship Push Service failed. Error: " + e.error);

@@ -233,7 +233,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var closeCallback = function() {
 		Ti.App.Flurry.endTimedEvent('main-match-window');
-		Ti.App.removeEventListener('close', closeCallback);	
+		self.removeEventListener('close', closeCallback);	
 	};
 	self.addEventListener('close', closeCallback);	
 	

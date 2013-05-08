@@ -18,7 +18,8 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_PRODUCTION_BUILD = false;
+Ti.App.PN_PRODUCTION_BUILD = false; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
@@ -41,16 +42,20 @@ if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
-	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
-	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
 	Ti.App.Facebook.appid = "492444750818688";
+}
+
+if(Ti.App.PN_PRODUCTION_BUILD) {
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
+} else {
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";	
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
