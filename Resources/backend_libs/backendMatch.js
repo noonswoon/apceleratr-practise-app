@@ -100,6 +100,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+		      		resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
@@ -131,6 +132,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});

@@ -182,8 +182,8 @@ function ApplicationWindow(_userId, _userImage) {
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		
 		BackendInvite.saveInvitedPeople(invitedData, function(e) {
-			Ti.API.info('saveInvitedPeople: '+JSON.stringify(e));
-			CreditSystem.setUserCredit(e.content.credit); //sync the credit
+			if(e.success) 
+				CreditSystem.setUserCredit(e.content.credit); //sync the credit
 		});
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
@@ -211,7 +211,7 @@ function ApplicationWindow(_userId, _userImage) {
 					Ti.App.Facebook.logout();
 				} else {
 					Ti.UI.iPhone.appBadge = null;
-					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken()); //need to check on this for the valid token
 					if(noMatchWindow !== null) {
 						navigationGroup.close(noMatchWindow, {animated:false});
 						noMatchWindow = null;

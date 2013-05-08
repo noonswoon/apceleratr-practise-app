@@ -241,7 +241,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 	
 			BackendInvite.saveInvitedPeople(invitedData, function(e){
-				CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
+				if(e.success) 
+					CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
 			});
 		
 			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');

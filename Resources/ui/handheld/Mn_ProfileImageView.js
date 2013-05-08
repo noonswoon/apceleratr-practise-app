@@ -177,7 +177,8 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					if(e.success)
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 				});
 				setSelectedState("like");
 			}
@@ -202,7 +203,8 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			
 					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
 					BackendMatch.saveResponse(matchResponseObj, function(e){
-						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+						if(e.success)
+							CreditSystem.setUserCredit(e.content.credit); //sync the credit
 					});
 				}
 			}

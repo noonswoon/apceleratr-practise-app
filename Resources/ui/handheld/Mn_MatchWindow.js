@@ -208,16 +208,13 @@ MatchWindow = function(_userId, _matchId) {
 	if(_matchId === null) {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-			
-			//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
-			//check version
-			if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
-				//alert to update the app
-				var UpdateRequester = require('internal_libs/updateReminder');
-				UpdateRequester.requestToUpdate();	
-			}
-			
 			if(_matchInfo.success) {
+				//check version
+				if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
+					var UpdateRequester = require('internal_libs/updateReminder');
+					UpdateRequester.requestToUpdate();	
+				}
+				
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
 			}
@@ -253,14 +250,15 @@ MatchWindow = function(_userId, _matchId) {
 		if(_matchId === null) {
 			showPreloader(self, L('Loading...'));		
 			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-				if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
-					//alert to update the app
-					var UpdateRequester = require('internal_libs/updateReminder');
-					UpdateRequester.requestToUpdate();	
+				if(_matchInfo.success) {
+					if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
+						//alert to update the app
+						var UpdateRequester = require('internal_libs/updateReminder');
+						UpdateRequester.requestToUpdate();	
+					}
+					//populate the data				
+					contentView.data = populateMatchDataTableView(_matchInfo);	
 				}
-				
-				if(_matchInfo.success)
-					contentView.data = populateMatchDataTableView(_matchInfo);
 				hidePreloader(self);
 			}); 
 		} else {
