@@ -18,8 +18,8 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.IS_PRODUCTION_BUILD = false;
-Ti.App.PN_PRODUCTION_BUILD = false; //if true, will only work if it is a production/adhoc build
+Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
@@ -151,7 +151,7 @@ if (Ti.version < 1.8 ) {
 						var BackendUser = require('backend_libs/backendUser');
 						var CreditSystem = require('internal_libs/creditSystem');
 						BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
-							Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
+							//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 							currentUserId = parseInt(_userInfo.meta.user_id); 
 							
 							Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
