@@ -24,7 +24,6 @@ exports.getChatHistory = function(_matchId) {
 	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
 	var chatMessages = [];
 	var result = db.execute("SELECT * FROM ChatHistory WHERE MatchId = ? ORDER BY Time DESC", _matchId);
-	Ti.API.info('done exec select * for getChatHistory');
 	while(result.isValidRow()) {
 		chatMessages.push({senderId: result.fieldByName('SenderId'), receiverId: result.fieldByName('ReceiverId'), message: result.fieldByName('Message'), time: result.fieldByName('Time')});
 		result.next();

@@ -122,23 +122,18 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		var message;
 		if(e.data['aps'] != undefined) {
 			if(e.data['aps']['alert'] != undefined){
+
 				message = e.data['aps']['alert'];
+//				alert('pn msg: '+JSON.stringify(e));
 				
+				//insert to the datbase here				
 				//try openning window here with the data
-/*
-				var matchId = e.data['aps']['match_id'];
-				var senderId = e.data['aps']['sender_id'];
-				var senderImage = e.data['aps']['sender_image'];
-				var senderFirstname = e.data['aps']['sender_firstname'];
-				var receiverId = e.data['aps']['receiver_id'];
-				var receiverImage = e.data['aps']['receiver_image'];
-*/				
-/*				var msgDialog = Titanium.UI.createAlertDialog({
-					title: L('Message from...'),
-					message:message
-				});
-				msgDialog.show();
-*/
+				var matchId = e.data['aps']['mid']; //not using yet
+				var senderId = e.data['aps']['sid']; //not using yet
+				
+				//do the parsing, getting rid of name : starting msg
+//				var msgIndex = contentMsg.indexOf(":"); 
+//				contentMsg = contentMsg.substring(msgIndex 	+ 2);
 			} else {
 				message = 'No Alert content';
 			}

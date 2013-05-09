@@ -56,7 +56,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	});
 	
 	var buttonText = Ti.UI.createLabel({
-		text: L('Find The One'),
+		text: L('Love is in the App'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},
