@@ -454,12 +454,12 @@ Ti.App.Chat = function(_chatParams) {
 		isInputTextFieldFocus = false;
 	});
 	
-	chatListView.addEventListener('itemclick', function(e) {
+	chatListView.addEventListener('singletap', function(e) {
 		if(isInputTextFieldFocus) {
 			chatInputTextField.blur();
 		}
 	});
-	
+
     chatSendButtonCenter.addEventListener('click', function() {
 		if(chatInputTextField.value.trim() === "") {
 			chatInputTextField.value = "";
