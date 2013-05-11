@@ -1,10 +1,10 @@
 eclipse.preferences.version=1
+provisioning_profiles/adhoc/1B397D58-582B-458B-9CEC-329857D7B8F9/appid=com.noonswoon.launch
+provisioning_profiles/adhoc/1B397D58-582B-458B-9CEC-329857D7B8F9/name=NoonswoonAdHocProvisioningProfile
+provisioning_profiles/adhoc/1B397D58-582B-458B-9CEC-329857D7B8F9/uuid=1B397D58-582B-458B-9CEC-329857D7B8F9
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/appid=mobi.chatterbox.rc
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/name=ChatterboxRCAppStore
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/uuid=3697D764-0676-47D8-A9AA-143BB7B7D3E6
-provisioning_profiles/adhoc/5043D823-ADAD-4A0C-A546-4D14E30BB17C/appid=com.noonswoon.launch
-provisioning_profiles/adhoc/5043D823-ADAD-4A0C-A546-4D14E30BB17C/name=NoonswoonAdHocProvisioningProfile
-provisioning_profiles/adhoc/5043D823-ADAD-4A0C-A546-4D14E30BB17C/uuid=5043D823-ADAD-4A0C-A546-4D14E30BB17C
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/appid=mobi.chatterbox.rc
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/name=ChatterboxRCAdhoc
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/uuid=7D5D7FC7-47B3-4336-98DE-118F7F77B64D

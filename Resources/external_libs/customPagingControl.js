@@ -15,6 +15,7 @@ PagingControl = function(scrollableView){
 	var container = Titanium.UI.createView({
 		height: 14,
 		backgroundImage: 'images/carousel-background-stretchable.png',
+		backgroundLeftCap: 5,
 		width: numberOfPages * widthOffset,
 		zIndex: 2
 	});

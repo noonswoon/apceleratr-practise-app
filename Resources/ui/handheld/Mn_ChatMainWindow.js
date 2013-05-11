@@ -31,7 +31,7 @@ Ti.App.Chat = function(_chatParams) {
 						L("I would love to meet up with you if I were a real person."),
 						L("Can you come to the cartoon world?")];
 	var cartoonIndexMsg = 0;
-
+	
 	var listViewHeight = 376; //480 - 20 (status bar) - 44 (nav bar) - 40 (input view)
 	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
 		listViewHeight = 464; // 568 - 57 = 511
@@ -41,8 +41,7 @@ Ti.App.Chat = function(_chatParams) {
 	var horizontalLength = 188;  
 	var verticalLength = 1;
 	var isInputTextFieldFocus = false;
-	var listViewContentHeight = 0;
-	
+
 	var chatTemplate = {
 		properties: {
 			selectionStyle: Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
@@ -216,7 +215,6 @@ Ti.App.Chat = function(_chatParams) {
 						Ti.Media.vibrate(); //i love things that shake!
 		           		var receivedMessage = message.text.trim();
 						var chatLayoutNumbers = computeChatLayoutNumbers(receivedMessage);
-						listViewContentHeight += (36 + chatLayoutNumbers.newVerticalLength);
 						chatData.push({
 							properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#f6f6f6
 							userPic: { image: _chatParams.otherUserImage, left: 7},
@@ -267,7 +265,6 @@ Ti.App.Chat = function(_chatParams) {
 		} else {
 			//cartoon stuff
 			var cartoonLayoutNumbers = computeChatLayoutNumbers(cartoonMsgs[cartoonIndexMsg]);
-			listViewContentHeight += (36 + cartoonLayoutNumbers.newVerticalLength);
 			chatData.push({
 				properties: {backgroundColor: '#e0e0e0', height: cartoonLayoutNumbers.rowHeight}, //#f6f6f6
 				userPic: { image: _chatParams.otherUserImage, left: 7},
@@ -414,19 +411,7 @@ Ti.App.Chat = function(_chatParams) {
 	this.chatWindow = chatWindow;
     this.pubnub      = pubnub;
     
-    	//animate up
-	var animateNegativeUp_chatView = Ti.UI.createAnimation({
-		top: -230,
-		duration: 200,
-		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-	});
-	
-	var animateDown_chatView = Ti.UI.createAnimation({
-		top: 0,
-		duration: 200,
-		curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-	});
-
+    //animate up
 	var animateUp_inputView = Ti.UI.createAnimation({
 		bottom: 216,
 		duration: 200,
@@ -440,23 +425,15 @@ Ti.App.Chat = function(_chatParams) {
 	});
 	
 	chatInputTextField.addEventListener('focus', function() {
-		Ti.API.info('listViewContentHeight: '+listViewContentHeight);
-		if(chatData.length > 0)
-			chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
-
+		setTimeout(function() {
+			chatListView.scrollToItem(0, chatData.length - 1, {animated: true});
+		}, 100);
+		
 		hintTextLabel.visible = false;
 		sendLabel.color = '#ffffff';
 		
 		//if need to animate the listView up
-		if(listViewContentHeight > 230) {
-			animateNegativeUp_chatView.top = -240;
-			chatListView.animate(animateNegativeUp_chatView); 
-		} else if(listViewContentHeight > 130) {
-			animateNegativeUp_chatView.top = 120 - listViewContentHeight; 
-			chatListView.animate(animateNegativeUp_chatView);	
-		}
-		
-		
+		chatListView.height = (listViewHeight - 236);
 		chatInputView.animate(animateUp_inputView);
 		chatInputView.height = 60;
 		chatInputTextField.height = 40;
@@ -469,8 +446,8 @@ Ti.App.Chat = function(_chatParams) {
 			sendLabel.color = '#a8c98e';
 			hintTextLabel.visible = true;
 		}
-		
-		chatListView.animate(animateDown_chatView); 
+			
+		chatListView.height = listViewHeight;
 		chatInputView.animate(animateDown_inputView);
 		chatInputView.height = 40;
 		chatInputTextField.height = 30;
@@ -491,7 +468,6 @@ Ti.App.Chat = function(_chatParams) {
 		
 		var sendingMessage = chatInputTextField.value.trim();
 		var chatLayoutNumbers = computeChatLayoutNumbers(sendingMessage);
-		listViewContentHeight += (36 + chatLayoutNumbers.newVerticalLength);
 		chatData.push({
 			properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#ededed
 			userPic: { image: _chatParams.userImage, right: 7},
@@ -533,7 +509,6 @@ Ti.App.Chat = function(_chatParams) {
 		} else {
 			//add cartoon row			
 			var cartoonLayoutNumbers = computeChatLayoutNumbers(cartoonMsgs[cartoonIndexMsg]);
-			listViewContentHeight += (36 + cartoonLayoutNumbers.newVerticalLength);
 			chatData.push({
 				properties: {backgroundColor: '#e0e0e0', height: cartoonLayoutNumbers.rowHeight}, //#f6f6f6
 				userPic: { image: _chatParams.otherUserImage, left: 7},
@@ -566,18 +541,7 @@ Ti.App.Chat = function(_chatParams) {
     	//some time out to scroll down
     	setTimeout(function() {
 			chatListView.scrollToItem(0, chatData.length - 1, {animated: true});
-		}, 500);
-		
-		//if need to animate the listView up
-		if(listViewContentHeight > 230) {
-			Ti.API.info('listViewContentHeight: '+listViewContentHeight + ' and do the animation -240');
-			animateNegativeUp_chatView.top = -240;
-			chatListView.animate(animateNegativeUp_chatView); 
-		} else if(listViewContentHeight > 130) {
-			animateNegativeUp_chatView.top = 120 - listViewContentHeight; 
-			Ti.API.info('listViewContentHeight: '+listViewContentHeight + ' and do the animation '+ (120 - listViewContentHeight));
-			chatListView.animate(animateNegativeUp_chatView);	
-		}
+		}, 300);
     });
 	
 	profileButton.addEventListener('click', function() {
@@ -593,7 +557,6 @@ Ti.App.Chat = function(_chatParams) {
 		for(var i = 0; i < chatRawData.length; i++) {
 			var curMsg = chatRawData[i].message;
 			var chatLayoutNumbers = computeChatLayoutNumbers(curMsg);
-			listViewContentHeight += (36 + chatLayoutNumbers.newVerticalLength);
 			if(userObject.id === chatRawData[i].senderId) {
 				chatData.push({
 					properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#ededed
@@ -692,7 +655,6 @@ Ti.App.Chat = function(_chatParams) {
 				//building the UI
 				var curMsg =  chatUnreadMsgs[i].message.trim();
 				var chatLayoutNumbers = computeChatLayoutNumbers(curMsg);
-				listViewContentHeight += (36 + chatLayoutNumbers.newVerticalLength);
 				chatData.push({
 					properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#f6f6f6
 					userPic: { image: _chatParams.otherUserImage, left: 7},
