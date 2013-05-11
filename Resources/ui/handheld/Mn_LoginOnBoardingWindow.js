@@ -10,6 +10,14 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		backgroundColor: 'black'
 	});
 
+	var iphone5Flag = false;
+	var listViewHeight = 376; //480 - 20 (status bar) - 44 (nav bar) - 40 (input view)
+	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
+		listViewHeight = 464; // 568 - 57 = 511
+		iphone5Flag = true;
+	}
+	
+	
 	var viewsForScrollView = [];
 	var view = null;
 
@@ -45,15 +53,32 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		zIndex: 0,
 	});
 	
+	var pagingControTop = 368; 
+	var tourTextTop = 364;
+	var fbButtonYPos = 414;
+	var fbButtonTextYPos = 413;
+	var neverPostYPos = 445; 
+
+	if(iphone5Flag) {
+		pagingControTop = 426;
+		tourTextTop = 422;
+		fbButtonYPos = 502;
+		fbButtonTextYPos = 501;
+		neverPostYPos = 533; 
+	}
+			
 	var pagingControl = new CustomPagingControl(scrollView);
-	pagingControl.top = 368;
+	pagingControl.top = pagingControTop;
 	self.add(pagingControl); 
 	self.add(scrollView);
 	
+	
+	
+
 	var tourText = Ti.UI.createLabel({
 		text: L('tour ➜'),
 		color: '#ffffff',
-		top: 364,
+		top: tourTextTop,
 		left: 261,
 		font:{fontSize:14, fontWeight:'bold'},
 		zIndex: 3,
@@ -64,7 +89,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 		backgroundImage: 'images/onboarding-facebook-btn.png',
 		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
 		backgroundFocusedImage: 'images/onboarding-facebook-btn-active.png',
-		center: {x:'50%', y:414}, //y: 428
+		center: {x:'50%', y:fbButtonYPos}, //y: 428
 		width: 250, 
 		height: 45,
 		zIndex: 0,
@@ -73,7 +98,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var fbButtonText = Ti.UI.createLabel({
 		text: L('Connect Privately'),
 		color: '#ffffff',
-		center: {x: '53%', y:413},
+		center: {x: '53%', y:fbButtonTextYPos},
 		font:{fontWeight:'bold',fontSize:16},
 		shadowColor: '#3d4d67',
 		shadowOffset: {x:0,y:-1},
@@ -93,7 +118,7 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 	var neverPostToFb = Ti.UI.createLabel({
 		text: L('100% confidential. We never post to Facebook'),
 		color: '#ffffff',
-		center: {x:'50%', y:445},
+		center: {x:'50%', y:neverPostYPos},
 		font:{fontSize:12},
 		zIndex: 3,
 		//left: 82, color: '#898c81',

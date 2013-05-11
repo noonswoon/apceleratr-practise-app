@@ -35,8 +35,8 @@ Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
-
-Ti.App.Properties.setString('clientVersion','1.2');
+Ti.App.clientVersion = '1.2';
+Ti.App.Properties.setString('clientVersion',Ti.App.clientVersion);
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
@@ -90,8 +90,8 @@ var CacheHelper = require('internal_libs/cacheHelper');
 var FacebookQuery = require('internal_libs/facebookQuery');
 
 var FacebookFriendModel = require('model/facebookFriend');
-
 var BackendInvite = require('backend_libs/backendInvite');
+var ModelMetaData = require('model/metaData');
 
 /* fql: SELECT 
 uid,name, relationship_status, current_location 
@@ -118,6 +118,7 @@ if (Ti.version < 1.8 ) {
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
 	
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+	var ModelChatHistory = require('model/chatHistory');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
 	var ModelTargetedCity = require('model/targetedCity');
@@ -129,6 +130,20 @@ if (Ti.version < 1.8 ) {
 
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
+	
+	var currentDbVersion = ModelMetaData.getDbVersion();
+	if(currentDbVersion === '') { //fresh install or version 1.0/1.1
+		ModelMetaData.insertDbVersion(Ti.App.clientVersion);
+		//need to do the SQLite database migration
+		ModelChatHistory.migrateData();
+	} else {
+		Ti.API.info('already have db version: ' + currentDbVersion);
+		if(currentDbVersion !== Ti.App.clientVersion) { 
+			ModelMetaData.updateDbVersion(Ti.App.clientVersion);
+			ModelChatHistory.migrateData();
+		}
+	}
+	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
 	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
 		numWaitingEvent--;
