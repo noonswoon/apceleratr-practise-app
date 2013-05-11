@@ -18,6 +18,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
+Ti.App.CLIENT_VERSION = '1.2';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
@@ -30,13 +31,11 @@ Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_hi
 Ti.App.Facebook.forceDialogAuth = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
-
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
-Ti.App.clientVersion = '1.2';
-Ti.App.Properties.setString('clientVersion',Ti.App.clientVersion);
+Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
@@ -133,14 +132,14 @@ if (Ti.version < 1.8 ) {
 	
 	var currentDbVersion = ModelMetaData.getDbVersion();
 	if(currentDbVersion === '') { //fresh install or version 1.0/1.1
-		ModelMetaData.insertDbVersion(Ti.App.clientVersion);
+		ModelMetaData.insertDbVersion(Ti.App.CLIENT_VERSION);
 		//need to do the SQLite database migration
 		ModelChatHistory.migrateData();
 	} else {
 		Ti.API.info('already have db version: ' + currentDbVersion);
-		if(currentDbVersion !== Ti.App.clientVersion) { 
-			ModelMetaData.updateDbVersion(Ti.App.clientVersion);
+		if(currentDbVersion !== Ti.App.CLIENT_VERSION) { 
 			ModelChatHistory.migrateData();
+			ModelMetaData.updateDbVersion(Ti.App.CLIENT_VERSION);
 		}
 	}
 	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
