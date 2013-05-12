@@ -9,7 +9,7 @@ function LoginProcessWindow() {
 		width: 320
 	});
 
-	var loginOnBoardingWindow = new LoginOnBoardingModule();
+	var loginOnBoardingWindow = new LoginOnBoardingModule(self);
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	window: loginOnBoardingWindow,
@@ -19,6 +19,10 @@ function LoginProcessWindow() {
 	loginOnBoardingWindow.setNavGroup(navigationGroup);
     
 	self.add(navigationGroup);
+	
+	self.closeLoginOnBoardingWindow = function() {
+		navigationGroup.close(loginOnBoardingWindow);
+	};
 
     return self;
 };

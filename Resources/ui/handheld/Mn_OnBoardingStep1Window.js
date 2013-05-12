@@ -1,4 +1,4 @@
-OnBoardingStep1Window = function(_navGroup, _userId) {
+OnBoardingStep1Window = function(_navGroup, _userId, _mainWindow) {
 	Ti.App.Flurry.logEvent('after-signup-onboard-1-pre-edit');
 	
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
@@ -60,10 +60,10 @@ OnBoardingStep1Window = function(_navGroup, _userId) {
 	self.add(viewProfileButton);
 	
 	viewProfileButton.addEventListener('click', function() {
-		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, true);
+		var editProfileWindow = new EditProfileWindowModule(_navGroup, _userId, true, _mainWindow);
 		editProfileWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
 											modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
-		//self.close();
+		self.close();
 		//_navGroup.open(editProfileWindow, { modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
 		//									modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
 	});

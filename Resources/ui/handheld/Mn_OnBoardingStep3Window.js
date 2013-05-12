@@ -1,8 +1,7 @@
-OnBoardingStep3Window = function(_navGroup, _userId) {
+OnBoardingStep3Window = function(_navGroup, _userId, _mainWindow) {
 	Ti.App.Flurry.logEvent('after-signup-onboard-3-pre-cartoon');
 	
 	//create component instance
-	
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: true,
@@ -88,12 +87,18 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 			
 			var currentUserId = parseInt(_userInfo.meta.user_id); 
 			var currentUserImage = _userInfo.content.pictures[0].src;
-			var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-			var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
-			mainApp.open();
-			mainApp.unhideCoverView();
+
+			Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage});
+//			var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+//			var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
+//			mainApp.open();
+//			mainApp.unhideCoverView();
+//			self.close();
 			
-			//self.close();
+			//close all the navigation group
+//			_navGroup.close(_navGroup.getWindow());
+//			_mainWindow.closeLoginOnBoardingWindow();
+//			_mainWindow.close();
 		});		
 	});
 	return self;

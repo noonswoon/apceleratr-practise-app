@@ -46,7 +46,8 @@ function ApplicationWindow(_userId, _userImage) {
 		height: 30,
 		image: 'images/topbar-glyph-chat.png'
 	});
-	
+
+/*	
 	var topBarNotifView = Ti.UI.createView({
 		height: 17, 
 		width: 35,
@@ -74,11 +75,10 @@ function ApplicationWindow(_userId, _userImage) {
 		left: 0,
 		zIndex: 2,
 	});
-//	topBarNotifView.add(topBarNotifImage);
-//	topBarNotifView.add(topBarNotifCounter);
-	
-//	toggleRightMenuBtn.add(topBarNotifView);
-	
+	topBarNotifView.add(topBarNotifImage);
+	topBarNotifView.add(topBarNotifCounter);
+	toggleRightMenuBtn.add(topBarNotifView);
+*/	
 	
 	var timerView = new TimerViewModule();
 		
@@ -224,6 +224,7 @@ function ApplicationWindow(_userId, _userImage) {
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
 	  	//window: dummyOnBoard,
 	  	window: matchWindow,
+	  	top: 0,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,
 	});

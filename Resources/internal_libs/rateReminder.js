@@ -21,7 +21,7 @@ exports.checkReminderToRate = function() {
 		       	break;
 		    case 1:
 		    	// "Remind Me Later"? Ok, we'll remind them tomorrow when they launch the app.
-		        Ti.App.Properties.setInt('numberOfUsage', numberOfUsage + 1);
+		        //
 		        break;
 		    case 2:
 		    	Ti.App.Properties.setInt('numberOfUsage', -1);
@@ -45,7 +45,7 @@ exports.checkReminderToRate = function() {
 			}
 		}	
 	});
-		        		        
+	 		        
     if (!numberOfUsage) {
         Ti.App.Properties.setInt('numberOfUsage', 1);
     } else {
@@ -54,6 +54,7 @@ exports.checkReminderToRate = function() {
 		        //show if you enjoy or not
 		        enjoyUsingDialog.show();        	
 	        }
+	        Ti.App.Properties.setInt('numberOfUsage', numberOfUsage + 1);
         } //end if !== -1
     }	
 };

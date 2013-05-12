@@ -1,4 +1,4 @@
-EditInfoWindow = function(_navGroup, _userId, _newUser) {
+EditInfoWindow = function(_navGroup, _userId, _newUser, _mainWindow) {
 	if(_newUser) {
 		Ti.App.Flurry.logEvent('after-signup-onboard-1-edit');
 	}	
@@ -59,9 +59,11 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		navBarHidden: false,
 		title: L('Edit Profile'),
 		barImage: 'images/top-bar-stretchable.png',
-		leftNavButton: cancelButton,
 		rightNavButton: saveButton
 	});
+	if(!_newUser) {
+		self.leftNavButton = cancelButton;
+	}
 	
 	var editTableView = Ti.UI.createTableView({
 		backgroundColor:'white',
@@ -406,10 +408,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 					//if(true) {
 					if(_newUser) {
 						var OnBoardingStep2Module = require('ui/handheld/Mn_OnBoardingStep2Window');
-						var onBoardingStep2Window = new OnBoardingStep2Module(_navGroup, _userId);
+						var onBoardingStep2Window = new OnBoardingStep2Module(_navGroup, _userId, _mainWindow);
 						onBoardingStep2Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
 													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
-						//self.close();
+						self.close();
 					} else {
 						//convert photo to encoded64 for firing the event
 						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));

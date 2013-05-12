@@ -143,63 +143,66 @@ if (Ti.version < 1.8 ) {
 	}
 	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
 	
+	var openMainApplication = function(_userId, _userImage) {
+		var MainApplicationModule = require('ui/handheld/ApplicationWindow');
+		var mainApp = new MainApplicationModule(_userId, _userImage);
+		mainApp.open();
+		mainApp.unhideCoverView();
+	};
+	
+	Ti.App.addEventListener('openMainApplication', function(e) {
+		currentUserId = e.currentUserId;
+		var currentUserImage = e.currentUserImage;
+		openMainApplication(currentUserId, currentUserImage);
+	});
+	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
 		numWaitingEvent--;
 		Ti.API.info('doneWaitingEvent listening, numWaitingEvent: '+numWaitingEvent);
 		if(numWaitingEvent <= 0) {	
-			if (isTablet) {
-				Window = require('ui/tablet/ApplicationWindow');
+			// Android uses platform-specific properties to create windows.
+			// All other platforms follow a similar UI pattern.
+			if (osname === 'android') {
+				//do nothing for now..Window = require('ui/handheld/android/ApplicationWindow');
 			} else {
-				// Android uses platform-specific properties to create windows.
-				// All other platforms follow a similar UI pattern.
-				if (osname === 'android') {
-					Window = require('ui/handheld/android/ApplicationWindow');
-				}
-				else {
-					//reset app badge number
-					Ti.UI.iPhone.appBadge = null;
-					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-					if(Ti.App.Facebook.loggedIn) {
-					//if(false) {
-						var BackendUser = require('backend_libs/backendUser');
-						var CreditSystem = require('internal_libs/creditSystem');
-						BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
-							//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
-							currentUserId = parseInt(_userInfo.meta.user_id); 
+				//reset app badge number
+				Ti.UI.iPhone.appBadge = null;
+				UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+				if(Ti.App.Facebook.loggedIn) {
+				//if(false) {
+					var BackendUser = require('backend_libs/backendUser');
+					var CreditSystem = require('internal_libs/creditSystem');
+					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
+						//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
+						currentUserId = parseInt(_userInfo.meta.user_id); 
+						Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
+						Ti.App.Flurry.userID = _userInfo.meta.user_id;
+						if(_userInfo.content.general.gender === "female") {
+							Ti.App.Flurry.gender = 'f';
+						} else {
+							Ti.App.Flurry.gender = 'm';
+						}
+						var currentUserImage = _userInfo.content.pictures[0].src;
+						var facebookLikeArray = [];
+						for(var i = 0; i < _userInfo.content.likes.length; i++) {
+							var likeObj = {
+									'category': _userInfo.content.likes[i].category,
+									'name': _userInfo.content.likes[i].name
+								};
+							facebookLikeArray.push(likeObj);
+						}
+						ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
 							
-							Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
-							Ti.App.Flurry.userID = _userInfo.meta.user_id;
-							if(_userInfo.content.general.gender === "female") {
-								Ti.App.Flurry.gender = 'f';
-							} else {
-								Ti.App.Flurry.gender = 'm';
-							}
-							
-							var currentUserImage = _userInfo.content.pictures[0].src;
-							var facebookLikeArray = [];
-							for(var i = 0; i < _userInfo.content.likes.length; i++) {
-								var likeObj = {
-												'category': _userInfo.content.likes[i].category,
-												'name': _userInfo.content.likes[i].name
-										};
-								facebookLikeArray.push(likeObj);
-							}
-							ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
-							
-							//set credit of the user
-							CreditSystem.setUserCredit(_userInfo.content.credit); 
-							//getting real data
-							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplicationModule(currentUserId, currentUserImage);
-							mainApp.open();
-							mainApp.unhideCoverView();
-						});
-					} else {
-						//open login page
-						var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
-						var loginProcessWindow = new LoginProcessWindowModule();			
-						loginProcessWindow.open();
-					}
+						//set credit of the user
+						CreditSystem.setUserCredit(_userInfo.content.credit); 
+						
+						openMainApplication(currentUserId, currentUserImage);
+					});
+				} else {
+					//open login page
+					var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
+					var loginProcessWindow = new LoginProcessWindowModule();			
+					loginProcessWindow.open();
 				}
 			}
 		}
@@ -277,9 +280,9 @@ if (Ti.version < 1.8 ) {
 				ModelReligion.populateReligion(e.religion);
 				ModelEthnicity.populateEthnicity(e.ethnicity);
 				ModelTargetedCity.populateTargetedCity(e.city);
-				Ti.App.NUM_INVITE_ALL = e.invites_signup;
-				Ti.App.Properties.setInt('invitesSignup',e.invites_signup);
-				
+
+				Ti.App.NUM_INVITE_ALL = e.invites_signup; 
+				Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
 				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
 				Ti.App.fireEvent('doneWaitingEvent');
 			});

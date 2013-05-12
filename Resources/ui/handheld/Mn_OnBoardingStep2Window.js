@@ -1,4 +1,4 @@
-OnBoardingStep2Window = function(_navGroup, _userId) {
+OnBoardingStep2Window = function(_navGroup, _userId, _mainWindow) {
 	Ti.App.Flurry.logEvent('after-signup-onboard-2-pre-invite');
 	
 	//create component instance
@@ -56,8 +56,12 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 		zIndex: 2,
 	});
 	
+	var buttonTextStr = String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")); 
+	if(Ti.App.NUM_INVITE_ALL === 0) {
+		buttonTextStr = "Invite Friends";
+	}
 	var buttonText = Ti.UI.createLabel({
-		text: String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")),
+		text: buttonTextStr,
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},
@@ -68,10 +72,10 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(button);
 	
 	button.addEventListener('click', function() {
-		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, true);
+		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, true, _mainWindow);
 		inviteFriendWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
 													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
-		//self.close();
+		self.close();
 		//_navGroup.open(inviteFriendWindow);
 	});
 	return self;

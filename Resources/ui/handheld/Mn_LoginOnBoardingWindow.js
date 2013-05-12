@@ -1,8 +1,8 @@
-LoginOnBoardingWindow = function(_navGroup, _userId) {
+LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	//create component instance
 	
-	var navGroup = _navGroup;
+	var navGroup = null;
 	
 	var self = Ti.UI.createWindow({
 		left: 0,
@@ -213,8 +213,11 @@ LoginOnBoardingWindow = function(_navGroup, _userId) {
 								//this will go to onboarding step 1
 								
 								var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
-								var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id));
-								navGroup.open(onBoardingStep1Window);
+								var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id), _mainLoginWindow);
+								onBoardingStep1Window.open();
+								
+								navGroup.close(self);
+								//navGroup.open(onBoardingStep1Window);
 				        	} else {
 				        		Ti.App.Flurry.logEvent('loginSucceeded');
 				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');

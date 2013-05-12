@@ -1,4 +1,4 @@
-InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
+InviteFriendWindow = function(_navGroup, _userId, _forcedInvite, _mainWindow) {
 	if(_forcedInvite) {
 		Ti.App.Flurry.logEvent('after-signup-onboard-2-invite');
 	}	
@@ -77,9 +77,11 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	
 	if(_forcedInvite) {
-		if(Ti.App.NUM_INVITE_ALL === 0)
+		if(Ti.App.NUM_INVITE_ALL === 0) {
 			self.leftNavButton = skipButton;
-		else self.leftNavButton = emptyView;
+		} else {
+			self.leftNavButton = emptyView;
+		}
 		self.title = L('FriendsInvite');
 	} else {
 		self.leftNavButton = backButton;
@@ -214,6 +216,15 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var removedInviteCompletedBallbackFlag = false;
 
+	var openOnboardingStep3 = function() {
+		var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
+		var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId, _mainWindow);
+		//_navGroup.open(onBoardingStep3Window);
+		onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
+										modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});	
+		self.close();
+	};
+	
 	var inviteCompletedCallback = function(e) {
 		//need to record who already got invited to the local db
 		FacebookFriendModel.updateIsInvited(e.inviteeList);
@@ -244,13 +255,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				if(e.success) 
 					CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
 			});
-		
-			var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
-			var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
-			//_navGroup.open(onBoardingStep3Window);
-			onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});	
-			//self.close();
+			openOnboardingStep3();
 		}
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		removedInviteCompletedBallbackFlag = true;
@@ -272,10 +277,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	
 	skipButton.addEventListener('click', function() {
-		var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
-		var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId);
-		onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
+		openOnboardingStep3();
 	});
 	
 	inviteButtonClickCallback = function() {
