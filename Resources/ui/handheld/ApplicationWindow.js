@@ -11,7 +11,6 @@ function ApplicationWindow(_userId, _userImage) {
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
-	var RateReminder = require('internal_libs/rateReminder');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
 	var UrbanAirship = require('external_libs/UrbanAirship');
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
@@ -196,8 +195,6 @@ function ApplicationWindow(_userId, _userImage) {
 	
 	var resumeCallback = function() {
 		//wait for about 2 seconds til the app powers up
-		RateReminder.checkReminderToRate();
-		
 		setTimeout(function() {
 			//check the internet connection here...
 			if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {

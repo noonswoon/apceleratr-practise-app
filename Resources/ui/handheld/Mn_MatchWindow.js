@@ -209,6 +209,9 @@ MatchWindow = function(_userId, _matchId) {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 			if(_matchInfo.success) {
+				var RateReminder = require('internal_libs/rateReminder');
+				RateReminder.checkReminderToRate();
+				
 				//check version
 				if(_matchInfo.meta.ios_version !== Ti.App.Properties.getString('clientVersion')) {
 					var UpdateRequester = require('internal_libs/updateReminder');

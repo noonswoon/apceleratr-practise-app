@@ -92,13 +92,6 @@ var FacebookFriendModel = require('model/facebookFriend');
 var BackendInvite = require('backend_libs/backendInvite');
 var ModelMetaData = require('model/metaData');
 
-/* fql: SELECT 
-uid,name, relationship_status, current_location 
-FROM user 
-WHERE 
-uid IN (SELECT uid2 FROM friend WHERE uid1 = me())
-*/
-
 //bootstrap and check dependencies
 if (Ti.version < 1.8 ) {
 	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');	  	
@@ -117,6 +110,7 @@ if (Ti.version < 1.8 ) {
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
 	
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+	var InstallTracking = require('internal_libs/installTracking');
 	var ModelChatHistory = require('model/chatHistory');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
@@ -124,12 +118,17 @@ if (Ti.version < 1.8 ) {
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
-	var RateReminder = require('internal_libs/rateReminder');
 	var LogSystem = require('internal_libs/logSystem');
-
+	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
 	
+	if(InstallTracking.isFirstTimeAppOpen()) {
+		//redirect to the webview to get cookies
+		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled');
+		InstallTracking.markAppOpen();
+	}
+
 	var currentDbVersion = ModelMetaData.getDbVersion();
 	if(currentDbVersion === '') { //fresh install or version 1.0/1.1
 		ModelMetaData.insertDbVersion(Ti.App.CLIENT_VERSION);
@@ -270,7 +269,6 @@ if (Ti.version < 1.8 ) {
 	var errorWindow = null;
 	var launchTheApp = function() {
 		numWaitingEvent++;
-		RateReminder.checkReminderToRate();
 
 		if(CacheHelper.shouldFetchData('StaticData', 0)) {
 			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
