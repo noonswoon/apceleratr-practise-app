@@ -13,11 +13,10 @@ LoginOnBoarding3View = function() {
 		image: 'images/onboarding-3.png',
 		zIndex: 0,
 	});
-
-			
+	
 	var descriptionYPos = 315;
 	if(iphone5Flag) {
-		descriptionYPos = 365;
+		descriptionYPos = 355;
 	}
 		
 	var description = Ti.UI.createLabel({

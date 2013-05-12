@@ -18,7 +18,7 @@ LoginOnBoarding4View = function() {
 	var description2YPos = 315;
 	if(iphone5Flag) {
 		description1YPos = 325;
-		description2YPos = 365;
+		description2YPos = 355;
 	}
 	
 	var description1 = Ti.UI.createLabel({
