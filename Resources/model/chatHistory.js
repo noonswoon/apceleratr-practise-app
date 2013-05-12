@@ -65,26 +65,23 @@ exports.migrateData = function() {
 			resultChatHistory.next();
 			numChatsInDb++;
 		}
-		//alert('numChatsInDb before migrate: '+numChatsInDb);
 		resultChatHistory.close();
+	}
 		
-		db.execute("DROP TABLE IF EXISTS ChatHistory");
-		db.execute('CREATE TABLE ChatHistory(Id INTEGER PRIMARY KEY, MatchId INTEGER, UserId INTEGER, TargetedUserId INTEGER, SenderId INTEGER, ReceiverId INTEGER, Message TEXT, Time TEXT);');
-		var numChatsMigrated = 0;
-		for(var i = 0; i < chatMessages.length; i++) {
-			
-			var chatObj = chatMessages[i]; 
-			var matchId = chatObj.matchId;
-			var userId = chatObj.userId;
-			var targetedUserId = chatObj.targetedUserId; 
-			var senderId = chatObj.senderId;
-			var receiverId = chatObj.receiverId;
-			var message = chatObj.message;
-			var sentTime = chatObj.time;
-			db.execute("INSERT INTO ChatHistory(Id, MatchId, UserId, TargetedUserId, SenderId, ReceiverId, Message, Time) VALUES(NULL,?,?,?,?,?,?,?)", matchId, userId, targetedUserId, senderId, receiverId, message, sentTime);	
-			numChatsMigrated++;
-		}
-		//alert('numChatsMigrated: '+numChatsMigrated);
-	}	
+	db.execute("DROP TABLE IF EXISTS ChatHistory");
+	db.execute('CREATE TABLE ChatHistory(Id INTEGER PRIMARY KEY, MatchId INTEGER, UserId INTEGER, TargetedUserId INTEGER, SenderId INTEGER, ReceiverId INTEGER, Message TEXT, Time TEXT);');
+	var numChatsMigrated = 0;
+	for(var i = 0; i < chatMessages.length; i++) {		
+		var chatObj = chatMessages[i]; 
+		var matchId = chatObj.matchId;
+		var userId = chatObj.userId;
+		var targetedUserId = chatObj.targetedUserId; 
+		var senderId = chatObj.senderId;
+		var receiverId = chatObj.receiverId;
+		var message = chatObj.message;
+		var sentTime = chatObj.time;
+		db.execute("INSERT INTO ChatHistory(Id, MatchId, UserId, TargetedUserId, SenderId, ReceiverId, Message, Time) VALUES(NULL,?,?,?,?,?,?,?)", matchId, userId, targetedUserId, senderId, receiverId, message, sentTime);	
+		numChatsMigrated++;
+	}
 	db.close();
 };
