@@ -56,9 +56,9 @@ TopFriendsView = function(_userId) {
 		topFriendsTableView.setData(friendTableRowData);
 	});
 
-	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.Facebook.uid, 0)) {
+	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.App.Facebook.uid, 0)) {
 		Ti.API.info('have NOT fetched fb data');
-		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
+		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.App.Facebook.uid); //no need to fetch again
 		FacebookQuery.queryFacebookFriends();
 	}  else {
 		Ti.API.info('already fetched fb data...');
@@ -66,7 +66,7 @@ TopFriendsView = function(_userId) {
 		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends(); 
 		if(targetedList.length === 0) {
 			Ti.API.info('refresh again...');
-			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.Facebook.uid); //no need to fetch again
+			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.App.Facebook.uid); //no need to fetch again
 			FacebookQuery.queryFacebookFriends();
 		} else {
 			var friendTableRowData = createTopFriendTableRowData(targetedList);

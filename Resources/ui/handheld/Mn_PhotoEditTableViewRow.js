@@ -1,6 +1,7 @@
 PhotoEditTableViewRow = function(_imagesArray) {
 	//imagesArray = [{name:'photo0', src:OBJECT, modified:false},{name:'photo1', src:OBJECT, modified:false} ]
-
+	var ImageFactory = require('ti.imagefactory');
+	
 	var imageDisplayViewArray = [];
 	var imagesArray = _imagesArray;
 	
@@ -117,7 +118,20 @@ PhotoEditTableViewRow = function(_imagesArray) {
 		imageDisplayViewArray[_imageIndex].image = blob;
 		
 		//content stuff
-		imagesArray[_imageIndex].src = _image; //for fullscreen image/upload
+		// check the size of _image, dimension > 400..resizing here
+		var toUploadImage = _image;
+		if(_image.width > 320 || _image.height > 320) {
+		    var ratio = _image.width / _image.height;
+		    var w = 320;
+		    var h = 320 / ratio;
+
+    		Ti.API.info('ratio: ' + ratio);
+    		Ti.API.info('w: ' + w);
+    		Ti.API.info('h: ' + h);		
+    		toUploadImage = ImageFactory.imageAsResized(_image, { width:w, height:h, quality:ImageFactory.QUALITY_HIGH, hires:true });			 
+		}
+
+		imagesArray[_imageIndex].src = toUploadImage; //for fullscreen image/upload
 		imagesArray[_imageIndex].modified = _isModified;
 	};
 	

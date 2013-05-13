@@ -1,7 +1,4 @@
-// TODO: 
-/*
- * CODE FREEZE!
- */
+// TODO: RC 1.2 Code Freezes!
 
 /*
  * Single Window Application Template:
@@ -18,36 +15,43 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
+Ti.App.CLIENT_VERSION = '1.2';
 Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
 
-Ti.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_location', 'user_birthday',
-							'user_religion_politics', 'user_work_history', 'user_photos', 
-							'user_about_me', 'friends_location', 'friends_relationships'];
-Ti.Facebook.forceDialogAuth = false;
+Ti.App.Facebook = require('facebook');
+Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
+							'user_location', 'user_birthday', 'user_religion_politics', 'user_work_history', 
+							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
+Ti.App.Facebook.forceDialogAuth = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
-
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
+Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
-	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
-	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
-	Ti.Facebook.appid = "132344853587370";
+	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.App.Facebook.appid = "492444750818688";
+}
+
+if(Ti.App.PN_PRODUCTION_BUILD) {
+	Ti.App.URBAN_AIRSHIP_APP_KEY = "y3en0sTuREKQlFvB6Lop0A";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "FTsofROESraMdFuLY-x0RQ";
+} else {
 	Ti.App.URBAN_AIRSHIP_APP_KEY = "-iH8x1gCSA-myDRSkHtW1A";
-	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";
-	Ti.Facebook.appid = "492444750818688";
+	Ti.App.URBAN_AIRSHIP_APP_SECRET = "aRdpicLSSSuGFMJWGUGTaw";	
 }
 
 Ti.App.CACHE_TIMEOUT = 1;
@@ -70,6 +74,10 @@ Ti.App.Flurry.debugLogEnabled = true;
 Ti.App.Flurry.eventLoggingEnabled = true;
 Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
 
+Ti.App.Storekit = require('ti.storekit');
+Ti.App.Storekit.receiptVerificationSandbox = true;
+Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
+
 var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
@@ -78,15 +86,8 @@ var CacheHelper = require('internal_libs/cacheHelper');
 var FacebookQuery = require('internal_libs/facebookQuery');
 
 var FacebookFriendModel = require('model/facebookFriend');
-
 var BackendInvite = require('backend_libs/backendInvite');
-
-/* fql: SELECT 
-uid,name, relationship_status, current_location 
-FROM user 
-WHERE 
-uid IN (SELECT uid2 FROM friend WHERE uid1 = me())
-*/
+var ModelMetaData = require('model/metaData');
 
 //bootstrap and check dependencies
 if (Ti.version < 1.8 ) {
@@ -106,75 +107,105 @@ if (Ti.version < 1.8 ) {
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
 	
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+	var InstallTracking = require('internal_libs/installTracking');
+	var ModelChatHistory = require('model/chatHistory');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
 	var ModelTargetedCity = require('model/targetedCity');
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
-	var RateReminder = require('internal_libs/rateReminder');
 	var LogSystem = require('internal_libs/logSystem');
-	
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
+	
+	if(InstallTracking.isFirstTimeAppOpen()) {
+		//redirect to the webview to get cookies
+		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled');
+		InstallTracking.markAppOpen();
+	}
+
+	var currentDbVersion = ModelMetaData.getDbVersion();
+	if(currentDbVersion === '') { //fresh install or version 1.0/1.1
+		ModelMetaData.insertDbVersion(Ti.App.CLIENT_VERSION);
+		//need to do the SQLite database migration
+		ModelChatHistory.migrateData();
+	} else {
+		Ti.API.info('already have db version: ' + currentDbVersion);
+		if(currentDbVersion !== Ti.App.CLIENT_VERSION) { 
+			ModelChatHistory.migrateData();
+			ModelMetaData.updateDbVersion(Ti.App.CLIENT_VERSION);
+		}
+	}
+	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
+	
+	var openMainApplication = function(_userId, _userImage) {
+		var MainApplicationModule = require('ui/handheld/ApplicationWindow');
+		var mainApp = new MainApplicationModule(_userId, _userImage);
+		mainApp.open();
+		mainApp.unhideCoverView();
+	};
+	
+	var loginProcessWindow = null;
+	Ti.App.addEventListener('openMainApplication', function(e) {
+		currentUserId = e.currentUserId;
+		var currentUserImage = e.currentUserImage;
+		if(loginProcessWindow !== null) {
+			Ti.API.info('loginProcessWindow is close...');
+			loginProcessWindow.close();
+			loginProcessWindow = null;
+		}
+		openMainApplication(currentUserId, currentUserImage);
+	});
 	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
 		numWaitingEvent--;
 		Ti.API.info('doneWaitingEvent listening, numWaitingEvent: '+numWaitingEvent);
 		if(numWaitingEvent <= 0) {	
-			if (isTablet) {
-				Window = require('ui/tablet/ApplicationWindow');
+			// Android uses platform-specific properties to create windows.
+			// All other platforms follow a similar UI pattern.
+			if (osname === 'android') {
+				//do nothing for now..Window = require('ui/handheld/android/ApplicationWindow');
 			} else {
-				// Android uses platform-specific properties to create windows.
-				// All other platforms follow a similar UI pattern.
-				if (osname === 'android') {
-					Window = require('ui/handheld/android/ApplicationWindow');
-				}
-				else {
-					//reset app badge number
-					Ti.UI.iPhone.appBadge = null;
-					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
-					if(Titanium.Facebook.loggedIn) {
-					//if(false) {
-						var BackendUser = require('backend_libs/backendUser');
-						var CreditSystem = require('internal_libs/creditSystem');
-						BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
-							currentUserId = parseInt(_userInfo.meta.user_id); 
+				//reset app badge number
+				Ti.UI.iPhone.appBadge = null;
+				UrbanAirship.resetBadge(UrbanAirship.getDeviceToken());
+				if(Ti.App.Facebook.loggedIn) {
+				//if(false) {
+					var BackendUser = require('backend_libs/backendUser');
+					var CreditSystem = require('internal_libs/creditSystem');
+					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
+						//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
+						currentUserId = parseInt(_userInfo.meta.user_id); 
+						Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
+						Ti.App.Flurry.userID = _userInfo.meta.user_id;
+						if(_userInfo.content.general.gender === "female") {
+							Ti.App.Flurry.gender = 'f';
+						} else {
+							Ti.App.Flurry.gender = 'm';
+						}
+						var currentUserImage = _userInfo.content.pictures[0].src;
+						var facebookLikeArray = [];
+						for(var i = 0; i < _userInfo.content.likes.length; i++) {
+							var likeObj = {
+									'category': _userInfo.content.likes[i].category,
+									'name': _userInfo.content.likes[i].name
+								};
+							facebookLikeArray.push(likeObj);
+						}
+						ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
 							
-							Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
-							Ti.App.Flurry.userID = _userInfo.meta.user_id;
-							if(_userInfo.content.general.gender === "female") {
-								Ti.App.Flurry.gender = 'f';
-							} else {
-								Ti.App.Flurry.gender = 'm';
-							}
-							
-							var currentUserImage = _userInfo.content.pictures[0].src;
-							var facebookLikeArray = [];
-							for(var i = 0; i < _userInfo.content.likes.length; i++) {
-								var likeObj = {
-												'category': _userInfo.content.likes[i].category,
-												'name': _userInfo.content.likes[i].name
-										};
-								facebookLikeArray.push(likeObj);
-							}
-							ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
-							
-							//set credit of the user
-							CreditSystem.setUserCredit(_userInfo.content.credit); 
-							//getting real data
-							var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-							var mainApp = new MainApplicationModule(currentUserId, currentUserImage);
-							mainApp.open();
-							mainApp.unhideCoverView();
-						});
-					} else {
-						//open login page
-						var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
-						var loginProcessWindow = new LoginProcessWindowModule();			
-						loginProcessWindow.open();
-					}
+						//set credit of the user
+						CreditSystem.setUserCredit(_userInfo.content.credit); 
+						
+						openMainApplication(currentUserId, currentUserImage);
+					});
+				} else {
+					//open login page
+					var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
+					loginProcessWindow = new LoginProcessWindowModule();			
+					loginProcessWindow.open();
 				}
 			}
 		}
@@ -233,7 +264,7 @@ if (Ti.version < 1.8 ) {
 		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
-	Titanium.Facebook.addEventListener('logout', function() {
+	Ti.App.Facebook.addEventListener('logout', function() {
 		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
 		var loginProcessWindow = new LoginProcessWindowModule();			
 		loginProcessWindow.open();
@@ -244,7 +275,6 @@ if (Ti.version < 1.8 ) {
 	var errorWindow = null;
 	var launchTheApp = function() {
 		numWaitingEvent++;
-		RateReminder.checkReminderToRate();
 
 		if(CacheHelper.shouldFetchData('StaticData', 0)) {
 			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
@@ -253,9 +283,9 @@ if (Ti.version < 1.8 ) {
 				ModelReligion.populateReligion(e.religion);
 				ModelEthnicity.populateEthnicity(e.ethnicity);
 				ModelTargetedCity.populateTargetedCity(e.city);
-				Ti.App.NUM_INVITE_ALL = e.invites_signup;
-				Ti.App.Properties.setInt('invitesSignup',e.invites_signup);
-				
+
+				Ti.App.NUM_INVITE_ALL = e.invites_signup; 
+				Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
 				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
@@ -299,10 +329,14 @@ if (Ti.version < 1.8 ) {
 		errorWindow = new ErrorWindowModule(displayError, currentUserId);
 		errorWindow.open();
 	});
-			
-	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+
+	Ti.App.addEventListener('openNoInternetWindow', function(e) {
 		noInternetWindow = new NoInternetWindowModule();
 		noInternetWindow.open();
+	});
+			
+	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+		Ti.App.fireEvent('openNoInternetWindow');
 	} else {
 		launchTheApp();
 	} 

@@ -41,10 +41,48 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	});
 	self.add(personImage);
 	
+	var numNewMessages = 0;
+	var showNotif = false;
+	if(_matchInfo.number_unread_messages !== "")
+		numNewMessages = _matchInfo.number_unread_messages;
+	
+	var notifViewWidth = 15;
+	if(numNewMessages < 10) 
+		notifViewWidth = 15; 
+	else if(numNewMessages < 100)
+		notifViewWidth = 22; 
+	else notifViewWidth = 29;
+	
+	var notifNumber = null;
+	var notifView = null;
+	if(numNewMessages > 0) {
+		showNotif = true;
+		notifNumber = Ti.UI.createLabel({
+			text: numNewMessages,
+			center: {x:'50%', y:'48%'},
+			color: '#ffff',
+			shadowColor: '#3e830d', 
+			shadowOffset: {x:0, y:2},
+			font:{fontWeight:'bold', fontSize:14},
+		});
+		
+		notifView = Ti.UI.createImageView({
+			backgroundImage: 'images/rightmenu-notification.png', 
+			backgroundLeftCap: 3, 
+			right: 24,
+			top: 12,
+			height: 21, 
+			width: notifViewWidth,
+			zIndex: 1,
+		});	
+		notifView.add(notifNumber);
+		self.add(notifView);
+	}
+		
 	var leftArrow = Ti.UI.createImageView({
 		image: 'images/menu-separator-arrow.png',
 		left: 242,
-		top: 15,
+		top: 15, 
 		width: 11,
 		height: 15
 	});
@@ -56,11 +94,13 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	self.firstName = _matchInfo.first_name;
 	self.profileImage = _matchInfo.image;
 	
-/*	
 	self.addEventListener('click', function() {
-		Ti.API.info('the connection row is clicked!');
+		if(showNotif) {
+			notifView.visible = false;
+			showNotif = false;
+		}
 	});
-*/	
+	
 	return self;
 }
 module.exports = ConnectionTableViewRow;

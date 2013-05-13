@@ -65,7 +65,7 @@ ConnectionWindow = function(_userId) {
 		top: 38,
 		left: 0,
 		editable: true
-	});	
+	});
 	
 	var loadConnectedMatches = function() {
 		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
@@ -89,6 +89,7 @@ ConnectionWindow = function(_userId) {
 			otherUserId: e.row.profileId, otherUserFirstName: e.row.firstName,
 			otherUserImage: e.row.profileImage, otherUserGuid: e.row.guid
 		});
+
 	});
 	
 	loadConnectedMatches();

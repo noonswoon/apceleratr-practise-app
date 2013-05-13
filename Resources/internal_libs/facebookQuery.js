@@ -1,15 +1,15 @@
 exports.queryFacebookFriends = function() {
 	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 		
-	var query = "SELECT uid, name, pic_square, current_location,sex FROM user ";
-		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Titanium.Facebook.uid + ")";
+	var query = "SELECT uid, name, pic_square, current_location, sex, relationship_status FROM user ";
+		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Ti.App.Facebook.uid + ")";
 		query += " and not is_app_user";
 		query += " and (relationship_status != 'In a relationship' and relationship_status != 'Engaged'";
 		query += " and relationship_status != 'Married') order by first_name";
 
 	var candidateList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) alert(r.error);
 			else alert("Fb Call was unsuccessful");
@@ -19,23 +19,34 @@ exports.queryFacebookFriends = function() {
 			//need to exclude people from out-of-town			
 			if(offeredCities === 'all') {
 				for(var i = 0; i < friendList.length; i++) {
-					var cityStr = 'none';
 					var sex = "";
 					if(friendList[i].sex !== null)
 						sex = friendList[i].sex;
+					
+					var relationship_status = "";
+					if(friendList[i].relationship_status !== null)
+						relationship_status = friendList[i].relationship_status;
+						
+					var cityStr = 'none';
 					if(friendList[i].current_location && friendList[i].current_location.city)
 						cityStr = friendList[i].current_location.city;
+					
 					candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-											pic_square: friendList[i].pic_square, city: cityStr, sex:sex});
+						pic_square: friendList[i].pic_square, city: cityStr, sex:sex, relationship_status: relationship_status});
 				}
 			} else {
 				for(var i = 0; i < friendList.length; i++) {
 					var sex = "";
 					if(friendList[i].sex !== null)
 						sex = friendList[i].sex;
+					
+					var relationship_status = "";
+					if(friendList[i].relationship_status !== null)
+						relationship_status = friendList[i].relationship_status;
+
 					if(friendList[i].current_location && offeredCities.indexOf(friendList[i].current_location.city) != -1) {
 						candidateList.push({uid: friendList[i].uid, name: friendList[i].name, 
-											pic_square: friendList[i].pic_square, city: friendList[i].current_location.city, sex:sex});
+							pic_square: friendList[i].pic_square, city: friendList[i].current_location.city, sex:sex, relationship_status: relationship_status});
 					}
 				}
 			}
@@ -48,7 +59,7 @@ exports.queryUserStream = function() {
 		
 	var query = "SELECT post_id FROM stream where source_id=me() limit 0,150";
 	var userStreamIdList = []; 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -71,7 +82,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	//Ti.API.info(query);
 	var friendsWhoLikeList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -94,7 +105,7 @@ exports.queryUserComments = function(_streamIdList) {
 	//Ti.API.info(query);
 	var friendsWhoCommentList = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -114,7 +125,7 @@ exports.queryUserComments = function(_streamIdList) {
 exports.queryUserPhotos = function() {
 	var query = "SELECT pid, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500";
 	var userFbPhotoIds = []; 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");
@@ -140,7 +151,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 	var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
 	var taggedFriends = []; 
 
-	Titanium.Facebook.request('fql.query', {query: query},  function(r) {
+	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			if (r.error) Ti.API.info(r.error);
 			else Ti.API.info("Call was unsuccessful");

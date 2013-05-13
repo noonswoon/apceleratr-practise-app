@@ -43,9 +43,10 @@ var registerDeviceToken = function(_deviceToken) {
 				xhr.onerror(e);
 				return;
 			}
+			//alert('registerDeviceToken: '+JSON.stringify(e));
 		},
 		onerror:function(e) {
-			debug_print("Register with Urban Airship Push Service failed. Error: " + e.error);
+			Debug.debug_print("Register with Urban Airship Push Service failed. Error: " + e.error);
 		}
 	}); 
 	
@@ -56,7 +57,7 @@ var registerDeviceToken = function(_deviceToken) {
 	
 	var registerParameters = {
 	    "tags": [
-	        "v1_1",
+	        "v1_2",
 	        "beta"
 	    ],
 	    "badge": 0,
@@ -77,7 +78,7 @@ exports.resetBadge = function(_deviceToken) {
 exports.unRegisterDeviceToken = function() {
 	var request = Titanium.Network.createHTTPClient({
 			onerror:function(e) {
-				debug_print("ERROR: deleted device token data with Urban Airship Push Service failed. Error: "
+				Debug.debug_print("ERROR: deleted device token data with Urban Airship Push Service failed. Error: "
 	                + e.error);
 	        }
 	    });

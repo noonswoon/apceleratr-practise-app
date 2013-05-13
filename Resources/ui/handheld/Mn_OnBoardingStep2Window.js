@@ -1,9 +1,7 @@
-OnBoardingStep2Window = function(_navGroup, _userId) {
+OnBoardingStep2Window = function(_userId) {
 	Ti.App.Flurry.logEvent('after-signup-onboard-2-pre-invite');
 	
 	//create component instance
-	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-	
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: true,
@@ -46,7 +44,7 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 		zIndex: 2,
 	});
 	self.add(description2Lbl);
-	
+		
 	var button = Ti.UI.createButton({
 		width: 250, 
 		height: 50,
@@ -56,8 +54,12 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 		zIndex: 2,
 	});
 	
+	var buttonTextStr = String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")); 
+	if(Ti.App.NUM_INVITE_ALL === 0) {
+		buttonTextStr = "Invite Friends";
+	}
 	var buttonText = Ti.UI.createLabel({
-		text: String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")),
+		text: buttonTextStr,
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},
@@ -68,12 +70,9 @@ OnBoardingStep2Window = function(_navGroup, _userId) {
 	self.add(button);
 	
 	button.addEventListener('click', function() {
-		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, true);
-		inviteFriendWindow.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL, 
-													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
-		//self.close();
-		//_navGroup.open(inviteFriendWindow);
+		Ti.App.fireEvent('openOnboardingInviteStep', {userId: _userId});
 	});
+
 	return self;
 };
 

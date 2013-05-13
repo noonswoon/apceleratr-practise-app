@@ -1,8 +1,7 @@
-OnBoardingStep3Window = function(_navGroup, _userId) {
+OnBoardingStep3Window = function(_userId) {
 	Ti.App.Flurry.logEvent('after-signup-onboard-3-pre-cartoon');
 	
 	//create component instance
-	
 	var self = Ti.UI.createWindow({
 		left: 0,
 		navBarHidden: true,
@@ -56,7 +55,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 	});
 	
 	var buttonText = Ti.UI.createLabel({
-		text: L('Find The One'),
+		text: L('Love is in the App'),
 		color: '#727171',
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},
@@ -71,7 +70,7 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 		var CreditSystem = require('internal_libs/creditSystem');
 		var ModelFacebookLike = require('model/facebookLike');
 		
-		BackendUser.getUserIdFromFbId(Ti.Facebook.uid, function(_userInfo) {	
+		BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
 			var facebookLikeArray = [];
 			for(var i = 0; i < _userInfo.content.likes.length; i++) {
 				var likeObj = {
@@ -84,16 +83,11 @@ OnBoardingStep3Window = function(_navGroup, _userId) {
 			
 			//set credit of the user
 			CreditSystem.setUserCredit(_userInfo.content.credit); 
-			
-			
+
 			var currentUserId = parseInt(_userInfo.meta.user_id); 
 			var currentUserImage = _userInfo.content.pictures[0].src;
-			var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-			var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
-			mainApp.open();
-			mainApp.unhideCoverView();
 			
-			//self.close();
+			Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage});
 		});		
 	});
 	return self;

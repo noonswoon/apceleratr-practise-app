@@ -54,7 +54,8 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 		    onload: function(e) {
 		      	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:resultObj.meta});

@@ -17,8 +17,7 @@ MatchWindow = function(_userId, _matchId) {
 	var ModelFacebookLike = require('model/facebookLike');
 	
 	var navGroup = null;
-	
-	//create component instance
+	var showLikePassButtons = true;
 	
 	var self = Ti.UI.createWindow({
 		top:0,
@@ -27,6 +26,20 @@ MatchWindow = function(_userId, _matchId) {
 		barImage: 'images/top-bar-stretchable.png',
 		zIndex:1
 	});
+	
+	var backButton = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-button.png',
+		color: '#f6f7fa',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-back.png',
+	});
+	
+	if(_matchId !== null) { //case for pulling previous (connected) match to reveal
+		//only adding the back button if the screen comes from the chat screen
+		self.leftNavButton = backButton;
+		showLikePassButtons = false;
+	}	
 				
 	var contentView = Ti.UI.createTableView({
 		top:0,
@@ -37,7 +50,7 @@ MatchWindow = function(_userId, _matchId) {
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				
-	var data = [];
+	var dataForProfile = [];
 	
 	function educationCmpFn(a, b) {
 		if(a.value < b.value) return -1; 
@@ -45,9 +58,7 @@ MatchWindow = function(_userId, _matchId) {
 		else return 0;
 	}
 	
-	function populateMatchDataTableView(_matchInfo) {		
-		//Ti.API.info('matchInfo: '+JSON.stringify(_matchInfo));
-
+	function populateMatchDataTableView(_matchInfo) {
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
 		for(var i = 0; i < _matchInfo.content.likes.length; i++) {
@@ -59,22 +70,22 @@ MatchWindow = function(_userId, _matchId) {
 		}
 		ModelFacebookLike.populateFacebookLike(parseInt(_matchInfo.meta.user_id), _matchInfo.content.general.user_id, facebookLikeArray);
 		
-		data = []; //reset table data
+		var matchProfileData = []; //reset table data
 		matchId = _matchInfo.meta.match_id;
 
 		//profile image section
 		//line below --> might have a race condition here if internet is super fast--navGroup will not be set
 		
-		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId, true); 
+		var profileImageView = new ProfileImageViewModule(navGroup, _matchInfo.content.pictures, _userId, matchId, showLikePassButtons); 
 		
 		var profileImageRow = Ti.UI.createTableViewRow({backgroundColor:'transparent',backgroundSelectedColor:'transparent'});
 		if(Ti.Platform.osname === 'iphone')
 			profileImageRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				
 		profileImageRow.add(profileImageView);
-		data.push(profileImageRow);
+		matchProfileData.push(profileImageRow);
 
-		if(_matchInfo.content.user_response !== "") {
+		if(showLikePassButtons && _matchInfo.content.user_response !== "") { //only show the state if like/pass buttons are showing too
 			var selectedState = "like"; 
 			
 			if(_matchInfo.content.user_response === "pass")
@@ -84,59 +95,63 @@ MatchWindow = function(_userId, _matchId) {
 		}
 
 		var friendRatioRow = new FriendRatioTableViewRow('gender_centric', {'female': _matchInfo.content['gender_centric'].female, 'male': _matchInfo.content['gender_centric'].male});
-		data.push(friendRatioRow); 
+		matchProfileData.push(friendRatioRow); 
 
 		if(_matchInfo.content['mutual_friends'].length > 0) {
 			var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray':_matchInfo.content['mutual_friends'] };
 			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends']);
-			data.push(mutualFriendsRow); 
+			matchProfileData.push(mutualFriendsRow); 
 		}
 		
 		var whiteOrGrayFlag = true;
 		//GENERAL SECTION
 		var nameStr = L('private until connected');
 		if(_matchInfo.content.is_connected)
-    		nameStr = _matchInfo.content['general'].first_name;		
+    		nameStr = _matchInfo.content['general'].first_name;
+		
+		if(_matchId !== null) {  //case for pulling previous (connected) match to reveal
+			self.title = _matchInfo.content['general'].first_name + L('\'s Profile');
+		}
 		
 		var nameTableViewRow = new TextDisplayTableViewRow('name', nameStr, whiteOrGrayFlag);
-		data.push(nameTableViewRow);
+		matchProfileData.push(nameTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
 		var ageTableViewRow = new TextDisplayTableViewRow('age', _matchInfo.content['general'].age + ' ' + L('years old'), whiteOrGrayFlag);
-		data.push(ageTableViewRow);
+		matchProfileData.push(ageTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
 		var zodiacTableViewRow = new TextDisplayTableViewRow('zodiac', _matchInfo.content['general'].zodiac, whiteOrGrayFlag);
-		data.push(zodiacTableViewRow);
+		matchProfileData.push(zodiacTableViewRow);
 		whiteOrGrayFlag = !whiteOrGrayFlag;
 		 
 		if(_matchInfo.content['general'].city !== "" || _matchInfo.content['general'].country !== "") {
 			var locationTableViewRow = new TextDisplayTableViewRow('location', {'city':_matchInfo.content['general'].city, 'country':_matchInfo.content['general'].country}, whiteOrGrayFlag);
-			data.push(locationTableViewRow);		
+			matchProfileData.push(locationTableViewRow);		
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
 		if(_matchInfo.content['height'] !== "" ) {
 			var heightTableViewRow = new TextDisplayTableViewRow('height', _matchInfo.content['height'] + ' ' + L('cm'), whiteOrGrayFlag);
-			data.push(heightTableViewRow); //require
+			matchProfileData.push(heightTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
 		if(_matchInfo.content['ethnicity'] !== "" ) {		
 			var ethnicityTableViewRow = new TextDisplayTableViewRow('ethnicity', _matchInfo.content['ethnicity'], whiteOrGrayFlag);
-			data.push(ethnicityTableViewRow); //require
+			matchProfileData.push(ethnicityTableViewRow); //require
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
 		if(_matchInfo.content['religion'] !== "" ) {		
 			var religionTableViewRow = new TextDisplayTableViewRow('religion', _matchInfo.content['religion'], whiteOrGrayFlag);
-			data.push(religionTableViewRow);
+			matchProfileData.push(religionTableViewRow);
 			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
 		
 		if(_matchInfo.content['work'].employer !== "" || _matchInfo.content['work'].occupation !== "") {		
 			var workTableViewRow = new WorkTableViewRow('work', _matchInfo.content['work'].employer, _matchInfo.content['work'].occupation, whiteOrGrayFlag);
-			data.push(workTableViewRow);
+			matchProfileData.push(workTableViewRow);
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
@@ -156,21 +171,21 @@ MatchWindow = function(_userId, _matchId) {
 		
 		if(educationArray.length > 0) {
 			var educationTableViewRow = new EducationTableViewRow('education', educationArray, whiteOrGrayFlag);
-			data.push(educationTableViewRow);
+			matchProfileData.push(educationTableViewRow);
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 
 		//ABOUTME SECTION	
 		if(_matchInfo.content['about_me'] !== "" ) {	
 			var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], whiteOrGrayFlag);
-			data.push(aboutMeTableViewRow);
+			matchProfileData.push(aboutMeTableViewRow);
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
 		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
 		if(fbLikeCollection.length > 0) {
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
-			data.push(fbLikeTableViewRow);
+			matchProfileData.push(fbLikeTableViewRow);
 		}
 		
 		var edgeGradientTableViewRow = Ti.UI.createTableViewRow({
@@ -178,58 +193,81 @@ MatchWindow = function(_userId, _matchId) {
 			left: 0,
 			width: '100%',
 			height: 5,
-			backgroundImage: 'images/match-bottom.png'
+			backgroundImage: 'images/row-bottom-edge.png'
 		});
 		if(Ti.Platform.osname === 'iphone')
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		data.push(edgeGradientTableViewRow); 
+		matchProfileData.push(edgeGradientTableViewRow); 
 
 		var reportProfileTableViewRow = new ReportProfileTableViewRow(_userId, _matchInfo.content.general.user_id); 
-		data.push(reportProfileTableViewRow);
+		matchProfileData.push(reportProfileTableViewRow);
 
-		contentView.data = data;
-		self.add(contentView);
+		return matchProfileData; 
 	}
+	
+	var doHouseKeepingTasks = function(_iOSVersion) {
+		var RateReminder = require('internal_libs/rateReminder');
+		RateReminder.checkReminderToRate(_userId);
+				
+		//check version
+		if(_iOSVersion !== Ti.App.Properties.getString('clientVersion')) {
+			var UpdateRequester = require('internal_libs/updateReminder');
+			UpdateRequester.requestToUpdate();	
+		}		
+	};
 	
 	if(_matchId === null) {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-			if(_matchInfo.success)
-				populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success) {
+				doHouseKeepingTasks(_matchInfo.meta.ios_version);
+				contentView.data = populateMatchDataTableView(_matchInfo);
+				self.add(contentView);
+			}
 			hidePreloader(self);
 		});	
 	} else {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-			if(_matchInfo.success)
-				populateMatchDataTableView(_matchInfo);
+			if(_matchInfo.success) {
+				contentView.data = populateMatchDataTableView(_matchInfo);
+				self.add(contentView);
+			}
 			hidePreloader(self);
 		});
 	}
 	
 	var closeCallback = function() {
 		Ti.App.Flurry.endTimedEvent('main-match-window');
-		Ti.App.removeEventListener('close', closeCallback);	
+		self.removeEventListener('close', closeCallback);	
 	};
 	self.addEventListener('close', closeCallback);	
 	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
+		if(_matchId !== null) {
+			backButton.addEventListener('click', function() {
+				navGroup.close(self, {animated:true}); //go to the main screen
+			});
+		}
 	};
-	
+
 	self.reloadMatch = function() {
 		if(_matchId === null) {
 			showPreloader(self, L('Loading...'));		
 			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-				if(_matchInfo.success)
-					populateMatchDataTableView(_matchInfo);
+				if(_matchInfo.success) {
+					//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+					doHouseKeepingTasks(_matchInfo.meta.ios_version);			
+					contentView.data = populateMatchDataTableView(_matchInfo);	
+				}
 				hidePreloader(self);
 			}); 
 		} else {
 			showPreloader(self, L('Loading...'));		
 			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 				if(_matchInfo.success)
-					populateMatchDataTableView(_matchInfo);
+					contentView.data = populateMatchDataTableView(_matchInfo);
 				hidePreloader(self);
 			});
 		}

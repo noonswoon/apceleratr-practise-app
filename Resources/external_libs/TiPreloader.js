@@ -33,11 +33,10 @@ function showPreloader(customWin,loadingText) {
 		},
 		top : 65
 	});
-
+	
 	loggingInView.add(loggingInIndicator);
 	loggingInView.add(loggingInLabel);
 	loggingInIndicator.show();
-
 	customWin.add(loggingInView);
 }
 

@@ -188,7 +188,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			left: 0,
 			width: '100%',
 			height: 5,
-			backgroundImage: 'images/match-bottom.png'
+			backgroundImage: 'images/row-bottom-edge.png'
 		});
 		if(Ti.Platform.osname === 'iphone')
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -224,7 +224,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			
 			logoutButton.addEventListener('click', function() {
 				Ti.API.info('logout from the app');
-				Ti.Facebook.logout();
+				Ti.App.Facebook.logout();
 				self.close();
 			});
 		}
@@ -250,7 +250,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	});
 	
 	var editProfileSuccessCallback = function(e) {
-		Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
+		//Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
 		populateInfoDataTableView(e.editProfile);
 	};
 	

@@ -10,7 +10,6 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined  && resultObj.meta.status == "ok") {
-					//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
@@ -28,7 +27,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	            _callbackFn({success:false}); //change here
+	            _callbackFn({success:false});
 	            Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
 	        },
 		    timeout:50000  // in milliseconds 
@@ -70,8 +69,8 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 				}
 	        },
 	        onerror : function(e) {
+	        	_callbackFn({success:false});
 	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
-	            _callbackFn(); //change here
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -101,7 +100,8 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+		      		resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:resultObj.meta});
@@ -132,7 +132,8 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn({success:true});
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:resultObj.meta});

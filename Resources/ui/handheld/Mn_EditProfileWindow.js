@@ -45,6 +45,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
+	var emptyView = Titanium.UI.createView({});
+	
 	var saveButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
@@ -59,9 +61,13 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		navBarHidden: false,
 		title: L('Edit Profile'),
 		barImage: 'images/top-bar-stretchable.png',
-		leftNavButton: cancelButton,
 		rightNavButton: saveButton
 	});
+	if(!_newUser) {
+		self.leftNavButton = cancelButton;
+	} else {
+		self.leftNavButton = emptyView;
+	}
 	
 	var editTableView = Ti.UI.createTableView({
 		backgroundColor:'white',
@@ -111,7 +117,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			left: 0,
 			width: '100%',
 			height: 5,
-			backgroundImage: 'images/match-bottom.png'
+			backgroundImage: 'images/row-bottom-edge.png'
 		});
 		if(Ti.Platform.osname === 'iphone')
 			edgeGradientTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -229,7 +235,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			
 			if(CacheHelper.shouldFetchData('fbProfileImagesLoaded', 60*24*3)) { //60*24*3
 				Ti.API.info('fetching from fb...');
-				Titanium.Facebook.requestWithGraphPath('me/albums', {
+				Ti.App.Facebook.requestWithGraphPath('me/albums', {
 	            	fields : 'id, type'
 		        }, 'GET', function(e) {
 		        	if(e.success) {
@@ -244,7 +250,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		                    }
 		                    
 		                    //get images from the album
-		                    Titanium.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
+		                    Ti.App.Facebook.requestWithGraphPath(profileAlbumId+'/photos', {
 		                     	fields: 'id, picture, source, link'}, 'GET', function(e) {
 		                     	if(e.result) {
 		                     		var photoData = JSON.parse(e.result).data;
@@ -298,10 +304,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	
 	var selectedFbPhotoCallback = function(_photoSelectedEvent) {
 		Ti.API.info('listening to selectedFbPhoto event'+ _photoSelectedEvent.photoId); 
-		Titanium.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
+		Ti.App.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
  			var graphObj = JSON.parse(e.result);
  			//saveBtn.enabled = false;
- 			get_remote_file(Ti.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
+ 			get_remote_file(Ti.App.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
  		});
 	};
 
@@ -396,23 +402,12 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			BackendUser.saveEditUserInfo(_userId, editParams, function(_resultObj) {
 				//use the result to send to the InfoPage
 				if(_resultObj.success) {
-					/*
-					var successDialog = Titanium.UI.createAlertDialog({
-							title:L('Thank you!'),
-							message:L('Your information is saved.')
-						});
-					successDialog.show();
-					*/
 					//if(true) {
 					if(_newUser) {
-						var OnBoardingStep2Module = require('ui/handheld/Mn_OnBoardingStep2Window');
-						var onBoardingStep2Window = new OnBoardingStep2Module(_navGroup, _userId);
-						onBoardingStep2Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-													modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});
-						//self.close();
+						Ti.App.fireEvent('openOnboardingStep2', {userId: _userId});
 					} else {
 						//convert photo to encoded64 for firing the event
-						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
+						//Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
 						Ti.App.fireEvent('editProfileSuccess', {editProfile: _resultObj});
 						_navGroup.close(self,{animated:true});
 					}

@@ -177,31 +177,42 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					if(e.success) {
-						Ti.API.info('save response (like) successfully');
-					} else Ti.API.info('save response (like) failed');
+					if(e.success)
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 				});
 				setSelectedState("like");
-
-				//send off the point deductions to server
-				BackendCredit.transaction({userId: _userId, amount: (-1)*Ti.App.LIKE_CREDITS_SPENT, action: 'like'}, function(_currentCredit){
-					CreditSystem.setUserCredit(_currentCredit); //sync the credit (deduct points from user
-				});				
 			}
 		}
 	});
 
-	passButton.addEventListener("click", function() {
-		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
-			isActionTaken = true;
-			setSelectedState("pass");
+	var passWarningDialog = Titanium.UI.createAlertDialog({
+		title: L('You are Passing'),
+		message:L('Are you sure you want to pass?'),
+		buttonNames: [L('Cancel'),L('Pass')],
+		cancel: 0
+	});
 	
-			var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
-			BackendMatch.saveResponse(matchResponseObj, function(e){
-				if(e.success) Ti.API.info('save response (pass) successfully');
-				else Ti.API.info('save response (pass) failed');
-			});
+	passWarningDialog.addEventListener('click', function(e) {
+		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
+			Ti.API.info('(There was no button to click)');
+		} else {
+			if(e.index === 1) {
+				if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
+					isActionTaken = true;
+					setSelectedState("pass");
+			
+					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
+					BackendMatch.saveResponse(matchResponseObj, function(e){
+						if(e.success)
+							CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					});
+				}
+			}
 		}
+	});		
+	
+	passButton.addEventListener("click", function() {
+		passWarningDialog.show();
 	});	
 
 	return self;
