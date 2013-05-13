@@ -250,7 +250,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	});
 	
 	var editProfileSuccessCallback = function(e) {
-		Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
+		//Ti.API.info('editProfileSuccess: '+JSON.stringify(e));
 		populateInfoDataTableView(e.editProfile);
 	};
 	

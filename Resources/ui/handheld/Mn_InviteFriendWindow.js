@@ -1,9 +1,4 @@
 InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
-	if(_forcedInvite) {
-		Ti.App.Flurry.logEvent('after-signup-onboard-2-invite');
-	}	
-	Ti.App.Flurry.logTimedEvent('invite-screen');
-
 	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
 	
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -214,7 +209,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		return inviteFriendData;
 	};
 	
-	var removedInviteCompletedBallbackFlag = false;
+	var removedInviteCompletedCallbackFlag = false;
 
 	var openOnboardingStep3 = function() {
 		Ti.App.fireEvent('openOnboardingStep3', {userId: _userId});
@@ -243,7 +238,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
 			_navGroup.close(self, {animated:true}); //go to the main screen
 		} else {
-			Ti.App.Flurry.logEvent('after-signup-onboard-2-number-invites', { numberInvites: e.inviteeList.length});
 			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 	
 			BackendInvite.saveInvitedPeople(invitedData, function(e){
@@ -253,8 +247,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			openOnboardingStep3();
 		}
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
-		removedInviteCompletedBallbackFlag = true;
-		Ti.App.Flurry.endTimedEvent('invite-screen');
+		removedInviteCompletedCallbackFlag = true;
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	
@@ -266,7 +259,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	self.add(inviteFriendListView);
 
 	backButton.addEventListener('click', function() {
-		Ti.App.Flurry.endTimedEvent('invite-screen');
 		_navGroup.close(self, {animated:true});
 	});
 	
@@ -358,7 +350,8 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 		
 	self.addEventListener('close', function() {
-		if(!removedInviteCompletedBallbackFlag) {
+		Ti.API.info('inviteFriendWindow closing..');
+		if(!removedInviteCompletedCallbackFlag) {
 			Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		}
 		Ti.App.removeEventListener('invitedFriend', invitedFriendCallback);

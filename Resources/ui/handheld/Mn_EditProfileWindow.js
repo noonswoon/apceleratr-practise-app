@@ -407,7 +407,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						Ti.App.fireEvent('openOnboardingStep2', {userId: _userId});
 					} else {
 						//convert photo to encoded64 for firing the event
-						Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
+						//Ti.API.info('editInfo before firing: '+JSON.stringify(_resultObj));
 						Ti.App.fireEvent('editProfileSuccess', {editProfile: _resultObj});
 						_navGroup.close(self,{animated:true});
 					}
