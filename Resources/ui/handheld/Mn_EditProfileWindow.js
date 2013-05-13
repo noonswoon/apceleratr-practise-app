@@ -45,6 +45,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
+	var emptyView = Titanium.UI.createView({});
+	
 	var saveButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
@@ -63,6 +65,8 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	});
 	if(!_newUser) {
 		self.leftNavButton = cancelButton;
+	} else {
+		self.leftNavButton = emptyView;
 	}
 	
 	var editTableView = Ti.UI.createTableView({

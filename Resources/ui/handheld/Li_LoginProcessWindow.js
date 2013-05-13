@@ -54,6 +54,17 @@ function LoginProcessWindow() {
 		navigationGroup.open(onBoardingStep3Window, {animated:true});
 	};
 	Ti.App.addEventListener('openOnboardingStep3', openOnboardingStep3Callback);
+	
+	var loginProcessWindowCloseCallback = function() {
+		Ti.App.removeEventListener('openOnboardingStep1',openOnboardingStep1Callback);
+		Ti.App.removeEventListener('openOnboardingStep2',openOnboardingStep2Callback);
+		Ti.App.removeEventListener('openOnboardingStep3',openOnboardingStep3Callback);
+		Ti.App.removeEventListener('openOnboardingEditStep',openOnboardingEditStepCallback);
+		Ti.App.removeEventListener('openOnboardingInviteStep',openOnboardingInviteStepCallback);
+		Ti.API.info('loginProcessWindow close..removing all the eventListener');
+	};
+	self.addEventListener('close', loginProcessWindowCloseCallback);
+		
 
     return self;
 };
