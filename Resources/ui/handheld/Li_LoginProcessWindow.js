@@ -31,6 +31,7 @@ function LoginProcessWindow() {
 	var inviteFriendWindow = null;
 	
 	var openOnboardingStep1Callback = function(e) {
+		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSUserRegistered');
 		onBoardingStep1Window = new OnBoardingStep1Module(e.userId);
 		navigationGroup.open(onBoardingStep1Window, {animated:true});
 	};

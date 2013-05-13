@@ -212,4 +212,15 @@
 	<string name="Later">เดี๋ยวก่อน</string>
 	<string name="Download">ดาวน์โหลด</string>		
 	<string name="An update for Noonswoon is available. Please download it now.">อัพเดทใหม่ของนูนสวูนออกแล้ว คุณสามารถดาวน์โหลดได้</string>		
+
+	<string name="Welcome back!">ยินดีต้อนรับอีกครั้ง!</string>
+	<string name="Are you enjoying Noonswoon?">คุณชอบใช้ Noonswoon แค่ไหน</string>
+	<string name="It\'s ok">ก็งั้นๆ</string>
+	<string name="I love it!">ถูกใจเลย</string>
+	<string name="Thank you for your love!">ขอบคุณที่สนับสนุนพวกเรา!</string>
+	<string name="Please rate Noonswoon 5 stars in the App Store">ทีมงานนูนสวูนอยากขอรบกวนเวลาท่าน ช่วย rate นูนสวูน 5 ดาวใน App Store</string>
+	<string name="No, thanks">ไม่สะดวก</string>
+	<string name="Rate 5 stars">Rate 5 ดาว</string>
+	<string name="Suggestion">ข้อเสนอแนะ</string>
+	<string name="Please let us know how we can make Noonswoon better.">กรุณาแนะนำทีมงานว่าควรปรับปรุง Noonswoon ให้ดีขึ้นได้อย่างไร</string>
 </resources>

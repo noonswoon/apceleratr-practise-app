@@ -207,7 +207,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var doHouseKeepingTasks = function(_iOSVersion) {
 		var RateReminder = require('internal_libs/rateReminder');
-		RateReminder.checkReminderToRate();
+		RateReminder.checkReminderToRate(_userId);
 				
 		//check version
 		if(_iOSVersion !== Ti.App.Properties.getString('clientVersion')) {
@@ -257,6 +257,7 @@ MatchWindow = function(_userId, _matchId) {
 			showPreloader(self, L('Loading...'));		
 			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 				if(_matchInfo.success) {
+					//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
 					doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 					contentView.data = populateMatchDataTableView(_matchInfo);	
 				}

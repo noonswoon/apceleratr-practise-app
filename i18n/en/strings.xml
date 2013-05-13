@@ -212,4 +212,15 @@
 	<string name="Later">Later</string>
 	<string name="Download">Download</string>		
 	<string name="An update for Noonswoon is available. Please download it now.">An update for Noonswoon is available. Please download it now.</string>		
+	
+	<string name="Welcome back!">Welcome back!</string>
+	<string name="Are you enjoying Noonswoon?">Are you enjoying Noonswoon?</string>
+	<string name="It\'s ok">It\'s ok</string>
+	<string name="I love it!">I love it!</string>
+	<string name="Thank you for your love!">Thank you for your love!</string>
+	<string name="Please rate Noonswoon 5 stars in the App Store">Please rate Noonswoon 5 stars in the App Store</string>
+	<string name="No, thanks">No, thanks</string>
+	<string name="Rate 5 stars">Rate 5 stars</string>
+	<string name="Suggestion">Suggestion</string>
+	<string name="Please let us know how we can make Noonswoon better.">Please let us know how we can make Noonswoon better.</string>
 </resources>
