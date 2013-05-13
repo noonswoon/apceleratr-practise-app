@@ -150,9 +150,15 @@ if (Ti.version < 1.8 ) {
 		mainApp.unhideCoverView();
 	};
 	
+	var loginProcessWindow = null;
 	Ti.App.addEventListener('openMainApplication', function(e) {
 		currentUserId = e.currentUserId;
 		var currentUserImage = e.currentUserImage;
+		if(loginProcessWindow !== null) {
+			Ti.API.info('loginProcessWindow is close...');
+			loginProcessWindow.close();
+			loginProcessWindow = null;
+		}
 		openMainApplication(currentUserId, currentUserImage);
 	});
 	
@@ -201,7 +207,7 @@ if (Ti.version < 1.8 ) {
 				} else {
 					//open login page
 					var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
-					var loginProcessWindow = new LoginProcessWindowModule();			
+					loginProcessWindow = new LoginProcessWindowModule();			
 					loginProcessWindow.open();
 				}
 			}

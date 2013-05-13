@@ -70,10 +70,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var pagingControl = new CustomPagingControl(scrollView);
 	pagingControl.top = pagingControTop;
 	self.add(pagingControl); 
-	self.add(scrollView);
-	
-	
-	
+	self.add(scrollView);	
 
 	var tourText = Ti.UI.createLabel({
 		text: L('tour ➜'),
@@ -204,20 +201,15 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	// check the result data whether it is a new user or existing one
 				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 				        	var CreditSystem = require('internal_libs/creditSystem');
-				        	Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
+				        	//Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-				        	//if(true) {
 				        	if(_userLogin.content.user_status === "new_user") {
+				        	//if(true) {
+				        	
 				        		Ti.App.Flurry.logEvent('signupCompleted');
 				        		Ti.API.info('***NEW USER****');
 								//this will go to onboarding step 1
-								
-								var OnBoardingStep1Module = require('ui/handheld/Mn_OnBoardingStep1Window');
-								var onBoardingStep1Window = new OnBoardingStep1Module(navGroup, parseInt(_userLogin.meta.user_id), _mainLoginWindow);
-								onBoardingStep1Window.open();
-								
-								navGroup.close(self);
-								//navGroup.open(onBoardingStep1Window);
+								Ti.App.fireEvent('openOnboardingStep1', {userId: parseInt(_userLogin.meta.user_id)});
 				        	} else {
 				        		Ti.App.Flurry.logEvent('loginSucceeded');
 				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');

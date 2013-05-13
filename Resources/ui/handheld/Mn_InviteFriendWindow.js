@@ -1,4 +1,4 @@
-InviteFriendWindow = function(_navGroup, _userId, _forcedInvite, _mainWindow) {
+InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	if(_forcedInvite) {
 		Ti.App.Flurry.logEvent('after-signup-onboard-2-invite');
 	}	
@@ -217,12 +217,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite, _mainWindow) {
 	var removedInviteCompletedBallbackFlag = false;
 
 	var openOnboardingStep3 = function() {
-		var OnBoardingStep3Module = require('ui/handheld/Mn_OnBoardingStep3Window');
-		var onBoardingStep3Window = new OnBoardingStep3Module(_navGroup, _userId, _mainWindow);
-		//_navGroup.open(onBoardingStep3Window);
-		onBoardingStep3Window.open({ modal:true, modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL, 
-										modalStyle:Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN, navBarHidden:false});	
-		self.close();
+		Ti.App.fireEvent('openOnboardingStep3', {userId: _userId});
 	};
 	
 	var inviteCompletedCallback = function(e) {
@@ -265,7 +260,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite, _mainWindow) {
 	
 	var friendList = FacebookFriend.getFacebookFriends();
 	var friendListViewData = createInviteFriendData(friendList);
-	Ti.API.info('num friends to show: '+ friendListViewData.length);
 	
 	listSection = Ti.UI.createListSection({items: friendListViewData});
 	inviteFriendListView.sections = [listSection];
@@ -273,7 +267,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite, _mainWindow) {
 
 	backButton.addEventListener('click', function() {
 		Ti.App.Flurry.endTimedEvent('invite-screen');
-		_navGroup.close(self, {animated:true}); //go to the main screen
+		_navGroup.close(self, {animated:true});
 	});
 	
 	skipButton.addEventListener('click', function() {
