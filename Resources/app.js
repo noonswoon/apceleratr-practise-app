@@ -1,7 +1,4 @@
-// TODO: 
-/*
- * 
- */
+// TODO: RC 1.2 Code Freezes!
 
 /*
  * Single Window Application Template:
