@@ -129,7 +129,7 @@ TopFriendsView = function(_userId) {
 	inviteButton.add(inviteButtonText);
 
 	inviteButton.addEventListener('click', function() {
-		Ti.App.Flurry.logEvent('left-menu-batch-invite');
+		//Ti.App.Flurry.logEvent('left-menu-batch-invite');
 		var batchInviteList = [];
 		if(topFriendsTableView.data === null || topFriendsTableView.data[0] === null) 
 			return; //data isn't ready yet

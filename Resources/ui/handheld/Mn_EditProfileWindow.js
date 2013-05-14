@@ -1,8 +1,8 @@
 EditInfoWindow = function(_navGroup, _userId, _newUser) {
-	if(_newUser) {
-		Ti.App.Flurry.logEvent('after-signup-onboard-1-edit');
-	}	
-	Ti.App.Flurry.logTimedEvent('edit-screen');
+//	if(_newUser) {
+//		Ti.App.Flurry.logEvent('after-signup-onboard-1-edit');
+//	}	
+//	Ti.App.Flurry.logTimedEvent('edit-screen');
 
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
@@ -327,7 +327,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			Ti.API.info('(There was no button to click)');
 		} else {
 			if(e.index === 1) {
-				Ti.App.Flurry.endTimedEvent('edit-screen');
+				//Ti.App.Flurry.endTimedEvent('edit-screen');
 				_navGroup.close(self, {animated:true}); //go to the main screen
 			}
 		}

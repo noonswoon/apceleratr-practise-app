@@ -44,7 +44,7 @@ TopFriendsTableViewRow = function(_fbUser) {
 	});
 	
 	inviteIcon.addEventListener('click', function() {
-		Ti.App.Flurry.logEvent('left-menu-single-invite');
+		//Ti.App.Flurry.logEvent('left-menu-single-invite');
 		if(Ti.App.ACTUAL_FB_INVITE) {
 			FacebookSharing.sendRequestOnFacebook(_fbUser.facebook_id);	
 		} else {

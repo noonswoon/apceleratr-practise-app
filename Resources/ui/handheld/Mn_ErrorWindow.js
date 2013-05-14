@@ -1,6 +1,6 @@
 ErrorWindow = function(_errorMessage, _userId) {
 	
-	Ti.App.Flurry.logEvent('error-screen');
+	//Ti.App.Flurry.logEvent('error-screen');
 	
 	var errorText1 = L('A problem occurred');
 	var errorText2 = "";
@@ -100,12 +100,12 @@ ErrorWindow = function(_errorMessage, _userId) {
 		self.add(retryImage);
 
 		description1Lbl.addEventListener('click', function(){
-			Ti.App.Flurry.logEvent('error-screen-retry');
+			//Ti.App.Flurry.logEvent('error-screen-retry');
 			Ti.App.fireEvent('restartApp');
 		});
 			
 		retryImage.addEventListener('click', function() {
-			Ti.App.Flurry.logEvent('error-screen-retry');
+			//Ti.App.Flurry.logEvent('error-screen-retry');
 			Ti.App.fireEvent('restartApp');
 		});
 	}
