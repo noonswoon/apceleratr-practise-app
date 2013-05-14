@@ -1,6 +1,6 @@
 NoInternetWindow = function() {
 	
-	Ti.App.Flurry.logEvent('no-internet-screen');
+	//Ti.App.Flurry.logEvent('no-internet-screen');
 	
 	//create component instance
 	var self = Ti.UI.createWindow({
@@ -47,12 +47,12 @@ NoInternetWindow = function() {
 	self.add(retryImage);
 
 	retryImage.addEventListener('click', function() {
-		Ti.App.Flurry.logEvent('no-internet-screen-retry');
+		//Ti.App.Flurry.logEvent('no-internet-screen-retry');
 		Ti.App.fireEvent('restartApp');
 	});
 	
 	description1Lbl.addEventListener('click', function(){
-		Ti.App.Flurry.logEvent('no-internet-screen-retry');
+		//Ti.App.Flurry.logEvent('no-internet-screen-retry');
 		Ti.App.fireEvent('restartApp');
 	});
 

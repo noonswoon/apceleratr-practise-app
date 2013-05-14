@@ -172,7 +172,7 @@ function ApplicationWindow(_userId, _userImage) {
 
 	var inviteCompletedCallback = function(e) {
 		Ti.API.info('in inviteCompletedCallback...');
-		Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
+		//Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
 		var topupAmount = 0;
 		for(var i = 0; i < e.inviteeList.length; i++) {
 			topupAmount += 2;

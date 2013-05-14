@@ -1,5 +1,5 @@
 CreditWindow = function() {
-	Ti.App.Flurry.logEvent('buy-credit-screen');
+	//Ti.App.Flurry.logEvent('buy-credit-screen');
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',

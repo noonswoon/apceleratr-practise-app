@@ -69,16 +69,15 @@ if(Ti.Platform.osname == 'iphone') {
 
 Ti.App.moment = require('external_libs/moment');
 
-Ti.App.Flurry = require('ti.flurry');
-Ti.App.Flurry.debugLogEnabled = true;
-Ti.App.Flurry.eventLoggingEnabled = true;
-Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
+//Ti.App.Flurry = require('ti.flurry');
+//Ti.App.Flurry.debugLogEnabled = true;
+//Ti.App.Flurry.eventLoggingEnabled = true;
+//Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
 
 //Ti.App.Storekit = require('ti.storekit');
 //Ti.App.Storekit.receiptVerificationSandbox = true;
 //Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
 
-var acs = require('external_libs/acs');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
 var Debug = require('internal_libs/debug');
@@ -178,13 +177,13 @@ if (Ti.version < 1.8 ) {
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
 						//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
 						currentUserId = parseInt(_userInfo.meta.user_id); 
-						Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
-						Ti.App.Flurry.userID = _userInfo.meta.user_id;
-						if(_userInfo.content.general.gender === "female") {
-							Ti.App.Flurry.gender = 'f';
-						} else {
-							Ti.App.Flurry.gender = 'm';
-						}
+						//Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
+						//Ti.App.Flurry.userID = _userInfo.meta.user_id;
+						//if(_userInfo.content.general.gender === "female") {
+						//	Ti.App.Flurry.gender = 'f';
+						//} else {
+						//	Ti.App.Flurry.gender = 'm';
+						//}
 						var currentUserImage = _userInfo.content.pictures[0].src;
 						var facebookLikeArray = [];
 						for(var i = 0; i < _userInfo.content.likes.length; i++) {
