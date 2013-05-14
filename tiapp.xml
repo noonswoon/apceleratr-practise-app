@@ -15,7 +15,7 @@
     <version>1.2</version>
     <publisher>Noonswoon Inc.</publisher>
     <url>http://noonswoon.com</url>
-    <description>Find The One</description>
+    <description>Love is in the App</description>
     <copyright>2013 by Noonswoon, Inc</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
@@ -44,7 +44,6 @@
     </mobileweb>
     <modules>
         <module platform="iphone" version="1.3.0">ti.flurry</module>
-        <module platform="iphone" version="2.0.0">ti.storekit</module>
         <module platform="iphone" version="1.1.1">ti.imagefactory</module>
         <module platform="iphone">facebook</module>
     </modules>
