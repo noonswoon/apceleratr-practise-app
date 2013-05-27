@@ -255,6 +255,33 @@ CreditOverviewWindow = function() {
 	});
 	howCreditsUsedSectionView.add(likeTopic);
 	
+	var likeDesc1 = Ti.UI.createLabel({
+		text: L('Use'),
+		top: 180,
+		left: 55,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	howCreditsUsedSectionView.add(likeDesc1);
+	
+	var likeDesc2 = Ti.UI.createLabel({
+		text: L('10 credits'),
+		top: 180,
+		left: 84,
+		color: '#4e5866',
+		font:{fontWeight:'bold',fontSize:14},
+	});
+	howCreditsUsedSectionView.add(likeDesc2);	
+	
+	var likeDesc3 = Ti.UI.createLabel({
+		text: L('to like your swoon'),
+		top: 180,
+		left: 154,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	howCreditsUsedSectionView.add(likeDesc3);	
+	
 	var horizontalSeparator3 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		bottom: 0,
@@ -342,7 +369,34 @@ CreditOverviewWindow = function() {
 		font:{fontWeight:'bold',fontSize:16},
 	});
 	earnCreditsSectionView.add(loginDailyTopic);
+
+	var dailyCreditDesc1 = Ti.UI.createLabel({
+		text: L('Get'),
+		top: 112,
+		left: 55,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	earnCreditsSectionView.add(dailyCreditDesc1);
 	
+	var dailyCreditDesc2 = Ti.UI.createLabel({
+		text: L('1 daily credit'),
+		top: 112,
+		left: 84,
+		color: '#4e5866',
+		font:{fontWeight:'bold',fontSize:14},
+	});
+	earnCreditsSectionView.add(dailyCreditDesc2);	
+	
+	var dailyCreditDesc3 = Ti.UI.createLabel({
+		text: L('for using Noonswoon'),
+		top: 112,
+		left: 175,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	earnCreditsSectionView.add(dailyCreditDesc3);
+		
 	var horizontalSeparator4 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		top: 143,
@@ -369,6 +423,33 @@ CreditOverviewWindow = function() {
 	});
 	earnCreditsSectionView.add(inviteTopic);
 
+	var inviteDesc1 = Ti.UI.createLabel({
+		text: L('Get'),
+		top: 180,
+		left: 55,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	earnCreditsSectionView.add(inviteDesc1);
+	
+	var inviteDesc2 = Ti.UI.createLabel({
+		text: L('2 credits'),
+		top: 180,
+		left: 84,
+		color: '#4e5866',
+		font:{fontWeight:'bold',fontSize:14},
+	});
+	earnCreditsSectionView.add(inviteDesc2);	
+	
+	var inviteDesc3 = Ti.UI.createLabel({
+		text: L('for each friend you invite'),
+		top: 180,
+		left: 145,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	earnCreditsSectionView.add(inviteDesc3);
+	
 	var horizontalSeparator5 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		bottom: 0,
@@ -382,94 +463,7 @@ CreditOverviewWindow = function() {
 	//summarize
 	contentView.data = tableData;
 	self.add(contentView);
-	
-/*	var getCreditsLabel = Ti.UI.createLabel({
-		text: 'Get Credits',
-		center: {x: '50%', y:27}, 
-		color: '#8f8f8f',
-		font:{fontWeight:'bold',fontSize:18},
-		shadowColor: '#ffffff', 
-		shadowOffset: {x:0, y:1}
-	});
-	self.add(getCreditsLabel);
-	
-	var startingOffset = 50;
 
-	var topEdgeBuyCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/row-top-edge.png',
-		top: startingOffset, 
-		height: 5,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(topEdgeBuyCreditsView);
-	
-	var tenCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/match-info-white-row.png',
-		top: startingOffset + 5, 
-		height: 48,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(tenCreditsView);
-	
-	var hundredCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/match-bottom-box.png',
-		top: startingOffset + 53, //+ 5 + 48 
-		height: 48,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(hundredCreditsView);
-	
-	var bottomEdgeBuyCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/row-bottom-edge.png',
-		top: startingOffset + 101, //+ 5 + 48 + 48 
-		height: 5,
-		left: 0, 
-		width: '100%', 
-	});	
-	self.add(bottomEdgeBuyCreditsView);
-	
-	var centerOffset = 75; 
-	
-	var topEdgeSubscriptionView = Ti.UI.createView({
-		backgroundImage: 'images/row-top-edge.png',
-		top: startingOffset + 101 + centerOffset, //+ 5 + 48 + 48 + centerOffset
-		height: 5,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(topEdgeSubscriptionView);
-	
-	var monthlySubscriptionView = Ti.UI.createView({
-		backgroundImage: 'images/match-info-white-row.png',
-		top: startingOffset + 106 + centerOffset, //+5 
-		height: 48,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(monthlySubscriptionView);
-	
-	var yearlySubscriptionView = Ti.UI.createView({
-		backgroundImage: 'images/match-bottom-box.png',
-		top: startingOffset + 154 + centerOffset, //101 + 5 + 48 
-		height: 48,
-		left: 0, 
-		width: '100%', 
-	});
-	self.add(yearlySubscriptionView);
-	
-	var bottomEdgeSubscriptionView = Ti.UI.createView({
-		backgroundImage: 'images/row-bottom-edge.png',
-		top: startingOffset + 202 + centerOffset, //101 + 5 + 48 + 48 
-		height: 5,
-		left: 0, 
-		width: '100%', 
-	});	
-	self.add(bottomEdgeSubscriptionView);
-*/
-	
 	return self;
 };
 
