@@ -203,8 +203,8 @@ CreditOverviewWindow = function() {
 	howCreditsUsedSectionView.add(mutualFriendTopic);
 	
 	var mutualFriendDesc1 = Ti.UI.createLabel({
-		text: L('Use 5 credits to reveal Mutual Friends'),
-		top: 108,
+		text: L('Use'),
+		top: 112,
 		left: 55,
 		color: '#a3a7ad',
 		font:{fontSize:14},
@@ -213,13 +213,21 @@ CreditOverviewWindow = function() {
 	
 	var mutualFriendDesc2 = Ti.UI.createLabel({
 		text: L('5 credits'),
-		top: 108,
-		left: 75,
+		top: 112,
+		left: 84,
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:14},
-		zIndex: 5
 	});
-	howCreditsUsedSectionView.add(mutualFriendDesc1);	
+	howCreditsUsedSectionView.add(mutualFriendDesc2);	
+	
+	var mutualFriendDesc3 = Ti.UI.createLabel({
+		text: L('to reveal Mutual Friends'),
+		top: 112,
+		left: 145,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	howCreditsUsedSectionView.add(mutualFriendDesc3);	
 	
 	var horizontalSeparator2 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 

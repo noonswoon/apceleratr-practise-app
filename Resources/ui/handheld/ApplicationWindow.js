@@ -222,8 +222,8 @@ function ApplicationWindow(_userId, _userImage) {
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	//window: dummyOnBoard,
-	  	window: matchWindow,
+	  	window: dummyOnBoard,
+	  	//window: matchWindow,
 	  	top: 0,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,

@@ -171,7 +171,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			showPreloader(self, L('Loading...'));
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
-			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
+			    	var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
 					
 			        var sendingObj = {}; 
 			        
@@ -183,21 +183,12 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
 			        	sendingObj.devicePlatform = 'iphone';
 			        }
-			        
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
-			        
+
 			        if(newConnectFlag) {
 			        	newConnectFlag = false;
 				        BackendUser.connectToServer(sendingObj, function(_userLogin) {
-				        	//Ti.App.Flurry.age = parseInt(_userLogin.content.general.age);
-							//Ti.App.Flurry.userID = _userLogin.meta.user_id;
-							//if(_userLogin.content.general.gender === "female") {
-							//	Ti.App.Flurry.gender = 'f';
-							//} else {
-							//	Ti.App.Flurry.gender = 'm';
-							//}
-							 	
 				        	// check the result data whether it is a new user or existing one
 				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 				        	var CreditSystem = require('internal_libs/creditSystem');
