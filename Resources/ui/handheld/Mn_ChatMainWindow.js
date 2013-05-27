@@ -611,73 +611,77 @@ Ti.App.Chat = function(_chatParams) {
 	if(otherUserGuid === "" &&  !Ti.App.Properties.hasProperty(currentChatRoom)) {
 		Ti.App.Properties.setInt(currentChatRoom, 1); //so never fetch again
 		BackendChat.getAllChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId}, function(_chatHistory) {
-			var chatHistoryMsgs = _chatHistory.content.chat_messages;
-			for(var i = 0; i < chatHistoryMsgs.length; i++) {
-				
-				var chatMessageObj = {};
-				chatMessageObj.matchId = _chatParams.matchId;
-
-				chatMessageObj.userId = userObject.id;
-				chatMessageObj.targetedUserId = otherUserObject.id; 
-				chatMessageObj.message = chatHistoryMsgs[i].message.trim();
-				chatMessageObj.time = chatHistoryMsgs[i].time;
-				
-				if(userObject.id === chatHistoryMsgs[i].sender_id) {
-					chatMessageObj.senderId = userObject.id;
-					chatMessageObj.receiverId = otherUserObject.id;
-				} else {
-					chatMessageObj.senderId = otherUserObject.id;
-					chatMessageObj.receiverId = userObject.id;
+			if(_chatHistory.success) {
+				var chatHistoryMsgs = _chatHistory.content.chat_messages;
+				for(var i = 0; i < chatHistoryMsgs.length; i++) {
+					
+					var chatMessageObj = {};
+					chatMessageObj.matchId = _chatParams.matchId;
+	
+					chatMessageObj.userId = userObject.id;
+					chatMessageObj.targetedUserId = otherUserObject.id; 
+					chatMessageObj.message = chatHistoryMsgs[i].message.trim();
+					chatMessageObj.time = chatHistoryMsgs[i].time;
+					
+					if(userObject.id === chatHistoryMsgs[i].sender_id) {
+						chatMessageObj.senderId = userObject.id;
+						chatMessageObj.receiverId = otherUserObject.id;
+					} else {
+						chatMessageObj.senderId = otherUserObject.id;
+						chatMessageObj.receiverId = userObject.id;
+					}
+					
+					//compute and insert into local db
+					ModelChatHistory.insertChatMessage(chatMessageObj);	
 				}
-				
-				//compute and insert into local db
-				ModelChatHistory.insertChatMessage(chatMessageObj);	
 			}
 			Ti.App.fireEvent('chatMsgDataReady');
 		});
 	} else {
 		//pull just the unread msg
 		BackendChat.getUnreadChatHistory({matchId:_chatParams.matchId, userId: _chatParams.userId}, function(_chatHistory) {
-			var chatUnreadMsgs = _chatHistory.content.chat_messages;
-			var hasNewUnread = false;
-			for(var i = 0; i < chatUnreadMsgs.length; i++) {
-				var chatMessageObj = {};
-				chatMessageObj.matchId = _chatParams.matchId;
-				chatMessageObj.userId = userObject.id;
-				chatMessageObj.targetedUserId = otherUserObject.id; 
-				chatMessageObj.message = chatUnreadMsgs[i].message.trim();
-				chatMessageObj.time = chatUnreadMsgs[i].time;
-				chatMessageObj.senderId = chatUnreadMsgs[i].sender_id;
-				chatMessageObj.receiverId = chatUnreadMsgs[i].receiver_id;
-				//insert to db
-				ModelChatHistory.insertChatMessage(chatMessageObj);	
-				
-				//building the UI
-				var curMsg =  chatUnreadMsgs[i].message.trim();
-				var chatLayoutNumbers = computeChatLayoutNumbers(curMsg);
-				chatData.push({
-					properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#f6f6f6
-					userPic: { image: _chatParams.otherUserImage, left: 7},
-					chatMessage: { text: curMsg, width: 200, left: sideOffset + 12},
-					time: chatUnreadMsgs[i].time,
-					bubblePart1: {image: 'images/chat/gray-bubble-1.png', left: sideOffset, width: 20}, 
-					bubblePart2: {image: 'images/chat/gray-bubble-2.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength},									
-					bubblePart3: {image: 'images/chat/gray-bubble-3.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14},
-					bubblePart4: {image: 'images/chat/gray-bubble-4.png', left: sideOffset, width: 20, height: chatLayoutNumbers.newVerticalLength},	
-					bubblePart5: {image: 'images/chat/gray-bubble-5.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength, height: chatLayoutNumbers.newVerticalLength},
-					bubblePart6: {image: 'images/chat/gray-bubble-6.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14, height: chatLayoutNumbers.newVerticalLength},
-					bubblePart7: {image: 'images/chat/gray-bubble-7.png', left: sideOffset, width: 20, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},	
-					bubblePart8: {image: 'images/chat/gray-bubble-8.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},
-					bubblePart9: {image: 'images/chat/gray-bubble-9.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},										
-				});
-				hasNewUnread = true;
+			if(_chatHistory.success) {
+				var chatUnreadMsgs = _chatHistory.content.chat_messages;
+				var hasNewUnread = false;
+				for(var i = 0; i < chatUnreadMsgs.length; i++) {
+					var chatMessageObj = {};
+					chatMessageObj.matchId = _chatParams.matchId;
+					chatMessageObj.userId = userObject.id;
+					chatMessageObj.targetedUserId = otherUserObject.id; 
+					chatMessageObj.message = chatUnreadMsgs[i].message.trim();
+					chatMessageObj.time = chatUnreadMsgs[i].time;
+					chatMessageObj.senderId = chatUnreadMsgs[i].sender_id;
+					chatMessageObj.receiverId = chatUnreadMsgs[i].receiver_id;
+					//insert to db
+					ModelChatHistory.insertChatMessage(chatMessageObj);	
+					
+					//building the UI
+					var curMsg =  chatUnreadMsgs[i].message.trim();
+					var chatLayoutNumbers = computeChatLayoutNumbers(curMsg);
+					chatData.push({
+						properties: {backgroundColor: '#e0e0e0', height: chatLayoutNumbers.rowHeight}, //#f6f6f6
+						userPic: { image: _chatParams.otherUserImage, left: 7},
+						chatMessage: { text: curMsg, width: 200, left: sideOffset + 12},
+						time: chatUnreadMsgs[i].time,
+						bubblePart1: {image: 'images/chat/gray-bubble-1.png', left: sideOffset, width: 20}, 
+						bubblePart2: {image: 'images/chat/gray-bubble-2.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength},									
+						bubblePart3: {image: 'images/chat/gray-bubble-3.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14},
+						bubblePart4: {image: 'images/chat/gray-bubble-4.png', left: sideOffset, width: 20, height: chatLayoutNumbers.newVerticalLength},	
+						bubblePart5: {image: 'images/chat/gray-bubble-5.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength, height: chatLayoutNumbers.newVerticalLength},
+						bubblePart6: {image: 'images/chat/gray-bubble-6.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14, height: chatLayoutNumbers.newVerticalLength},
+						bubblePart7: {image: 'images/chat/gray-bubble-7.png', left: sideOffset, width: 20, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},	
+						bubblePart8: {image: 'images/chat/gray-bubble-8.png', left: sideOffset + 20, width: chatLayoutNumbers.horizontalLength, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},
+						bubblePart9: {image: 'images/chat/gray-bubble-9.png', left: sideOffset + 20 + chatLayoutNumbers.horizontalLength, width: 14, top: 5 + 19 + chatLayoutNumbers.newVerticalLength},										
+					});
+					hasNewUnread = true;
+				}
+				if(hasNewUnread && chatData.length > 0) {
+					chatData.sort(compareChatHistory);
+					listSection = Ti.UI.createListSection({items: chatData});
+					chatListView.sections = [listSection];
+					chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
+				}
 			}
-			if(hasNewUnread && chatData.length > 0) {
-				chatData.sort(compareChatHistory);
-				listSection = Ti.UI.createListSection({items: chatData});
-				chatListView.sections = [listSection];
-				chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
-			}		
 		});
 		Ti.App.fireEvent('chatMsgDataReady');
 	}
