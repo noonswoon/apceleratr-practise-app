@@ -121,7 +121,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 		//left: 82, color: '#898c81',
 	});
 	self.add(neverPostToFb);
-	
 	//FUNCTIONS CALLBACK
 	function successNotifCallback(e) {
 		Ti.API.info('in success notif callback..loginonboardingwindow');
@@ -220,7 +219,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 					hidePreloader(self);
 					var loginFailedDialog = Titanium.UI.createAlertDialog({
 						title:L('Noonswoon'),
-						message:L('There is an error from Facebook login. Please try again.')
+						message:L('There is an error from Facebook login. Please try again.#1')
 					});
 					loginFailedDialog.show();
 					Debug.debug_print('cannot request GraphPath: '+ JSON.stringify(e));		
@@ -228,7 +227,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 					hidePreloader(self);
 					var loginFailedDialog = Titanium.UI.createAlertDialog({
 						title:L('Noonswoon'),
-						message:L('There is an error from Facebook login. Please try again.')
+						message:L('There is an error from Facebook login. Please try again.#2')
 					});
 					loginFailedDialog.show();
 					Debug.debug_print("what the hell is going on_2? " + JSON.stringify(e));
@@ -236,11 +235,19 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				}
 			});
 		} else if (e.error) {
-			Ti.API.info("fb login error: ");
+			var loginFailedDialog = Titanium.UI.createAlertDialog({
+				title:L('No Facebook Permission'),
+				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook  Noonswoon must be 'On'")
+			});
+			loginFailedDialog.show();
 		} else if (e.cancelled) {
 			Ti.API.info("fb login Canceled");
 		} else {
-			Ti.API.info(JSON.stringify(e));
+			var loginFailedDialog = Titanium.UI.createAlertDialog({
+				title:L('No Facebook Permission'),
+				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook. Noonswoon must be 'On'")
+			});
+			loginFailedDialog.show();
 		}
 	}	
 	// register for push notifications
