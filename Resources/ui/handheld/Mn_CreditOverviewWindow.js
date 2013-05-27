@@ -17,7 +17,27 @@ CreditOverviewWindow = function() {
 		leftNavButton: backButton
 	});
 
-	// Your credit/buy/invite friends section
+	var contentView = Ti.UI.createTableView({
+		top:0,
+		backgroundColor:'#eeeeee',
+		separatorColor: 'transparent',
+		//width:'100%',
+	});
+	if(Ti.Platform.osname === 'iphone')
+		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+				
+	var tableData = [];
+	
+	//****************** Your credit/buy/invite friends section ****************************************************
+	var yourCreditsRow = Ti.UI.createTableViewRow({
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 200,
+	});
+	if(Ti.Platform.osname === 'iphone')
+		yourCreditsRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+			
 	var yourCreditsSectionView = Ti.UI.createView({
 		backgroundColor: '#eeeeee', //#eeeeee 
 		top: 0,
@@ -78,7 +98,7 @@ CreditOverviewWindow = function() {
 		text: L('Buy Credits'),
 		color: '#eff2f7',
 		shadowColor: '#590a10',
-		shadowOffset: {x:0, y:2},
+		shadowOffset: {x:0, y:1},
 		font:{fontWeight:'bold',fontSize:18},
 		center: {x:'50%', y:'50%'},
 		zIndex: 3,
@@ -107,19 +127,254 @@ CreditOverviewWindow = function() {
 	inviteFriendsButton.add(inviteFriendsButtonText);	
 	yourCreditsSectionView.add(inviteFriendsButton);	
 	
-	var horizontalSeparator = Ti.UI.createImageView({
-		image: 'horizontal-separator.png', 
+	var horizontalSeparator1 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-separator.png', 
 		bottom: 0,
 		height: 2,
 		width: '100%'
 	});
-	yourCreditsSectionView.add(horizontalSeparator);
-	self.add(yourCreditsSectionView);
+	yourCreditsSectionView.add(horizontalSeparator1);
+	yourCreditsRow.add(yourCreditsSectionView);
+	tableData.push(yourCreditsRow);	
 
-	// How credits are used section
+	// ************************** How credits are used section ****************************************************
+	var howCreditsRow = Ti.UI.createTableViewRow({
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 210,
+	});
+	
+	if(Ti.Platform.osname === 'iphone')
+		howCreditsRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
-	//earned free credits section
+	var howCreditsUsedSectionView = Ti.UI.createView({
+		backgroundColor: '#eeeeee', //#eeeeee 
+		top: 0,
+		left: 0,
+		height: 210,
+	});
+	
+	var howCreditsAreUsedLabel = Ti.UI.createLabel({
+		text: L('How Credits Are Used'),
+		color: '#919191',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:16},
+		center: {x:'50%', y:26},
+		zIndex: 3,
+	});
+	howCreditsUsedSectionView.add(howCreditsAreUsedLabel);
+	
+	var certainActionsLabel = Ti.UI.createLabel({
+		text: L('Certain actions required credits'),
+		color: '#a3a7ad',
+		font:{fontSize:14},
+		center: {x:'50%', y:50},
+		zIndex: 3,
+	});
+	howCreditsUsedSectionView.add(certainActionsLabel);
+	
+	var horizontalArrowDown1 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-arrow-down-separator.png',
+		top: 70, 
+		left: 0,
+		width: 320, 
+		height: 13
+	});
+	howCreditsUsedSectionView.add(horizontalArrowDown1);
+	
+	var mutualFriendGlyph = Ti.UI.createImageView({
+		image: 'images/credit/mutual-friends-glyph.png',
+		top: 98,
+		left: 15,
+		width: 26, 
+		height: 17
+	});
+	howCreditsUsedSectionView.add(mutualFriendGlyph);
+	
+	var mutualFriendTopic = Ti.UI.createLabel({
+		text: L('Mutual Friends'),
+		color: '#666666',
+		top: 88, //70+18 
+		left: 55,
+		font:{fontWeight:'bold',fontSize:16},
+	});
+	howCreditsUsedSectionView.add(mutualFriendTopic);
+	
+	var mutualFriendDesc1 = Ti.UI.createLabel({
+		text: L('Use 5 credits to reveal Mutual Friends'),
+		top: 108,
+		left: 55,
+		color: '#a3a7ad',
+		font:{fontSize:14},
+	});
+	howCreditsUsedSectionView.add(mutualFriendDesc1);
+	
+	var mutualFriendDesc2 = Ti.UI.createLabel({
+		text: L('5 credits'),
+		top: 108,
+		left: 75,
+		color: '#4e5866',
+		font:{fontWeight:'bold',fontSize:14},
+		zIndex: 5
+	});
+	howCreditsUsedSectionView.add(mutualFriendDesc1);	
+	
+	var horizontalSeparator2 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-separator.png', 
+		top: 143,
+		height: 2,
+		width: '100%'
+	});
+	howCreditsUsedSectionView.add(horizontalSeparator2);
+	
+	var likeGlyph = Ti.UI.createImageView({
+		image: 'images/credit/like-glyph.png',
+		top: 166,
+		left: 15,
+		width: 20, 
+		height: 24
+	});
+	howCreditsUsedSectionView.add(likeGlyph);
+	
+	var likeTopic = Ti.UI.createLabel({
+		text: L('Like'),
+		color: '#666666',
+		top: 156, 
+		left: 55,
+		font:{fontWeight:'bold',fontSize:16},
+	});
+	howCreditsUsedSectionView.add(likeTopic);
+	
+	var horizontalSeparator3 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-separator.png', 
+		bottom: 0,
+		height: 2,
+		width: '100%'
+	});
+	howCreditsUsedSectionView.add(horizontalSeparator3);
+	howCreditsRow.add(howCreditsUsedSectionView);
+	tableData.push(howCreditsRow);
+	
+	// ************************** earned free credits section ****************************************************
+	var earnCreditsRow = Ti.UI.createTableViewRow({
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 210,
+	});
+	
+	if(Ti.Platform.osname === 'iphone')
+		earnCreditsRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 
+	var earnCreditsSectionView = Ti.UI.createView({
+		backgroundColor: '#eeeeee', //#eeeeee 
+		top: 0,
+		left: 0,
+		height: 210,
+	});
+	
+	var earnLabel = Ti.UI.createLabel({
+		top: 16, 
+		left: 93,
+		text: L('Earn'),
+		color: '#919191',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:16},
+		zIndex: 3,
+	});
+	earnCreditsSectionView.add(earnLabel);
+	
+	var freeCreditsLabel = Ti.UI.createLabel({
+		top: 16, 
+		left: 133,
+		text: L('Free Credits'),
+		color: '#e01124',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:16},
+		zIndex: 4,
+	});
+	earnCreditsSectionView.add(freeCreditsLabel);
+	
+	var getCreditsUsingLabel = Ti.UI.createLabel({
+		text: L('Get credits using Noonswoon'),
+		color: '#a3a7ad',
+		font:{fontSize:14},
+		center: {x:'50%', y:50},
+		zIndex: 3,
+	});
+	earnCreditsSectionView.add(getCreditsUsingLabel);
+	
+	var horizontalArrowDown2 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-arrow-down-separator.png',
+		top: 70, 
+		left: 0,
+		width: 320, 
+		height: 13
+	});
+	earnCreditsSectionView.add(horizontalArrowDown2);
+	
+	var dailyGlyph = Ti.UI.createImageView({
+		image: 'images/credit/daily-glyph.png',
+		top: 98,
+		left: 15,
+		width: 25, 
+		height: 25
+	});
+	earnCreditsSectionView.add(dailyGlyph);
+	
+	var loginDailyTopic = Ti.UI.createLabel({
+		text: L('Daily Login'),
+		color: '#666666',
+		top: 88, 
+		left: 55,
+		font:{fontWeight:'bold',fontSize:16},
+	});
+	earnCreditsSectionView.add(loginDailyTopic);
+	
+	var horizontalSeparator4 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-separator.png', 
+		top: 143,
+		height: 2,
+		width: '100%'
+	});
+	earnCreditsSectionView.add(horizontalSeparator4);
+	
+	var inviteGlyph = Ti.UI.createImageView({
+		image: 'images/credit/invite-friends-glyph.png',
+		top: 166,
+		left: 15,
+		width: 25, 
+		height: 25
+	});
+	earnCreditsSectionView.add(inviteGlyph);
+
+	var inviteTopic = Ti.UI.createLabel({
+		text: L('Friend Invites'),
+		color: '#666666',
+		top: 156, 
+		left: 55,
+		font:{fontWeight:'bold',fontSize:16},
+	});
+	earnCreditsSectionView.add(inviteTopic);
+
+	var horizontalSeparator5 = Ti.UI.createImageView({
+		image: 'images/credit/horizontal-separator.png', 
+		bottom: 0,
+		height: 2,
+		width: '100%'
+	});
+	earnCreditsSectionView.add(horizontalSeparator5);
+	earnCreditsRow.add(earnCreditsSectionView);
+	tableData.push(earnCreditsRow);
+	
+	//summarize
+	contentView.data = tableData;
+	self.add(contentView);
+	
 /*	var getCreditsLabel = Ti.UI.createLabel({
 		text: 'Get Credits',
 		center: {x: '50%', y:27}, 
