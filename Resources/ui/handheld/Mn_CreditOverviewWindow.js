@@ -1,4 +1,4 @@
-CreditOverviewWindow = function() {
+CreditOverviewWindow = function(_navGroup, _userId) {
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
@@ -17,6 +17,10 @@ CreditOverviewWindow = function() {
 		leftNavButton: backButton
 	});
 
+	backButton.addEventListener('click', function() {
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+	
 	var contentView = Ti.UI.createTableView({
 		top:0,
 		backgroundColor:'#eeeeee',

@@ -4,8 +4,8 @@ CreditView = function(_credit) {
 		image: 'images/menu-credits.png',
 		width: 79,
 		height: 31,
-		top:6,
-		left: 176,
+		top:8,
+		left: 173,
 		zIndex: 0
 	});
 	

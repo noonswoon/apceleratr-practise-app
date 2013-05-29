@@ -1,13 +1,14 @@
 //Application Window Component Constructor
-function ApplicationWindow(_userId, _userImage) {
+function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 	var CreditSystem = require('internal_libs/creditSystem');
+	var CreditOverviewWindowModule = require('ui/handheld/Mn_CreditOverviewWindow');
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');	
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');	
+	var LeftMenuWindowModule = require('ui/handheld/Lm_NewLeftMenuWindow');	
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
@@ -92,7 +93,7 @@ function ApplicationWindow(_userId, _userImage) {
 	});
 	
 	var isToggled = false;		
-	var leftMenu = new LeftMenuWindowModule(_userId);
+	var leftMenu = new LeftMenuWindowModule(_userId, _userName, _userImage);
 	var rightMenu = new ConnectionWindowModule(_userId);
 
 	var openChatWindowCallback = function(e) {
@@ -135,6 +136,14 @@ function ApplicationWindow(_userId, _userImage) {
 		toggleLeftMenu();
 	};
 	Ti.App.addEventListener('openEditProfileWindow', openEditProfileWindowCallback);
+
+	var openCreditOverviewWindowCallback = function(e) {
+		var creditOverviewWindow = new CreditOverviewWindowModule(navigationGroup, _userId);
+		navigationGroup.open(creditOverviewWindow, {animated:false});
+		toggleLeftMenu();
+	};
+	Ti.App.addEventListener('openCreditOverviewWindow', openCreditOverviewWindowCallback);
+	
 	
 	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
@@ -149,7 +158,7 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	var TargetedModule = require('ui/handheld/Mn_CreditOverviewWindow');
+	var TargetedModule = require('ui/handheld/Mn_CreditBuyingWindow');
 	var dummyOnBoard = new TargetedModule('');
 		
 	var noMatchWindow = null;
@@ -222,8 +231,8 @@ function ApplicationWindow(_userId, _userImage) {
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
 	var navigationGroup = Titanium.UI.iPhone.createNavigationGroup({
-	  	window: dummyOnBoard,
-	  	//window: matchWindow,
+	  	//window: dummyOnBoard,
+	  	window: matchWindow,
 	  	top: 0,
 	  	left: 0,
 	  	width: Ti.Platform.displayCaps.platformWidth,

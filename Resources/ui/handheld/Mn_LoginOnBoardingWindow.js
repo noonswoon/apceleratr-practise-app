@@ -166,13 +166,12 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 
 	var newConnectFlag = true;
 	function facebookAuthenCallback(e) {
+		//something wrong here..come and fix later..automatically logging in without pressing the button
 		if (e.success) {
 			showPreloader(self, L('Loading...'));
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
-			    	var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
-					
-			        var sendingObj = {}; 
+			    	var sendingObj = {}; 
 			        
 			        sendingObj.userFbId =  Ti.App.Facebook.uid;
 			        sendingObj.fbAuthToken = Ti.App.Facebook.accessToken;
@@ -194,7 +193,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	//Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
 				        	if(_userLogin.content.user_status === "new_user") {
-				        	//if(true) {
+				        	//if(false) {
 				        	
 				        		//Ti.App.Flurry.logEvent('signupCompleted');
 				        		Ti.API.info('***NEW USER****');
@@ -205,8 +204,9 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
 								var currentUserImage = _userLogin.content.pictures[0].src;
+								var currentUserName = _userLogin.content.general.first_name + ' ' + _userLogin.content.general.last_name; 
 								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
+								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
 								mainApp.open();
 								mainApp.unhideCoverView();
 								self.close();
@@ -273,7 +273,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			Ti.App.Facebook.fireEvent('login',{success:true});
 		}
 	});
-	
+
 	self.addEventListener('close', function() {
 		Ti.App.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});

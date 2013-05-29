@@ -85,9 +85,10 @@ OnBoardingStep3Window = function(_userId) {
 			CreditSystem.setUserCredit(_userInfo.content.credit); 
 
 			var currentUserId = parseInt(_userInfo.meta.user_id); 
+			var currentUserName = _userInfo.content.general.first_name + ' ' + _userInfo.content.general.last_name;
 			var currentUserImage = _userInfo.content.pictures[0].src;
 			
-			Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage});
+			Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage, currentUserName: currentUserName});
 		});		
 	});
 	return self;

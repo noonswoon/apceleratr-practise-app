@@ -15,7 +15,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.2.1';
+Ti.App.CLIENT_VERSION = '1.3';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
@@ -41,7 +41,7 @@ if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
-	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
+	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
 	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.Facebook.appid = "492444750818688";
 }
@@ -139,9 +139,9 @@ if (Ti.version < 1.8 ) {
 	}
 	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
 	
-	var openMainApplication = function(_userId, _userImage) {
+	var openMainApplication = function(_userId, _userImage, _userName) {
 		var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-		var mainApp = new MainApplicationModule(_userId, _userImage);
+		var mainApp = new MainApplicationModule(_userId, _userImage, _userName);
 		mainApp.open();
 		mainApp.unhideCoverView();
 	};
@@ -150,12 +150,13 @@ if (Ti.version < 1.8 ) {
 	Ti.App.addEventListener('openMainApplication', function(e) {
 		currentUserId = e.currentUserId;
 		var currentUserImage = e.currentUserImage;
+		var currentUserName = e.currentUserName;
 		if(loginProcessWindow !== null) {
 			Ti.API.info('loginProcessWindow is close...');
 			loginProcessWindow.close();
 			loginProcessWindow = null;
 		}
-		openMainApplication(currentUserId, currentUserImage);
+		openMainApplication(currentUserId, currentUserImage, currentUserName);
 	});
 	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
@@ -174,17 +175,11 @@ if (Ti.version < 1.8 ) {
 				//if(false) {
 					var BackendUser = require('backend_libs/backendUser');
 					var CreditSystem = require('internal_libs/creditSystem');
-					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
-						//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
+					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						currentUserId = parseInt(_userInfo.meta.user_id); 
-						//Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
-						//Ti.App.Flurry.userID = _userInfo.meta.user_id;
-						//if(_userInfo.content.general.gender === "female") {
-						//	Ti.App.Flurry.gender = 'f';
-						//} else {
-						//	Ti.App.Flurry.gender = 'm';
-						//}
+						var currentUserName = _userInfo.content.general.first_name + ' ' + _userInfo.content.general.last_name; 
 						var currentUserImage = _userInfo.content.pictures[0].src;
+						
 						var facebookLikeArray = [];
 						for(var i = 0; i < _userInfo.content.likes.length; i++) {
 							var likeObj = {
@@ -198,7 +193,7 @@ if (Ti.version < 1.8 ) {
 						//set credit of the user
 						CreditSystem.setUserCredit(_userInfo.content.credit); 
 						
-						openMainApplication(currentUserId, currentUserImage);
+						openMainApplication(currentUserId, currentUserImage, currentUserName);
 					});
 				} else {
 					//open login page
