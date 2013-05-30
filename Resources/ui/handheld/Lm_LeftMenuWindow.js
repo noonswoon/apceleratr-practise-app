@@ -1,6 +1,7 @@
-LeftMenuWindow = function(_userId) {
+LeftMenuWindow = function(_userId, _userName, _userImage) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditViewModule = require('ui/handheld/Lm_CreditView');
+	var FacebookQuery = require('internal_libs/facebookQuery');
 	var TopFriendsViewModule = require('ui/handheld/Lm_TopFriendsView');
 	
 	var self = Titanium.UI.createWindow({
@@ -11,8 +12,19 @@ LeftMenuWindow = function(_userId) {
 		zIndex:0,
 	});
 	
+	var menuShadow = Ti.UI.createImageView({
+		backgroundImage: 'images/left_menu/left-menu-shadow.png',
+		backgroundTopCap: 1,
+		top: 0,
+		right: 0, 
+		width: 12,
+		height: '100%',
+		zIndex: 5,
+	})
+	self.add(menuShadow);
+	
 	// EDIT SECTION
-	var editProfileView = Ti.UI.createView({
+	var noonswoonBrandView = Ti.UI.createView({
 		backgroundImage: 'images/menu-bar-stretchable.png',
 		top: 0,
 		left:0,
@@ -21,6 +33,16 @@ LeftMenuWindow = function(_userId) {
 		zIndex: 0,
 	});
 
+	var noonswoonLogoImageView = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-logo.png',
+		top: 15, 
+		left: 9,
+		width: 133, 
+		height: 16
+	});
+	noonswoonBrandView.add(noonswoonLogoImageView);
+	
+/*
 	var editProfileIcon = Ti.UI.createImageView({
 		image: 'images/menubar-glyph-edit-profile.png',
 		left: 10,
@@ -36,14 +58,10 @@ LeftMenuWindow = function(_userId) {
 		top: 12,
 		font:{fontWeight:'bold',fontSize:18},
 	});
-
-	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
+*/
 	
-	editProfileView.add(editProfileIcon);
-	editProfileView.add(editProfileLbl);
-	editProfileView.add(creditView);
-	
-	
+	//4a4949
+/*	
 	editProfileIcon.addEventListener('click', function() {
 		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
 	});
@@ -51,63 +69,178 @@ LeftMenuWindow = function(_userId) {
 	editProfileLbl.addEventListener('click', function() {
 		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
 	});
-
-	self.add(editProfileView);
+*/
+	self.add(noonswoonBrandView);
 	
 	//END EDIT SECTION
-	//INVITE FRIENDS LABEL SECTION
-	var inviteFriendsView = Ti.UI.createView({
-		top: 43,
-		left:0,
-		width: 260,
-		height: 38,
-//		backgroundColor: 'yellow',
-		borderColor: 'transparent',
-		borderWidth: 0,
-		backgroundImage: 'images/menu-separator.png'
-	});	
 	
-	var inviteFriendsLbl = Ti.UI.createLabel({
-		text: L('INVITE OTHER FRIENDS'),
-		left: 11,
-		top: 11,
-		color: '#ababab',
-		font:{fontWeight:'bold',fontSize:12},
-		shadowColor: '#403e3e', 
-		shadowOffset: {x:0,y:1}
+	var profileSectionView = Ti.UI.createView({
+		backgroundColor: '#4a4949',
+		top: 48,
+		left: 0, 
+		width: 260,
+		height: 65,
 	});
+
+	var profileBorderImage = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-profile-overlay.png',
+		top: 8,
+		left: 8,
+		width: 48, 
+		height: 47,
+		zIndex: 2
+	});
+
+	var userProfileImage = Ti.UI.createImageView({
+	 	image: _userImage, 
+	 	top: 1, 
+	 	left: 2, 
+	 	width: 44,
+	 	height: 44,
+	 	zIndex: 3
+	});
+	profileBorderImage.add(userProfileImage);
+	profileSectionView.add(profileBorderImage);
+	
+	var profileLabel = Ti.UI.createLabel({
+		text: 'Profile', 
+		color: '#cbc8c8', 
+		font:{fontWeight:'bold',fontSize:18},
+		top: 11, 
+		left: 66, 
+		shadowColor: '#343333', 
+		shadowOffset: {x:0, y:1}
+	});
+	profileSectionView.add(profileLabel);
+	
+	var nameStr = _userName; 
+	if(nameStr.length > 18) {
+		nameStr = nameStr.substr(0,15) + '...';
+	}
+	
+	var nameLabel = Ti.UI.createLabel({
+		text: nameStr, 
+		color: '#9f9c9c', 
+		font:{fontWeight:'bold',fontSize:16},
+		top: 30, 
+		left: 66, 	
+		shadowColor: '#3d3c3c', 
+		shadowOffset: {x:0, y:1}
+	});
+	profileSectionView.add(nameLabel);
+	
 	
 	var leftArrow = Ti.UI.createImageView({
 		image: 'images/menu-separator-arrow.png',
-		left: 242,
-		top: 13,
+		top: 25,
+		right: 10,
 		width: 11,
 		height: 15
 	});
-	
-	
-	inviteFriendsView.add(inviteFriendsLbl);
-	inviteFriendsView.add(leftArrow);
-	self.add(inviteFriendsView);
+	profileSectionView.add(leftArrow);
 
-	inviteFriendsView.addEventListener('click', function() {
-		Ti.App.fireEvent('openInviteFriendWindow');
+	self.add(profileSectionView);
+	
+	var separatorView = Ti.UI.createView({
+		top: 113,
+		left:0,
+		width: 260,
+		height: 38,
+		borderColor: 'transparent',
+		borderWidth: 0,
+		backgroundImage: 'images/menu-separator.png'
+	});
+	self.add(separatorView);
+
+	var creditSectionView = Ti.UI.createView({
+		top: 151, 
+		left: 0,
+		width: 260,
+		height: 45,
+		backgroundImage: 'images/menu-row-item.png',
 	});
 	
-	inviteFriendsView.addEventListener('touchstart', function() {
-		inviteFriendsView.backgroundImage = 'images/menu-separator-active.png';
+	var creditGlyph = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-glyph-credits.png',
+		top: 10,
+		left: 10,
+		width: 24, 
+		height: 25,
+	});
+	creditSectionView.add(creditGlyph);
+	
+	var creditText = Ti.UI.createLabel({
+		text: 'Credits',
+		color: '#cbc8c8', 
+		font:{fontWeight:'bold',fontSize:18},
+		top: 12,
+		left: 48,
+		shadowColor: '#343333', 
+		shadowOffset: {x:0, y:1}	
+	});
+	creditSectionView.add(creditText);
+	
+	var creditView = new CreditViewModule(CreditSystem.getUserCredit()); 
+	creditSectionView.add(creditView);	
+	
+	self.add(creditSectionView);
+
+	var logoutSectionView = Ti.UI.createView({
+		top: 196, 
+		left: 0,
+		width: 260,
+		height: 45,
+		backgroundImage: 'images/menu-row-item.png',
 	});
 	
-	inviteFriendsView.addEventListener('touchend', function() {
-		inviteFriendsView.backgroundImage = 'images/menu-separator.png';
+	var logoutGlyph = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-glyph-logout.png',
+		top: 12,
+		left: 10,
+		width: 24, 
+		height: 22,
+	});
+	logoutSectionView.add(logoutGlyph);
+	
+	var logoutText = Ti.UI.createLabel({
+		text: 'Log out',
+		color: '#cbc8c8', 
+		font:{fontWeight:'bold',fontSize:18},
+		top: 12,
+		left: 48,
+		shadowColor: '#343333', 
+		shadowOffset: {x:0, y:1}	
+	});
+	logoutSectionView.add(logoutText);
+	self.add(logoutSectionView);
+
+	profileSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
+	});
+
+	creditSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
 	});
 	
-	//END INVITE FRIENDS LABEL SECTION
-	
-	//INVITE FRIENDS TABLE SECTION
-	var topFriendsView = new TopFriendsViewModule(_userId);
-	self.add(topFriendsView);
-	//END INVITE FRIENDS TABLE SECTION
+	logoutSectionView.addEventListener('click', function() {
+		Ti.App.Facebook.logout();
+	});
+
+	//check if we need to fetch fb friends for local db or not
+	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.App.Facebook.uid, 0)) {
+		Ti.API.info('have NOT fetched fb data');
+		CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.App.Facebook.uid); //no need to fetch again
+		FacebookQuery.queryFacebookFriends();
+	}  else {
+		Ti.API.info('already fetched fb data...');
+		//might not have the data in the scenario where the user deleted the app and re-install again
+		var targetedList = FacebookFriendModel.getTopFiveFacebookFriends(); 
+		if(targetedList.length === 0) {
+			Ti.API.info('refresh again...');
+			CacheHelper.recordFetchedData('FacebookFriendQuery_'+Ti.App.Facebook.uid); //no need to fetch again
+			FacebookQuery.queryFacebookFriends();
+		}
+	}	
 	
 	var coverView = Titanium.UI.createView({
 		top:0,

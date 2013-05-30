@@ -235,8 +235,11 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		}
 		listSection.items = newInviteFriendItems; //re-display again
 		
-		if(!_forcedInvite) { //only save the transaction if it isn't a forced invite
-			_navGroup.close(self, {animated:true}); //go to the main screen
+		if(!_forcedInvite) {
+			//the event 'inviteCompletedCallback' listener and actions 
+			//such as BackendInvite.saveInvitedPeople and CreditSystem.setUserCredit
+			// are in ApplicationWindow.js
+			_navGroup.close(self, {animated:true});
 		} else {
 			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 	

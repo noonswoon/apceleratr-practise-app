@@ -1,5 +1,8 @@
 CreditOverviewWindow = function(_navGroup, _userId) {
-	
+	var CreditBuyingWindowModule = require('ui/handheld/Mn_CreditBuyingWindow');
+	var CreditSystem = require('internal_libs/creditSystem');
+	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
+		
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
@@ -78,15 +81,15 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	currentCreditBackground.add(yourCreditLabel);
 	
-	var creditAmoutLabel = Ti.UI.createLabel({
-		text: '100',
+	var creditAmountLabel = Ti.UI.createLabel({
+		text: CreditSystem.getUserCredit(),
 		top: 12,
 		right: 16, 
 		color: '#e01124',
 		font:{fontWeight:'bold',fontSize:20},
 		zIndex: 3,
 	});
-	currentCreditBackground.add(creditAmoutLabel);
+	currentCreditBackground.add(creditAmountLabel);
 	yourCreditsSectionView.add(currentCreditBackground);
 	
 	var buyCreditButton = Ti.UI.createButton({
@@ -108,6 +111,12 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		zIndex: 3,
 	});
 	buyCreditButton.add(buyCreditButtonText);	
+
+	buyCreditButton.addEventListener('click', function() {
+		var creditBuyingWindow = new CreditBuyingWindowModule(_navGroup, _userId);
+		_navGroup.open(creditBuyingWindow);
+	});
+
 	yourCreditsSectionView.add(buyCreditButton);
 	
 	var inviteFriendsButton = Ti.UI.createButton({
@@ -129,6 +138,12 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		zIndex: 3,
 	});
 	inviteFriendsButton.add(inviteFriendsButtonText);	
+
+	inviteFriendsButton.addEventListener('click', function() {
+		var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, false);
+		_navGroup.open(inviteFriendWindow);
+	});
+		
 	yourCreditsSectionView.add(inviteFriendsButton);	
 	
 	var horizontalSeparator1 = Ti.UI.createImageView({
@@ -467,6 +482,15 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	//summarize
 	contentView.data = tableData;
 	self.add(contentView);
+	
+	var creditChangeCallback = function(e) {
+		creditAmountLabel.text = e.currentCredit;	
+	};	
+	Ti.App.addEventListener('creditChange', creditChangeCallback); 
+
+	self.addEventListener('close', function() {
+		Ti.App.removeEventListener('creditChange', creditChangeCallback); 
+	});
 
 	return self;
 };

@@ -8,7 +8,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var CreditOverviewWindowModule = require('ui/handheld/Mn_CreditOverviewWindow');
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');	
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
-	var LeftMenuWindowModule = require('ui/handheld/Lm_NewLeftMenuWindow');	
+	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');	
 	var MatchWindowModule = require('ui/handheld/Mn_MatchWindow');
 	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
@@ -182,10 +182,6 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var inviteCompletedCallback = function(e) {
 		Ti.API.info('in inviteCompletedCallback...');
 		//Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
-		var topupAmount = 0;
-		for(var i = 0; i < e.inviteeList.length; i++) {
-			topupAmount += 2;
-		}
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		

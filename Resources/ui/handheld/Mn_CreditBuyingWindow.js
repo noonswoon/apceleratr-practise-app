@@ -1,5 +1,4 @@
-CreditBuyingWindow = function() {
-	//Ti.App.Flurry.logEvent('buy-credit-screen');
+CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
@@ -18,6 +17,10 @@ CreditBuyingWindow = function() {
 		leftNavButton: backButton
 	});
 
+	backButton.addEventListener('click', function() {
+		_navGroup.close(self, {animated:true}); //go to the main screen
+	});
+	
 	var creditPackLabel = Ti.UI.createLabel({
 		text: 'Credit Packs',
 		center: {x: '50%', y:27}, 

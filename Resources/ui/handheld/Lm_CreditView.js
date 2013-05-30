@@ -169,10 +169,13 @@ CreditView = function(_credit) {
 		buttonNames: [L('Ok')],
 		cancel: 0
 	});
-	
+
+/*	
 	self.addEventListener('click', function() {
 		creditDialog.show();
 	});
+*/
+
 	setCredit(_credit);
 	
 	return self;
