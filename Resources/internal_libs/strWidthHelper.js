@@ -45,14 +45,15 @@ exports.computeStrWidth = function(str) {
 			totalLength += 11;	
 			
 		//symbol
-		else if(curLetter === '.' || curLetter === ':' || curLetter === '|')
-			totalLength += 2;	
-		else if(curLetter === '(' || curLetter === ')')
-			totalLength += 4;
+		else if(curLetter === '.' || curLetter === ',' || curLetter === '!' ||
+				curLetter === '\''|| curLetter === ':' || curLetter === ';' ||
+				curLetter === '(' || curLetter === ')' || curLetter === '{' ||
+				curLetter === '}' || curLetter === '|')
+			totalLength += 2;
 		else if(curLetter === ' ')
-			totalLength += 7;
+			totalLength += 2;
 		else if(curLetter === '-' || curLetter === '?')
-			totalLength += 8;
+			totalLength += 3;
 				    			    				
 		else totalLength += 8;
 	}

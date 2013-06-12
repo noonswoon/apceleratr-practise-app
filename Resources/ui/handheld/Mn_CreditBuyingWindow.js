@@ -431,7 +431,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 			case Ti.App.Storekit.PURCHASED:
 				//need to send this evt to verify at the server
 //				Ti.API.info('receipt: '+evt.receipt);
-				
 //				Ti.API.info('receipt base64encode: '+Titanium.Utils.base64encode(evt.receipt));
 				BackendInAppPurchase.verifyReceipt(_userId, evt.receipt, evt.productIdentifier, function(e) {
 					//update the credit
