@@ -20,6 +20,7 @@ Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
+Ti.App.IAP_SANDBOX = false;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
@@ -33,16 +34,17 @@ Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
+Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
+Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2'];
+//'com.noonswoon.launch.monthly', 'com.noonswoon.launch.yearly']; 
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
-	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
-	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.Facebook.appid = "492444750818688";
 }
 
@@ -68,15 +70,16 @@ if(Ti.Platform.osname == 'iphone') {
 }
 
 Ti.App.moment = require('external_libs/moment');
-
+Ti.App.LogSystem = require('internal_libs/logSystem');
+	
 //Ti.App.Flurry = require('ti.flurry');
 //Ti.App.Flurry.debugLogEnabled = true;
 //Ti.App.Flurry.eventLoggingEnabled = true;
 //Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
 
-//Ti.App.Storekit = require('ti.storekit');
-//Ti.App.Storekit.receiptVerificationSandbox = true;
-//Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
+Ti.App.Storekit = require('ti.storekit');
+Ti.App.Storekit.receiptVerificationSandbox = true;
+Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
 
 var UrbanAirship = require('external_libs/UrbanAirship');
 
@@ -114,7 +117,6 @@ if (Ti.version < 1.8 ) {
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
-	var LogSystem = require('internal_libs/logSystem');
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -313,8 +315,7 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.API.info('error to log: '+ JSON.stringify(e));
-		LogSystem.logEntry(e.meta.description);
+		Ti.App.LogSystem.logEntryError(e.meta.description);
 		
 		var displayError = '';
 		if(e.meta.string_to_display !== undefined)
