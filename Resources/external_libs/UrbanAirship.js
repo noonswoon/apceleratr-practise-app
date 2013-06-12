@@ -57,7 +57,7 @@ var registerDeviceToken = function(_deviceToken) {
 	
 	var registerParameters = {
 	    "tags": [
-	        "v1_2",
+	        "v"+Ti.App.CLIENT_VERSION,
 	        "beta"
 	    ],
 	    "badge": 0,

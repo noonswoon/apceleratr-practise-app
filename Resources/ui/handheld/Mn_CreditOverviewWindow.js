@@ -129,7 +129,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var inviteFriendsButtonText = Ti.UI.createLabel({
-		text: L('Invite Friends, get free credits'),
+		text: L('Earn Free Credits'),
 		color: '#636c78',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
@@ -312,6 +312,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	tableData.push(howCreditsRow);
 	
 	// ************************** earned free credits section ****************************************************
+/*
 	var earnCreditsRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -478,7 +479,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	earnCreditsSectionView.add(horizontalSeparator5);
 	earnCreditsRow.add(earnCreditsSectionView);
 	tableData.push(earnCreditsRow);
-	
+*/	
 	//summarize
 	contentView.data = tableData;
 	self.add(contentView);

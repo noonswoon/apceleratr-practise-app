@@ -28,7 +28,8 @@
 	<string name="with more friends">with more friends</string>
 	<string name="invite x friends">Invite %s friends</string>	
 	<string name="x friends">%s friends</string>	
-	
+	<string name="Invite some friends to get started">Invite some friends to get started</string>	
+
 	<string name="Congrats">Congrats!</string>
 	<string name="You will be receiving a new match">You will be receiving a new match</string>
 	<string name="every day at noon">every day at noon</string>
@@ -98,8 +99,8 @@
 
 	<string name="FRIENDS">FRIENDS</string>
 	<string name="Friends">Friends</string>
-	<string name="FriendsInvite">Friends</string>
-		
+	<string name="FriendsInvite">Invite Friends</string>
+
 	<string name="Receive">Receive</string>
 	<string name="2 credits">2 credits</string>
 	<string name="for each friend you invite">for each friend you invite</string>
@@ -223,4 +224,7 @@
 	<string name="Rate 5 stars">Rate 5 stars</string>
 	<string name="Suggestion">Suggestion</string>
 	<string name="Please let us know how we can make Noonswoon better.">Please let us know how we can make Noonswoon better.</string>
+	
+	<string name="Buy Credits">Buy Credits</string>	
+	<string name="Earn Free Credits">Earn Free Credits</string>	
 </resources>

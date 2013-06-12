@@ -28,7 +28,8 @@
 	<string name="with more friends">คุณมีเพื่อนในระบบมากขึ้น</string>
 	<string name="invite x friends">ชวนเพื่อน %s คน</string>	
 	<string name="x friends">เพื่อน %s คน</string>	
-	
+	<string name="Invite some friends to get started">ชวนเพื่อนโสดคนอื่นๆ</string>
+		
 	<string name="Congrats">ยินดีด้วย!</string>
 	<string name="You will be receiving a new match">คุณจะได้รับ match ของคุณ</string>
 	<string name="every day at noon">ในตอนเที่ยงของทุกๆวัน</string>
@@ -223,4 +224,7 @@
 	<string name="Rate 5 stars">Rate 5 ดาว</string>
 	<string name="Suggestion">ข้อเสนอแนะ</string>
 	<string name="Please let us know how we can make Noonswoon better.">กรุณาแนะนำทีมงานว่าควรปรับปรุง Noonswoon ให้ดีขึ้นได้อย่างไร</string>
+
+	<string name="Buy Credits">ซื้อเครดิต</string>	
+	<string name="Earn Free Credits">รับเครดิตฟรี</string>	
 </resources>

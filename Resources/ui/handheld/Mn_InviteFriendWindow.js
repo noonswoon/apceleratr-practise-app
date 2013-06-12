@@ -20,9 +20,16 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var inviteBtnEnable = true;
 	var inviteBtnFontColor = '#f6f7fa';
 	if(_forcedInvite) {
-		descriptionText1 = L('Invitex');	
-		descriptionText2 = String.format(L('x friends'), (Ti.App.NUM_INVITE_ALL+''))
-		descriptionText3 = L('to get started');	
+		
+		if(Ti.App.NUM_INVITE_ALL <= 0) {
+			descriptionText1 = L('Invite some friends to get started');	
+			descriptionText2 = "";
+			descriptionText3 = "";	
+		} else {
+			descriptionText1 = L('Invitex');	
+			descriptionText2 = String.format(L('x friends'), (Ti.App.NUM_INVITE_ALL+''));
+			descriptionText3 = L('to get started');	
+		}
 		textOffset1 = 62;
 		textOffset2 = 102;
 		textOffset3 = 172;
@@ -65,7 +72,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			
 	var self = Titanium.UI.createWindow({
 		barImage: 'images/top-bar-stretchable.png',
-		title: L('Friends'),
+		title: L('FriendsInvite'),
 		navBarHidden: false,
 		rightNavButton: inviteButton,
 		backgroundColor: '#eeeeee'
@@ -99,7 +106,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		width: '100%',
 		height: 1,
 		borderWidth: 1,
-		borderColor: '#919191',
+		borderColor: '#e0e0e0',
 		zIndex: 1
 	});
 
@@ -182,7 +189,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	};
 	
 	var inviteFriendListView = Ti.UI.createListView({
-		top: 0,
+		top: 57,
 		left: 0,
 		height: listHeight,
 		templates: {'inviteFriendTemplate': inviteFriendTemplate}, 

@@ -1,5 +1,7 @@
 CreditBuyingWindow = function(_navGroup, _userId) {
-	
+	var BackendInAppPurchase = require('backend_libs/backendInAppPurchase');
+	var CreditSystem = require('internal_libs/creditSystem');
+		
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
 		color: '#f6f7fa',
@@ -215,6 +217,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	self.add(horizontalSeparator1);
 	
 	/*********************** subscription section ***********************************/
+/*
 	var getMoreLabel1 = Ti.UI.createLabel({
 		text: 'Get more with',
 		top: 182, 
@@ -410,7 +413,145 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});
 	restoreButton.add(restoreButtonText);	
 	self.add(restoreButton);
+*/	
+	/************************ END OF UI STUFF **************************/
 	
+	Ti.App.Storekit.addEventListener('transactionState', function (evt) {
+		//Ti.API.info('transactionState: '+JSON.stringify(evt));
+		switch (evt.state) {
+			case Ti.App.Storekit.FAILED:
+				if (evt.cancelled) {
+					Ti.App.LogSystem.logEntryError('User '+_userId + ' cancelled purchased');
+				} else {
+					alert('ERROR: Buying failed! ' + evt.message);
+					Ti.App.LogSystem.logEntryError('Some failture to prevent User '+_userId + ' to purchase: '+evt.message);
+				}
+				hidePreloader(self);
+				break;
+			case Ti.App.Storekit.PURCHASED:
+				//need to send this evt to verify at the server
+//				Ti.API.info('receipt: '+evt.receipt);
+				
+//				Ti.API.info('receipt base64encode: '+Titanium.Utils.base64encode(evt.receipt));
+				BackendInAppPurchase.verifyReceipt(_userId, evt.receipt, evt.productIdentifier, function(e) {
+					//update the credit
+					CreditSystem.setUserCredit(e.credit); //sync the credit
+				});
+				hidePreloader(self);				
+				
+				/*
+				if(false) {
+					Ti.App.Storekit.verifyReceipt(evt, function (e) {
+						Ti.API.info('recieptResult: '+JSON.stringify(e));
+						if (e.success) {
+							if (e.valid) {
+								alert('Thanks! Receipt Verified');
+								markProductAsPurchased(evt.productIdentifier);
+							} else {
+								alert('Sorry. Receipt is invalid');
+							}
+						} else {
+							alert(e.message);
+						}
+					});
+				} else {
+					alert('Thanks! Receipt Verified');
+					markProductAsPurchased(evt.productIdentifier);	
+				}
+				*/
+
+				break;
+			case Ti.App.Storekit.PURCHASING:
+				Ti.App.LogSystem.logEntryInfo("Purchasing " + evt.productIdentifier + " (UserID: "+_userId + ")");
+				break;
+			case Ti.App.Storekit.RESTORED:
+				// The complete list of restored products is sent with the `restoredCompletedTransactions` event
+				Ti.API.info("Restored " + evt.productIdentifier);
+			    break;
+		}
+	});
+	
+	function purchaseProduct(product)
+	{
+		showPreloader(self, L('Purchasing...'));
+		Ti.App.Storekit.purchase(product);
+	}
+
+	function restorePurchases()
+	{
+		showPreloader(self, L('Restoring...'));
+		Ti.App.Storekit.restoreCompletedTransactions();
+	}
+	
+	Ti.App.Storekit.addEventListener('restoredCompletedTransactions', function (evt) {
+		hidePreloader(self);
+		if (evt.error) {
+			alert(evt.error);
+		} else if (evt.transactions == null || evt.transactions.length == 0) {
+			alert('There were no purchases to restore!');
+		} else {
+			for (var i = 0; i < evt.transactions.length; i++) {
+				Ti.App.Storekit.verifyReceipt(evt.transactions[i], function (e) {
+					if (e.valid) {
+						markProductAsPurchased(e.productIdentifier);
+					} else {
+						Ti.API.error("Restored transaction is not valid");
+					}
+				});
+			}
+			alert('Restored ' + evt.transactions.length + ' purchases!');
+		}
+	});
+
+/*	
+	restoreButton.addEventListener('click', function () {
+		restorePurchases();
+	});
+*/
+	showPreloader(self, L('Loading...'));
+	Ti.App.Storekit.requestProducts(Ti.App.NOONSWOON_PRODUCTS, function (evt) {
+		Ti.API.info('requestProducts: '+JSON.stringify(evt));
+		hidePreloader(self);
+		if (!evt.success) {
+			Ti.App.LogSystem.logEntryError('We failed to talk to Apple! (UserID: '+_userId + ')');
+		} else if (evt.invalid) {
+			Ti.App.LogSystem.logEntryError('We requested an invalid product! (UserID: '+_userId + ')');
+		} else {
+			//success(evt.products);
+			var products = evt.products;	
+			for(var i = 0; i < products.length; i++) {
+				var product = products[i];
+				(function() { //double binding, change execution context
+					var currentProduct = product;
+					if(currentProduct.identifier === 'com.noonswoon.launch.c1') {
+						tenCreditPrice1.text = currentProduct.formattedPrice;
+						tenCreditBuyButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					} else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
+						hundredCreditPrice1.text = currentProduct.formattedPrice;
+						hundredCreditBuyButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					}
+/*
+					else if(currentProduct.identifier === 'com.noonswoon.launch.monthly') {
+						monthlyPrice1.text = currentProduct.formattedPrice;
+						monthlySubscribeButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					} else if(currentProduct.identifier === 'com.noonswoon.launch.yearly') {
+						yearlyPrice1.text = currentProduct.formattedPrice;
+						yearlySubscribeButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					}
+*/
+				})();
+			}
+		}
+	});
+			
 	return self;
 };
 

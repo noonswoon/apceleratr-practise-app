@@ -17,7 +17,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 		iphone5Flag = true;
 	}
 	
-	
 	var viewsForScrollView = [];
 	var view = null;
 
@@ -193,7 +192,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	//Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
 				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
 				        	if(_userLogin.content.user_status === "new_user") {
-				        	//if(false) {
+				        	//if(true) {
 				        	
 				        		//Ti.App.Flurry.logEvent('signupCompleted');
 				        		Ti.API.info('***NEW USER****');
