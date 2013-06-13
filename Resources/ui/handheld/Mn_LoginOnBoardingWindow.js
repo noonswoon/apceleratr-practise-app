@@ -17,7 +17,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 		iphone5Flag = true;
 	}
 	
-	
 	var viewsForScrollView = [];
 	var view = null;
 
@@ -166,37 +165,28 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 
 	var newConnectFlag = true;
 	function facebookAuthenCallback(e) {
+		//something wrong here..come and fix later..automatically logging in without pressing the button
 		if (e.success) {
 			showPreloader(self, L('Loading...'));
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
-			        var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object
-					
-			        var sendingObj = {}; 
+			    	var sendingObj = {}; 
 			        
 			        sendingObj.userFbId =  Ti.App.Facebook.uid;
 			        sendingObj.fbAuthToken = Ti.App.Facebook.accessToken;
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "";
+			        sendingObj.macAddr = Ti.Platform.id;
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
 			        	sendingObj.devicePlatform = 'iphone';
 			        }
-			        
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
-			        
+
 			        if(newConnectFlag) {
 			        	newConnectFlag = false;
 				        BackendUser.connectToServer(sendingObj, function(_userLogin) {
-				        	//Ti.App.Flurry.age = parseInt(_userLogin.content.general.age);
-							//Ti.App.Flurry.userID = _userLogin.meta.user_id;
-							//if(_userLogin.content.general.gender === "female") {
-							//	Ti.App.Flurry.gender = 'f';
-							//} else {
-							//	Ti.App.Flurry.gender = 'm';
-							//}
-							 	
 				        	// check the result data whether it is a new user or existing one
 				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 				        	var CreditSystem = require('internal_libs/creditSystem');
@@ -214,8 +204,9 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
 								var currentUserImage = _userLogin.content.pictures[0].src;
+								var currentUserName = _userLogin.content.general.first_name + ' ' + _userLogin.content.general.last_name; 
 								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage);
+								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
 								mainApp.open();
 								mainApp.unhideCoverView();
 								self.close();
@@ -231,7 +222,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 						message:L('There is an error from Facebook login. Please try again.#1')
 					});
 					loginFailedDialog.show();
-					Debug.debug_print('cannot request GraphPath: '+ JSON.stringify(e));		
+					Ti.App.LogSystem.logEntryError('cannot request GraphPath: '+ JSON.stringify(e) + '(MacAddr: '+ Ti.Platform.id+')');		
 				} else {
 					hidePreloader(self);
 					var loginFailedDialog = Titanium.UI.createAlertDialog({
@@ -239,8 +230,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 						message:L('There is an error from Facebook login. Please try again.#2')
 					});
 					loginFailedDialog.show();
-					Debug.debug_print("what the hell is going on_2? " + JSON.stringify(e));
-					//ErrorHandling.showNetworkError();
+					Ti.App.LogSystem.logEntryError('what the hell is going on? '+ JSON.stringify(e) + '(MacAddr: '+ Ti.Platform.id+')');
 				}
 			});
 		} else if (e.error) {
@@ -249,14 +239,16 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook  Noonswoon must be 'On'")
 			});
 			loginFailedDialog.show();
+			Ti.App.LogSystem.logEntryError("No Facebook Permission #1 (MacAddr: "+ Ti.Platform.id+")");
 		} else if (e.cancelled) {
-			Ti.API.info("fb login Canceled");
+			Ti.App.LogSystem.logEntryInfo('User cancel Facebook Login (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var loginFailedDialog = Titanium.UI.createAlertDialog({
 				title:L('No Facebook Permission'),
 				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook. Noonswoon must be 'On'")
 			});
 			loginFailedDialog.show();
+			Ti.App.LogSystem.logEntryError("No Facebook Permission #2 (MacAddr: "+ Ti.Platform.id+")");
 		}
 	}	
 	// register for push notifications
@@ -276,13 +268,14 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 	Ti.App.Facebook.addEventListener('login', facebookAuthenCallback);
 
 	fbButton.addEventListener('click', function() {
+		Ti.App.LogSystem.logEntryInfo('User logging in with fb. (MacAddr: '+ Ti.Platform.id+')');
 		if(!Ti.App.Facebook.loggedIn) {
 			Ti.App.Facebook.authorize();
 		} else { //if already logged in, but somehow land in this page, just fire the event
 			Ti.App.Facebook.fireEvent('login',{success:true});
 		}
 	});
-	
+
 	self.addEventListener('close', function() {
 		Ti.App.Facebook.removeEventListener('login', facebookAuthenCallback);
 	});

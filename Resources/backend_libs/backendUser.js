@@ -49,6 +49,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.fb_auth_token = _userObj.fbAuthToken; 
 	sendingObj.device_platform = _userObj.devicePlatform;
 	sendingObj.device_id = _userObj.deviceId;
+	sendingObj.mac_addr = _userObj.macAddr;
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"userasync/connect_server";

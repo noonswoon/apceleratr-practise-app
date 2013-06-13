@@ -92,7 +92,7 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 					    var fbGraphObj = JSON.parse(e.result);  //convert json text to javascript object	
 					  	var curName = fbGraphObj.first_name + ' ' + fbGraphObj.last_name;
 					   	
-					   	Ti.API.info('name: '+curName+', url: '+curImageUrl);
+					   	//Ti.API.info('name: '+curName+', url: '+curImageUrl);
 					   	mutualFriendsData.push({
 							friendImage: { image: curImageUrl},
 							friendName: { text: curName}

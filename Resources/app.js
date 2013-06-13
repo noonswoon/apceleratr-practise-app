@@ -1,25 +1,22 @@
-// TODO: RC 1.2 Code Freezes!
+// TODO: RC 1.3 Code
 
 /*
- * Single Window Application Template:
- * A basic starting point for your application.  Mostly a blank canvas.
- * 
  * In app.js, we generally take care of a few things:
  * - Bootstrap the application with any data we need
  * - Check for dependencies like device type, platform version or network connection
  * - Require and open our top-level UI component
- *  
  */
 
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.2.1';
+Ti.App.CLIENT_VERSION = '1.3';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
+Ti.App.IAP_SANDBOX = false;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
@@ -33,16 +30,17 @@ Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
+Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
+Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2', 'com.noonswoon.launch.c3'];
+//'com.noonswoon.launch.monthly', 'com.noonswoon.launch.yearly']; 
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
-	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
-	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";		//need to change to test server login/password
-	Ti.App.LOGENTRIES_TOKEN = "fd6a3581-1217-4e80-b28e-4ed4edf6beec";
+	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
 	Ti.App.Facebook.appid = "492444750818688";
 }
 
@@ -68,15 +66,16 @@ if(Ti.Platform.osname == 'iphone') {
 }
 
 Ti.App.moment = require('external_libs/moment');
-
+Ti.App.LogSystem = require('internal_libs/logSystem');
+	
 //Ti.App.Flurry = require('ti.flurry');
 //Ti.App.Flurry.debugLogEnabled = true;
 //Ti.App.Flurry.eventLoggingEnabled = true;
 //Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
 
-//Ti.App.Storekit = require('ti.storekit');
-//Ti.App.Storekit.receiptVerificationSandbox = true;
-//Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
+Ti.App.Storekit = require('ti.storekit');
+Ti.App.Storekit.receiptVerificationSandbox = true;
+Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
 
 var UrbanAirship = require('external_libs/UrbanAirship');
 
@@ -114,15 +113,15 @@ if (Ti.version < 1.8 ) {
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
-	var LogSystem = require('internal_libs/logSystem');
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
 	
 	if(InstallTracking.isFirstTimeAppOpen()) {
 		//redirect to the webview to get cookies
-		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled');
+		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
 		InstallTracking.markAppOpen();
+		Ti.App.LogSystem.logEntryInfo('First time opens app. (MacAddr: '+ Ti.Platform.id+')');
 	}
 
 	var currentDbVersion = ModelMetaData.getDbVersion();
@@ -139,9 +138,9 @@ if (Ti.version < 1.8 ) {
 	}
 	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
 	
-	var openMainApplication = function(_userId, _userImage) {
+	var openMainApplication = function(_userId, _userImage, _userName) {
 		var MainApplicationModule = require('ui/handheld/ApplicationWindow');
-		var mainApp = new MainApplicationModule(_userId, _userImage);
+		var mainApp = new MainApplicationModule(_userId, _userImage, _userName);
 		mainApp.open();
 		mainApp.unhideCoverView();
 	};
@@ -150,12 +149,13 @@ if (Ti.version < 1.8 ) {
 	Ti.App.addEventListener('openMainApplication', function(e) {
 		currentUserId = e.currentUserId;
 		var currentUserImage = e.currentUserImage;
+		var currentUserName = e.currentUserName;
 		if(loginProcessWindow !== null) {
 			Ti.API.info('loginProcessWindow is close...');
 			loginProcessWindow.close();
 			loginProcessWindow = null;
 		}
-		openMainApplication(currentUserId, currentUserImage);
+		openMainApplication(currentUserId, currentUserImage, currentUserName);
 	});
 	
 	Ti.App.addEventListener('doneWaitingEvent', function() {
@@ -174,17 +174,11 @@ if (Ti.version < 1.8 ) {
 				//if(false) {
 					var BackendUser = require('backend_libs/backendUser');
 					var CreditSystem = require('internal_libs/creditSystem');
-					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
-						//Ti.API.info('userInfo: '+JSON.stringify(_userInfo));
+					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						currentUserId = parseInt(_userInfo.meta.user_id); 
-						//Ti.App.Flurry.age = parseInt(_userInfo.content.general.age);
-						//Ti.App.Flurry.userID = _userInfo.meta.user_id;
-						//if(_userInfo.content.general.gender === "female") {
-						//	Ti.App.Flurry.gender = 'f';
-						//} else {
-						//	Ti.App.Flurry.gender = 'm';
-						//}
+						var currentUserName = _userInfo.content.general.first_name + ' ' + _userInfo.content.general.last_name; 
 						var currentUserImage = _userInfo.content.pictures[0].src;
+						
 						var facebookLikeArray = [];
 						for(var i = 0; i < _userInfo.content.likes.length; i++) {
 							var likeObj = {
@@ -198,7 +192,7 @@ if (Ti.version < 1.8 ) {
 						//set credit of the user
 						CreditSystem.setUserCredit(_userInfo.content.credit); 
 						
-						openMainApplication(currentUserId, currentUserImage);
+						openMainApplication(currentUserId, currentUserImage, currentUserName);
 					});
 				} else {
 					//open login page
@@ -318,8 +312,7 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.API.info('error to log: '+ JSON.stringify(e));
-		LogSystem.logEntry(e.meta.description);
+		Ti.App.LogSystem.logEntryError(e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
 		
 		var displayError = '';
 		if(e.meta.string_to_display !== undefined)

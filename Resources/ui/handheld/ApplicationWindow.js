@@ -1,10 +1,11 @@
 //Application Window Component Constructor
-function ApplicationWindow(_userId, _userImage) {
+function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 	var CreditSystem = require('internal_libs/creditSystem');
+	var CreditOverviewWindowModule = require('ui/handheld/Mn_CreditOverviewWindow');
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');	
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
 	var LeftMenuWindowModule = require('ui/handheld/Lm_LeftMenuWindow');	
@@ -92,7 +93,7 @@ function ApplicationWindow(_userId, _userImage) {
 	});
 	
 	var isToggled = false;		
-	var leftMenu = new LeftMenuWindowModule(_userId);
+	var leftMenu = new LeftMenuWindowModule(_userId, _userName, _userImage);
 	var rightMenu = new ConnectionWindowModule(_userId);
 
 	var openChatWindowCallback = function(e) {
@@ -135,6 +136,14 @@ function ApplicationWindow(_userId, _userImage) {
 		toggleLeftMenu();
 	};
 	Ti.App.addEventListener('openEditProfileWindow', openEditProfileWindowCallback);
+
+	var openCreditOverviewWindowCallback = function(e) {
+		var creditOverviewWindow = new CreditOverviewWindowModule(navigationGroup, _userId);
+		navigationGroup.open(creditOverviewWindow, {animated:false});
+		toggleLeftMenu();
+	};
+	Ti.App.addEventListener('openCreditOverviewWindow', openCreditOverviewWindowCallback);
+	
 	
 	var openInviteFriendWindowCallback = function(e) {
 		var inviteFriendWindow = new InviteFriendWindowModule(navigationGroup, _userId, false);
@@ -149,8 +158,8 @@ function ApplicationWindow(_userId, _userImage) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-//	var TargetedModule = require('ui/handheld/Mn_NoInternetWindow');
-//	var dummyOnBoard = new TargetedModule('');
+	//var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	//var dummyOnBoard = new TargetedModule("", 3);
 		
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
@@ -173,10 +182,6 @@ function ApplicationWindow(_userId, _userImage) {
 	var inviteCompletedCallback = function(e) {
 		Ti.API.info('in inviteCompletedCallback...');
 		//Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
-		var topupAmount = 0;
-		for(var i = 0; i < e.inviteeList.length; i++) {
-			topupAmount += 2;
-		}
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
 		

@@ -44,7 +44,7 @@ exports.checkReminderToRate = function(_userId) {
 				var emailDialog = Ti.UI.createEmailDialog()
 				emailDialog.subject = L("Suggestion");
 				emailDialog.toRecipients = ['suggestion@noonswoon.com'];
-				emailDialog.messageBody = L('Please let us know how we can make Noonswoon better.') + '\n\n\n\n\n\n(UserId: '+_userId + ')';
+				emailDialog.messageBody = L('Please let us know how we can make Noonswoon better.') + '\n\n\n\n\n\n(UserId: '+_userId + ', MacAddr: '+Ti.Platform.id +').';
 				emailDialog.barColor = '#850f16';
 				emailDialog.open();
 			}

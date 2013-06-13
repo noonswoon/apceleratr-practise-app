@@ -73,7 +73,9 @@ ErrorWindow = function(_errorMessage, _userId) {
 		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
-		center: {x:'50%', y:375}, //x:67
+		//center: {x:'50%', y:375}, //x:67
+		left: 10, 
+		bottom: 30
 	});
 	
 	var contactButtonText = Ti.UI.createLabel({
@@ -88,7 +90,7 @@ ErrorWindow = function(_errorMessage, _userId) {
 		var emailDialog = Ti.UI.createEmailDialog()
 		emailDialog.subject = L("Noonswoon Support");
 		emailDialog.toRecipients = ['support@noonswoon.com'];
-		emailDialog.messageBody = L('\n\n\nPlease let us know what problem you encountered') + ' (UserId: '+_userId + ').';
+		emailDialog.messageBody = L('\n\n\nPlease let us know what problem you encountered') + ' (UserId: '+_userId + ', MacAddr: '+Ti.Platform.id +').';
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();
 	});

@@ -197,36 +197,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		if(_userId !== _targetedUserId) {
 			var reportProfileTableViewRow = new ReportProfileTableViewRow('report_profile'); 
 			data.push(reportProfileTableViewRow);
-		} else { //adding in logout button
-			var logoutBtnTableViewRow = Ti.UI.createTableViewRow({
-				top:0,
-				left:0,
-				height: 100,
-				backgroundColor:'transparent',
-				backgroundSelectedColor:'transparent'
-			});
-			
-			var logoutButton = Ti.UI.createButton({
-				title: L('Log Out'),
-				backgroundImage: 'images/post-onboarding-button.png',
-				backgroundSelectedImage: 'images/post-onboarding-button-active.png',
-				center: {x:'50%', y:'50%'}, //x:67
-				width: 300, 
-				height: 50,
-				color: '#616a75',
-				font:{fontWeight:'bold',fontSize:18},
-			});
-			if(Ti.Platform.osname === 'iphone')
-				logoutBtnTableViewRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-
-			logoutBtnTableViewRow.add(logoutButton);
-			data.push(logoutBtnTableViewRow);
-			
-			logoutButton.addEventListener('click', function() {
-				Ti.API.info('logout from the app');
-				Ti.App.Facebook.logout();
-				self.close();
-			});
 		}
 
 		contentView.data = data;

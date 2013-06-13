@@ -12,6 +12,17 @@ ConnectionWindow = function(_userId) {
 		zIndex:0,
 	});
 
+	var menuShadow = Ti.UI.createImageView({
+		backgroundImage: 'images/right_menu/right-menu-shadow.png',
+		backgroundTopCap: 1,
+		top: 0,
+		left: 0, 
+		width: 12,
+		height: '100%',
+		zIndex: 5,
+	})
+	self.add(menuShadow);
+	
 	var editSection = Ti.UI.createView({
 		top: 0,
 		left:0,

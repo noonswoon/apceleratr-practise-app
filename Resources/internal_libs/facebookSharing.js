@@ -18,21 +18,21 @@ var showRequestResult = function(e) {
 			//add credit here when the invite goes through and track who get invites
 			Ti.App.fireEvent('inviteCompleted', {inviteeList:inviteeList, trackingCode: trackingCode});
 		}
-
 		if (!e.result && !e.data) {
 			s = '"success", but no data from FB.  I am guessing you cancelled the dialog.';
 			Ti.App.fireEvent('inviteFailed');
 		} 
-	} else
-	if (e.cancelled) {
+		Ti.App.LogSystem.logEntryInfo(s);
+	} else if (e.cancelled) {
 		s = "fb cancel dialog";
 		Ti.App.fireEvent('inviteFailed');
-	}
-	else {
+		Ti.App.LogSystem.logEntryInfo(s);
+	} else {
 		s = "fb FAIL dialog";
 		if (e.error) s += "; " + e.error;	
+		Ti.App.LogSystem.logEntryError(s  + ' (MacAddr: '+ Ti.Platform.id+')');
+		Ti.App.Facebook.logout();
 	}
-	Ti.API.info(s);
 };
 //send request via facebook to friend who dont have this app:(
 	
