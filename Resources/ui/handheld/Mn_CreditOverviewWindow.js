@@ -28,6 +28,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		top:0,
 		backgroundColor:'#eeeeee',
 		separatorColor: 'transparent',
+		scrollable: false //set to true if there is more content
 		//width:'100%',
 	});
 	if(Ti.Platform.osname === 'iphone')
@@ -179,12 +180,14 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		color: '#919191',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
-		font:{fontWeight:'bold',fontSize:16},
-		center: {x:'50%', y:26},
+		font:{fontWeight:'bold',fontSize:18},
+		center: {x:'50%', y:'35'},
+//		center: {x:'50%', y:26}, //if there is 2 lines use this location; with fontSize 16
 		zIndex: 3,
 	});
 	howCreditsUsedSectionView.add(howCreditsAreUsedLabel);
-	
+
+/*	
 	var certainActionsLabel = Ti.UI.createLabel({
 		text: L('Certain actions required credits'),
 		color: '#a3a7ad',
@@ -193,6 +196,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		zIndex: 3,
 	});
 	howCreditsUsedSectionView.add(certainActionsLabel);
+*/
 	
 	var horizontalArrowDown1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-arrow-down-separator.png',

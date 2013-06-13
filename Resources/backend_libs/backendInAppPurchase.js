@@ -21,7 +21,6 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 		    	Ti.API.info('response from server: '+this.responseText);
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					alert('verify receipt successful');
 					_callbackFn(resultObj.content);
 				} else {
 					Ti.App.fireEvent('openErrorWindow', {src: 'backendInAppPurchase.verifyReceipt', meta:resultObj.meta});

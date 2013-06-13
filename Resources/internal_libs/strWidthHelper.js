@@ -46,14 +46,16 @@ exports.computeStrWidth = function(str) {
 			
 		//symbol
 		else if(curLetter === '.' || curLetter === ',' || curLetter === '!' ||
-				curLetter === '\''|| curLetter === ':' || curLetter === ';' ||
-				curLetter === '(' || curLetter === ')' || curLetter === '{' ||
-				curLetter === '}' || curLetter === '|')
+				curLetter === ':' || curLetter === ';' || curLetter === '|')
 			totalLength += 2;
+			
+		else if(curLetter === '\''|| curLetter === '(' || curLetter === ')' || 
+				curLetter === '{' || curLetter === '}')
+			totalLength += 5;	
 		else if(curLetter === ' ')
-			totalLength += 2;
+			totalLength += 7;
 		else if(curLetter === '-' || curLetter === '?')
-			totalLength += 3;
+			totalLength += 5;
 				    			    				
 		else totalLength += 8;
 	}

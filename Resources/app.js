@@ -1,14 +1,10 @@
-// TODO: RC 1.2 Code Freezes!
+// TODO: RC 1.3 Code
 
 /*
- * Single Window Application Template:
- * A basic starting point for your application.  Mostly a blank canvas.
- * 
  * In app.js, we generally take care of a few things:
  * - Bootstrap the application with any data we need
  * - Check for dependencies like device type, platform version or network connection
  * - Require and open our top-level UI component
- *  
  */
 
 // this sets the background color of the master UIView (when there are no windows/tab groups on it)
@@ -20,7 +16,7 @@ Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
-Ti.App.IAP_SANDBOX = false;
+Ti.App.IAP_SANDBOX = true;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
@@ -35,7 +31,7 @@ Ti.App.NUM_TOP_FRIENDS = 5;
 Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
-Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2'];
+Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2', 'com.noonswoon.launch.c3'];
 //'com.noonswoon.launch.monthly', 'com.noonswoon.launch.yearly']; 
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build

@@ -62,8 +62,8 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	tenCreditsView.add(creditGlyph1);
 	
 	var tenCreditPrice1 = Ti.UI.createLabel({
-		text: '$0.99', 
-		color: '#626b76', //#e01124', 
+		text: '10', 
+		color: '#e01124', //#626b76', 
 		top: 5, 
 		left: 65,
 		font:{fontWeight:'bold',fontSize:18},
@@ -74,17 +74,17 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		text: 'for', 
 		color: '#a3a7ad', 
 		top: 5, 
-		left: 115,
+		left: 90,
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 3
 	});
 	tenCreditsView.add(tenCreditPrice2);	
 	
 	var tenCreditPrice3 = Ti.UI.createLabel({
-		text: '10', 
-		color: '#e01124', 
+		text: '$0.99', 
+		color: '#626b76', 
 		top: 5, 
-		left: 144,
+		left: 119,
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 4,
 	});
@@ -139,8 +139,8 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	hundredCreditsView.add(creditGlyph2);
 
 	var hundredCreditPrice1 = Ti.UI.createLabel({
-		text: '$9.99', 
-		color: '#626b76', 
+		text: '100', 
+		color: '#e01124', 
 		top: 5, 
 		left: 65,
 		font:{fontWeight:'bold',fontSize:18},
@@ -151,24 +151,24 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		text: 'for', 
 		color: '#a3a7ad', 
 		top: 5, 
-		left: 115,
+		left: 100,
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 3
 	});
 	hundredCreditsView.add(hundredCreditPrice2);	
 	
 	var hundredCreditPrice3 = Ti.UI.createLabel({
-		text: '100', 
-		color: '#e01124', 
+		text: '$7.99', 
+		color: '#626b76', 
 		top: 5, 
-		left: 144,
+		left: 130,
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 4,
 	});
 	hundredCreditsView.add(hundredCreditPrice3);	
 	
 	var hundredCreditDesc = Ti.UI.createLabel({
-		text: '20% saving!', 
+		text: '20% Savings', 
 		color: '#a3a7ad',
 		top: 25, 
 		left: 65,
@@ -199,23 +199,101 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 
 	self.add(hundredCreditsView);
 	
+	var thousandCreditsView = Ti.UI.createView({
+		backgroundImage: 'images/match-bottom-box.png',
+		top: startingOffset + 101, //+ 5 + 48 + 48
+		height: 48,
+		left: 0, 
+		width: '100%', 
+	});
+	var creditGlyph3 = Ti.UI.createImageView({
+		image: 'images/credit/credits-glyph.png',
+		top: 12, 
+		left: 26,
+		width: 23, 
+		height: 24,
+	})
+	thousandCreditsView.add(creditGlyph3);
+
+	var thousandCreditPrice1 = Ti.UI.createLabel({
+		text: '1000', 
+		color: '#e01124', 
+		top: 5, 
+		left: 65,
+		font:{fontWeight:'bold',fontSize:18},
+	});
+	thousandCreditsView.add(thousandCreditPrice1);
+
+	var thousandCreditPrice2 = Ti.UI.createLabel({
+		text: 'for', 
+		color: '#a3a7ad', 
+		top: 5, 
+		left: 110,
+		font:{fontWeight:'bold',fontSize:18},
+		zIndex: 3
+	});
+	thousandCreditsView.add(thousandCreditPrice2);	
+	
+	var thousandCreditPrice3 = Ti.UI.createLabel({
+		text: '$49.99', 
+		color: '#626b76', 
+		top: 5, 
+		left: 140,
+		font:{fontWeight:'bold',fontSize:18},
+		zIndex: 4,
+	});
+	thousandCreditsView.add(thousandCreditPrice3);	
+	
+	var thousandCreditDesc = Ti.UI.createLabel({
+		text: '50% Savings', 
+		color: '#a3a7ad',
+		top: 25, 
+		left: 65,
+		font:{fontSize:14},
+	});
+	thousandCreditsView.add(thousandCreditDesc);
+	
+	var thousandCreditBuyButton = Ti.UI.createButton({
+		backgroundImage: 'images/credit/buy-button.png',
+		backgroundFocusedImage: 'images/credit/buy-button-active.png',
+		top: 8,
+		right: 22, 
+		width: 57, 
+		height: 28,
+	});
+	
+	var thousandCreditBuyButtonText = Ti.UI.createLabel({
+		text: L('Buy'),
+		color: '#636c77',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:14},
+		center: {x:'50%', y:'50%'},
+		zIndex: 3,
+	});
+	thousandCreditBuyButton.add(thousandCreditBuyButtonText);	
+	thousandCreditsView.add(thousandCreditBuyButton);	
+
+	self.add(thousandCreditsView);
+	
 	var bottomEdgeBuyCreditsView = Ti.UI.createView({
 		backgroundImage: 'images/row-bottom-edge.png',
-		top: startingOffset + 101, //+ 5 + 48 + 48 
+		top: startingOffset + 149, //+ 5 + 48 + 48 + 48
 		height: 5,
 		left: 0, 
 		width: '100%', 
 	});	
 	self.add(bottomEdgeBuyCreditsView);
 	
+/*	
 	var horizontalSeparator1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
-		top: 170,
+		top: 218, //+48?
 		height: 2,
 		width: '100%'
 	});
 	self.add(horizontalSeparator1);
-	
+*/	
 	/*********************** subscription section ***********************************/
 /*
 	var getMoreLabel1 = Ti.UI.createLabel({
@@ -415,7 +493,13 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	self.add(restoreButton);
 */	
 	/************************ END OF UI STUFF **************************/
-	
+	var purchasedConfirmationDialog = Titanium.UI.createAlertDialog({
+		title: L('Thank you!'),
+		message:L('Your purchase is complete'),
+		buttonNames: [L('Continue')],
+		cancel: 0
+	});
+
 	Ti.App.Storekit.addEventListener('transactionState', function (evt) {
 		//Ti.API.info('transactionState: '+JSON.stringify(evt));
 		switch (evt.state) {
@@ -423,7 +507,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				if (evt.cancelled) {
 					Ti.App.LogSystem.logEntryError('User '+_userId + ' cancelled purchased');
 				} else {
-					alert('ERROR: Buying failed! ' + evt.message);
+					alert('Purchasing failed: ' + evt.message);
 					Ti.App.LogSystem.logEntryError('Some failture to prevent User '+_userId + ' to purchase: '+evt.message);
 				}
 				hidePreloader(self);
@@ -435,6 +519,12 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				BackendInAppPurchase.verifyReceipt(_userId, evt.receipt, evt.productIdentifier, function(e) {
 					//update the credit
 					CreditSystem.setUserCredit(e.credit); //sync the credit
+					
+					//pop up for success purchase confirmation
+					purchasedConfirmationDialog.show(); 
+					
+					//then close the window
+					_navGroup.close(self, {animated:true}); //go to the main screen
 				});
 				hidePreloader(self);				
 				
@@ -523,13 +613,18 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				(function() { //double binding, change execution context
 					var currentProduct = product;
 					if(currentProduct.identifier === 'com.noonswoon.launch.c1') {
-						tenCreditPrice1.text = currentProduct.formattedPrice;
+						tenCreditPrice3.text = currentProduct.formattedPrice;
 						tenCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
 					} else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
-						hundredCreditPrice1.text = currentProduct.formattedPrice;
+						hundredCreditPrice3.text = currentProduct.formattedPrice;
 						hundredCreditBuyButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					} else if(currentProduct.identifier === 'com.noonswoon.launch.c3') {
+						thousandCreditPrice3.text = currentProduct.formattedPrice;
+						thousandCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
 					}

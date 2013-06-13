@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+provisioning_profiles/adhoc/06E382AD-20FF-4F10-9093-2D850023263A/appid=com.noonswoon.launch
+provisioning_profiles/adhoc/06E382AD-20FF-4F10-9093-2D850023263A/name=NoonswoonAdHocProvisioningProfile
+provisioning_profiles/adhoc/06E382AD-20FF-4F10-9093-2D850023263A/uuid=06E382AD-20FF-4F10-9093-2D850023263A
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/appid=mobi.chatterbox.rc
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/name=ChatterboxRCAppStore
 provisioning_profiles/adhoc/3697D764-0676-47D8-A9AA-143BB7B7D3E6/uuid=3697D764-0676-47D8-A9AA-143BB7B7D3E6
@@ -8,9 +11,6 @@ provisioning_profiles/adhoc/41F92841-4CD9-4112-AC2F-ADE811A63ECA/uuid=41F92841-4
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/appid=mobi.chatterbox.rc
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/name=ChatterboxRCAdhoc
 provisioning_profiles/adhoc/7D5D7FC7-47B3-4336-98DE-118F7F77B64D/uuid=7D5D7FC7-47B3-4336-98DE-118F7F77B64D
-provisioning_profiles/adhoc/EE2528F6-DAF8-494B-B741-4CB10B6BAD36/appid=com.noonswoon.launch
-provisioning_profiles/adhoc/EE2528F6-DAF8-494B-B741-4CB10B6BAD36/name=NoonswoonAdHocProvisioningProfile
-provisioning_profiles/adhoc/EE2528F6-DAF8-494B-B741-4CB10B6BAD36/uuid=EE2528F6-DAF8-494B-B741-4CB10B6BAD36
 provisioning_profiles/development/4795FBF1-41E1-4B5E-A2EA-B9CA5342F0F3/appid=com.noonswoon.inapppurchase
 provisioning_profiles/development/4795FBF1-41E1-4B5E-A2EA-B9CA5342F0F3/name=NoonswoonInAppPurchaseProvisioning
 provisioning_profiles/development/4795FBF1-41E1-4B5E-A2EA-B9CA5342F0F3/uuid=4795FBF1-41E1-4B5E-A2EA-B9CA5342F0F3
