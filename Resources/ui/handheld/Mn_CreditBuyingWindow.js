@@ -123,7 +123,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	self.add(tenCreditsView);
 	
 	var hundredCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/match-bottom-box.png',
+		backgroundImage: 'images/match-info-white-row.png',
 		top: startingOffset + 53, //+ 5 + 48 
 		height: 48,
 		left: 0, 

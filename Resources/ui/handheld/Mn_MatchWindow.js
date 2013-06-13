@@ -210,7 +210,7 @@ MatchWindow = function(_userId, _matchId) {
 		RateReminder.checkReminderToRate(_userId);
 				
 		//check version
-		if(_iOSVersion !== Ti.App.Properties.getString('clientVersion')) {
+		if(Ti.App.Properties.getString('clientVersion') < _iOSVersion) {
 			var UpdateRequester = require('internal_libs/updateReminder');
 			UpdateRequester.requestToUpdate();	
 		}		

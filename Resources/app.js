@@ -119,8 +119,9 @@ if (Ti.version < 1.8 ) {
 	
 	if(InstallTracking.isFirstTimeAppOpen()) {
 		//redirect to the webview to get cookies
-		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled');
+		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
 		InstallTracking.markAppOpen();
+		Ti.App.LogSystem.logEntryInfo('First time opens app. (MacAddr: '+ Ti.Platform.id+')');
 	}
 
 	var currentDbVersion = ModelMetaData.getDbVersion();
@@ -311,7 +312,7 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.App.LogSystem.logEntryError(e.meta.description);
+		Ti.App.LogSystem.logEntryError(e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
 		
 		var displayError = '';
 		if(e.meta.string_to_display !== undefined)
