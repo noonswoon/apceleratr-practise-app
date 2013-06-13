@@ -87,7 +87,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 		self.title = L('FriendsInvite');
 	} else {
 		self.leftNavButton = backButton;
-		self.title = L('FriendsInvite');
+		self.title = L('Get Free Credits');
 	}
 	
 	//description section

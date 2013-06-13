@@ -103,7 +103,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	profileSectionView.add(profileBorderImage);
 	
 	var profileLabel = Ti.UI.createLabel({
-		text: 'Profile', 
+		text: L('My Profile'), 
 		color: '#cbc8c8', 
 		font:{fontWeight:'bold',fontSize:18},
 		top: 11, 
@@ -170,7 +170,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	creditSectionView.add(creditGlyph);
 	
 	var creditText = Ti.UI.createLabel({
-		text: 'Credits',
+		text: L('Credits'),
 		color: '#cbc8c8', 
 		font:{fontWeight:'bold',fontSize:18},
 		top: 12,
@@ -203,7 +203,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	logoutSectionView.add(logoutGlyph);
 	
 	var logoutText = Ti.UI.createLabel({
-		text: 'Log out',
+		text: L('Log out'),
 		color: '#cbc8c8', 
 		font:{fontWeight:'bold',fontSize:18},
 		top: 12,
