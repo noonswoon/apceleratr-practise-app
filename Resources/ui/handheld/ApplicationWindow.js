@@ -158,8 +158,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 	
-	//var TargetedModule = require('ui/handheld/Mn_CreditBuyingWindow');
-	//var dummyOnBoard = new TargetedModule(null, _userId);
+	//var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
+	//var dummyOnBoard = new TargetedModule("", 3);
 		
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {

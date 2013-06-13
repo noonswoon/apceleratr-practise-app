@@ -73,7 +73,9 @@ ErrorWindow = function(_errorMessage, _userId) {
 		height: 50,
 		backgroundImage: 'images/post-onboarding-button.png',
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
-		center: {x:'50%', y:375}, //x:67
+		//center: {x:'50%', y:375}, //x:67
+		left: 10, 
+		bottom: 30
 	});
 	
 	var contactButtonText = Ti.UI.createLabel({
