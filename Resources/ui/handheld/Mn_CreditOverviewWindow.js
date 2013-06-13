@@ -130,7 +130,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var inviteFriendsButtonText = Ti.UI.createLabel({
-		text: L('Earn Free Credits'),
+		text: L('Get Free Credits'),
 		color: '#636c78',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
@@ -244,7 +244,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	howCreditsUsedSectionView.add(mutualFriendDesc2);	
 	
 	var mutualFriendDesc3 = Ti.UI.createLabel({
-		text: L('to reveal Mutual Friends'),
+		text: L('to reveal mutual friends'),
 		top: 112,
 		left: 145,
 		color: '#a3a7ad',

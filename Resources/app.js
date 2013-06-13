@@ -176,7 +176,7 @@ if (Ti.version < 1.8 ) {
 					var CreditSystem = require('internal_libs/creditSystem');
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						currentUserId = parseInt(_userInfo.meta.user_id); 
-						var currentUserName = _userInfo.content.general.first_name + ' ' + _userInfo.content.general.last_name; 
+						var currentUserName = _userInfo.content.general.first_name; 
 						var currentUserImage = _userInfo.content.pictures[0].src;
 						
 						var facebookLikeArray = [];
