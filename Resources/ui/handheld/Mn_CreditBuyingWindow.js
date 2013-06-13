@@ -168,7 +168,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	hundredCreditsView.add(hundredCreditPrice3);	
 	
 	var hundredCreditDesc = Ti.UI.createLabel({
-		text: '20% Savings', 
+		text: L('20% Savings'), 
 		color: '#a3a7ad',
 		top: 25, 
 		left: 65,
@@ -245,7 +245,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	thousandCreditsView.add(thousandCreditPrice3);	
 	
 	var thousandCreditDesc = Ti.UI.createLabel({
-		text: '50% Savings', 
+		text: L('50% Savings'), 
 		color: '#a3a7ad',
 		top: 25, 
 		left: 65,

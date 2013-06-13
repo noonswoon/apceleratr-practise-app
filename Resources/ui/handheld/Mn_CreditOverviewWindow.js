@@ -73,7 +73,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	currentCreditBackground.add(creditGlyph);
 	
 	var yourCreditLabel = Ti.UI.createLabel({
-		text: 'Your Credits',
+		text: L('Your Credits'),
 		top: 13,
 		left: 54, 
 		color: '#666666',
@@ -297,7 +297,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	howCreditsUsedSectionView.add(likeDesc2);	
 	
 	var likeDesc3 = Ti.UI.createLabel({
-		text: L('to like your swoon'),
+		text: L('to like your match'),
 		top: 180,
 		left: 154,
 		color: '#a3a7ad',
