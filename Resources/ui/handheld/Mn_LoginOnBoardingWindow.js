@@ -84,7 +84,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var fbButton = Ti.UI.createButton({
 		backgroundImage: 'images/onboarding-facebook-btn.png',
 		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
-		backgroundFocusedImage: 'images/onboarding-facebook-btn-active.png',
 		center: {x:'50%', y:fbButtonYPos}, //y: 428
 		width: 250, 
 		height: 45,

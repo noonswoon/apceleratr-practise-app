@@ -66,7 +66,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 
 	var likeButton = Ti.UI.createButton({
 		backgroundImage: 'images/like-button-inactive.png',
-		backgroundFocusedImage: 'images/like-button-active.png',
 		backgroundSelectedImage: 'images/like-button-active.png',
 		bottom: 10,
 		left: 7,
@@ -86,7 +85,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	
 	var passButton = Ti.UI.createButton({
 		backgroundImage: 'images/pass-button-inactive.png',
-		backgroundFocusedImage: 'images/pass-button-active.png',
 		backgroundSelectedImage: 'images/pass-button-active.png',
 		bottom: 10,
 		left: 161,

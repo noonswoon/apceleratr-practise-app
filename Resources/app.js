@@ -1,4 +1,4 @@
-// TODO: RC 1.3 Code
+// TODO: RC 1.4 Code
 
 /*
  * In app.js, we generally take care of a few things:
@@ -11,12 +11,12 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.3';
+Ti.App.CLIENT_VERSION = '1.4';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
-Ti.App.IAP_SANDBOX = false;
+Ti.App.IAP_SANDBOX = true;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 

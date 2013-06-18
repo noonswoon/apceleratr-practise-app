@@ -101,7 +101,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var tenCreditBuyButton = Ti.UI.createButton({
 		backgroundImage: 'images/credit/buy-button.png',
-		backgroundFocusedImage: 'images/credit/buy-button-active.png',
+		backgroundSelectedImage: 'images/credit/buy-button-active.png',
 		top: 8,
 		right: 22, 
 		width: 57, 
@@ -178,7 +178,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var hundredCreditBuyButton = Ti.UI.createButton({
 		backgroundImage: 'images/credit/buy-button.png',
-		backgroundFocusedImage: 'images/credit/buy-button-active.png',
+		backgroundSelectedImage: 'images/credit/buy-button-active.png',
 		top: 8,
 		right: 22, 
 		width: 57, 
@@ -255,7 +255,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var thousandCreditBuyButton = Ti.UI.createButton({
 		backgroundImage: 'images/credit/buy-button.png',
-		backgroundFocusedImage: 'images/credit/buy-button-active.png',
+		backgroundSelectedImage: 'images/credit/buy-button-active.png',
 		top: 8,
 		right: 22, 
 		width: 57, 
@@ -375,7 +375,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var monthlySubscribeButton = Ti.UI.createButton({
 		backgroundImage: 'images/credit/subscribe-button.png',
-		backgroundFocusedImage: 'images/credit/subscribe-button-active.png',
+		backgroundSelectedImage: 'images/credit/subscribe-button-active.png',
 		top: 8,
 		right: 22, 
 		width: 101, 
@@ -433,7 +433,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var yearlySubscribeButton = Ti.UI.createButton({
 		backgroundImage: 'images/credit/subscribe-button.png',
-		backgroundFocusedImage: 'images/credit/subscribe-button-active.png',
+		backgroundSelectedImage: 'images/credit/subscribe-button-active.png',
 		top: 8,
 		right: 22, 
 		width: 101, 
@@ -475,7 +475,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		width: 301, 
 		height: 46,
 		backgroundImage: 'images/credit/big-btn.png', 
-		backgroundFocusedImage: 'images/credit/big-btn-active.png', 
+		backgroundSelectedImage: 'images/credit/big-btn-active.png', 
 		left: 10,
 		bottom: 12,
 	});
