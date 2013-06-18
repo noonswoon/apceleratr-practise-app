@@ -2,17 +2,24 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	var self = Ti.UI.createTableViewRow({
 		className: 'connectionRow',
 		height: 45,
-		backgroundImage: 'images/menu-row-item.png',
 	});
 	if(Ti.Platform.osname === 'iphone')
 		self.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-		
+	
+	var backgroundImageView = Ti.UI.createView({
+		backgroundImage: 'images/menu-row-item.png',
+		height: 45, 
+		zIndex: 1
+	});
+	self.add(backgroundImageView)
+	
 	var personNameLbl = Ti.UI.createLabel({
 		text: _matchInfo.first_name,
 		left: 55,
 		top: 12,
 		color: '#cdd4df',
 		font:{fontSize:16},
+		zIndex: 2
 	});
 	self.add(personNameLbl);
 	
@@ -37,7 +44,8 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		left: 8,
 		borderColor: '#111b33', 
 		borderWidth: 1,
-		borderRadius: 2
+		borderRadius: 2,
+		zIndex: 2
 	});
 	self.add(personImage);
 	
@@ -64,6 +72,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 			shadowColor: '#3e830d', 
 			shadowOffset: {x:0, y:2},
 			font:{fontWeight:'bold', fontSize:14},
+			zIndex: 4
 		});
 		
 		notifView = Ti.UI.createImageView({
@@ -74,6 +83,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 			height: 21, 
 			width: notifViewWidth,
 			zIndex: 1,
+			zIndex: 3
 		});	
 		notifView.add(notifNumber);
 		self.add(notifView);
@@ -84,7 +94,8 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		left: 242,
 		top: 15, 
 		width: 11,
-		height: 15
+		height: 15,
+		zIndex: 2
 	});
 	self.add(leftArrow);
 	
@@ -94,11 +105,16 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	self.firstName = _matchInfo.first_name;
 	self.profileImage = _matchInfo.image;
 	
-	self.addEventListener('click', function() {
+	self.addEventListener('touchstart', function() {
+		backgroundImageView.backgroundImage = 'images/menu-row-item-active.png';
 		if(showNotif) {
 			notifView.visible = false;
 			showNotif = false;
 		}
+	});
+	
+	self.addEventListener('touchend', function() {
+		backgroundImageView.backgroundImage = 'images/menu-row-item.png';
 	});
 	
 	return self;

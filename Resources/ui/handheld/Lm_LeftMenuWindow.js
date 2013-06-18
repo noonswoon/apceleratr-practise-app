@@ -214,16 +214,31 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	logoutSectionView.add(logoutText);
 	self.add(logoutSectionView);
 
-	profileSectionView.addEventListener('click', function() {
+	profileSectionView.addEventListener('touchstart', function() {
+		profileSectionView.backgroundColor = '#3b3a3a';
 		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
 	});
-
-	creditSectionView.addEventListener('click', function() {
+	
+	profileSectionView.addEventListener('touchend', function() {
+		profileSectionView.backgroundColor = '#4a4949';
+	});
+	
+	creditSectionView.addEventListener('touchstart', function() {
+		creditSectionView.backgroundImage = 'images/menu-row-item-active.png';
 		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
 	});
 	
-	logoutSectionView.addEventListener('click', function() {
+	creditSectionView.addEventListener('touchend', function() {
+		creditSectionView.backgroundImage = 'images/menu-row-item.png';
+	});
+	
+	logoutSectionView.addEventListener('touchstart', function() {
+		logoutSectionView.backgroundImage = 'images/menu-row-item-active.png';
 		Ti.App.Facebook.logout();
+	});
+	
+	logoutSectionView.addEventListener('touchend', function() {
+		logoutSectionView.backgroundImage = 'images/menu-row-item.png';
 	});
 
 	//check if we need to fetch fb friends for local db or not

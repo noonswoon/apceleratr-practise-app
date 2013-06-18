@@ -93,7 +93,6 @@ ConnectionWindow = function(_userId) {
 	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
-		//Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
 			
 		Ti.App.fireEvent('openChatWindow', {
 			chatRoomName:chatRoomName, matchId: e.row.matchId, 
