@@ -305,6 +305,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	howCreditsUsedSectionView.add(likeDesc3);	
 	
+/*	
 	var horizontalSeparator3 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		bottom: 0,
@@ -312,6 +313,8 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		width: '100%'
 	});
 	howCreditsUsedSectionView.add(horizontalSeparator3);
+*/
+	
 	howCreditsRow.add(howCreditsUsedSectionView);
 	tableData.push(howCreditsRow);
 	
