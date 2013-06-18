@@ -330,7 +330,8 @@ Ti.App.Chat = function(_chatParams) {
 	});
 
 	backButton.addEventListener('click', function() {
-		navGroup.close(chatWindow, {animated:true}); //go to the main screen
+//		navGroup.close(chatWindow, {animated:true}); //go to the main screen -- not using navGroup anymore
+		chatWindow.close();
 	});
 	
 	var chatInputView = Ti.UI.createView({
@@ -548,7 +549,9 @@ Ti.App.Chat = function(_chatParams) {
 		//open previous match
 		var previousMatchWindow = new MatchWindowModule(userObject.id, _chatParams.matchId);
 		previousMatchWindow.setNavGroup(navGroup);
-		navGroup.open(previousMatchWindow, {animated:true});
+		
+		previousMatchWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL,navBarHidden:false});
+		//navGroup.open(previousMatchWindow, {animated:true}); //not using anymore
 	});
 	
 	

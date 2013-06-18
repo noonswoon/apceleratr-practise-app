@@ -1,6 +1,6 @@
 //This is the row in the match screen
 
-MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
+MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLatestMatch) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendMatch = require('backend_libs/backendMatch');
@@ -68,10 +68,10 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 				});
 				hasUnlocked = true;
 				//open up the window to show friends
-				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
+				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 			}
 		} else {
-			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
+			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 		}
 	});	
 

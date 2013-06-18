@@ -110,8 +110,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		    otherUserGuid: e.otherUserGuid,
 		    navGroup: navigationGroup,
 		});	
-		navigationGroup.open(pubnubChatWindow.chatWindow,{animated:false});
-		toggleRightMenu();
+		
+		pubnubChatWindow.chatWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,navBarHidden:false});
 	};
 	Ti.App.addEventListener('openChatWindow', openChatWindowCallback);
 	
@@ -174,8 +174,14 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	
 	var openMutualFriendsWindowCallback = function(e) {
 		var mutualFriendsArray = e.mutualFriendsArray;
+		var isLatestMatch = e.isLatestMatch;
+		
 		var mutualFriendsWindow = new MutualFriendsWindowModule(navigationGroup, mutualFriendsArray);
-		navigationGroup.open(mutualFriendsWindow, {animated:true});
+		if(isLatestMatch) {
+			navigationGroup.open(mutualFriendsWindow, {animated:true});
+		} else {
+			mutualFriendsWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,navBarHidden:false});
+		}
 	};
 	Ti.App.addEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 

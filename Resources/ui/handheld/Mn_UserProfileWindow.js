@@ -18,7 +18,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
 	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
-	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
 
 	var userInfo = null;

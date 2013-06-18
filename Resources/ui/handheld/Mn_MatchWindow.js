@@ -24,6 +24,7 @@ MatchWindow = function(_userId, _matchId) {
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
+		backgroundColor: '#eeeeee',
 		zIndex:1
 	});
 	
@@ -98,8 +99,12 @@ MatchWindow = function(_userId, _matchId) {
 		matchProfileData.push(friendRatioRow); 
 
 		if(_matchInfo.content['mutual_friends'].length > 0) {
+		//if(true) {
 			var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray':_matchInfo.content['mutual_friends'] };
-			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends']);
+			//var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray': ['4', '5']};
+			var isLatestMatch = true;
+			if(_matchId !== null) isLatestMatch = false;
+			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
 			matchProfileData.push(mutualFriendsRow); 
 		}
 		
