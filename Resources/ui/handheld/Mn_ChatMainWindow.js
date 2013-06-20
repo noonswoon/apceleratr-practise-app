@@ -494,15 +494,15 @@ Ti.App.Chat = function(_chatParams) {
 				messageObj.senderId = userObject.id;
 				messageObj.receiverId = otherUserObject.id; 
 				messageObj.time = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss");
-								
+
+				//send to backend server
+				BackendChat.saveChatMessage(messageObj, function(_sentData) {});
+												
 				//save to local db
 				ModelChatHistory.insertChatMessage(messageObj);	
 				
-				//send to backend server
-				BackendChat.saveChatMessage(messageObj, function(_sentData) {});
-				BackendChat.sendNotification(messageObj, function(e) {
-					if(e.success) Ti.API.info('send push notif successfully');
-				});
+
+
 				send_a_message(sendingMessage);				
 			}
 
