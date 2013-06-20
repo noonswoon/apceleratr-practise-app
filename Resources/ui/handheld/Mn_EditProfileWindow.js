@@ -334,7 +334,42 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	});		
 	
 	cancelButton.addEventListener('click', function() {
-		unsavedWarningDialog.show();	
+		//check if user has changed something
+		var isSomethingModified = false;
+		
+		//images
+		var imagesArray = photoEditTableViewRow.getImages();
+		for(var i = 0; i < imagesArray.length; i++) {
+			if(imagesArray[i].modified) {
+				isSomethingModified = true;
+				break;
+			}
+		}
+		
+		//contents in the table
+		if(!isSomethingModified) {
+			var sections = editTableView.data;
+			for(var i = 0; i < sections.length; i++) {
+			   	if(isSomethingModified) 
+			   		break;
+			   	
+			    var section = sections[i];
+			    for(var j = 0; j < section.rowCount; j++) {
+			        var row = section.rows[j];
+			        
+			        if(row.getModified()) {
+			        	isSomethingModified = true;
+			        	break;
+			        }
+			    }
+			}
+		}
+		
+		if(isSomethingModified) {
+			unsavedWarningDialog.show();	
+		} else { //no need to warn the user
+			_navGroup.close(self, {animated:true});
+		}
 	});
 	
 	saveButton.addEventListener('click', function() {		
