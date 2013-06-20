@@ -11,7 +11,7 @@ exports.queryFacebookFriends = function() {
 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryFacebookFriends: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var friendList = JSON.parse(r.result);
@@ -61,7 +61,7 @@ exports.queryUserStream = function() {
 	var userStreamIdList = []; 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserStream: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var dataArray = JSON.parse(r.result);
@@ -84,7 +84,7 @@ exports.queryUserLikes = function(_streamIdList) {
 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserLikes: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var dataArray = JSON.parse(r.result);
@@ -107,7 +107,7 @@ exports.queryUserComments = function(_streamIdList) {
 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserComments: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			//Ti.API.info('commentQuery: '+JSON.stringify(r));
@@ -127,7 +127,7 @@ exports.queryUserPhotos = function() {
 	var userFbPhotoIds = []; 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotos: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			//Ti.API.info('photoQuery: '+JSON.stringify(r));
@@ -153,7 +153,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
-			Ti.App.Facebook.logout();
+			//Ti.App.Facebook.logout();
 			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotoTags: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			//Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
