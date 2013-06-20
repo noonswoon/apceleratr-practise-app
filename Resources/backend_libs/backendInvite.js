@@ -3,6 +3,7 @@
  */
 
 exports.getInvitedList = function(_userId, _callbackFn) {
+	var fnSrc = 'backendInvite.getInvitedList';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"invite/get_invited_people/"+_userId;
 		//Ti.API.info('getInvitedList url: '+url);
@@ -14,12 +15,13 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 					_callbackFn(resultObj.content.invited_people);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});					
 				}
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+				var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -42,6 +44,7 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 };
 
 exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
+	var fnSrc = 'backendInvite.saveInvitedPeople';
 	var sendingObj = {};
 	sendingObj.user_id = _invitedData.userId; 
 	sendingObj.invited_fb_ids = _invitedData.invitedFbIds;
@@ -58,11 +61,12 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_invitedData.userId+')'}});					
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+				var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_invitedData.userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

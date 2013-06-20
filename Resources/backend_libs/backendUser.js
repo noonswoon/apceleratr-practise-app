@@ -2,6 +2,7 @@
  * @author Mickey Asavanant
  */
 exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
+	var fnSrc = 'backendUser.saveEditUserInfo';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/edit/"+_userId;
 //		Ti.API.info('edit api point: '+url);
@@ -15,11 +16,12 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 				} else {
 					resultObj.success = false;
 					_callbackFn(resultObj);
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveEditUserInfo', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
 				}
 	        },
 	        onerror : function(e) {
-	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveEditUserInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	        	var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -44,6 +46,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 };
 
 exports.connectToServer = function(_userObj, _callbackFn) {
+	var fnSrc = 'backendUser.connectToServer';
 	var sendingObj = {};
 	sendingObj.user_fb_id = _userObj.userFbId; 
 	sendingObj.fb_auth_token = _userObj.fbAuthToken; 
@@ -59,11 +62,12 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.connectToServer', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(FbId: '+_userObj.userFbId+')'}});	
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.connectToServer', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	        	var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(FbId: '+_userObj.userFbId+')'}});			
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -85,6 +89,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 };
 
 exports.getUserInfo = function(_userId, _callbackFn) {
+	var fnSrc = 'backendUser.getUserInfo';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"user/id/"+_userId;
 		//Ti.API.info('getUserInfo url: '+url);
@@ -94,11 +99,12 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserInfo', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -121,6 +127,7 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 };
 
 exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
+	var fnSrc = 'backendUser.getUserIdFromFbId';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"user/fb_id/"+_fbId;
 		var xhr = Ti.Network.createHTTPClient({
@@ -129,11 +136,12 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserIdFromFbId', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(FbId: '+_fbId+')'}});
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.getUserIdFromFbId', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+				var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(FbId: '+_fbId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -156,6 +164,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 };
 
 exports.saveUserReport = function(_reportObj, _callbackFn) {
+	var fnSrc = 'backendUser.saveUserReport';
 	var sendingObj = {};
 	sendingObj.user_id = _reportObj.userId; 
 	sendingObj.targeted_user_id = _reportObj.targetedUserId;
@@ -172,11 +181,12 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 					_callbackFn({success:true});
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveUserReport', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_reportObj.userId+')'}});	
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.App.fireEvent('openErrorWindow', {src: 'backendUser.saveUserReport', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	       	    var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_reportObj.userId+')'}});			 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
