@@ -3,8 +3,10 @@
  */
 
 exports.getLatestMatchInfo = function(_userId, _callbackFn) {
+	var fnSrc = 'backendMatch.getLatestMatchInfo';
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
+
 		var url = Ti.App.API_SERVER+ "match/get_latest/"+_userId;
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
@@ -18,17 +20,19 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
 						} else {
-							Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:resultObj.meta});
+							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description:resultObj.meta + '(UserId: '+_userId+')'}});
 						}
 					} else {
-						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
+						var displayError = 'Application Error|delete and install again'; 
+						Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError + '(UserId: '+_userId+')'}});
 					}
 					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getLatestMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	            var displayError = 'Network Error|Please reopen Noonswoon';
+	            Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError + '(UserId: '+_userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -46,6 +50,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 };
 
 exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for matchChat page
+	var fnSrc = 'backendMatch.getMatchInfo';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get/"+_paramObj.matchId+"/"+_paramObj.userId;
 		var xhr = Ti.Network.createHTTPClient({
@@ -60,17 +65,19 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
 						} else {
-							Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:resultObj.meta});
+							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_paramObj.userId+')'}});
 						}
 					} else {
-						Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Application Error|delete and install again'}});
+						var displayError = 'Application Error|delete and install again';
+						Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 					}
 					_callbackFn(resultObj);
 				}
 	        },
 	        onerror : function(e) {
 	        	_callbackFn({success:false});
-	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getMatchInfo', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	        	var displayError = 'Network Error|Please reopen Noonswoon';
+	        	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError+ '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -89,6 +96,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 
 
 exports.saveResponse = function(_matchResponseObj, _callbackFn) {
+	var fnSrc = 'backendMatch.saveResponse';
 	var sendingObj = {};
 	sendingObj.match_id = _matchResponseObj.matchId; 
 	sendingObj.user_id = _matchResponseObj.userId; 
@@ -104,12 +112,13 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_matchResponseObj.userId+')'}});
 				}
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-		    	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.saveResponse', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		        var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchResponseObj.userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -121,10 +130,10 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 };
 
 exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
+	var fnSrc = 'backendMatch.updateDisplayMutualFriend';
 	var sendingObj = {};
 	sendingObj.match_id = _matchUserObj.matchId; 
 	sendingObj.user_id = _matchUserObj.userId;
-	//Ti.API.info('sendingObj updateDisplayMutualFriend: '+JSON.stringify(sendingObj));
 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"match/update_display_mutual_friend/";
@@ -136,12 +145,13 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_matchUserObj.userId+')'}});
 				}
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-		    	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.updateDisplayMutualFriend', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		        var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchUserObj.userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -153,6 +163,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 };
 
 exports.getConnectedMatch = function(_userId, _callbackFn) {
+	var fnSrc = 'backendMatch.getConnectedMatch';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "match/get_connected_match/"+_userId;
 		//Ti.API.info('getMatchInfo api point: '+url);
@@ -162,11 +173,12 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getConnectedMatch', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_userId+')'}});
 				}
 	        },
 	        onerror : function(e) {
-	        	Ti.App.fireEvent('openErrorWindow', {src: 'backendMatch.getConnectedMatch', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+	        	 var displayError = 'Network Error|Please reopen Noonswoon';
+	        	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -201,13 +213,13 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
-					Ti.API.info('Error backendMatch.deleteConnectedMatch: '+ JSON.stringify(resultObj));
+					Ti.App.LogSystem.logEntryError('backendMatch.deleteConnectedMatch: '+JSON.stringify(resultObj) + ' (UserId: '+_matchObj.userId+', MacAddr: '+Ti.Platform.id + ')');
 					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
 				// this function is called when an error occurs, including a timeout
-		        Ti.API.info("in backendMatch.deleteConnectedMatch ..server NOT ready yet");
+		       	Ti.App.LogSystem.logEntryError('backendMatch.deleteConnectedMatch ..server NOT ready yet (UserId: '+_matchObj.userId+', MacAddr: '+Ti.Platform.id + ')');
 		        _callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
