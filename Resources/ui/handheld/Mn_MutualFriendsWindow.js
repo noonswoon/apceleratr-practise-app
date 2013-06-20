@@ -71,17 +71,23 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 	
 	//create data
 	var mutualFriendsData = [];
+	var numMutualFriendsToLoad = _mutualFriendsArray.length;
 	
+	showPreloader(self, L('Loading...'));
 	for(var i = 0; i < _mutualFriendsArray.length; i++) {
 		var fbId = _mutualFriendsArray[i];
 		var imageUrl = 'http://graph.facebook.com/'+fbId+'/picture?type=square';
 		var name = ModelFacebookFriend.getNameByFacebookId(fbId);
 		if(name !== "") {
+			numMutualFriendsToLoad--;
 			Ti.API.info('get name caching data');
 			mutualFriendsData.push({
 				friendImage: { image: imageUrl},
 				friendName: { text: name}
 			});
+			if(numMutualFriendsToLoad <= 0)  {
+				hidePreloader(self);	
+			}
 		} else { //don't have data..request from fbGraph
 			Ti.API.info('no data caching..getting fb graph info coz cannot find user locally');
 			(function() {
@@ -106,9 +112,13 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 						}
 						ModelFacebookFriend.updateFacebookFriendName(curFbId, curName, curImageUrl, userLocation); 
 					} else if (e.error) {
-						Ti.API.info('cannot request GraphPath: '+ JSON.stringify(e));		
+						Ti.App.LogSystem.logEntryError('MutualFriendsWindow GraphPath Error#1: '+ JSON.stringify(e));
 					} else {
-						Ti.API.info("what the hell is going on_2? " + JSON.stringify(e));
+						Ti.App.LogSystem.logEntryError('MutualFriendsWindow GraphPath Error#2: '+ JSON.stringify(e));
+					}
+					numMutualFriendsToLoad--;
+					if(numMutualFriendsToLoad <= 0)  {
+						hidePreloader(self);	
 					}
 				});
 			})();
