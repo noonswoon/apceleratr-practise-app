@@ -216,6 +216,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 				if(!Ti.App.Facebook.loggedIn) { //if fb already exipired
 					//clear up cache so we can refresh and load new fb friends
 					Ti.App.Properties.removeProperty('FacebookFriendQuery_'+Ti.App.Facebook.uid);
+					Ti.App.LogSystem.logEntryInfo('Resume and found out that Fb Token Exipred (UserId: '+_userId+', MacAddr: '+ Ti.Platform.id+')');
 					Ti.App.Facebook.logout();
 				} else {
 					Ti.UI.iPhone.appBadge = null;

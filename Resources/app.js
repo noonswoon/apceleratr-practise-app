@@ -312,7 +312,7 @@ if (Ti.version < 1.8 ) {
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
 		//somehow need to find a way to log this to the server
-		Ti.App.LogSystem.logEntryError(e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
+		Ti.App.LogSystem.logEntryError(e.src +':' + e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
 		
 		var displayError = '';
 		if(e.meta.string_to_display !== undefined)

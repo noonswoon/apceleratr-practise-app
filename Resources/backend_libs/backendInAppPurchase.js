@@ -3,8 +3,8 @@
  */
 
 exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callbackFn) {
+	var fnSrc = 'backendInAppPurchase.verifyReceipt';
 	var sendingObj = {};
-	//Ti.API.info('transaction params: '+ JSON.stringify(_paramObj));
 	sendingObj.user_id = _userId; 
 	sendingObj.receipt_data = Ti.Utils.base64encode(_receiptData).toString();
 	sendingObj.purchase_type = _purchaseType;
@@ -23,11 +23,12 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn(resultObj.content);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendInAppPurchase.verifyReceipt', meta:resultObj.meta});
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendInAppPurchase.verifyReceipt', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+				var displayError = 'Network Error|Please reopen Noonswoon';
+		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
