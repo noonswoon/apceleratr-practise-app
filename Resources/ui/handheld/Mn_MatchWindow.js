@@ -258,23 +258,29 @@ MatchWindow = function(_userId, _matchId) {
 	};
 
 	self.reloadMatch = function() {
-		if(_matchId === null) {
-			showPreloader(self, L('Loading...'));		
-			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-				if(_matchInfo.success) {
-					//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
-					doHouseKeepingTasks(_matchInfo.meta.ios_version);			
-					contentView.data = populateMatchDataTableView(_matchInfo);	
-				}
-				hidePreloader(self);
-			}); 
+		
+		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+			//firing the event
+			Ti.App.fireEvent('openNoInternetWindow');
 		} else {
-			showPreloader(self, L('Loading...'));		
-			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-				if(_matchInfo.success)
-					contentView.data = populateMatchDataTableView(_matchInfo);
-				hidePreloader(self);
-			});
+			if(_matchId === null) {
+				showPreloader(self, L('Loading...'));		
+				BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+					if(_matchInfo.success) {
+						//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
+						contentView.data = populateMatchDataTableView(_matchInfo);	
+					}
+					hidePreloader(self);
+				}); 
+			} else {
+				showPreloader(self, L('Loading...'));		
+				BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
+					if(_matchInfo.success)
+						contentView.data = populateMatchDataTableView(_matchInfo);
+					hidePreloader(self);
+				});
+			}
 		}
 	};
 

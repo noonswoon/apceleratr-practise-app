@@ -79,16 +79,21 @@ ConnectionWindow = function(_userId) {
 	});
 	
 	var loadConnectedMatches = function() {
-		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
-			connectionTableData = []; //reset table data
-			var connectedMatches = _connectedMatchInfo.content.connected_matches; 
-			for(var i = 0; i < connectedMatches.length; i++) {
-				var curConnect = connectedMatches[i];
-				var personRow = new ConnectionTableViewRow(_userId, curConnect);
-				connectionTableData.push(personRow);
-			}
-			connectionTableView.setData(connectionTableData);
-		});	
+		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+			//firing the event
+			Ti.App.fireEvent('openNoInternetWindow');
+		} else {
+			BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
+				connectionTableData = []; //reset table data
+				var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+				for(var i = 0; i < connectedMatches.length; i++) {
+					var curConnect = connectedMatches[i];
+					var personRow = new ConnectionTableViewRow(_userId, curConnect);
+					connectionTableData.push(personRow);
+				}
+				connectionTableView.setData(connectionTableData);
+			});	
+		}
 	};
 	
 	connectionTableView.addEventListener('click',function(e){
