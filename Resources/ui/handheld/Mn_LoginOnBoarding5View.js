@@ -29,6 +29,11 @@ LoginOnBoarding5View = function() {
 		shadowOffset: {x:0, y:1},
 	});
 	self.add(description);
+
+	self.addEventListener('postlayout', function() {
+		self.width = '100%';
+		self.height = '100%';
+	});	
 	
 	return self;
 };

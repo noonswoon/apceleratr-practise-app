@@ -62,6 +62,10 @@ LoginOnBoarding1View = function() {
 	});
 	self.add(description2);
 	
+	self.addEventListener('postlayout', function() {
+		self.width = '100%';
+		self.height = '100%';
+	});
 	return self;
 };
 
