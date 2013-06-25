@@ -22,6 +22,7 @@ function writeCallback(e) {
 
 exports.logEntryError = function(_errorMessage) {
 	var logMessage =  Ti.App.LOGENTRIES_TOKEN +  " ERROR "+_errorMessage +"\n";
+	Ti.API.info(logMessage);
 	var socket = Ti.Network.Socket.createTCP({
 	    host: 'api.logentries.com', port: 10000,
 	    connected: function (e) {
@@ -39,6 +40,7 @@ exports.logEntryError = function(_errorMessage) {
 
 exports.logEntryInfo = function(_infoMessage) {
 	var logMessage =  Ti.App.LOGENTRIES_TOKEN +  " INFO "+_infoMessage +"\n";
+	Ti.API.info(logMessage);
 	var socket = Ti.Network.Socket.createTCP({
 	    host: 'api.logentries.com', port: 10000,
 	    connected: function (e) {

@@ -29,6 +29,7 @@ Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
+Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
 Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2', 'com.noonswoon.launch.c3'];

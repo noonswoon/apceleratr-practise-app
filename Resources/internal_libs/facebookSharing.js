@@ -3,20 +3,30 @@ var trackingCode = null;
 var showRequestResult = function(e) {
 	var s = '';
 	if (e.success) {
-		//Ti.API.info('result from fb: ' + JSON.stringify(e));
-		s = "SUCCESS";
-		if (e.result) {
-			var inviteeList = [];
-			s += ";e.result: " + e.result;
-			var resultArray = e.result.split('&');
-			for(var i = 1; i < resultArray.length; i++) {
-				var curInvitee = resultArray[i].split('=')[1]; 
-				inviteeList.push(curInvitee);
+		if(e.result) {
+			if(e.result.indexOf('error_code=100') !== -1) { //have some error
+				var tooManyInvitesDialog = Titanium.UI.createAlertDialog({
+					title: L('Too Many Facebook Invites'),
+					message:L('You can only invite up to 50 Facebook friends per day.'),
+					buttonNames: [L('Ok')],
+					cancel: 0
+				});
+				tooManyInvitesDialog.show();
+			} else {
+				s = "SUCCESS";
+				
+				var inviteeList = [];
+				s += ";e.result: " + e.result;
+				var resultArray = e.result.split('&');
+				for(var i = 1; i < resultArray.length; i++) {
+					var curInvitee = resultArray[i].split('=')[1]; 
+					inviteeList.push(curInvitee);
+				}
+				s += ", inviter: "+Ti.App.Facebook.uid+ ", invitees: "+ JSON.stringify(inviteeList);
+				Ti.API.info('invite success info: '+s);
+				//add credit here when the invite goes through and track who get invites
+				Ti.App.fireEvent('inviteCompleted', {inviteeList:inviteeList, trackingCode: trackingCode});
 			}
-			s += ", inviter: "+Ti.App.Facebook.uid+ ", invitees: "+ JSON.stringify(inviteeList);
-			
-			//add credit here when the invite goes through and track who get invites
-			Ti.App.fireEvent('inviteCompleted', {inviteeList:inviteeList, trackingCode: trackingCode});
 		}
 		if (!e.result && !e.data) {
 			s = '"success", but no data from FB.  I am guessing you cancelled the dialog.';

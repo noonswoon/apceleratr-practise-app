@@ -351,10 +351,20 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	    	item.isInvited = false;
 	    	Ti.App.fireEvent('uninvitedFriend');
 	    } else {
-	    	item.checkboxImage.image = 'images/invite_friend/checked.png';
-	    	item.friendName.color = '#595959';
-	    	item.isInvited = true;
-	    	Ti.App.fireEvent('invitedFriend'); 
+	    	if(numInvites < Ti.App.MAXIMUM_FB_INVITES_PER_DAY) {
+		    	item.checkboxImage.image = 'images/invite_friend/checked.png';
+		    	item.friendName.color = '#595959';
+		    	item.isInvited = true;
+		    	Ti.App.fireEvent('invitedFriend'); 	    		
+	    	} else {
+				var warningInvitesDialog = Titanium.UI.createAlertDialog({
+					title: L('Warning'),
+					message:L('You can only invite up to 50 Facebook friends per day.'),
+					buttonNames: [L('Ok')],
+					cancel: 0
+				});
+				warningInvitesDialog.show();
+			}
 	    }
 	    e.section.updateItemAt(e.itemIndex, item);
 	});
