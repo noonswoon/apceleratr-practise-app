@@ -38,10 +38,14 @@ Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "http://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+	Ti.App.API_ROUTING_SERVER = "http://noonswoon.com/";
+	Ti.App.API_ROUTING_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
+	Ti.App.API_ROUTING_SERVER = "http://noonswoondevelopment.apphb.com/";
+	Ti.App.API_ROUTING_ACCESS = "noondev:d0minate$";
 	Ti.App.Facebook.appid = "492444750818688";
 }
 
@@ -78,15 +82,15 @@ Ti.App.Storekit = require('ti.storekit');
 Ti.App.Storekit.receiptVerificationSandbox = true;
 Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
 
+var CacheHelper = require('internal_libs/cacheHelper');
+var Debug = require('internal_libs/debug');
+var FacebookFriendModel = require('model/facebookFriend');
+var FacebookQuery = require('internal_libs/facebookQuery');
+var ModelMetaData = require('model/metaData');
+var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
-var Debug = require('internal_libs/debug');
-var CacheHelper = require('internal_libs/cacheHelper');
-var FacebookQuery = require('internal_libs/facebookQuery');
 
-var FacebookFriendModel = require('model/facebookFriend');
-var BackendInvite = require('backend_libs/backendInvite');
-var ModelMetaData = require('model/metaData');
 
 //bootstrap and check dependencies
 if (Ti.version < 1.8 ) {
@@ -104,8 +108,10 @@ if (Ti.version < 1.8 ) {
 	//considering tablet to have one dimension over 900px - this is imperfect, so you should feel free to decide
 	//yourself what you consider a tablet form factor for android
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
-	
+
+	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
 	var InstallTracking = require('internal_libs/installTracking');
 	var ModelChatHistory = require('model/chatHistory');
 	var ModelEthnicity = require('model/ethnicity');
@@ -113,7 +119,7 @@ if (Ti.version < 1.8 ) {
 	var ModelTargetedCity = require('model/targetedCity');
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
-	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
+
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
@@ -176,7 +182,8 @@ if (Ti.version < 1.8 ) {
 					var BackendUser = require('backend_libs/backendUser');
 					var CreditSystem = require('internal_libs/creditSystem');
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
-						currentUserId = parseInt(_userInfo.meta.user_id); 
+						currentUserId = parseInt(_userInfo.meta.user_id);
+						ServerRoutingSystem.selectServerAPI(currentUserId);
 						var currentUserName = _userInfo.content.general.first_name; 
 						var currentUserImage = _userInfo.content.pictures[0].src;
 						
@@ -316,8 +323,8 @@ if (Ti.version < 1.8 ) {
 		Ti.App.LogSystem.logEntryError(e.src +':' + e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
 		
 		var displayError = '';
-		if(e.meta.string_to_display !== undefined)
-			displayError = e.meta.string_to_display;
+		if(e.meta.display_error !== undefined)
+			displayError = e.meta.display_error;
 
 		errorWindow = new ErrorWindowModule(displayError, currentUserId);
 		errorWindow.open();

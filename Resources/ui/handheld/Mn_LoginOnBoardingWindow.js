@@ -1,5 +1,7 @@
 LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
+	var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
+	
 	//create component instance
 	
 	var navGroup = null;
@@ -196,12 +198,15 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	
 				        		//Ti.App.Flurry.logEvent('signupCompleted');
 				        		Ti.API.info('***NEW USER****');
+								var currentUserId = parseInt(_userLogin.meta.user_id);
+								ServerRoutingSystem.selectServerAPI(currentUserId);
 								//this will go to onboarding step 1
-								Ti.App.fireEvent('openOnboardingStep1', {userId: parseInt(_userLogin.meta.user_id)});
+								Ti.App.fireEvent('openOnboardingStep1', {userId: currentUserId});
 				        	} else {
 				        		//Ti.App.Flurry.logEvent('loginSucceeded');
 				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
+								ServerRoutingSystem.selectServerAPI(currentUserId);
 								var currentUserImage = _userLogin.content.pictures[0].src;
 								var currentUserName = _userLogin.content.general.first_name; 
 								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');

@@ -55,7 +55,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.mac_addr = _userObj.macAddr;
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"userasync/connect_server";
+		var url = Ti.App.API_ROUTING_SERVER +"userasync/connect_server";
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
@@ -72,7 +72,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		    timeout:50000  // in milliseconds
 		});
 		xhr.open("POST", url);
-		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
+		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ROUTING_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	} else {
@@ -129,7 +129,7 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 	var fnSrc = 'backendUser.getUserIdFromFbId';
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"user/fb_id/"+_fbId;
+		var url = Ti.App.API_ROUTING_SERVER +"user/fb_id/"+_fbId;
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
@@ -146,7 +146,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    timeout:50000  // in milliseconds
 		});
 		xhr.open("GET", url);
-		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
+		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ROUTING_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
 		xhr.send();  // request is actually sent with this statement
 	} else {
@@ -187,6 +187,37 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	        onerror : function(e) {
 	       	    var displayError = 'Network Error|Please reopen Noonswoon';
 		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_reportObj.userId+')'}});			 
+	        },
+		    timeout:50000  // in milliseconds 
+	    });
+	    xhr.open("POST", url);
+	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
+	    xhr.setRequestHeader('Content-Type','application/json');
+	   	xhr.send(JSON.stringify(sendingObj));
+	}
+};
+
+exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
+	var fnSrc = 'backendUser.updatePNToken';
+	var sendingObj = {};
+	sendingObj.user_id = _userId; 
+	sendingObj.pn_token = _pnToken;
+
+	if(Ti.App.LIVE_DATA) {
+		var url = Ti.App.API_SERVER+ "user/update_pn_token/";
+		var xhr = Ti.Network.createHTTPClient({
+			onload : function(e) {
+				var resultObj = JSON.parse(this.responseText);
+	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					_callbackFn({success:true});
+				} else {
+					_callbackFn({success:false});
+					//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_reportObj.userId+')'}});	
+				}
+	        },
+	        onerror : function(e) {
+	       	    var displayError = 'Network Error|Please reopen Noonswoon';
+		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_reportObj.userId+')'}});			 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

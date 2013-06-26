@@ -1,8 +1,9 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
-	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendCredit = require('backend_libs/backendCredit');
+	var BackendInvite = require('backend_libs/backendInvite');
+	var BackendUser = require('backend_libs/backendUser');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditOverviewWindowModule = require('ui/handheld/Mn_CreditOverviewWindow');
@@ -204,7 +205,51 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
 	
+	function successNotifCallback(e) {
+		var deviceToken = e.deviceToken; //check on this
+		UrbanAirship.registerDeviceToken(deviceToken); 
+		BackendUser.updatePNToken(_userId, deviceToken, function(e) {
+			if(!e.success) Ti.App.LogSystem.logEntryError('Failed to update PN Token: (MacAddr: '+Ti.Platform.id + ')');
+		});
+	}
+	
+	function errorNotifCallback(e) {
+    	alert(L("Error during registration: ") + e.error);
+	}
+	
+	//continue here...
+	function messageNotifCallback(e) {
+		// called when a push notification is received.
+		//Debug.debug_print("Received a push notification\n\nPayload:\n\n"+JSON.stringify(e));
+		var message;
+		if(e.data['aps'] != undefined) {
+			if(e.data['aps']['alert'] != undefined){
+
+				message = e.data['aps']['alert'];
+			} else {
+				message = 'No Alert content';
+			}
+		} else {
+			message = 'No APS content';
+		}
+	}	
+	
 	var resumeCallback = function() {
+		// register for push notifications
+		if(Ti.Platform.osname != 'android') {
+			Titanium.Network.registerForPushNotifications({
+				types:[
+					Titanium.Network.NOTIFICATION_TYPE_BADGE,
+					Titanium.Network.NOTIFICATION_TYPE_ALERT,
+					Titanium.Network.NOTIFICATION_TYPE_SOUND
+				],
+				success: successNotifCallback, //successful registration will call this fn
+				error: errorNotifCallback, //failed registration will call this
+				callback: messageNotifCallback //when receive the message will call this fn
+			});
+		}
+
+		
 		//wait for about 2 seconds til the app powers up
 		setTimeout(function() {
 			//check the internet connection here...
@@ -229,7 +274,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 					rightMenu.reloadConnections();
 				}
 			} 
-		}, 1000);
+		}, 1500);
 	};
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
