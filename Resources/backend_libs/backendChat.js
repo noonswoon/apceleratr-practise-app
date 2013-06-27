@@ -20,8 +20,9 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            var displayError = 'Network Error|Please reopen Noonswoon';
-	            Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
+	            //var displayError = 'Network Error|Please reopen Noonswoon';
+	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -50,8 +51,9 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            var displayError = 'Network Error|Please reopen Noonswoon';
-	            Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
+	            //var displayError = 'Network Error|Please reopen Noonswoon';
+	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -87,8 +89,9 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            var displayError = 'Network Error|Please reopen Noonswoon';
-	            Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
+	            //var displayError = 'Network Error|Please reopen Noonswoon';
+	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

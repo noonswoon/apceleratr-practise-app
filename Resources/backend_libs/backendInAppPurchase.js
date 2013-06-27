@@ -13,6 +13,7 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 //	Ti.API.info('sendingObj: '+JSON.stringify(sendingObj));
 //	Ti.API.info('sendingObj receipt_data: '+sendingObj.receipt_data);
 	
+	Ti.App.LogSystem.logSystemData('info', fnSrc + '. Purchasing type: '+_purchaseType, _userId, null);
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"iap/verify_receipt/";
@@ -27,8 +28,9 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
+				//var displayError = 'Network Error|Please reopen Noonswoon';
+		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -36,15 +38,5 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement
-	} else {
-		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/iap_verify_receipt.txt');
-		var contents = f.read();
-		Ti.API.info('contents.text: '+contents.text);
-		//var resultObj = JSON.parse(contents.text); 
-//		if(resultObj.meta.status == "ok") {
-//			_callbackFn(resultObj);
-//		} else {
-//			Ti.API.error("something wrong with backendInAppPurchase.verifyReceipt");
-//		}	
 	}
 };

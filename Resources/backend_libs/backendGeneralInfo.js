@@ -18,8 +18,9 @@ exports.getReligion = function(_callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', null, null);
+				//var displayError = 'Network Error|Please reopen Noonswoon';
+				//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -54,8 +55,9 @@ exports.getEthnicity = function(_callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', null, null);
+				//var displayError = 'Network Error|Please reopen Noonswoon';
+				//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -90,8 +92,9 @@ exports.getTargetedCity = function(_callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', null, null);		    	
+		    	//var displayError = 'Network Error|Please reopen Noonswoon';
+				//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -128,8 +131,9 @@ exports.getStaticData = function(_callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', null, null);
+		    	//var displayError = 'Network Error|Please reopen Noonswoon';
+				//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

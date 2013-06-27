@@ -79,7 +79,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 	        },
 	        onerror : function(e) {
 	        	_callbackFn({success:false});
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
 	        	//var displayError = 'Network Error|Please reopen Noonswoon';
 	        	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError+ '(UserId: '+_paramObj.userId+')'}});
 	        },
@@ -121,7 +121,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
+		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _matchResponseObj.userId, null);
 		        //var displayError = 'Network Error|Please reopen Noonswoon';
 		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchResponseObj.userId+')'}});
 		    },
@@ -155,7 +155,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
+		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _matchUserObj.userId, null);
 		        //var displayError = 'Network Error|Please reopen Noonswoon';
 		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchUserObj.userId+')'}});
 		    },

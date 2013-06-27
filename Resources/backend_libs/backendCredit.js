@@ -16,8 +16,9 @@ exports.getUserCredit = function(_userId, _callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
+		    	//var displayError = 'Network Error|Please reopen Noonswoon';
+		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		        //Ti.API.debug(e.error);
 		    },
 		    timeout:5000  // in milliseconds
