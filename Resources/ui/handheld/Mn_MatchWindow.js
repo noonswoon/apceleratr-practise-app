@@ -230,7 +230,7 @@ MatchWindow = function(_userId, _matchId) {
 				self.add(contentView);
 			}
 			hidePreloader(self);
-		});	
+		});
 	} else {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	

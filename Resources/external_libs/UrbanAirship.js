@@ -46,7 +46,9 @@ var registerDeviceToken = function(_deviceToken) {
 			//alert('registerDeviceToken: '+JSON.stringify(e));
 		},
 		onerror:function(e) {
-			Ti.App.LogSystem.logEntryError("Failed Urban Airship Push Service Register. Error: " + e.error +", Token: "+_deviceToken);
+			if(_deviceToken.trim() != "") {
+				Ti.App.LogSystem.logEntryError("Failed Urban Airship Push Service Register. Error: " + e.error +", Token: "+_deviceToken);
+			}
 		}
 	}); 
 	
