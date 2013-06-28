@@ -2,7 +2,6 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditViewModule = require('ui/handheld/Lm_CreditView');
 	var FacebookQuery = require('internal_libs/facebookQuery');
-	var TopFriendsViewModule = require('ui/handheld/Lm_TopFriendsView');
 	
 	var self = Titanium.UI.createWindow({
 		top:0,

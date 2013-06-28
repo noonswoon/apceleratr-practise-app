@@ -1,7 +1,6 @@
 //Application Window Component Constructor
 function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.include('ui/handheld/Mn_ChatMainWindow.js');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendUser = require('backend_libs/backendUser');
 	var ConnectionWindowModule = require('ui/handheld/Rm_ConnectionWindow');

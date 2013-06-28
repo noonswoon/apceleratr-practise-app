@@ -3,7 +3,6 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
-	var BackendCredit = require('backend_libs/backendCredit');	
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');

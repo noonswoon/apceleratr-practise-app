@@ -2,7 +2,6 @@
 
 MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLatestMatch) {
 	var CreditSystem = require('internal_libs/creditSystem');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendMatch = require('backend_libs/backendMatch');
 	
 	var fieldName = _fieldName; 

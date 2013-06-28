@@ -3,7 +3,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	var CreditSystem = require('internal_libs/creditSystem');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var FacebookFriend = require('model/facebookFriend');
 

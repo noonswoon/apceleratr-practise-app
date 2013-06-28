@@ -2,8 +2,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
-	var BackendCredit = require('backend_libs/backendCredit');	
-		
+
 	var navGroup = null;
 	var isActionTaken = false;
 	
