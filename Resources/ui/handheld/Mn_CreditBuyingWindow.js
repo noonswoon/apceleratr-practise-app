@@ -607,6 +607,13 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		buttonNames: [L('Continue')],
 		cancel: 0
 	});
+	
+	var networkErrorDialog = Titanium.UI.createAlertDialog({
+		title: L('Oops!'),
+		message:L('There is something wrong. Please close and open Noonswoon again.'),
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
 
 	Ti.App.Storekit.addEventListener('transactionState', function (evt) {
 		//Ti.API.info('transactionState: '+JSON.stringify(evt));
@@ -622,40 +629,20 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				break;
 			case Ti.App.Storekit.PURCHASED:
 				//need to send this evt to verify at the server
-//				Ti.API.info('receipt: '+evt.receipt);
-//				Ti.API.info('receipt base64encode: '+Titanium.Utils.base64encode(evt.receipt));
 				BackendInAppPurchase.verifyReceipt(_userId, evt.receipt, evt.productIdentifier, function(e) {
-					//update the credit
-					CreditSystem.setUserCredit(e.credit); //sync the credit
+					if(e.success) {
+						//update the credit
+						CreditSystem.setUserCredit(e.credit); //sync the credit
 					
-					//pop up for success purchase confirmation
-					purchasedConfirmationDialog.show(); 
-					
+						//pop up for success purchase confirmation
+						purchasedConfirmationDialog.show(); 
+					} else {
+						networkErrorDialog.show();
+					}
 					//then close the window
 					_navGroup.close(self, {animated:true}); //go to the main screen
 				});
-				hidePreloader(self);				
-				
-				/*
-				if(false) {
-					Ti.App.Storekit.verifyReceipt(evt, function (e) {
-						Ti.API.info('recieptResult: '+JSON.stringify(e));
-						if (e.success) {
-							if (e.valid) {
-								alert('Thanks! Receipt Verified');
-								markProductAsPurchased(evt.productIdentifier);
-							} else {
-								alert('Sorry. Receipt is invalid');
-							}
-						} else {
-							alert(e.message);
-						}
-					});
-				} else {
-					alert('Thanks! Receipt Verified');
-					markProductAsPurchased(evt.productIdentifier);	
-				}
-				*/
+				hidePreloader(self);
 
 				break;
 			case Ti.App.Storekit.PURCHASING:

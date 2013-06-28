@@ -15,12 +15,13 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_paramObj.userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _paramObj.userId, null);
+					//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: JSON.stringify(resultObj.meta) + '(UserId: '+_paramObj.userId+')'}});
 				}
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
 	            //var displayError = 'Network Error|Please reopen Noonswoon';
 	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
@@ -46,14 +47,12 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_paramObj.userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _paramObj.userId, null);
 				}
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
-	            //var displayError = 'Network Error|Please reopen Noonswoon';
-	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -71,7 +70,7 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	}
 };
 
-exports.getChatHistory = function(_paramObj, _callbackFn) {
+exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the moment
 	var fnSrc = 'backendChat.getChatHistory';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_chat_history/"+_paramObj.userId+"/"+_paramObj.page;
@@ -84,12 +83,12 @@ exports.getChatHistory = function(_paramObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_paramObj.userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _paramObj.userId, null);
 				}
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
 	            //var displayError = 'Network Error|Please reopen Noonswoon';
 	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
@@ -124,14 +123,17 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj.content);
 				} else {
-					Ti.App.LogSystem.logEntryError('onload backendChat.saveChatMessage: '+JSON.stringify(resultObj) + ' (UserId: '+_messageObj.senderId+', MacAddr: '+Ti.Platform.id + ')');
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _messageObj.senderId, null);
 				}
 		    },
 		    onerror: function(e) {
+				_callbackFn({success:false});
 				// this function is called when an error occurs, including a timeout
-				Ti.App.LogSystem.logEntryError('onerror backendChat.saveChatMessage: '+JSON.stringify(e) + ' (UserId: '+_messageObj.senderId+', MacAddr: '+Ti.Platform.id + ')');
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _messageObj.senderId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});

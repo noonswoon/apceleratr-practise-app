@@ -239,4 +239,7 @@
 	<string name="to reveal Mutual Friends">ในการแสดงว่าใครคือเพื่อนระหว่างเรา</string>	
 	<string name="10 credits">10 เครดิต</string>
 	<string name="to like your match">เพื่อที่จะ Like แมทของคุณ</string>
+	
+	<string name="Oops!">Oops!</string>
+	<string name="There is something wrong. Please close and open Noonswoon again.">ขณะนี้ระบบเกิดปัญหา โปรดปิดและเปิด Noonswoon อีกครั้ง</string>	
 </resources>

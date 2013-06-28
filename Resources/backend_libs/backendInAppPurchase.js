@@ -19,18 +19,18 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 		var url = Ti.App.API_SERVER +"iap/verify_receipt/";
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
-		    	Ti.API.info('response from server: '+this.responseText);
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+		      		resultObj.success = true;
 					_callbackFn(resultObj.content);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
-				//var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});

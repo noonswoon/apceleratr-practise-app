@@ -238,5 +238,8 @@
 	<string name="5 credits">5 credits</string>	
 	<string name="to reveal Mutual Friends">to reveal Mutual Friends</string>	
 	<string name="10 credits">10 credits</string>
-	<string name="to like your match">to like your match</string>	
+	<string name="to like your match">to like your match</string>
+	
+	<string name="Oops!">Oops!</string>
+	<string name="There is something wrong. Please close and open Noonswoon again.">There is something wrong. Please close and open Noonswoon again.</string>	
 </resources>
