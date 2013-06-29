@@ -49,7 +49,14 @@ MatchWindow = function(_userId, _matchId) {
 	});
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-				
+
+	var networkErrorDialog = Titanium.UI.createAlertDialog({
+		title: L('Oops!'),
+		message:L('There is something wrong. Please try again.'),
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
+								
 	var dataForProfile = [];
 	
 	function educationCmpFn(a, b) {
@@ -227,6 +234,8 @@ MatchWindow = function(_userId, _matchId) {
 				doHouseKeepingTasks(_matchInfo.meta.ios_version);
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
+			} else {
+				networkErrorDialog.show();
 			}
 			hidePreloader(self);
 		});
@@ -236,6 +245,8 @@ MatchWindow = function(_userId, _matchId) {
 			if(_matchInfo.success) {
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
+			} else {
+				networkErrorDialog.show();	
 			}
 			hidePreloader(self);
 		});
@@ -257,7 +268,6 @@ MatchWindow = function(_userId, _matchId) {
 	};
 
 	self.reloadMatch = function() {
-		
 		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 			//firing the event
 			Ti.App.fireEvent('openNoInternetWindow');
@@ -269,6 +279,8 @@ MatchWindow = function(_userId, _matchId) {
 						//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
 						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 						contentView.data = populateMatchDataTableView(_matchInfo);	
+					} else {
+						networkErrorDialog.show();
 					}
 					hidePreloader(self);
 				}); 
@@ -277,6 +289,9 @@ MatchWindow = function(_userId, _matchId) {
 				BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 					if(_matchInfo.success)
 						contentView.data = populateMatchDataTableView(_matchInfo);
+					else {
+						networkErrorDialog.show();	
+					}
 					hidePreloader(self);
 				});
 			}

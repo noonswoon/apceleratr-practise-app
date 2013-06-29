@@ -632,7 +632,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				BackendInAppPurchase.verifyReceipt(_userId, evt.receipt, evt.productIdentifier, function(e) {
 					if(e.success) {
 						//update the credit
-						CreditSystem.setUserCredit(e.credit); //sync the credit
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 					
 						//pop up for success purchase confirmation
 						purchasedConfirmationDialog.show(); 

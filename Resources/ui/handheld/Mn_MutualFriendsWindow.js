@@ -8,7 +8,7 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
-		image: 'images/topbar-glyph-back.png'
+		image: 'images/edit/topbar-glyph-cancel.png'
 	});
 		
 	var self = Titanium.UI.createWindow({

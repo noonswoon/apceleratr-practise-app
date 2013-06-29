@@ -84,14 +84,24 @@ ConnectionWindow = function(_userId) {
 			Ti.App.fireEvent('openNoInternetWindow');
 		} else {
 			BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
-				connectionTableData = []; //reset table data
-				var connectedMatches = _connectedMatchInfo.content.connected_matches; 
-				for(var i = 0; i < connectedMatches.length; i++) {
-					var curConnect = connectedMatches[i];
-					var personRow = new ConnectionTableViewRow(_userId, curConnect);
-					connectionTableData.push(personRow);
+				if(_connectedMatchInfo.success) {
+					connectionTableData = []; //reset table data
+					var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+					for(var i = 0; i < connectedMatches.length; i++) {
+						var curConnect = connectedMatches[i];
+						var personRow = new ConnectionTableViewRow(_userId, curConnect);
+						connectionTableData.push(personRow);
+					}
+					connectionTableView.setData(connectionTableData);
+				} else {
+					var networkErrorDialog = Titanium.UI.createAlertDialog({
+						title: L('Oops!'),
+						message:L('There is something wrong. Please close and open Noonswoon again.'),
+						buttonNames: [L('Ok')],
+						cancel: 0
+					});
+					networkErrorDialog.show();	
 				}
-				connectionTableView.setData(connectionTableData);
 			});	
 		}
 	};

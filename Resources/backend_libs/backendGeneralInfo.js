@@ -13,7 +13,7 @@ exports.getReligion = function(_callbackFn) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					resultObj.success = true;
-					_callbackFn(resultObj.content);
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
@@ -51,7 +51,7 @@ exports.getEthnicity = function(_callbackFn) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					resultObj.success = true;
-					_callbackFn(resultObj.content);
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
@@ -89,7 +89,7 @@ exports.getTargetedCity = function(_callbackFn) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					resultObj.success = true;
-					_callbackFn(resultObj.content);
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});	
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);

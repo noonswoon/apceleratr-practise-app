@@ -176,6 +176,15 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				BackendMatch.saveResponse(matchResponseObj, function(e){
 					if(e.success)
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					else {
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please close and open Noonswoon again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						networkErrorDialog.show();	
+					}
 				});
 				setSelectedState("like");
 			}
@@ -202,6 +211,15 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					BackendMatch.saveResponse(matchResponseObj, function(e){
 						if(e.success)
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
+						else {
+							var networkErrorDialog = Titanium.UI.createAlertDialog({
+								title: L('Oops!'),
+								message:L('There is something wrong. Please close and open Noonswoon again.'),
+								buttonNames: [L('Ok')],
+								cancel: 0
+							});
+							networkErrorDialog.show();	
+						}
 					});
 				}
 			}

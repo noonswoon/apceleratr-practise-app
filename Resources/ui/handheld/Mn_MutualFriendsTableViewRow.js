@@ -63,11 +63,21 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 			} else {							
 				//update show_mutual_friends
 				BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-					CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					if(e.success) {
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+						hasUnlocked = true;
+						//open up the window to show friends
+						Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+					} else {
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please try again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						networkErrorDialog.show();
+					}
 				});
-				hasUnlocked = true;
-				//open up the window to show friends
-				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 			}
 		} else {
 			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
