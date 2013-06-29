@@ -15,27 +15,22 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
-						} else {
-							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description:resultObj.meta + '(UserId: '+_userId+')'}});
+						} else { //some other error code..legit error
+							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
 						}
 					} else {
-						var displayError = 'Application Error|delete and install again'; 
-						Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError + '(UserId: '+_userId+')'}});
+						Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 					}
-					_callbackFn(resultObj);
+					_callbackFn({success:false});
 				}
 	        },
 	        onerror : function(e) {
-	            _callbackFn({success:false});
 	            //no more error message..fail silently
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
-
-	            //var displayError = 'Network Error|Please reopen Noonswoon';
-	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError + '(UserId: '+_userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	            _callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -63,25 +58,21 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					resultObj.success = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
-						} else {
-							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_paramObj.userId+')'}});
+						} else { //some other error code..legit error
+							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
 						}
 					} else {
-						var displayError = 'Application Error|delete and install again';
-						Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
+						Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _paramObj.userId, null);
 					}
-					_callbackFn(resultObj);
+					_callbackFn({success:false});
 				}
 	        },
 	        onerror : function(e) {
-	        	_callbackFn({success:false});
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _paramObj.userId, null);
-	        	//var displayError = 'Network Error|Please reopen Noonswoon';
-	        	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError+ '(UserId: '+_paramObj.userId+')'}});
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
+	            _callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -115,15 +106,13 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		      		resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _matchResponseObj.userId, null);
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_matchResponseObj.userId+')'}});
 				}
 		    },
-		    onerror: function(e) {
-		        _callbackFn({success:false});
-		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _matchResponseObj.userId, null);
-		        //var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchResponseObj.userId+')'}});
+		    onerror: function(e) {		    
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _matchResponseObj.userId, null);
+	            _callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -149,15 +138,13 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _matchUserObj.userId, null);
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_matchUserObj.userId+')'}});
 				}
 		    },
 		    onerror: function(e) {
-		        _callbackFn({success:false});
-		        Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _matchUserObj.userId, null);
-		        //var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_matchUserObj.userId+')'}});
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _matchUserObj.userId, null);
+	            _callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -177,15 +164,16 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{description: resultObj.meta + '(UserId: '+_userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					_callbackFn({success:false});
 				}
 	        },
 	        onerror : function(e) {
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
-	        	//var displayError = 'Network Error|Please reopen Noonswoon';
-	        	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	            _callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -206,9 +194,10 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 };
 
 exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
+	var fnSrc = 'backendMatch.deleteConnectedMatch';
 	var sendingObj = {}; 
 	sendingObj.match_id = _matchObj.matchId;
-	sendingObj.user_id = _matchObj.userId
+	sendingObj.user_id = _matchObj.userId;
 	//Ti.API.info('sending this obj to flag as delete at server: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
@@ -220,14 +209,13 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
-					Ti.App.LogSystem.logEntryError('backendMatch.deleteConnectedMatch: '+JSON.stringify(resultObj) + ' (UserId: '+_matchObj.userId+', MacAddr: '+Ti.Platform.id + ')');
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _matchObj.userId, null);
 					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-				// this function is called when an error occurs, including a timeout
-		       	Ti.App.LogSystem.logEntryError('backendMatch.deleteConnectedMatch ..server NOT ready yet (UserId: '+_matchObj.userId+', MacAddr: '+Ti.Platform.id + ')');
-		        _callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _matchObj.userId, null);
+	            _callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});

@@ -27,6 +27,7 @@ Ti.App.Facebook.forceDialogAuth = false;
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
+Ti.App.OFFERED_CITIES = 'all';
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
@@ -182,25 +183,27 @@ if (Ti.version < 1.8 ) {
 					var BackendUser = require('backend_libs/backendUser');
 					var CreditSystem = require('internal_libs/creditSystem');
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
-						currentUserId = parseInt(_userInfo.meta.user_id);
-						ServerRoutingSystem.selectServerAPI(currentUserId);
-						var currentUserName = _userInfo.content.general.first_name; 
-						var currentUserImage = _userInfo.content.pictures[0].src;
-						
-						var facebookLikeArray = [];
-						for(var i = 0; i < _userInfo.content.likes.length; i++) {
-							var likeObj = {
-									'category': _userInfo.content.likes[i].category,
-									'name': _userInfo.content.likes[i].name
-								};
-							facebookLikeArray.push(likeObj);
-						}
-						ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
+						if(_userInfo.success) {
+							currentUserId = parseInt(_userInfo.meta.user_id);
+							ServerRoutingSystem.selectServerAPI(currentUserId);
+							var currentUserName = _userInfo.content.general.first_name; 
+							var currentUserImage = _userInfo.content.pictures[0].src;
 							
-						//set credit of the user
-						CreditSystem.setUserCredit(_userInfo.content.credit); 
-						
-						openMainApplication(currentUserId, currentUserImage, currentUserName);
+							var facebookLikeArray = [];
+							for(var i = 0; i < _userInfo.content.likes.length; i++) {
+								var likeObj = {
+										'category': _userInfo.content.likes[i].category,
+										'name': _userInfo.content.likes[i].name
+									};
+								facebookLikeArray.push(likeObj);
+							}
+							ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
+								
+							//set credit of the user
+							CreditSystem.setUserCredit(_userInfo.content.credit); 
+							
+							openMainApplication(currentUserId, currentUserImage, currentUserName);
+						}
 					});
 				} else {
 					//open login page
@@ -253,10 +256,21 @@ if (Ti.version < 1.8 ) {
 		var candidateList = e.candidateList;
 		//Ti.API.info('completedFacebookFriendQuery: candidateList: '+JSON.stringify(candidateList));
 		FacebookFriendModel.populateFacebookFriend(candidateList);
-		//Ti.API.info('calling Backend: getInvitedList of userId: '+currentUserId);
-		BackendInvite.getInvitedList(currentUserId, function(invitedList) {
+
+		BackendInvite.getInvitedList(currentUserId, function(e) {
 			//update the local db for invitedList
-			FacebookFriendModel.updateIsInvited(invitedList);
+			if(e.success) {
+				var invitedList = e.content.invited_people;
+				FacebookFriendModel.updateIsInvited(invitedList);
+			} else {
+				var networkErrorDialog = Titanium.UI.createAlertDialog({
+					title: L('Oops!'),
+					message:L('There is something wrong. Please close and open Noonswoon again.'),
+					buttonNames: [L('Ok')],
+					cancel: 0
+				});
+				networkErrorDialog.show();	
+			}
 		});
 		
 		FacebookQuery.queryUserPhotos();
@@ -278,16 +292,28 @@ if (Ti.version < 1.8 ) {
 		numWaitingEvent++;
 
 		if(CacheHelper.shouldFetchData('StaticData', 0)) {
-			CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
 			BackendGeneralInfo.getStaticData(function(e) {
-				//load data into religion table
-				ModelReligion.populateReligion(e.religion);
-				ModelEthnicity.populateEthnicity(e.ethnicity);
-				ModelTargetedCity.populateTargetedCity(e.city);
+				if(e.success) {
+					Ti.API.info('result from getStaticData: '+JSON.stringify(e));
+					//load data into religion table
+					ModelReligion.populateReligion(e.content.religion);
+					ModelEthnicity.populateEthnicity(e.content.ethnicity);
+					ModelTargetedCity.populateTargetedCity(e.content.city);
+	
+					Ti.App.NUM_INVITE_ALL = e.content.invites_signup; 
+					Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
+					Ti.App.OFFERED_CITIES = e.content.city;  //need to put this guy in the db
 
-				Ti.App.NUM_INVITE_ALL = e.invites_signup; 
-				Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
-				Ti.App.OFFERED_CITIES = e.city;  //need to put this guy in the db
+					CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
+				} else {
+					var networkErrorDialog = Titanium.UI.createAlertDialog({
+						title: L('Oops!'),
+						message:L('There is something wrong. Please close and open Noonswoon again.'),
+						buttonNames: [L('Ok')],
+						cancel: 0
+					});
+					networkErrorDialog.show();
+				}
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
 		} else {
@@ -319,8 +345,9 @@ if (Ti.version < 1.8 ) {
 	Ti.App.addEventListener('restartApp', launchTheAppWrapper);
 	
 	Ti.App.addEventListener('openErrorWindow', function(e) {
-		//somehow need to find a way to log this to the server
-		Ti.App.LogSystem.logEntryError(e.src +':' + e.meta.description + '(MacAddr: '+Ti.Platform.id + ')');
+		//somehow need to find a way to log this to the server		
+		//Ti.API.info('openErrorWindow param: '+JSON.stringify(e));
+		Ti.App.LogSystem.logSystemData('warn', e.src + ', ErrorWindow is open: ' + e.meta.description, currentUserId, null);
 		
 		var displayError = '';
 		if(e.meta.display_error !== undefined)
@@ -337,7 +364,8 @@ if (Ti.version < 1.8 ) {
 			
 	if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 		Ti.App.fireEvent('openNoInternetWindow');
-	} else {
+	} else {					
+		//Ti.App.fireEvent('openErrorWindow', {src: 'dummy', meta: {description: 'test' }});
 		launchTheApp();
 	} 
 })();
