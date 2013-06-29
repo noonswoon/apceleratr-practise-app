@@ -5,7 +5,6 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	var fnSrc = 'backendUser.saveEditUserInfo';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/edit/"+_userId;
-//		Ti.API.info('edit api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 	        onload : function(e) {
 	        	//Ti.API.info('saveEditUserInfo: '+this.responseText);
@@ -14,14 +13,13 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					resultObj.success = false;
-					_callbackFn(resultObj);
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					_callbackFn({success:false});
 				}
 	        },
 	        onerror : function(e) {
-	        	var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	        	_callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -60,14 +58,16 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(FbId: '+_userObj.userFbId+')'}});	
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-	        	var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(FbId: '+_userObj.userFbId+')'}});			
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	        	_callbackFn({success:false});		
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -96,15 +96,17 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
-		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_userId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+		    	_callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -134,14 +136,19 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+		    		resultObj.success = true;
 					_callbackFn(resultObj);
+				} else if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
+					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
+					_callbackFn({success:false});
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(FbId: '+_fbId+')'}});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, _fbId);
+					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(FbId: '+_fbId+')'}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, _fbId);
+		    	_callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -179,14 +186,14 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 				var resultObj = JSON.parse(this.responseText);
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
-				} else {
+				} else {				
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _reportObj.userId, null);
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_reportObj.userId+')'}});	
 				}
 	        },
 	        onerror : function(e) {
-	       	    var displayError = 'Network Error|Please reopen Noonswoon';
-		    	Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_reportObj.userId+')'}});			 
+	       	    Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+		    	_callbackFn({success:false});			 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
@@ -211,13 +218,13 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
 					_callbackFn({success:true});
 				} else {
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 					_callbackFn({success:false});
-					//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_reportObj.userId+')'}});	
 				}
 	        },
 	        onerror : function(e) {
-	       	    var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_reportObj.userId+')'}});			 
+	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+		    	_callbackFn({success:false});	 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });

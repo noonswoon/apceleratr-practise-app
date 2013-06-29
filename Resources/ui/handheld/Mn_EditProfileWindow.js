@@ -446,6 +446,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						Ti.App.fireEvent('editProfileSuccess', {editProfile: _resultObj});
 						_navGroup.close(self,{animated:true});
 					}
+				} else {
+					var networkErrorDialog = Titanium.UI.createAlertDialog({
+						title: L('Oops!'),
+						message:L('There is something wrong. Please save again.'),
+						buttonNames: [L('Ok')],
+						cancel: 0
+					});
+					networkErrorDialog.show();	
 				}
 				
 				if(Ti.Platform.osname === 'iphone') {
@@ -503,12 +511,22 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 		
 	BackendUser.getUserInfo(_userId, function(_userInfo) {
-		for(var i = 0; i < _userInfo.content.pictures.length; i++) {
-			if(_userInfo.content.pictures[i].src !== "") {
-				get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+		if(_userInfo.success) {
+			for(var i = 0; i < _userInfo.content.pictures.length; i++) {
+				if(_userInfo.content.pictures[i].src !== "") {
+					get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+				}
 			}
+			populateInfoDataTableView(_userInfo);
+		} else {
+			var networkErrorDialog = Titanium.UI.createAlertDialog({
+				title: L('Oops!'),
+				message:L('There is something wrong. Please check your internet connection.'),
+				buttonNames: [L('Ok')],
+				cancel: 0
+			});
+			networkErrorDialog.show();	
 		}
-		populateInfoDataTableView(_userInfo);
 	});
 
 	return self;

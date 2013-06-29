@@ -317,7 +317,7 @@ Ti.App.Chat = function(_chatParams) {
 		backgroundImage: 'images/top-bar-button.png',
 		width: 44,
 		height: 30,
-		image: 'images/topbar-glyph-back.png',
+		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
 	var chatWindow = Ti.UI.createWindow({

@@ -188,32 +188,38 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			        if(newConnectFlag) {
 			        	newConnectFlag = false;
 				        BackendUser.connectToServer(sendingObj, function(_userLogin) {
-				        	// check the result data whether it is a new user or existing one
-				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
-				        	var CreditSystem = require('internal_libs/creditSystem');
-				        	//Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
-				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-				        	if(_userLogin.content.user_status === "new_user") {
-				        	//if(true) {
-				        	
-				        		//Ti.App.Flurry.logEvent('signupCompleted');
-				        		Ti.API.info('***NEW USER****');
-								var currentUserId = parseInt(_userLogin.meta.user_id);
-								ServerRoutingSystem.selectServerAPI(currentUserId);
-								//this will go to onboarding step 1
-								Ti.App.fireEvent('openOnboardingStep1', {userId: currentUserId});
+				        	if(_userLogin.success) {
+					        	// check the result data whether it is a new user or existing one
+					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
+					        	var CreditSystem = require('internal_libs/creditSystem');
+					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
+					        	if(_userLogin.content.user_status === "new_user") {
+					        	//if(true) {
+					        		Ti.API.info('***NEW USER****');
+									var currentUserId = parseInt(_userLogin.meta.user_id);
+									ServerRoutingSystem.selectServerAPI(currentUserId);
+									//this will go to onboarding step 1
+									Ti.App.fireEvent('openOnboardingStep1', {userId: currentUserId});
+					        	} else {
+					        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
+					        		var currentUserId = parseInt(_userLogin.meta.user_id); 
+									ServerRoutingSystem.selectServerAPI(currentUserId);
+									var currentUserImage = _userLogin.content.pictures[0].src;
+									var currentUserName = _userLogin.content.general.first_name; 
+									var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+									var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
+									mainApp.open();
+									mainApp.unhideCoverView();
+									self.close();
+					        	}
 				        	} else {
-				        		//Ti.App.Flurry.logEvent('loginSucceeded');
-				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
-				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
-								ServerRoutingSystem.selectServerAPI(currentUserId);
-								var currentUserImage = _userLogin.content.pictures[0].src;
-								var currentUserName = _userLogin.content.general.first_name; 
-								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
-								mainApp.open();
-								mainApp.unhideCoverView();
-								self.close();
+				        		var networkErrorDialog = Titanium.UI.createAlertDialog({
+									title: L('Oops!'),
+									message:L('There is something wrong. Please try again.'),
+									buttonNames: [L('Ok')],
+									cancel: 0
+								});
+								networkErrorDialog.show();	
 				        	}
 				        	newConnectFlag = true;
 				        	hidePreloader(self);

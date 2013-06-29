@@ -64,7 +64,7 @@ exports.logSystemData = function(_level, _msg, _userId, _fbId) {
 	sendingObj.fb_id = _fbId;
 	sendingObj.mac_addr = Ti.Platform.id;
 		
-	//Ti.API.info('sending this obj to save to server: '+JSON.stringify(sendingObj));
+	Ti.API.info('Level: '+_level+', Msg: '+_msg+', userId: '+_userId);
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"log/save/";
