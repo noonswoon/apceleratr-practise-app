@@ -67,21 +67,22 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		backgroundImage: 'images/like-button-inactive.png',
 		backgroundSelectedImage: 'images/like-button-active.png',
 		bottom: 10,
-		left: 7,
+		left: 79, //7
 		width: 154,
 		height: 57,
 		zIndex: 3
 	});
 	
 	var likeLbl = Ti.UI.createLabel({
-		left: 84,
+		left: 156, //84
 		bottom: 30,
 		text: L('Like'), 
 		color: '#777777',
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
-	
+
+/*	
 	var passButton = Ti.UI.createButton({
 		backgroundImage: 'images/pass-button-inactive.png',
 		backgroundSelectedImage: 'images/pass-button-active.png',
@@ -100,12 +101,14 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
+*/
 
 	if(_showButtons) {
 		self.add(likeButton);
-		self.add(passButton);
 		self.add(likeLbl);
-		self.add(passLbl);
+		
+		//self.add(passButton);
+		//self.add(passLbl);
 	}
 
 	var pagingControl = new CustomPagingControl(scrollView);
@@ -137,11 +140,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			likeButton.backgroundImage = 'images/like-button-active.png';
 			notificationImageUrl = 'images/notification-liked.png';
 			textOnImageLbl.text = L("Liked");
-		} else {
+		} /*else {
 			passButton.backgroundImage = 'images/pass-button-active.png';
 			notificationImageUrl = 'images/notification-passed.png';
 			textOnImageLbl.text = L("Passed");
-		}
+		}*/
 		
 		var notificationImage = Ti.UI.createImageView({
 			image: notificationImageUrl,
@@ -155,7 +158,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		
 		self.add(notificationImage);
 		likeButton.enabled = false;
-		passButton.enabled = false;
+		//passButton.enabled = false;
 	};
 	self.setSelectedState = setSelectedState;
 	
@@ -174,9 +177,10 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					if(e.success)
+					if(e.success) {
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
-					else {
+						setSelectedState("like");
+					} else {
 						var networkErrorDialog = Titanium.UI.createAlertDialog({
 							title: L('Oops!'),
 							message:L('There is something wrong. Please close and open Noonswoon again.'),
@@ -186,18 +190,18 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 						networkErrorDialog.show();	
 					}
 				});
-				setSelectedState("like");
 			}
 		}
 	});
 
+/*
 	var passWarningDialog = Titanium.UI.createAlertDialog({
 		title: L('You are Passing'),
 		message:L('Are you sure you want to pass?'),
 		buttonNames: [L('Cancel'),L('Pass')],
 		cancel: 0
 	});
-	
+		
 	passWarningDialog.addEventListener('click', function(e) {
 		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
 			Ti.API.info('(There was no button to click)');
@@ -205,13 +209,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			if(e.index === 1) {
 				if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 					isActionTaken = true;
-					setSelectedState("pass");
-			
 					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
 					BackendMatch.saveResponse(matchResponseObj, function(e){
-						if(e.success)
+						if(e.success) {
+							setSelectedState("pass");
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
-						else {
+						} else {
 							var networkErrorDialog = Titanium.UI.createAlertDialog({
 								title: L('Oops!'),
 								message:L('There is something wrong. Please close and open Noonswoon again.'),
@@ -229,7 +232,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	passButton.addEventListener("click", function() {
 		passWarningDialog.show();
 	});	
-
+*/
 	return self;
 };
 

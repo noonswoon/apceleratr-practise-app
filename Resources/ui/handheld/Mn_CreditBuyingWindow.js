@@ -28,6 +28,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		backgroundColor:'#eeeeee',
 		separatorColor: 'transparent',
 		//width:'100%',
+		scrollable: false
 	});
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -310,7 +311,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});	
 	oneTimePurchaseSectionView.add(bottomEdgeBuyCreditsView);
 	
-	
+/*	
 	var horizontalSeparator1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		top: 218,
@@ -318,11 +319,12 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		width: '100%'
 	});
 	oneTimePurchaseSectionView.add(horizontalSeparator1);
-	
+*/	
 	oneTimePurchaseRow.add(oneTimePurchaseSectionView);
 	tableData.push(oneTimePurchaseRow);
 	
 	/*********************** subscription section ***********************************/
+/*
 	var subscriptionRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -438,8 +440,9 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	monthlySubscribeButton.add(monthlySubscribeButtonText);	
 	monthlySubscriptionView.add(monthlySubscribeButton);	
 	subscriptionSectionView.add(monthlySubscriptionView);
-
+*/
 /*** 3 months ***/
+/*
 	var quarterlySubscriptionView = Ti.UI.createView({
 		backgroundImage: 'images/match-info-white-row.png',
 		top: startingOffset + 53, //+ 5 + 48 
@@ -496,9 +499,9 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	quarterlySubscribeButton.add(quarterlySubscribeButtonText);	
 	quarterlySubscriptionView.add(quarterlySubscribeButton);
 	subscriptionSectionView.add(quarterlySubscriptionView);
-	
+*/	
 	/*** end 3 months ***/
-
+/*
 	var yearlySubscriptionView = Ti.UI.createView({
 		backgroundImage: 'images/match-bottom-box.png',
 		top: startingOffset + 101, //+ 5 + 48 
@@ -565,7 +568,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});	
 	subscriptionSectionView.add(bottomEdgeSubscriptionView);
 	
-	
 	var horizontalSeparator2 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		top: 218,
@@ -595,6 +597,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		zIndex: 3,
 	});
 	restoreButton.add(restoreButtonText);	
+*/
 	//self.add(restoreButton);
 
 	contentView.data = tableData;
