@@ -11,18 +11,16 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					//Ti.API.info('backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
-					_callbackFn(resultObj.content.invited_people);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.LogSystem.logSystemData('error', fnSrc + 'meta error:'+resultObj.meta, _userId, null);
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 				}
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
 				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
-				//var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -62,14 +60,12 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.LogSystem.logSystemData('error', fnSrc + 'meta error:'+resultObj.meta, _invitedData.userId, null);
-					//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta + '(UserId: '+_invitedData.userId+')'}});					
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _invitedData.userId, null);
 				}
 		    },
 		    onerror: function(e) {
+		    	_callbackFn({success:false});
 				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _invitedData.userId, null);
-				//var displayError = 'Network Error|Please reopen Noonswoon';
-		    	//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_invitedData.userId+')'}});
 		    },
 		    timeout:50000  // in milliseconds
 		});

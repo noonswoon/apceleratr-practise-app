@@ -1,5 +1,7 @@
 exports.queryFacebookFriends = function() {
-	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
+	var offeredCities = 'all';
+	if(Ti.App.OFFERED_CITIES !== 'all') 
+		offeredCities = Ti.App.OFFERED_CITIES.join(',');
 		
 	var query = "SELECT uid, name, pic_square, current_location, sex, relationship_status FROM user ";
 		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Ti.App.Facebook.uid + ")";
