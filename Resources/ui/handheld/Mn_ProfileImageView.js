@@ -164,7 +164,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	
 	likeButton.addEventListener("click", function() {
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
-			isActionTaken = true;
 			
 			var currentCredit = CreditSystem.getUserCredit();
 			if(currentCredit < 10) {
@@ -174,6 +173,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				});
 				notEnoughCreditsDialog.show();
 			} else {				
+				isActionTaken = true;
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
@@ -188,6 +188,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 							cancel: 0
 						});
 						networkErrorDialog.show();	
+						isActionTaken = false;
 					}
 				});
 			}
