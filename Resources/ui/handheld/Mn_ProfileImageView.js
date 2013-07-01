@@ -174,12 +174,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				notEnoughCreditsDialog.show();
 			} else {				
 				isActionTaken = true;
+				setSelectedState("like");
 				//save that the user like the person
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
 					if(e.success) {
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
-						setSelectedState("like");
 					} else {
 						var networkErrorDialog = Titanium.UI.createAlertDialog({
 							title: L('Oops!'),
@@ -210,10 +210,10 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			if(e.index === 1) {
 				if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 					isActionTaken = true;
+					setSelectedState("pass");
 					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
 					BackendMatch.saveResponse(matchResponseObj, function(e){
 						if(e.success) {
-							setSelectedState("pass");
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
 						} else {
 							var networkErrorDialog = Titanium.UI.createAlertDialog({
