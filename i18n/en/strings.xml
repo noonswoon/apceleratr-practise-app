@@ -242,5 +242,5 @@
 	
 	<string name="Oops!">Oops!</string>
 	<string name="There is something wrong. Please close and open Noonswoon again.">There is something wrong. Please close and open Noonswoon again.</string>	
-	<string name="geo_purpose">You match will be people in your area</string>
+	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>
 </resources>

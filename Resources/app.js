@@ -148,14 +148,13 @@ if (Ti.version < 1.8 ) {
 	Ti.App.Properties.setDouble('longitude', 0.0);
 	Ti.Geolocation.purpose = L('geo_purpose');
 	if (Ti.Geolocation.locationServicesEnabled) {
-		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
 		Ti.Geolocation.getCurrentPosition(function(e) {
 			if(!e.error) {
 				var latitude = e.coords.latitude;
 				var longitude = e.coords.longitude;				
 				Ti.App.Properties.setDouble('latitude', latitude);
 				Ti.App.Properties.setDouble('longitude', longitude);
-				alert('latitude: '+latitude+', longitude: '+longitude);
 			}
 		});
 	}
