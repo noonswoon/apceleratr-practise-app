@@ -1,18 +1,29 @@
 FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 	var GlyphGraphicsHelper = require('/internal_libs/glyphGraphicsHelper');
+	var StrWidthHelper = require('internal_libs/strWidthHelper');
 	
 	var fieldName = _fieldName;
 	var modified = false;
 
+	var calculateCapsuleWidth = function(strWidth) {
+		//need to scale down a bit
+		
+		var widthForCapsuleText = Math.ceil(strWidth/2);
+		return 65 + widthForCapsuleText; //4 * (strLen - 4); //set up for 4 characters, +15 for padding
+	};
+	
 	var createLikeCapsuleContent = function(_category, _content) {
 		var glyphImageUrl = GlyphGraphicsHelper.getLikeGlyph(_category);
 
 		var displayContent = _content;
-		var viewWidth = 65 + 4 * (displayContent.length - 4); //set up for 4 characters
+		var strWidth = StrWidthHelper.computeStrWidth(displayContent);	
+		var viewWidth =  calculateCapsuleWidth(strWidth);
 
 		var glyphImageView = Ti.UI.createImageView({
 			image: glyphImageUrl,
-			center: {x:15, y:'50%'},
+			left: 10, 
+			top: 7,
+//			center: {x:15, y:'50%'},
 			height: 10,
 			width: 10,
 			zIndex: 3
@@ -20,7 +31,9 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		
 		var likeLabel = Ti.UI.createLabel({
 			text: displayContent,
-			center: {x:'61%', y:'50%'},
+			left: 25, 
+			top: 5,
+//			center: {x: 50, y:'50%'},
 			font:{fontWeight:'bold',fontSize:10},
 			color: '#4e5866', 
 			zIndex: 2,
@@ -28,6 +41,7 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		
 		var capsuleView = Ti.UI.createView({
 			backgroundImage: 'images/likes-capsule-stretchable.png',
+			//backgroundColor: 'yellow',
 			height: 25,
 			width: viewWidth,
 			zIndex: 1,
@@ -53,7 +67,8 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		likeContent.top = 18 + (numRows - 1) * 35;
 		likeContent.left = capsuleStartPoint;
 
-		var curCapsuleWidth = 65 + 4 * (curLikeStr.length - 4); 
+		var strWidth = StrWidthHelper.computeStrWidth(curLikeStr);	
+		var curCapsuleWidth = calculateCapsuleWidth(strWidth);
 		var capsuleEndPoint = capsuleStartPoint + curCapsuleWidth;
 		nextStartPoint = capsuleEndPoint + 10;
 		if(nextStartPoint > 310 || capsuleEndPoint > 310) {
