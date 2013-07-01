@@ -215,31 +215,53 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 
 	profileSectionView.addEventListener('touchstart', function() {
 		profileSectionView.backgroundColor = '#3b3a3a';
-		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
+		
+	});
+	
+	profileSectionView.addEventListener('touchcancel', function() {
+		profileSectionView.backgroundColor = '#4a4949';
 	});
 	
 	profileSectionView.addEventListener('touchend', function() {
 		profileSectionView.backgroundColor = '#4a4949';
 	});
 	
+	profileSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
+	});
+	
 	creditSectionView.addEventListener('touchstart', function() {
 		creditSectionView.backgroundImage = 'images/menu-row-item-active.png';
-		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
+	});
+	
+	creditSectionView.addEventListener('touchcancel', function() {
+		creditSectionView.backgroundImage = 'images/menu-row-item.png';
 	});
 	
 	creditSectionView.addEventListener('touchend', function() {
 		creditSectionView.backgroundImage = 'images/menu-row-item.png';
 	});
-	
+
+	creditSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
+	});
+		
 	logoutSectionView.addEventListener('touchstart', function() {
 		logoutSectionView.backgroundImage = 'images/menu-row-item-active.png';
-		Ti.App.Facebook.logout();
+	});
+	
+	logoutSectionView.addEventListener('touchcancel', function() {
+		logoutSectionView.backgroundImage = 'images/menu-row-item.png';
 	});
 	
 	logoutSectionView.addEventListener('touchend', function() {
 		logoutSectionView.backgroundImage = 'images/menu-row-item.png';
 	});
 
+	logoutSectionView.addEventListener('click', function() {
+		Ti.App.Facebook.logout();
+	});
+	
 	//check if we need to fetch fb friends for local db or not
 	if(CacheHelper.shouldFetchData('FacebookFriendQuery_'+Ti.App.Facebook.uid, 0)) {
 		Ti.API.info('have NOT fetched fb data');

@@ -113,6 +113,10 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		}
 	});
 	
+	self.addEventListener('touchcancel', function() {
+		backgroundImageView.backgroundImage = 'images/menu-row-item.png';
+	});
+	
 	self.addEventListener('touchend', function() {
 		backgroundImageView.backgroundImage = 'images/menu-row-item.png';
 	});
