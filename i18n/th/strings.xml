@@ -241,5 +241,6 @@
 	<string name="to like your match">เพื่อที่จะ Like แมทของคุณ</string>
 	
 	<string name="Oops!">Oops!</string>
-	<string name="There is something wrong. Please close and open Noonswoon again.">ขณะนี้ระบบเกิดปัญหา โปรดปิดและเปิด Noonswoon อีกครั้ง</string>	
+	<string name="There is something wrong. Please close and open Noonswoon again.">ขณะนี้ระบบเกิดปัญหา โปรดปิดและเปิด Noonswoon อีกครั้ง</string>
+	<string name="geo_purpose">Match ของคุณจะเป็นผู้ใช้ที่อยู่ในบริเวณเดียวกัน</string>	
 </resources>

@@ -27,7 +27,7 @@ Ti.App.Facebook.forceDialogAuth = false;
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
-Ti.App.OFFERED_CITIES = 'all';
+Ti.App.OFFERED_CITIES = '';
 Ti.App.NUM_TOP_FRIENDS = 5; 
 Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
@@ -91,8 +91,6 @@ var ModelMetaData = require('model/metaData');
 var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
-
-
 //bootstrap and check dependencies
 if (Ti.version < 1.8 ) {
 	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');	  	
@@ -144,8 +142,24 @@ if (Ti.version < 1.8 ) {
 			ModelMetaData.updateDbVersion(Ti.App.CLIENT_VERSION);
 		}
 	}
-	Ti.API.info('current db version: '+ModelMetaData.getDbVersion());
-	
+
+	//asking for geolocation
+	Ti.App.Properties.setDouble('latitude', 0.0);
+	Ti.App.Properties.setDouble('longitude', 0.0);
+	Ti.Geolocation.purpose = L('geo_purpose');
+	if (Ti.Geolocation.locationServicesEnabled) {
+		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+		Ti.Geolocation.getCurrentPosition(function(e) {
+			if(!e.error) {
+				var latitude = e.coords.latitude;
+				var longitude = e.coords.longitude;				
+				Ti.App.Properties.setDouble('latitude', latitude);
+				Ti.App.Properties.setDouble('longitude', longitude);
+				alert('latitude: '+latitude+', longitude: '+longitude);
+			}
+		});
+	}
+		
 	var openMainApplication = function(_userId, _userImage, _userName) {
 		var MainApplicationModule = require('ui/handheld/ApplicationWindow');
 		var mainApp = new MainApplicationModule(_userId, _userImage, _userName);

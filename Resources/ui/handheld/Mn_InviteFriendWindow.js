@@ -40,7 +40,6 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 
 	var targetedList = [];
 	var numInvites = 0;
-	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
 	var userCredit = CreditSystem.getUserCredit();
 	var inviteButton = Ti.UI.createButton({
 		backgroundImage: inviteBtnBgImage,

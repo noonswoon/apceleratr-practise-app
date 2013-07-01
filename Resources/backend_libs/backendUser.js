@@ -51,6 +51,8 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.device_platform = _userObj.devicePlatform;
 	sendingObj.device_id = _userObj.deviceId;
 	sendingObj.mac_addr = _userObj.macAddr;
+	sendingObj.latitude = _userObj.latitude;
+	sendingObj.longitude = _userObj.longitude;
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_ROUTING_SERVER +"userasync/connect_server";
@@ -208,6 +210,7 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	var fnSrc = 'backendUser.updatePNToken';
 	var sendingObj = {};
 	sendingObj.user_id = _userId; 
+	sendingObj.device_platform = 'iphone';
 	sendingObj.pn_token = _pnToken;
 
 	if(Ti.App.LIVE_DATA) {

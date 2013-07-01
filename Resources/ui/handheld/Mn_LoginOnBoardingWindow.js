@@ -178,6 +178,9 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "";
 			        sendingObj.macAddr = Ti.Platform.id;
+			        sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
+			        sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
+			        
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
 			        	sendingObj.devicePlatform = 'iphone';
