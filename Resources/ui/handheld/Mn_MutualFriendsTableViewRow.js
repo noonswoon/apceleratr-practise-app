@@ -54,6 +54,10 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 		activeImageView.visible = true;
 	});
 	
+	tableRow.addEventListener('touchcancel', function(){
+		activeImageView.visible = false;
+	});
+	
 	tableRow.addEventListener('touchend', function(){
 		activeImageView.visible = false;
 		if(!hasUnlocked) {
