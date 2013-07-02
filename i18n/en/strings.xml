@@ -3,14 +3,14 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">Welcome to</string>
 	<string name="Find The One">Find The One</string>
-	<string name="Love is in the App">Love is in the App</string>
+	<string name="Love is in the App™">Love is in the App™</string>
 	<string name="tour ➜">tour ➜</string>
 
 	<string name="Get a new match every day">Get a new match every day</string>
 	<string name="Like or Pass your match">Like or Pass your match</string>	
 	<string name="Get connected">Get connected</string>		
 	<string name="if you like each other">if you like each other</string>
-	<string name="Chat anonymously">Chat anonymously</string>
+	<string name="Chat privately">Chat privately</string>
 	<string name="Invite friends, get credits">Invite friends, get credits</string>	
 
 	<string name="Connect Privately">Connect Privately</string>	
@@ -243,4 +243,5 @@
 	<string name="Oops!">Oops!</string>
 	<string name="There is something wrong. Please close and open Noonswoon again.">There is something wrong. Please close and open Noonswoon again.</string>	
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>
+	<string name="You will be notified if your match likes you too">You will be notified if your match likes you too</string>
 </resources>

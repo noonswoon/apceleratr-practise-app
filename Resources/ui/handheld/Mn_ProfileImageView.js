@@ -120,7 +120,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		//self.add(passButton);
 		//self.add(passLbl);
 	}
-
+				
 	var pagingControl = new CustomPagingControl(scrollView);
 	pagingControl.top = 254;
 	self.add(pagingControl);
@@ -162,7 +162,45 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 			} else {				
 				isActionTaken = true;
 				setSelectedState("like");
+
 				//save that the user like the person
+				//alert to user
+				var likeAlertView = Ti.UI.createView({
+					borderRadius : 10,
+					opacity : 0.8,
+					top : 90,
+					left : 50,
+					right : 50,
+					height : 115,
+					zIndex : 7777,
+					backgroundColor: '#000'
+				});
+				
+				var alertLabel = Ti.UI.createLabel({
+					text : L('You will be notified if your match likes you too'),
+					textAlign : 'center',
+					color : '#fff',
+					zIndex : 9999,
+					font : {
+						fontSize : 16,
+						fontWeight : 'bold'
+					},
+					top : 40
+				});
+				likeAlertView.add(alertLabel);
+				
+				var animation = Titanium.UI.createAnimation({
+					opacity: 0, 
+					duration: 4500
+				});
+				
+				var animationHandler = function() {
+					self.remove(likeAlertView);
+				};
+				animation.addEventListener('complete',animationHandler);
+				self.add(likeAlertView);
+				likeAlertView.animate(animation);
+				
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
 					if(e.success) {

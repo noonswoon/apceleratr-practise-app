@@ -20,7 +20,7 @@ LoginOnBoarding5View = function() {
 	}
 
 	var description = Ti.UI.createLabel({
-		text: L('Chat anonymously'),
+		text: L('Chat privately'),
 		center: {x:'50%', y:descriptionYPos}, //x:67
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},

@@ -19,7 +19,7 @@ Ti.App.ACTUAL_FB_INVITE = true;
 Ti.App.IAP_SANDBOX = true;
 
 Ti.App.Facebook = require('facebook');
-Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_education_history', 'user_hometown', 
+Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship_details', 'user_education_history', 'user_hometown', 
 							'user_location', 'user_birthday', 'user_religion_politics', 'user_work_history', 
 							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
 Ti.App.Facebook.forceDialogAuth = false;

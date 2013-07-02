@@ -3,14 +3,14 @@
 	<string name="welcome">Welcome to %s!</string>
 	<string name="Welcome to">ขอต้อนรับเข้าสู่</string>
 	<string name="Find The One">หาคนพิเศษคนนั้นของคุณ</string>
-	<string name="Love is in the App">Love is in the App</string>
+	<string name="Love is in the App™">Love is in the App™</string>
 	<string name="tour ➜">ทัวร์ ➜</string>
 	
 	<string name="Get a new match every day">ได้รับ match ใหม่ทุกๆวัน</string>
 	<string name="Like or Pass your match">ถูกใจหรือผ่าน match ของคุณ</string>	
 	<string name="Get connected">สร้าง connection</string>		
 	<string name="if you like each other">เมื่อถูกใจกันทั้งสองฝ่าย</string>
-	<string name="Chat anonymously">แชทโดยไม่เปิดเผยข้อมูลส่วนตัว</string>
+	<string name="Chat privately">แชทโดยไม่เปิดเผยข้อมูลส่วนตัว</string>
 	<string name="Invite friends, get credits">ชวนเพื่อนคนโสดมาใช้ และรับเครดิต</string>
 	
 	<string name="Connect Privately">เชื่อมต่อด้วยความเป็นส่วนตัว</string>
@@ -243,4 +243,5 @@
 	<string name="Oops!">Oops!</string>
 	<string name="There is something wrong. Please close and open Noonswoon again.">ขณะนี้ระบบเกิดปัญหา โปรดปิดและเปิด Noonswoon อีกครั้ง</string>
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>	
+	<string name="You will be notified if your match likes you too">คุณจะได้รับข้อความถ้า match ของคุณ Like คุณเช่นกัน</string>
 </resources>
