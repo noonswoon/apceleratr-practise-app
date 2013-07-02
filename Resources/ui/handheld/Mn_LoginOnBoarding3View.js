@@ -20,7 +20,7 @@ LoginOnBoarding3View = function() {
 	}
 		
 	var description = Ti.UI.createLabel({
-		text: L('Like or Pass your match'),
+		text: L('Like your match'),
 		center: {x:'50%', y:descriptionYPos}, //x:67
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:20},

@@ -235,7 +235,8 @@ MatchWindow = function(_userId, _matchId) {
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
 			} else {
-				networkErrorDialog.show();
+				if(!_matchInfo.hasNoMatch)
+					networkErrorDialog.show();
 			}
 			hidePreloader(self);
 		});
@@ -280,7 +281,8 @@ MatchWindow = function(_userId, _matchId) {
 						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 						contentView.data = populateMatchDataTableView(_matchInfo);	
 					} else {
-						networkErrorDialog.show();
+						if(!_matchInfo.hasNoMatch)
+							networkErrorDialog.show();
 					}
 					hidePreloader(self);
 				}); 

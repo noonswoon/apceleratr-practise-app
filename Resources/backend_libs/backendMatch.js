@@ -15,16 +15,20 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
+					var paramObj = {};
+					paramObj.success = false;
+					paramObj.hasNoMatch = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
 							Ti.App.fireEvent('openNoMatchWindow');
+							paramObj.hasNoMatch = true;
 						} else { //some other error code..legit error
 							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
 						}
 					} else {
 						Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 					}
-					_callbackFn({success:false});
+					_callbackFn(paramObj);
 				}
 	        },
 	        onerror : function(e) {
