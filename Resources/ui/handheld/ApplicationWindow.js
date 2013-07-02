@@ -207,9 +207,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	function successNotifCallback(e) {
 		var deviceToken = e.deviceToken; //check on this
 		UrbanAirship.registerDeviceToken(deviceToken); 
-		BackendUser.updatePNToken(_userId, deviceToken, function(e) {
-			if(!e.success) Ti.App.LogSystem.logEntryError('Failed to update PN Token: (MacAddr: '+Ti.Platform.id + ')');
-		});
+		BackendUser.updatePNToken(_userId, deviceToken, function(e) {});
 	}
 	
 	function errorNotifCallback(e) {

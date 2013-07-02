@@ -47,7 +47,7 @@ var registerDeviceToken = function(_deviceToken) {
 		},
 		onerror:function(e) {
 			if(_deviceToken.trim() != "") {
-				Ti.App.LogSystem.logEntryError("Failed Urban Airship Push Service Register. Error: " + e.error +", Token: "+_deviceToken);
+				Ti.App.LogSystem.logSystemData('warn', 'Failed UA PNToken Register: ' + JSON.stringify(e) +", Token: "+_deviceToken, null, null);
 			}
 		}
 	}); 
@@ -60,7 +60,7 @@ var registerDeviceToken = function(_deviceToken) {
 	var registerParameters = {
 	    "tags": [
 	        "v"+Ti.App.CLIENT_VERSION,
-	        "beta"
+	        "IAP-credits"
 	    ],
 	    "badge": 0,
 	    // "quiettime": {
