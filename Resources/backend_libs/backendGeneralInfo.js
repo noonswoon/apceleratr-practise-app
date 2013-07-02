@@ -12,14 +12,16 @@ exports.getReligion = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta}});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -48,14 +50,16 @@ exports.getEthnicity = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta}});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -84,14 +88,16 @@ exports.getTargetedCity = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta}});		
+					_callbackFn({success:false});	
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -122,14 +128,16 @@ exports.getStaticData = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta: {description: resultObj.meta}});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-		    	var displayError = 'Network Error|Please reopen Noonswoon';
-				Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description:displayError}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});

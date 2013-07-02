@@ -2,8 +2,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	var CustomPagingControl = require('external_libs/customPagingControl');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
-	var BackendCredit = require('backend_libs/backendCredit');	
-		
+
 	var navGroup = null;
 	var isActionTaken = false;
 	
@@ -63,30 +62,38 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		zIndex: 0
 	});	
 	self.add(scrollView);
-
+	
 	var likeButton = Ti.UI.createButton({
-		backgroundImage: 'images/like-button-inactive.png',
-		backgroundFocusedImage: 'images/like-button-active.png',
-		backgroundSelectedImage: 'images/like-button-active.png',
+		backgroundImage: 'images/big-like-btn.png',
+		backgroundSelectedImage: 'images/big-like-btn-active.png',
 		bottom: 10,
 		left: 7,
-		width: 154,
-		height: 57,
+		width: 308,
+		height: 53,
 		zIndex: 3
 	});
-	
+
+	var buttonGlyph = Ti.UI.createImageView({
+		backgroundImage: 'images/like-glyph.png',
+		left: 118,
+		bottom: 28,
+		width: 28,
+		height: 28,
+		zIndex: 4
+	});
+		
 	var likeLbl = Ti.UI.createLabel({
-		left: 84,
-		bottom: 30,
+		left: 150, //84
+		bottom: 28,
 		text: L('Like'), 
 		color: '#777777',
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
-	
+
+/*	
 	var passButton = Ti.UI.createButton({
 		backgroundImage: 'images/pass-button-inactive.png',
-		backgroundFocusedImage: 'images/pass-button-active.png',
 		backgroundSelectedImage: 'images/pass-button-active.png',
 		bottom: 10,
 		left: 161,
@@ -103,14 +110,17 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		font:{fontWeight:'bold',fontSize:18},		
 		zIndex:4
 	});
+*/
 
 	if(_showButtons) {
 		self.add(likeButton);
-		self.add(passButton);
+		self.add(buttonGlyph);
 		self.add(likeLbl);
-		self.add(passLbl);
+		
+		//self.add(passButton);
+		//self.add(passLbl);
 	}
-
+				
 	var pagingControl = new CustomPagingControl(scrollView);
 	pagingControl.top = 254;
 	self.add(pagingControl);
@@ -128,43 +138,19 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	};
 	
 	var setSelectedState = function(_state) {
-		var textOnImageLbl = Ti.UI.createLabel({
-			center: {x:'50%', y:'75%'},
-			color: '#f1f2f3',
-			font:{fontWeight:'bold',fontSize:24},		
-			zIndex:4
-		});
-		
-		var notificationImageUrl = "";
 		if(_state === "like") {
-			likeButton.backgroundImage = 'images/like-button-active.png';
-			notificationImageUrl = 'images/notification-liked.png';
-			textOnImageLbl.text = L("Liked");
-		} else {
-			passButton.backgroundImage = 'images/pass-button-active.png';
-			notificationImageUrl = 'images/notification-passed.png';
-			textOnImageLbl.text = L("Passed");
+			likeButton.backgroundImage = 'images/big-like-btn-disabled.png';
+			buttonGlyph.width = 24;
+			buttonGlyph.height = 21;
+			buttonGlyph.backgroundImage = 'images/heart-glyph.png';
+			likeLbl.text = L('Liked');
 		}
-		
-		var notificationImage = Ti.UI.createImageView({
-			image: notificationImageUrl,
-			width: 145,
-			height: 147,
-			top: 58,
-			left: 90,
-			zIndex: 2
-		});
-		notificationImage.add(textOnImageLbl);
-		
-		self.add(notificationImage);
 		likeButton.enabled = false;
-		passButton.enabled = false;
 	};
 	self.setSelectedState = setSelectedState;
 	
 	likeButton.addEventListener("click", function() {
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
-			isActionTaken = true;
 			
 			var currentCredit = CreditSystem.getUserCredit();
 			if(currentCredit < 10) {
@@ -174,46 +160,65 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				});
 				notEnoughCreditsDialog.show();
 			} else {				
+				isActionTaken = true;
+				setSelectedState("like");
+
 				//save that the user like the person
+				//alert to user
+				var likeAlertView = Ti.UI.createView({
+					borderRadius : 10,
+					opacity : 0.8,
+					top : 90,
+					left : 50,
+					right : 50,
+					height : 115,
+					zIndex : 7777,
+					backgroundColor: '#000'
+				});
+				
+				var alertLabel = Ti.UI.createLabel({
+					text : L('You will be notified if your match likes you too'),
+					textAlign : 'center',
+					color : '#fff',
+					zIndex : 9999,
+					font : {
+						fontSize : 16,
+						fontWeight : 'bold'
+					},
+					top : 40
+				});
+				likeAlertView.add(alertLabel);
+				
+				var animation = Titanium.UI.createAnimation({
+					opacity: 0, 
+					duration: 4500
+				});
+				
+				var animationHandler = function() {
+					self.remove(likeAlertView);
+				};
+				animation.addEventListener('complete',animationHandler);
+				self.add(likeAlertView);
+				likeAlertView.animate(animation);
+				
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					if(e.success)
+					if(e.success) {
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					} else {
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please close and open Noonswoon again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						networkErrorDialog.show();	
+						isActionTaken = false;
+					}
 				});
-				setSelectedState("like");
 			}
 		}
 	});
-
-	var passWarningDialog = Titanium.UI.createAlertDialog({
-		title: L('You are Passing'),
-		message:L('Are you sure you want to pass?'),
-		buttonNames: [L('Cancel'),L('Pass')],
-		cancel: 0
-	});
-	
-	passWarningDialog.addEventListener('click', function(e) {
-		if (Ti.Platform.osname === 'android' && mutualFriendsDialog.buttonNames === null) {
-			Ti.API.info('(There was no button to click)');
-		} else {
-			if(e.index === 1) {
-				if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
-					isActionTaken = true;
-					setSelectedState("pass");
-			
-					var matchResponseObj = {matchId: _matchId, userId: _userId, response:"pass"};		
-					BackendMatch.saveResponse(matchResponseObj, function(e){
-						if(e.success)
-							CreditSystem.setUserCredit(e.content.credit); //sync the credit
-					});
-				}
-			}
-		}
-	});		
-	
-	passButton.addEventListener("click", function() {
-		passWarningDialog.show();
-	});	
 
 	return self;
 };

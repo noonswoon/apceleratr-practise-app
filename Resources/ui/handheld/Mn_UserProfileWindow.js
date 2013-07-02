@@ -18,7 +18,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	var FbLikeTableViewRow = require('ui/handheld/Mn_FbLikeTableViewRow');
 	var ReportProfileTableViewRow = require('ui/handheld/Mn_ReportProfileTableViewRow');	
 	var FriendRatioTableViewRow = require('ui/handheld/Mn_FriendRatioTableViewRow');
-	var MutualFriendsTableViewRow = require('ui/handheld/Mn_MutualFriendsTableViewRow');
 	var ModelFacebookLike = require('model/facebookLike');
 
 	var userInfo = null;
@@ -29,7 +28,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
-		image: 'images/topbar-glyph-back.png',
+		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
 	var editButton = Ti.UI.createButton({
@@ -205,7 +204,17 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 
 	showPreloader(self, L('Loading...'));
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
-		populateInfoDataTableView(_userInfo);
+		if(_userInfo.success) {
+			populateInfoDataTableView(_userInfo);
+		} else {
+			var networkErrorDialog = Titanium.UI.createAlertDialog({
+				title: L('Oops!'),
+				message:L('There is something wrong. Please check your internet connection.'),
+				buttonNames: [L('Ok')],
+				cancel: 0
+			});
+			networkErrorDialog.show();	
+		}
 		hidePreloader(self);
 	});	
 

@@ -97,7 +97,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		width: 301, 
 		height: 46,
 		backgroundImage: 'images/credit/credits-big-btn-red.png', 
-		backgroundFocusedImage: 'images/credit/credits-big-btn-red-active.png', 
+		backgroundSelectedImage: 'images/credit/credits-big-btn-red-active.png', 
 		center: {x:'50%', y:98}, //x:67
 		zIndex: 2,
 	});
@@ -124,7 +124,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		width: 301, 
 		height: 46,
 		backgroundImage: 'images/credit/big-btn.png', 
-		backgroundFocusedImage: 'images/credit/big-btn-active.png', 
+		backgroundSelectedImage: 'images/credit/big-btn-active.png', 
 		center: {x:'50%', y:153}, //x:67
 		zIndex: 2,
 	});
@@ -305,6 +305,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	howCreditsUsedSectionView.add(likeDesc3);	
 	
+/*	
 	var horizontalSeparator3 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
 		bottom: 0,
@@ -312,6 +313,8 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		width: '100%'
 	});
 	howCreditsUsedSectionView.add(horizontalSeparator3);
+*/
+	
 	howCreditsRow.add(howCreditsUsedSectionView);
 	tableData.push(howCreditsRow);
 	

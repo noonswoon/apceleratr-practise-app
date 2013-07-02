@@ -71,24 +71,34 @@ OnBoardingStep3Window = function(_userId) {
 		var ModelFacebookLike = require('model/facebookLike');
 		
 		BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {	
-			var facebookLikeArray = [];
-			for(var i = 0; i < _userInfo.content.likes.length; i++) {
-				var likeObj = {
-					'category': _userInfo.content.likes[i].category,
-					'name': _userInfo.content.likes[i].name
-				};
-				facebookLikeArray.push(likeObj);
+			if(_userInfo.success) {
+				var facebookLikeArray = [];
+				for(var i = 0; i < _userInfo.content.likes.length; i++) {
+					var likeObj = {
+						'category': _userInfo.content.likes[i].category,
+						'name': _userInfo.content.likes[i].name
+					};
+					facebookLikeArray.push(likeObj);
+				}
+				ModelFacebookLike.populateFacebookLike(parseInt(_userInfo.meta.user_id), parseInt(_userInfo.meta.user_id), facebookLikeArray);
+				
+				//set credit of the user
+				CreditSystem.setUserCredit(_userInfo.content.credit); 
+	
+				var currentUserId = parseInt(_userInfo.meta.user_id); 
+				var currentUserName = _userInfo.content.general.first_name;
+				var currentUserImage = _userInfo.content.pictures[0].src;
+				
+				Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage, currentUserName: currentUserName});
+			} else {
+				var networkErrorDialog = Titanium.UI.createAlertDialog({
+					title: L('Oops!'),
+					message:L('There is something wrong. Please try pressing the button again.'),
+					buttonNames: [L('Ok')],
+					cancel: 0
+				});
+				networkErrorDialog.show();	
 			}
-			ModelFacebookLike.populateFacebookLike(parseInt(_userInfo.meta.user_id), parseInt(_userInfo.meta.user_id), facebookLikeArray);
-			
-			//set credit of the user
-			CreditSystem.setUserCredit(_userInfo.content.credit); 
-
-			var currentUserId = parseInt(_userInfo.meta.user_id); 
-			var currentUserName = _userInfo.content.general.first_name;
-			var currentUserImage = _userInfo.content.pictures[0].src;
-			
-			Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage, currentUserName: currentUserName});
 		});		
 	});
 	return self;

@@ -317,7 +317,7 @@ Ti.App.Chat = function(_chatParams) {
 		backgroundImage: 'images/top-bar-button.png',
 		width: 44,
 		height: 30,
-		image: 'images/topbar-glyph-back.png',
+		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
 	var chatWindow = Ti.UI.createWindow({
@@ -330,9 +330,17 @@ Ti.App.Chat = function(_chatParams) {
 	});
 
 	backButton.addEventListener('click', function() {
-		navGroup.close(chatWindow, {animated:true}); //go to the main screen
+//		navGroup.close(chatWindow, {animated:true}); //go to the main screen -- not using navGroup anymore
+		chatWindow.close();
 	});
-	
+
+	var networkErrorDialog = Titanium.UI.createAlertDialog({
+		title: L('Oops!'),
+		message:L('There is something wrong. Please close and open Noonswoon again.'),
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
+					
 	var chatInputView = Ti.UI.createView({
 		bottom: 0,
 		height: 40,
@@ -496,13 +504,14 @@ Ti.App.Chat = function(_chatParams) {
 				messageObj.time = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss");
 
 				//send to backend server
-				BackendChat.saveChatMessage(messageObj, function(_sentData) {});
+				BackendChat.saveChatMessage(messageObj, function(e) {
+					if(!e.success) {
+						networkErrorDialog.show();
+					}
+				});
 												
 				//save to local db
 				ModelChatHistory.insertChatMessage(messageObj);	
-				
-
-
 				send_a_message(sendingMessage);				
 			}
 
@@ -548,7 +557,9 @@ Ti.App.Chat = function(_chatParams) {
 		//open previous match
 		var previousMatchWindow = new MatchWindowModule(userObject.id, _chatParams.matchId);
 		previousMatchWindow.setNavGroup(navGroup);
-		navGroup.open(previousMatchWindow, {animated:true});
+		
+		previousMatchWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL,navBarHidden:false});
+		//navGroup.open(previousMatchWindow, {animated:true}); //not using anymore
 	});
 	
 	
@@ -634,6 +645,8 @@ Ti.App.Chat = function(_chatParams) {
 					//compute and insert into local db
 					ModelChatHistory.insertChatMessage(chatMessageObj);	
 				}
+			} else {
+				networkErrorDialog.show();
 			}
 			Ti.App.fireEvent('chatMsgDataReady');
 		});
@@ -681,6 +694,8 @@ Ti.App.Chat = function(_chatParams) {
 					chatListView.sections = [listSection];
 					chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
 				}
+			} else {
+				networkErrorDialog.show();
 			}
 		});
 		Ti.App.fireEvent('chatMsgDataReady');

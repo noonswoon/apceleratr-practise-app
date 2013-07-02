@@ -1,5 +1,7 @@
 exports.queryFacebookFriends = function() {
-	var offeredCities = Ti.App.OFFERED_CITIES.join(',');
+	var offeredCities = 'all';
+	if(Ti.App.OFFERED_CITIES !== 'all') 
+		offeredCities = Ti.App.OFFERED_CITIES.join(',');
 		
 	var query = "SELECT uid, name, pic_square, current_location, sex, relationship_status FROM user ";
 		query +=  "where uid IN (SELECT uid2 FROM friend WHERE uid1 = " + Ti.App.Facebook.uid + ")";
@@ -12,7 +14,7 @@ exports.queryFacebookFriends = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryFacebookFriends: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logEntryError('Fb Call failed queryFacebookFriends: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var friendList = JSON.parse(r.result);
 			//Ti.API.info('offeredCities: '+offeredCities);
@@ -62,7 +64,7 @@ exports.queryUserStream = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserStream: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserStream: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var dataArray = JSON.parse(r.result);
 			
@@ -85,7 +87,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserLikes: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserLikes: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			var dataArray = JSON.parse(r.result);
 			
@@ -108,7 +110,7 @@ exports.queryUserComments = function(_streamIdList) {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserComments: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserComments: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			//Ti.API.info('commentQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
@@ -128,7 +130,7 @@ exports.queryUserPhotos = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotos: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotos: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
 		} else {
 			//Ti.API.info('photoQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
@@ -145,26 +147,30 @@ exports.queryUserPhotos = function() {
 
 exports.queryUserPhotoTags = function(_photoIdList) {
 	
-	var inCondition = "(" + _photoIdList.join(', ') + ")";  //not outputing????
-	//Ti.API.info("userPhotoTag inCondition: "+inCondition);
-	//var query = "SELECT subject, text from photo_tag where  object_id in (10100444563662653, 10100459791306333)";
-	var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
-	var taggedFriends = []; 
-
-	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
-		if (!r.success) {
-			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotoTags: '+r.error + ' (MacAddr: '+ Ti.Platform.id+')');
-		} else {
-			//Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
-			var dataArray = JSON.parse(r.result);
-			
-			for(var i = 0; i < dataArray.length; i++) {
-				if(dataArray[i].subject !== "")
-					taggedFriends.push(dataArray[i].subject);
+	if(_photoIdList.length <= 0) {
+		Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: []});
+	} else {
+		var inCondition = "(" + _photoIdList.join(', ') + ")";  //not outputing????
+		//Ti.API.info("userPhotoTag inCondition: "+inCondition);
+		//var query = "SELECT subject, text from photo_tag where  object_id in (10100444563662653, 10100459791306333)";
+		var query = "SELECT subject, text from photo_tag where pid in " + inCondition ;
+		var taggedFriends = []; 
+	
+		Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
+			if (!r.success) {
+				//Ti.App.Facebook.logout();
+				Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotoTags: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			} else {
+				//Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
+				var dataArray = JSON.parse(r.result);
+				
+				for(var i = 0; i < dataArray.length; i++) {
+					if(dataArray[i].subject !== "")
+						taggedFriends.push(dataArray[i].subject);
+				}
 			}
-		}
-		//Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
-		Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: taggedFriends});
-	});
+			//Ti.API.info('taggedFriends Length: '+ taggedFriends.length);
+			Ti.App.fireEvent('completedPhotoTagQuery', {taggedFriends: taggedFriends});
+		});
+	}
 };

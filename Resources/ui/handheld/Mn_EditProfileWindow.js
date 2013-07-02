@@ -334,7 +334,42 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	});		
 	
 	cancelButton.addEventListener('click', function() {
-		unsavedWarningDialog.show();	
+		//check if user has changed something
+		var isSomethingModified = false;
+		
+		//images
+		var imagesArray = photoEditTableViewRow.getImages();
+		for(var i = 0; i < imagesArray.length; i++) {
+			if(imagesArray[i].modified) {
+				isSomethingModified = true;
+				break;
+			}
+		}
+		
+		//contents in the table
+		if(!isSomethingModified) {
+			var sections = editTableView.data;
+			for(var i = 0; i < sections.length; i++) {
+			   	if(isSomethingModified) 
+			   		break;
+			   	
+			    var section = sections[i];
+			    for(var j = 0; j < section.rowCount; j++) {
+			        var row = section.rows[j];
+			        
+			        if(row.getModified()) {
+			        	isSomethingModified = true;
+			        	break;
+			        }
+			    }
+			}
+		}
+		
+		if(isSomethingModified) {
+			unsavedWarningDialog.show();	
+		} else { //no need to warn the user
+			_navGroup.close(self, {animated:true});
+		}
 	});
 	
 	saveButton.addEventListener('click', function() {		
@@ -411,6 +446,14 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						Ti.App.fireEvent('editProfileSuccess', {editProfile: _resultObj});
 						_navGroup.close(self,{animated:true});
 					}
+				} else {
+					var networkErrorDialog = Titanium.UI.createAlertDialog({
+						title: L('Oops!'),
+						message:L('There is something wrong. Please save again.'),
+						buttonNames: [L('Ok')],
+						cancel: 0
+					});
+					networkErrorDialog.show();	
 				}
 				
 				if(Ti.Platform.osname === 'iphone') {
@@ -468,12 +511,22 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	}
 		
 	BackendUser.getUserInfo(_userId, function(_userInfo) {
-		for(var i = 0; i < _userInfo.content.pictures.length; i++) {
-			if(_userInfo.content.pictures[i].src !== "") {
-				get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+		if(_userInfo.success) {
+			for(var i = 0; i < _userInfo.content.pictures.length; i++) {
+				if(_userInfo.content.pictures[i].src !== "") {
+					get_remote_file('profile'+i+'.jpg', _userInfo.content.pictures[i].src, true, onProfileImageError, onProfileImageProgress, onInitialLoadProfileImageComplete);
+				}
 			}
+			populateInfoDataTableView(_userInfo);
+		} else {
+			var networkErrorDialog = Titanium.UI.createAlertDialog({
+				title: L('Oops!'),
+				message:L('There is something wrong. Please check your internet connection.'),
+				buttonNames: [L('Ok')],
+				cancel: 0
+			});
+			networkErrorDialog.show();	
 		}
-		populateInfoDataTableView(_userInfo);
 	});
 
 	return self;

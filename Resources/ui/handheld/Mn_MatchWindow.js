@@ -3,7 +3,6 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
-	var BackendCredit = require('backend_libs/backendCredit');	
 	var matchId = -1;
 	var ProfileImageViewModule = require('ui/handheld/Mn_ProfileImageView');
 	var TextDisplayTableViewRow = require('ui/handheld/Mn_TextDisplayTableViewRow');
@@ -24,6 +23,7 @@ MatchWindow = function(_userId, _matchId) {
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
+		backgroundColor: '#eeeeee',
 		zIndex:1
 	});
 	
@@ -32,7 +32,7 @@ MatchWindow = function(_userId, _matchId) {
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
-		image: 'images/topbar-glyph-back.png',
+		image: 'images/edit/topbar-glyph-cancel.png',
 	});
 	
 	if(_matchId !== null) { //case for pulling previous (connected) match to reveal
@@ -49,7 +49,14 @@ MatchWindow = function(_userId, _matchId) {
 	});
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-				
+
+	var networkErrorDialog = Titanium.UI.createAlertDialog({
+		title: L('Oops!'),
+		message:L('There is something wrong. Please try again.'),
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
+								
 	var dataForProfile = [];
 	
 	function educationCmpFn(a, b) {
@@ -98,8 +105,12 @@ MatchWindow = function(_userId, _matchId) {
 		matchProfileData.push(friendRatioRow); 
 
 		if(_matchInfo.content['mutual_friends'].length > 0) {
+		//if(true) {
 			var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray':_matchInfo.content['mutual_friends'] };
-			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends']);
+			//var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray': ['4', '5']};
+			var isLatestMatch = true;
+			if(_matchId !== null) isLatestMatch = false;
+			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
 			matchProfileData.push(mutualFriendsRow); 
 		}
 		
@@ -223,15 +234,20 @@ MatchWindow = function(_userId, _matchId) {
 				doHouseKeepingTasks(_matchInfo.meta.ios_version);
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
+			} else {
+				if(!_matchInfo.hasNoMatch)
+					networkErrorDialog.show();
 			}
 			hidePreloader(self);
-		});	
+		});
 	} else {
 		showPreloader(self, L('Loading...'));
 		BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 			if(_matchInfo.success) {
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
+			} else {
+				networkErrorDialog.show();	
 			}
 			hidePreloader(self);
 		});
@@ -253,23 +269,34 @@ MatchWindow = function(_userId, _matchId) {
 	};
 
 	self.reloadMatch = function() {
-		if(_matchId === null) {
-			showPreloader(self, L('Loading...'));		
-			BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-				if(_matchInfo.success) {
-					//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
-					doHouseKeepingTasks(_matchInfo.meta.ios_version);			
-					contentView.data = populateMatchDataTableView(_matchInfo);	
-				}
-				hidePreloader(self);
-			}); 
+		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+			//firing the event
+			Ti.App.fireEvent('openNoInternetWindow');
 		} else {
-			showPreloader(self, L('Loading...'));		
-			BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
-				if(_matchInfo.success)
-					contentView.data = populateMatchDataTableView(_matchInfo);
-				hidePreloader(self);
-			});
+			if(_matchId === null) {
+				showPreloader(self, L('Loading...'));		
+				BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+					if(_matchInfo.success) {
+						//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
+						contentView.data = populateMatchDataTableView(_matchInfo);	
+					} else {
+						if(!_matchInfo.hasNoMatch)
+							networkErrorDialog.show();
+					}
+					hidePreloader(self);
+				}); 
+			} else {
+				showPreloader(self, L('Loading...'));		
+				BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
+					if(_matchInfo.success)
+						contentView.data = populateMatchDataTableView(_matchInfo);
+					else {
+						networkErrorDialog.show();	
+					}
+					hidePreloader(self);
+				});
+			}
 		}
 	};
 
