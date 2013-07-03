@@ -618,8 +618,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		cancel: 0
 	});
 
-	Ti.App.Storekit.addEventListener('transactionState', function (evt) {
-		//Ti.API.info('transactionState: '+JSON.stringify(evt));
+	var transactionStateCallback = function(evt) {
 		switch (evt.state) {
 			case Ti.App.Storekit.FAILED:
 				if (evt.cancelled) {
@@ -656,7 +655,8 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				Ti.API.info("Restored " + evt.productIdentifier);
 			    break;
 		}
-	});
+	};
+	Ti.App.Storekit.addEventListener('transactionState', transactionStateCallback);
 	
 	function purchaseProduct(product)
 	{
@@ -670,7 +670,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		Ti.App.Storekit.restoreCompletedTransactions();
 	}
 	
-	Ti.App.Storekit.addEventListener('restoredCompletedTransactions', function (evt) {
+	var restoredCompletedTransactionsCallback = function(evt) {
 		hidePreloader(self);
 		if (evt.error) {
 			alert(evt.error);
@@ -688,7 +688,9 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 			}
 			alert('Restored ' + evt.transactions.length + ' purchases!');
 		}
-	});
+	};
+	
+	Ti.App.Storekit.addEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
 
 /*	
 	restoreButton.addEventListener('click', function () {
@@ -743,6 +745,13 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 			}
 		}
 	});
+	
+	var windowCloseCallback = function(e) {
+		Ti.App.Storekit.removeEventListener('transactionState', transactionStateCallback);
+		Ti.App.Storekit.removeEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
+		self.removeEventListener('close', windowCloseCallback);
+	};
+	self.addEventListener('close', windowCloseCallback);
 			
 	return self;
 };
