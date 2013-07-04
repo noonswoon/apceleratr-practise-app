@@ -33,7 +33,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            //no more error message..fail silently
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error: '+JSON.stringify(e), _userId, null);
 	            _callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
@@ -176,7 +176,7 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error: '+JSON.stringify(e), _userId, null);
 	            _callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
