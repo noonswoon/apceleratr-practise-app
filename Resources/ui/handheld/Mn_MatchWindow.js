@@ -234,9 +234,14 @@ MatchWindow = function(_userId, _matchId) {
 				doHouseKeepingTasks(_matchInfo.meta.ios_version);
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
-			} else {
-				if(!_matchInfo.hasNoMatch)
-					networkErrorDialog.show();
+			} else {	
+				if(!_matchInfo.hasNoMatch) {
+					var CacheHelper = require('internal_libs/cacheHelper');
+					if(CacheHelper.shouldDisplayOopAlert()) {
+						CacheHelper.recordDisplayOopAlert();
+						networkErrorDialog.show();
+					}
+				}		
 			}
 			hidePreloader(self);
 		});
@@ -247,7 +252,11 @@ MatchWindow = function(_userId, _matchId) {
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
 			} else {
-				networkErrorDialog.show();	
+				var CacheHelper = require('internal_libs/cacheHelper');
+				if(CacheHelper.shouldDisplayOopAlert()) {
+					CacheHelper.recordDisplayOopAlert();
+					networkErrorDialog.show();
+				}			
 			}
 			hidePreloader(self);
 		});
@@ -281,8 +290,13 @@ MatchWindow = function(_userId, _matchId) {
 						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 						contentView.data = populateMatchDataTableView(_matchInfo);	
 					} else {
-						if(!_matchInfo.hasNoMatch)
-							networkErrorDialog.show();
+						if(!_matchInfo.hasNoMatch) {
+							var CacheHelper = require('internal_libs/cacheHelper');
+							if(CacheHelper.shouldDisplayOopAlert()) {
+								CacheHelper.recordDisplayOopAlert();
+								networkErrorDialog.show();
+							}
+						}	
 					}
 					hidePreloader(self);
 				}); 
@@ -292,7 +306,11 @@ MatchWindow = function(_userId, _matchId) {
 					if(_matchInfo.success)
 						contentView.data = populateMatchDataTableView(_matchInfo);
 					else {
-						networkErrorDialog.show();	
+						var CacheHelper = require('internal_libs/cacheHelper');
+						if(CacheHelper.shouldDisplayOopAlert()) {
+							CacheHelper.recordDisplayOopAlert();
+							networkErrorDialog.show();
+						}
 					}
 					hidePreloader(self);
 				});

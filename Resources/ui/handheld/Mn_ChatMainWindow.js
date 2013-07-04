@@ -506,7 +506,11 @@ Ti.App.Chat = function(_chatParams) {
 				//send to backend server
 				BackendChat.saveChatMessage(messageObj, function(e) {
 					if(!e.success) {
-						networkErrorDialog.show();
+						var CacheHelper = require('internal_libs/cacheHelper');
+						if(CacheHelper.shouldDisplayOopAlert()) {
+							CacheHelper.recordDisplayOopAlert();
+							networkErrorDialog.show();
+						}
 					}
 				});
 												
@@ -646,7 +650,11 @@ Ti.App.Chat = function(_chatParams) {
 					ModelChatHistory.insertChatMessage(chatMessageObj);	
 				}
 			} else {
-				networkErrorDialog.show();
+				var CacheHelper = require('internal_libs/cacheHelper');
+				if(CacheHelper.shouldDisplayOopAlert()) {
+					CacheHelper.recordDisplayOopAlert();
+					networkErrorDialog.show();
+				}
 			}
 			Ti.App.fireEvent('chatMsgDataReady');
 		});
@@ -695,7 +703,11 @@ Ti.App.Chat = function(_chatParams) {
 					chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
 				}
 			} else {
-				networkErrorDialog.show();
+				var CacheHelper = require('internal_libs/cacheHelper');
+				if(CacheHelper.shouldDisplayOopAlert()) {
+					CacheHelper.recordDisplayOopAlert();
+					networkErrorDialog.show();
+				}
 			}
 		});
 		Ti.App.fireEvent('chatMsgDataReady');

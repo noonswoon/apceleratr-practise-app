@@ -212,7 +212,11 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 							buttonNames: [L('Ok')],
 							cancel: 0
 						});
-						networkErrorDialog.show();	
+						var CacheHelper = require('internal_libs/cacheHelper');
+						if(CacheHelper.shouldDisplayOopAlert()) {
+							CacheHelper.recordDisplayOopAlert();
+							networkErrorDialog.show();	
+						}
 						isActionTaken = false;
 					}
 				});

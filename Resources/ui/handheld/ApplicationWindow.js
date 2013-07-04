@@ -232,6 +232,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	}	
 	
 	var resumeCallback = function() {
+		var CacheHelper = require('internal_libs/cacheHelper');
+		CacheHelper.resetDisplayOopAlert();
 		// register for push notifications
 		if(Ti.Platform.osname != 'android') {
 			Titanium.Network.registerForPushNotifications({

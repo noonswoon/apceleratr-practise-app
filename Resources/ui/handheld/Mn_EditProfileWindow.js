@@ -453,7 +453,11 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						buttonNames: [L('Ok')],
 						cancel: 0
 					});
-					networkErrorDialog.show();	
+					var CacheHelper = require('internal_libs/cacheHelper');
+					if(CacheHelper.shouldDisplayOopAlert()) {
+						CacheHelper.recordDisplayOopAlert();
+						networkErrorDialog.show();	
+					}
 				}
 				
 				if(Ti.Platform.osname === 'iphone') {
@@ -525,7 +529,11 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				buttonNames: [L('Ok')],
 				cancel: 0
 			});
-			networkErrorDialog.show();	
+			var CacheHelper = require('internal_libs/cacheHelper');
+			if(CacheHelper.shouldDisplayOopAlert()) {
+				CacheHelper.recordDisplayOopAlert();
+				networkErrorDialog.show();	
+			}
 		}
 	});
 

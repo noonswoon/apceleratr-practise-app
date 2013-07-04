@@ -222,7 +222,11 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 									buttonNames: [L('Ok')],
 									cancel: 0
 								});
-								networkErrorDialog.show();	
+								var CacheHelper = require('internal_libs/cacheHelper');
+								if(CacheHelper.shouldDisplayOopAlert()) {
+									CacheHelper.recordDisplayOopAlert();
+									networkErrorDialog.show();	
+								}
 				        	}
 				        	newConnectFlag = true;
 				        	hidePreloader(self);

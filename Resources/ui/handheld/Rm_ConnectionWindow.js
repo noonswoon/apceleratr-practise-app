@@ -94,13 +94,17 @@ ConnectionWindow = function(_userId) {
 					}
 					connectionTableView.setData(connectionTableData);
 				} else {
-					var networkErrorDialog = Titanium.UI.createAlertDialog({
-						title: L('Oops!'),
-						message:L('There is something wrong. Please close and open Noonswoon again.'),
-						buttonNames: [L('Ok')],
-						cancel: 0
-					});
-					networkErrorDialog.show();	
+					var CacheHelper = require('internal_libs/cacheHelper');
+					if(CacheHelper.shouldDisplayOopAlert()) {
+						CacheHelper.recordDisplayOopAlert();
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please close and open Noonswoon again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						networkErrorDialog.show();	
+					}
 				}
 			});	
 		}

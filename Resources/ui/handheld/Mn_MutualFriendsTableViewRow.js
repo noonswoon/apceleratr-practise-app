@@ -79,7 +79,11 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 							buttonNames: [L('Ok')],
 							cancel: 0
 						});
-						networkErrorDialog.show();
+						var CacheHelper = require('internal_libs/cacheHelper');
+						if(CacheHelper.shouldDisplayOopAlert()) {
+							CacheHelper.recordDisplayOopAlert();
+							networkErrorDialog.show();
+						}
 					}
 				});
 			}

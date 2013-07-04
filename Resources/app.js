@@ -282,7 +282,11 @@ if (Ti.version < 1.8 ) {
 					buttonNames: [L('Ok')],
 					cancel: 0
 				});
-				networkErrorDialog.show();	
+				var CacheHelper = require('internal_libs/cacheHelper');
+				if(CacheHelper.shouldDisplayOopAlert()) {
+					CacheHelper.recordDisplayOopAlert();
+					networkErrorDialog.show();	
+				}
 			}
 		});
 		
@@ -325,7 +329,11 @@ if (Ti.version < 1.8 ) {
 						buttonNames: [L('Ok')],
 						cancel: 0
 					});
-					networkErrorDialog.show();
+					var CacheHelper = require('internal_libs/cacheHelper');
+					if(CacheHelper.shouldDisplayOopAlert()) {
+						CacheHelper.recordDisplayOopAlert();
+						networkErrorDialog.show();
+					}
 				}
 				Ti.App.fireEvent('doneWaitingEvent');
 			});

@@ -97,7 +97,11 @@ OnBoardingStep3Window = function(_userId) {
 					buttonNames: [L('Ok')],
 					cancel: 0
 				});
-				networkErrorDialog.show();	
+				var CacheHelper = require('internal_libs/cacheHelper');
+				if(CacheHelper.shouldDisplayOopAlert()) {
+					CacheHelper.recordDisplayOopAlert();
+					networkErrorDialog.show();	
+				}
 			}
 		});		
 	});
