@@ -4,6 +4,7 @@
 
 ////////////////// START REAL-CODE /////////////////////////////
 exports.getReligion = function(_callbackFn) {
+	var fnSrc = 'backendGeneralInfo.getReligion';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"religion_data/";
 		//Ti.API.info('getReligion url: '+url);
@@ -11,13 +12,16 @@ exports.getReligion = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getReligion', meta:resultObj.meta});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getReligion', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -38,6 +42,7 @@ exports.getReligion = function(_callbackFn) {
 };
 
 exports.getEthnicity = function(_callbackFn) {
+	var fnSrc = 'backendGeneralInfo.getEthnicity';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"ethnicity_data/";
 		//Ti.API.info('getEthnicity url: '+url);
@@ -45,13 +50,16 @@ exports.getEthnicity = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getEthnicity', meta:resultObj.meta});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getEthnicity', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -72,6 +80,7 @@ exports.getEthnicity = function(_callbackFn) {
 };
 
 exports.getTargetedCity = function(_callbackFn) {
+	var fnSrc = 'backendGeneralInfo.getTargetedCity';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"targeted_city_data/";
 		//Ti.API.info('getTargetedCity url: '+url);
@@ -79,13 +88,16 @@ exports.getTargetedCity = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getTargetedCity', meta:resultObj.meta});
+					_callbackFn({success:false});	
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getTargetedCity', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -107,6 +119,7 @@ exports.getTargetedCity = function(_callbackFn) {
 };
 
 exports.getStaticData = function(_callbackFn) {
+	var fnSrc = 'backendGeneralInfo.getStaticData';
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"get_static_data/";
@@ -115,13 +128,16 @@ exports.getStaticData = function(_callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 				if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					_callbackFn(resultObj.content);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getStaticData', meta:resultObj.meta});
+					_callbackFn({success:false});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendGeneralInfo.getStaticData', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});

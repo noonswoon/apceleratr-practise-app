@@ -1,8 +1,7 @@
 //This is the row in the match screen
 
-MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
+MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLatestMatch) {
 	var CreditSystem = require('internal_libs/creditSystem');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var BackendMatch = require('backend_libs/backendMatch');
 	
 	var fieldName = _fieldName; 
@@ -55,6 +54,10 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 		activeImageView.visible = true;
 	});
 	
+	tableRow.addEventListener('touchcancel', function(){
+		activeImageView.visible = false;
+	});
+	
 	tableRow.addEventListener('touchend', function(){
 		activeImageView.visible = false;
 		if(!hasUnlocked) {
@@ -64,14 +67,28 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked) {
 			} else {							
 				//update show_mutual_friends
 				BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-					CreditSystem.setUserCredit(e.content.credit); //sync the credit
+					if(e.success) {
+						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+						hasUnlocked = true;
+						//open up the window to show friends
+						Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+					} else {
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please try again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						var CacheHelper = require('internal_libs/cacheHelper');
+						if(CacheHelper.shouldDisplayOopAlert()) {
+							CacheHelper.recordDisplayOopAlert();
+							networkErrorDialog.show();
+						}
+					}
 				});
-				hasUnlocked = true;
-				//open up the window to show friends
-				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
 			}
 		} else {
-			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray});
+			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 		}
 	});	
 

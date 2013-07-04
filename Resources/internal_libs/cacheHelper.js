@@ -77,4 +77,26 @@ exports.recordFetchedData = function(key) {
 	Ti.App.Properties.setString(key,nowStr);
 };
 
+exports.resetDisplayOopAlert = function() {
+	Ti.App.Properties.removeProperty('displayOopError');
+};
 
+exports.recordDisplayOopAlert = function() {
+	var nowStr = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss"); 
+	Ti.App.Properties.setString('displayOopError',nowStr);
+};
+
+exports.shouldDisplayOopAlert = function() {
+	if(!Ti.App.Properties.hasProperty('displayOopError')) {
+		return true;
+	} else {
+		var lastDisplayTimeStr = Ti.App.Properties.getString('displayOopError');
+		var lastDisplayTime = Ti.App.moment(lastDisplayTimeStr,"YYYY-MM-DDTHH:mm:ss");		
+		var elapsedTime = Ti.App.moment().diff(lastDisplayTimeStr,'minutes');
+		if (elapsedTime < 2) {
+			return false; //still not expire	
+		} else {
+			return true; //already expired...need to fetchData
+		}
+	}
+};

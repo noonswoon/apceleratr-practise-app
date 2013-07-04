@@ -1,7 +1,6 @@
 TopFriendsView = function(_userId) {
 	var FacebookFriendModel = require('model/facebookFriend');
 	var BackendInvite = require('backend_libs/backendInvite');
-	var BackendCredit = require('backend_libs/backendCredit');
 	var FacebookSharing = require('internal_libs/facebookSharing');
 	var FacebookQuery = require('internal_libs/facebookQuery');
 	var TopFriendsTableViewRow = require('ui/handheld/Lm_TopFriendsTableViewRow');

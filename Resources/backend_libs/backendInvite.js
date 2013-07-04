@@ -3,6 +3,7 @@
  */
 
 exports.getInvitedList = function(_userId, _callbackFn) {
+	var fnSrc = 'backendInvite.getInvitedList';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"invite/get_invited_people/"+_userId;
 		//Ti.API.info('getInvitedList url: '+url);
@@ -10,16 +11,16 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		      	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					//Ti.API.info('backendInvite.getInvitedList: '+ JSON.stringify(resultObj));
-					_callbackFn(resultObj.content.invited_people);
+					resultObj.success = true;
+					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:resultObj.meta});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
 				}
 		    },
 		    onerror: function(e) {
 		        _callbackFn({success:false});
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.getInvitedList', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _userId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
@@ -42,6 +43,7 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 };
 
 exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
+	var fnSrc = 'backendInvite.saveInvitedPeople';
 	var sendingObj = {};
 	sendingObj.user_id = _invitedData.userId; 
 	sendingObj.invited_fb_ids = _invitedData.invitedFbIds;
@@ -58,11 +60,12 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					_callbackFn({success:false});
-					Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:resultObj.meta});
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _invitedData.userId, null);
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.fireEvent('openErrorWindow', {src: 'backendInvite.saveInvitedPeople', meta:{display_error:'Network Error|Please reopen Noonswoon'}});
+		    	_callbackFn({success:false});
+				Ti.App.LogSystem.logSystemData('error', fnSrc + 'onerror:Network Error', _invitedData.userId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});

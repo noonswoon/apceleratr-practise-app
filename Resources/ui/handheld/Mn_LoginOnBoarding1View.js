@@ -52,16 +52,20 @@ LoginOnBoarding1View = function() {
 		
 	//4e5866 dating reimagined
 	var description2 = Ti.UI.createLabel({
-		text: L('Love is in the App'),
+		text: L('Love is in the App™'),
 		center: {x:'50%', y:descriptionYPos}, //x:67
 		color: '#4e5866',
-		font:{fontWeight:'bold',fontSize:20},
+		font:{fontWeight:'bold',fontSize:16},
 		shadowColor: '#ffffff', 
 		shadowOffset: {x:0, y:1},
 		zIndex:3,
 	});
 	self.add(description2);
 	
+	self.addEventListener('postlayout', function() {
+		self.width = '100%';
+		self.height = '100%';
+	});
 	return self;
 };
 

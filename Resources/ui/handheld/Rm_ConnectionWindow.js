@@ -79,21 +79,39 @@ ConnectionWindow = function(_userId) {
 	});
 	
 	var loadConnectedMatches = function() {
-		BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
-			connectionTableData = []; //reset table data
-			var connectedMatches = _connectedMatchInfo.content.connected_matches; 
-			for(var i = 0; i < connectedMatches.length; i++) {
-				var curConnect = connectedMatches[i];
-				var personRow = new ConnectionTableViewRow(_userId, curConnect);
-				connectionTableData.push(personRow);
-			}
-			connectionTableView.setData(connectionTableData);
-		});	
+		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
+			//firing the event
+			Ti.App.fireEvent('openNoInternetWindow');
+		} else {
+			BackendMatch.getConnectedMatch(_userId, function(_connectedMatchInfo) {	
+				if(_connectedMatchInfo.success) {
+					connectionTableData = []; //reset table data
+					var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+					for(var i = 0; i < connectedMatches.length; i++) {
+						var curConnect = connectedMatches[i];
+						var personRow = new ConnectionTableViewRow(_userId, curConnect);
+						connectionTableData.push(personRow);
+					}
+					connectionTableView.setData(connectionTableData);
+				} /* else { //not ooping out anymore
+					var CacheHelper = require('internal_libs/cacheHelper');
+					if(CacheHelper.shouldDisplayOopAlert()) {
+						CacheHelper.recordDisplayOopAlert();
+						var networkErrorDialog = Titanium.UI.createAlertDialog({
+							title: L('Oops!'),
+							message:L('There is something wrong. Please close and open Noonswoon again.'),
+							buttonNames: [L('Ok')],
+							cancel: 0
+						});
+						networkErrorDialog.show();	
+					}
+				} */
+			});	 
+		}
 	};
 	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
-		//Ti.API.info('chatroom: ' + chatRoomName+', other profileId: '+e.row.profileId);
 			
 		Ti.App.fireEvent('openChatWindow', {
 			chatRoomName:chatRoomName, matchId: e.row.matchId, 

@@ -1,5 +1,7 @@
 LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
+	var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
+	
 	//create component instance
 	
 	var navGroup = null;
@@ -84,7 +86,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var fbButton = Ti.UI.createButton({
 		backgroundImage: 'images/onboarding-facebook-btn.png',
 		backgroundSelectedImage: 'images/onboarding-facebook-btn-active.png',
-		backgroundFocusedImage: 'images/onboarding-facebook-btn-active.png',
 		center: {x:'50%', y:fbButtonYPos}, //y: 428
 		width: 250, 
 		height: 45,
@@ -177,6 +178,9 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			        sendingObj.devicePlatform = Ti.Platform.osname; 
 			        sendingObj.deviceId = "";
 			        sendingObj.macAddr = Ti.Platform.id;
+			        sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
+			        sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
+			        
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
 			        	sendingObj.devicePlatform = 'iphone';
@@ -187,29 +191,42 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			        if(newConnectFlag) {
 			        	newConnectFlag = false;
 				        BackendUser.connectToServer(sendingObj, function(_userLogin) {
-				        	// check the result data whether it is a new user or existing one
-				        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
-				        	var CreditSystem = require('internal_libs/creditSystem');
-				        	//Ti.API.info('facebookAuthenCallback, connectToServer userInfo: '+JSON.stringify(_userLogin));
-				        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-				        	if(_userLogin.content.user_status === "new_user") {
-				        	//if(true) {
-				        	
-				        		//Ti.App.Flurry.logEvent('signupCompleted');
-				        		Ti.API.info('***NEW USER****');
-								//this will go to onboarding step 1
-								Ti.App.fireEvent('openOnboardingStep1', {userId: parseInt(_userLogin.meta.user_id)});
+				        	if(_userLogin.success) {
+					        	// check the result data whether it is a new user or existing one
+					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
+					        	var CreditSystem = require('internal_libs/creditSystem');
+					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
+					        	if(_userLogin.content.user_status === "new_user") {
+					        	//if(true) {
+					        		Ti.API.info('***NEW USER****');
+									var currentUserId = parseInt(_userLogin.meta.user_id);
+									ServerRoutingSystem.selectServerAPI(currentUserId);
+									//this will go to onboarding step 1
+									Ti.App.fireEvent('openOnboardingStep1', {userId: currentUserId});
+					        	} else {
+					        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
+					        		var currentUserId = parseInt(_userLogin.meta.user_id); 
+									ServerRoutingSystem.selectServerAPI(currentUserId);
+									var currentUserImage = _userLogin.content.pictures[0].src;
+									var currentUserName = _userLogin.content.general.first_name; 
+									var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
+									var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
+									mainApp.open();
+									mainApp.unhideCoverView();
+									self.close();
+					        	}
 				        	} else {
-				        		//Ti.App.Flurry.logEvent('loginSucceeded');
-				        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
-				        		var currentUserId = parseInt(_userLogin.meta.user_id); 
-								var currentUserImage = _userLogin.content.pictures[0].src;
-								var currentUserName = _userLogin.content.general.first_name; 
-								var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');
-								var mainApp = new ApplicationWindowModule(currentUserId, currentUserImage, currentUserName);
-								mainApp.open();
-								mainApp.unhideCoverView();
-								self.close();
+				        		var networkErrorDialog = Titanium.UI.createAlertDialog({
+									title: L('Oops!'),
+									message:L('There is something wrong. Please try again.'),
+									buttonNames: [L('Ok')],
+									cancel: 0
+								});
+								var CacheHelper = require('internal_libs/cacheHelper');
+								if(CacheHelper.shouldDisplayOopAlert()) {
+									CacheHelper.recordDisplayOopAlert();
+									networkErrorDialog.show();	
+								}
 				        	}
 				        	newConnectFlag = true;
 				        	hidePreloader(self);
