@@ -8,7 +8,6 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 	sendingObj.user_id = _userId; 
 	sendingObj.receipt_data = Ti.Utils.base64encode(_receiptData).toString();
 	sendingObj.purchase_type = _purchaseType;
-	sendingObj.sandbox = Ti.App.IAP_SANDBOX;
 	
 //	Ti.API.info('sendingObj: '+JSON.stringify(sendingObj));
 //	Ti.API.info('sendingObj receipt_data: '+sendingObj.receipt_data);
