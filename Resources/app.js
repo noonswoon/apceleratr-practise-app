@@ -212,8 +212,7 @@ if (Ti.version < 1.8 ) {
 							ModelFacebookLike.populateFacebookLike(currentUserId, currentUserId, facebookLikeArray);
 								
 							//set credit of the user
-							CreditSystem.setUserCredit(_userInfo.content.credit); 
-							
+							CreditSystem.setUserCredit(_userInfo.content.credit);
 							openMainApplication(currentUserId, currentUserImage, currentUserName);
 						}
 					});

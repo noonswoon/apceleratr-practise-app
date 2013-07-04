@@ -4,3 +4,5 @@ tmp
 ._*
 .DS_Store
 *.prefs
+
+.settings/com.appcelerator.titanium.mobile.prefs

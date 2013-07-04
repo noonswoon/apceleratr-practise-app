@@ -467,7 +467,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		font:{fontWeight:'bold',fontSize:18},
 	});
 	quarterlySubscriptionView.add(quarterlyPrice1);
-	
+
 	var quarterlyPrice2 = Ti.UI.createLabel({
 		text: '/quarter', 
 		color: '#a3a7ad', 

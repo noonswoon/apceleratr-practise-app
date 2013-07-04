@@ -565,7 +565,7 @@ Ti.App.Chat = function(_chatParams) {
 		previousMatchWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_FLIP_HORIZONTAL,navBarHidden:false});
 		//navGroup.open(previousMatchWindow, {animated:true}); //not using anymore
 	});
-	
+
 	
 	var chatMsgDataReadyCallback = function() {
 		var chatRawData = ModelChatHistory.getChatHistory(_chatParams.matchId);
