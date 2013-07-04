@@ -453,7 +453,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 						buttonNames: [L('Ok')],
 						cancel: 0
 					});
-					var CacheHelper = require('internal_libs/cacheHelper');
 					if(CacheHelper.shouldDisplayOopAlert()) {
 						CacheHelper.recordDisplayOopAlert();
 						networkErrorDialog.show();	
@@ -529,7 +528,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				buttonNames: [L('Ok')],
 				cancel: 0
 			});
-			var CacheHelper = require('internal_libs/cacheHelper');
 			if(CacheHelper.shouldDisplayOopAlert()) {
 				CacheHelper.recordDisplayOopAlert();
 				networkErrorDialog.show();	

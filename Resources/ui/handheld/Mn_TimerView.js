@@ -13,7 +13,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		var curDate = momentObj.date();
 		var curMonth = momentObj.month() + 1; //offset back
 		var curYear = momentObj.year();
-		var todayNoon = Ti.App.moment(curYear + "-" + curMonth + "-"+ curDate + " 12:00:00", "YYYY-MM-DD HH:mm:ss");
+		var todayNoon = Ti.App.moment(curYear + "-" + curMonth + "-"+ curDate + "T12:00:00", "YYYY-MM-DDTHH:mm:ss");
 	
 		//compare today noon with current time
 		var curHour = momentObj.hours(); 
@@ -25,7 +25,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		
 		var remainingSeconds = 0;
 		if(alreadyPassedNoon) {	
-			remainingSeconds = Ti.App.moment().eod().add('hours', 12).diff(momentObj, 'seconds');
+			remainingSeconds = Ti.App.moment().endOf('day').add('hours', 12).diff(momentObj, 'seconds');
 		} else {
 			remainingSeconds = todayNoon.diff(momentObj, 'seconds');
 		}

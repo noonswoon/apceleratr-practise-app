@@ -213,7 +213,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 				buttonNames: [L('Ok')],
 				cancel: 0
 			});
-			var CacheHelper = require('internal_libs/cacheHelper');
 			if(CacheHelper.shouldDisplayOopAlert()) {
 				CacheHelper.recordDisplayOopAlert();
 				networkErrorDialog.show();	

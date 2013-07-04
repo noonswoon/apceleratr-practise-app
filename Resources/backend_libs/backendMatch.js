@@ -229,3 +229,72 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement
 	} 
 };
+
+exports.isLatestMatchConnected = function() {
+	
+	if(!Ti.App.Properties.hasProperty('currentMatchConnectedTime')) {
+		//Ti.API.info('V have not had data..never connected');
+		return false;
+	} 
+	
+	var currentMatchConnectedTimeStr = Ti.App.Properties.getString('currentMatchConnectedTime');
+	var currentMatchConnectedTime = Ti.App.moment(currentMatchConnectedTimeStr,"YYYY-MM-DDTHH:mm:ss");
+	var currentMatchConnectedDay = Ti.App.moment(currentMatchConnectedTime.year()+"-"+currentMatchConnectedTime.month()+"-"+currentMatchConnectedTime.date()+"T00:00:01", "YYYY-MM-DDTHH:mm:ss");
+	var currentMatchConnectedHour = currentMatchConnectedTime.hours();
+	
+	//Ti.API.info('currentMatchConnectedTimeStr: ' + currentMatchConnectedTimeStr);
+	//Ti.API.info('currentMatchConnectedHour: '+currentMatchConnectedHour);
+	
+	var momentObj = Ti.App.moment(); 
+	var todayObj = Ti.App.moment(momentObj.year()+"-"+momentObj.month()+"-"+momentObj.date()+"T00:00:01", "YYYY-MM-DDTHH:mm:ss");
+	
+	//compare today noon with current time
+	var curHour = momentObj.hours(); 
+	var currentTimeAlreadyPassNoon = false;
+	if(curHour >= 12) {
+		//already passed noon, 
+		currentTimeAlreadyPassNoon = true;
+	}
+	
+	var daysDiff = todayObj.diff(currentMatchConnectedDay, 'days'); //if it is same day, daysDiff = 0
+	//Ti.API.info('daysDiff: '+daysDiff);
+	if(daysDiff === 0) { //same day scenario
+		if(currentTimeAlreadyPassNoon) { //current time already passed noon
+			if(currentMatchConnectedHour < 12) { //last pull is before noon, need to pull again, did NOT have the latest match yet
+				//Ti.API.info('V same day, current time already pass noon, last fetch is before noon..isLatestMatch: false');
+				return false;
+			} else {
+				//Ti.API.info('V same day, current time already pass noon, last fetch is after noon..isLatestMatch: true');
+				return true;
+			}
+		} else {
+			//Ti.API.info('V same day, current time NOT YET pass noon, last fetch can be anytime..isLatestMatch: true');
+			return true; //same day and current time hasn't reach noon yet, last pull is already the latest one
+		}
+	} else { //last fetch of match is some days in the past (can be yesterday or a week ago)
+		//Ti.API.info('daysDiff is: '+daysDiff);
+		if(daysDiff > 1) { //different for more than 1 day, does not have the latetst match for sure
+			//Ti.API.info('V different day, daysDiff: '+daysDiff+ ' ..isLatestMatch: false');
+			return false;
+		} else {
+			if(currentMatchConnectedHour < 12)  { //last pull was before noon from yesterday--> does not have the latest match which came yesterday at noon
+				//Ti.API.info('V yesterday, last fetch is before noon..isLatestMatch: false');
+				return false;
+			} else { //last pull was after 12 on yesterday
+				if(currentTimeAlreadyPassNoon) { //now is after 12, so does not have the connected match since the latest one is noon today
+					//Ti.API.info('V yesterday, last fetch is after noon, current time already pass noon..isLatestMatch: false');
+					return false;
+				} else { //now is before 12, and last time fetch is after noon yesterday, so current have the latest match
+					//Ti.API.info('V yesterday, last fetch is after noon, current time is before noon..isLatestMatch: true');
+					return true;
+				}
+			}
+		}
+	}
+};
+
+exports.setCurrentMatchConnected = function() {
+	//var nowStr = Ti.App.moment("2013-07-04T15:45:24", "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DDTHH:mm:ss"); --testing purposes 
+	var nowStr = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss");
+	Ti.App.Properties.setString('currentMatchConnectedTime',nowStr);
+}

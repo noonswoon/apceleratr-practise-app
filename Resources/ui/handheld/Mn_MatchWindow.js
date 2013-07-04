@@ -234,7 +234,11 @@ MatchWindow = function(_userId, _matchId) {
 				doHouseKeepingTasks(_matchInfo.meta.ios_version);
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
-			} else {	
+				
+				if(_matchInfo.content.is_connected) {
+					BackendMatch.setCurrentMatchConnected();
+				}
+			} /* else {	//not displaying oop
 				if(!_matchInfo.hasNoMatch) {
 					var CacheHelper = require('internal_libs/cacheHelper');
 					if(CacheHelper.shouldDisplayOopAlert()) {
@@ -242,7 +246,7 @@ MatchWindow = function(_userId, _matchId) {
 						networkErrorDialog.show();
 					}
 				}		
-			}
+			} */
 			hidePreloader(self);
 		});
 	} else {
@@ -283,25 +287,28 @@ MatchWindow = function(_userId, _matchId) {
 			Ti.App.fireEvent('openNoInternetWindow');
 		} else {
 			if(_matchId === null) {
-				showPreloader(self, L('Loading...'));		
-				BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-					if(_matchInfo.success) {
-						//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
-						doHouseKeepingTasks(_matchInfo.meta.ios_version);			
-						contentView.data = populateMatchDataTableView(_matchInfo);	
-					} else {
-						if(!_matchInfo.hasNoMatch) {
-							var CacheHelper = require('internal_libs/cacheHelper');
-							if(CacheHelper.shouldDisplayOopAlert()) {
-								CacheHelper.recordDisplayOopAlert();
-								networkErrorDialog.show();
+				if(!BackendMatch.isLatestMatchConnected()) { //only fetch if it is NOT latest
+					BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
+						if(_matchInfo.success) {
+							//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+							doHouseKeepingTasks(_matchInfo.meta.ios_version);			
+							contentView.data = populateMatchDataTableView(_matchInfo);	
+							
+							if(_matchInfo.content.is_connected) {
+								BackendMatch.setCurrentMatchConnected();
 							}
-						}	
-					}
-					hidePreloader(self);
-				}); 
-			} else {
-				showPreloader(self, L('Loading...'));		
+						} /*else { //not showing the Oops error anymore
+							if(!_matchInfo.hasNoMatch) {
+								var CacheHelper = require('internal_libs/cacheHelper');
+								if(CacheHelper.shouldDisplayOopAlert()) {
+									CacheHelper.recordDisplayOopAlert();
+									networkErrorDialog.show();
+								}
+							}	
+						} */
+					}); 
+				}
+			} else {	
 				BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 					if(_matchInfo.success)
 						contentView.data = populateMatchDataTableView(_matchInfo);
@@ -312,7 +319,6 @@ MatchWindow = function(_userId, _matchId) {
 							networkErrorDialog.show();
 						}
 					}
-					hidePreloader(self);
 				});
 			}
 		}

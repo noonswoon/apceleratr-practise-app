@@ -78,32 +78,25 @@ exports.recordFetchedData = function(key) {
 };
 
 exports.resetDisplayOopAlert = function() {
-	Ti.API.info('resetting display Oop dialog');
 	Ti.App.Properties.removeProperty('displayOopError');
 };
 
 exports.recordDisplayOopAlert = function() {
 	var nowStr = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss"); 
-	Ti.API.info('recording that we are showing Oop dialog');
 	Ti.App.Properties.setString('displayOopError',nowStr);
 };
 
 exports.shouldDisplayOopAlert = function() {
 	if(!Ti.App.Properties.hasProperty('displayOopError')) {
-		Ti.API.info('never display Oop before..display it');
 		return true;
 	} else {
 		var lastDisplayTimeStr = Ti.App.Properties.getString('displayOopError');
 		var lastDisplayTime = Ti.App.moment(lastDisplayTimeStr,"YYYY-MM-DDTHH:mm:ss");		
 		var elapsedTime = Ti.App.moment().diff(lastDisplayTimeStr,'minutes');
 		if (elapsedTime < 2) {
-			Ti.API.info('already display Oop within 2 mins should NOT display again');
 			return false; //still not expire	
 		} else {
-			Ti.API.info('display Oop for awhile already..display it');
 			return true; //already expired...need to fetchData
 		}
 	}
 };
-
-

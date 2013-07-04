@@ -93,7 +93,7 @@ ConnectionWindow = function(_userId) {
 						connectionTableData.push(personRow);
 					}
 					connectionTableView.setData(connectionTableData);
-				} else {
+				} /* else { //not ooping out anymore
 					var CacheHelper = require('internal_libs/cacheHelper');
 					if(CacheHelper.shouldDisplayOopAlert()) {
 						CacheHelper.recordDisplayOopAlert();
@@ -105,8 +105,8 @@ ConnectionWindow = function(_userId) {
 						});
 						networkErrorDialog.show();	
 					}
-				}
-			});	
+				} */
+			});	 
 		}
 	};
 	
