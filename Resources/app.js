@@ -22,6 +22,7 @@ Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship
 							'user_location', 'user_birthday', 'user_religion_politics', 'user_work_history', 
 							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
 Ti.App.Facebook.forceDialogAuth = false;
+Ti.App.isTrackingOn = false;
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
@@ -117,13 +118,6 @@ if (Ti.version < 1.8 ) {
 	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
-	
-	if(InstallTracking.isFirstTimeAppOpen()) {
-		//redirect to the webview to get cookies
-		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
-		InstallTracking.markAppOpen();
-		Ti.App.LogSystem.logEntryInfo('First time opens app. (MacAddr: '+ Ti.Platform.id+')');
-	}
 
 	var currentDbVersion = ModelMetaData.getDbVersion();
 	if(currentDbVersion === '') { //fresh install or version 1.0/1.1
@@ -305,6 +299,19 @@ if (Ti.version < 1.8 ) {
 			BackendGeneralInfo.getStaticData(function(e) {
 				if(e.success) {
 					Ti.API.info('result from getStaticData: '+JSON.stringify(e));
+					
+					if(e.content.tracking !== undefined && e.content.tracking)
+						Ti.App.isTrackingOn = true;
+					
+					if(Ti.App.isTrackingOn) {	
+						if(InstallTracking.isFirstTimeAppOpen()) {
+							//redirect to the webview to get cookies
+							Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
+							InstallTracking.markAppOpen();
+							Ti.App.LogSystem.logEntryInfo('First time opens app. (MacAddr: '+ Ti.Platform.id+')');
+						}
+					}
+	
 					//load data into religion table
 					ModelReligion.populateReligion(e.content.religion);
 					ModelEthnicity.populateEthnicity(e.content.ethnicity);
