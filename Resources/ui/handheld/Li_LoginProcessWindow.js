@@ -31,7 +31,9 @@ function LoginProcessWindow() {
 	var inviteFriendWindow = null;
 	
 	var openOnboardingStep1Callback = function(e) {
-		Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSUserRegistered?id='+Ti.Platform.id);
+		if(Ti.App.isTrackingOn) {
+			Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSUserRegistered?id='+Ti.Platform.id);
+		}
 		onBoardingStep1Window = new OnBoardingStep1Module(e.userId);
 		navigationGroup.open(onBoardingStep1Window, {animated:true});
 		Ti.App.LogSystem.logEntryInfo('User registered. (UserId: '+e.userId + ', MacAddr: '+ Ti.Platform.id+')');
