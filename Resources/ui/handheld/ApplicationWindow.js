@@ -176,7 +176,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		var mutualFriendsArray = e.mutualFriendsArray;
 		var isLatestMatch = e.isLatestMatch;
 		
-		var mutualFriendsWindow = new MutualFriendsWindowModule(navigationGroup, mutualFriendsArray);
+		var mutualFriendsWindow = new MutualFriendsWindowModule(navigationGroup, mutualFriendsArray, isLatestMatch);
 		if(isLatestMatch) {
 			navigationGroup.open(mutualFriendsWindow, {animated:true});
 		} else {
@@ -203,7 +203,13 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	matchWindow.leftNavButton = toggleLeftMenuBtn;
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
-	
+
+	var closeMutualFriendsWindowCallback = function(e) {
+		var isLatestMatch = e.isLatestMatch;
+		matchWindow.notifyMutualFriendsWindowClose();
+	};
+	Ti.App.addEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);
+		
 	function successNotifCallback(e) {
 		var deviceToken = e.deviceToken; //check on this
 		UrbanAirship.registerDeviceToken(deviceToken); 
@@ -363,6 +369,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.App.removeEventListener('resume', resumeCallback); 
+		Ti.App.removeEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);
+		
 		Ti.App.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);

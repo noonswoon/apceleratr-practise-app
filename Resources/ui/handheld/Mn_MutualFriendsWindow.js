@@ -1,4 +1,4 @@
-MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
+MutualFriendsWindow = function(_navGroup, _mutualFriendsArray, _isLatestMatch) {
 	var ModelFacebookFriend = require('model/facebookFriend');
 	
 	var emptyView = Titanium.UI.createView({});
@@ -131,6 +131,7 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray) {
 	self.add(mutualFriendListView);
 
 	backButton.addEventListener('click', function() {
+		Ti.App.fireEvent('closeMutualFriendsWindow', {isLatestMatch: _isLatestMatch});
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
 	

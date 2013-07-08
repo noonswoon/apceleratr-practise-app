@@ -58,40 +58,60 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 		activeImageView.visible = false;
 	});
 	
+	var isMutualFriendsWindowOpen = false; //prevent duplicate event
 	tableRow.addEventListener('touchend', function(){
 		activeImageView.visible = false;
+
 		if(!hasUnlocked) {
 			var userCredit = CreditSystem.getUserCredit();
 			if(userCredit < Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT) {
 				insufficientCreditsDialog.show();
 			} else {							
 				//update show_mutual_friends
-				BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-					if(e.success) {
-						CreditSystem.setUserCredit(e.content.credit); //sync the credit
-						hasUnlocked = true;
-						//open up the window to show friends
-						Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
-					} else {
-						var networkErrorDialog = Titanium.UI.createAlertDialog({
-							title: L('Oops!'),
-							message:L('There is something wrong. Please try again.'),
-							buttonNames: [L('Ok')],
-							cancel: 0
-						});
-						var CacheHelper = require('internal_libs/cacheHelper');
-						if(CacheHelper.shouldDisplayOopAlert()) {
-							CacheHelper.recordDisplayOopAlert();
-							networkErrorDialog.show();
+				//Ti.API.info('trying to open the MutualFriendsWindow..');
+				if(!isMutualFriendsWindowOpen) {
+					isMutualFriendsWindowOpen = true;
+					//Ti.API.info('set isMutualFriendsWindowOpen = true');
+					BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
+						if(e.success) {
+							CreditSystem.setUserCredit(e.content.credit); //sync the credit
+							hasUnlocked = true;
+						
+							//open up the window to show friends, should show just once
+							Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+						} else {
+							isMutualFriendsWindowOpen = false;
+							//Ti.API.info('set isMutualFriendsWindowOpen = false');
+							var networkErrorDialog = Titanium.UI.createAlertDialog({
+								title: L('Oops!'),
+								message:L('There is something wrong. Please try again.'),
+								buttonNames: [L('Ok')],
+								cancel: 0
+							});
+							var CacheHelper = require('internal_libs/cacheHelper');
+							if(CacheHelper.shouldDisplayOopAlert()) {
+								CacheHelper.recordDisplayOopAlert();
+								networkErrorDialog.show();
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 		} else {
-			Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+			//open up the window to show friends, should show just once
+			if(!isMutualFriendsWindowOpen) {
+				//Ti.API.info('set isMutualFriendsWindowOpen = true');
+				isMutualFriendsWindowOpen = true;
+				Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+			}
 		}
 	});	
 
+	tableRow.mutualFriendsWindowIsClose = function() {
+		//Ti.API.info('set isMutualFriendsWindowOpen = false');
+		isMutualFriendsWindowOpen = false;
+	};
+	
 	tableRow.getFieldName = function() {
 		return fieldName;
 	};

@@ -65,6 +65,7 @@ MatchWindow = function(_userId, _matchId) {
 		else return 0;
 	}
 	
+	var mutualFriendsRow  = null;
 	function populateMatchDataTableView(_matchInfo) {
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
@@ -110,7 +111,7 @@ MatchWindow = function(_userId, _matchId) {
 			//var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray': ['4', '5']};
 			var isLatestMatch = true;
 			if(_matchId !== null) isLatestMatch = false;
-			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
+			mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
 			matchProfileData.push(mutualFriendsRow); 
 		}
 		
@@ -271,6 +272,12 @@ MatchWindow = function(_userId, _matchId) {
 		self.removeEventListener('close', closeCallback);	
 	};
 	self.addEventListener('close', closeCallback);	
+	
+	self.notifyMutualFriendsWindowClose = function() {
+		if(mutualFriendsRow !== null) {
+			mutualFriendsRow.mutualFriendsWindowIsClose();
+		}	
+	};
 	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
