@@ -84,7 +84,6 @@ var Debug = require('internal_libs/debug');
 var FacebookFriendModel = require('model/facebookFriend');
 var FacebookQuery = require('internal_libs/facebookQuery');
 var ModelMetaData = require('model/metaData');
-var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
 var UrbanAirship = require('external_libs/UrbanAirship');
 
 //bootstrap and check dependencies
@@ -186,7 +185,6 @@ if (Ti.version < 1.8 ) {
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						if(_userInfo.success) {
 							currentUserId = parseInt(_userInfo.meta.user_id);
-							ServerRoutingSystem.selectServerAPI(currentUserId);
 							var currentUserName = _userInfo.content.general.first_name; 
 							var currentUserImage = _userInfo.content.pictures[0].src;
 							

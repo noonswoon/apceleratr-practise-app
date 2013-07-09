@@ -35,7 +35,7 @@ var getAppSecret = function() {
 };
 exports.getAppSecret = getAppSecret;
 
-var registerDeviceToken = function(_deviceToken) {
+var registerDeviceToken = function(_deviceToken, _userId) {
 	setDeviceToken(_deviceToken);
 	var xhr = Titanium.Network.createHTTPClient({
 		onload:function(e) {
@@ -47,10 +47,11 @@ var registerDeviceToken = function(_deviceToken) {
 		},
 		onerror:function(e) {
 			if(_deviceToken.trim() != "") {
-				Ti.App.LogSystem.logSystemData('warn', 'Failed UA PNToken Register: ' + JSON.stringify(e) +", Token: "+_deviceToken, null, null);
+				Ti.App.LogSystem.logSystemData("warn", "UA PNToken Register " + e.error + " (code:" + e.code + "), Token: "+_deviceToken, _userId, null);
 			}
-		}
-	}); 
+		},
+		timeout:50000  // in milliseconds 
+	});
 	
 	// Register device token with UA
 	xhr.open('PUT', 'https://go.urbanairship.com/api/device_tokens/' + _deviceToken, true);
@@ -69,6 +70,7 @@ var registerDeviceToken = function(_deviceToken) {
 	    // },
 	    // "tz": "Asia/Bangkok"
 	};
+	
 	xhr.send(JSON.stringify(registerParameters));
 };
 exports.registerDeviceToken = registerDeviceToken;

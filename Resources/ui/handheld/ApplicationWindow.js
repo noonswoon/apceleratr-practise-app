@@ -212,7 +212,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		
 	function successNotifCallback(e) {
 		var deviceToken = e.deviceToken; //check on this
-		UrbanAirship.registerDeviceToken(deviceToken); 
+		UrbanAirship.registerDeviceToken(deviceToken,_userId); 
 		BackendUser.updatePNToken(_userId, deviceToken, function(e) {});
 	}
 	
