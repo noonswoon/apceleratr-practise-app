@@ -57,6 +57,7 @@ exports.queryFacebookFriends = function() {
 	});
 };
 
+/*
 exports.queryUserStream = function() {
 		
 	var query = "SELECT post_id FROM stream where source_id=me() limit 0,150";
@@ -75,7 +76,8 @@ exports.queryUserStream = function() {
 		Ti.App.fireEvent('completedUserStreamQuery', {userStreamIdList: userStreamIdList});
 	});
 };
-
+*/
+/*
 //currently not using coz we are not requesting read_stream permission
 exports.queryUserLikes = function(_streamIdList) {
 	
@@ -98,7 +100,8 @@ exports.queryUserLikes = function(_streamIdList) {
 		Ti.App.fireEvent('completedUserLikeQuery', {friendsWhoLikeList: friendsWhoLikeList});
 	});
 };
-
+*/
+/*
 //currently not using coz we are not requesting read_stream permission
 exports.queryUserComments = function(_streamIdList) {
 	
@@ -123,7 +126,8 @@ exports.queryUserComments = function(_streamIdList) {
 		Ti.App.fireEvent('completedUserCommentQuery', {friendsWhoCommentList: friendsWhoCommentList});
 	});
 };
-
+*/
+/*
 exports.queryUserPhotos = function() {
 	var query = "SELECT pid, created FROM photo WHERE owner = me() ORDER BY created desc limit 0,500";
 	var userFbPhotoIds = []; 
@@ -144,7 +148,8 @@ exports.queryUserPhotos = function() {
 		Ti.App.fireEvent('completedUserPhotoQuery', {userFbPhotoIds: userFbPhotoIds});
 	});
 };
-
+*/
+/*
 exports.queryUserPhotoTags = function(_photoIdList) {
 	
 	if(_photoIdList.length <= 0) {
@@ -174,3 +179,4 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 		});
 	}
 };
+*/

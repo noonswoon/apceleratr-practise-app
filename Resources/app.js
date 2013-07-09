@@ -11,7 +11,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.3';
+Ti.App.CLIENT_VERSION = '1.4';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
@@ -115,7 +115,6 @@ if (Ti.version < 1.8 ) {
 	var ModelFacebookLike = require('model/facebookLike');
 	var NoInternetWindowModule = require('ui/handheld/Mn_NoInternetWindow');
 
-	
 	var numWaitingEvent = 0; 
 	var currentUserId = -1;
 
@@ -216,38 +215,6 @@ if (Ti.version < 1.8 ) {
 		}
 	});
 	
-	//register Facebook Event here..pulling the data in TopFriendsView/OnBoardingStep1 [fn: FacebookQuery.queryFacebookFriends]
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		//Ti.API.info('completedPhotoTagQuery...');
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-
-	Ti.App.addEventListener('completedPhotoTagQuery', function(e) {
-		//Ti.API.info('completedPhotoTagQuery...');
-		FacebookFriendModel.updateClosenessScoreBatch(e.taggedFriends);
-	});
-		
-	Ti.App.addEventListener('completedUserPhotoQuery', function(e) {
-		//Ti.API.info('completedUserPhotoQuery...');
-		FacebookQuery.queryUserPhotoTags(e.userFbPhotoIds);
-	});
-	
-/*	-- not asking for read stream anymore
-	Ti.App.addEventListener('completedUserLikeQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoLikeList);
-	});
-	
-	Ti.App.addEventListener('completedUserCommentQuery', function(e) {
-		FacebookFriendModel.updateClosenessScoreBatch(e.friendsWhoCommentList);
-	});
-		
-	Ti.App.addEventListener('completedUserStreamQuery', function(e) {
-		FacebookQuery.queryUserLikes(e.userStreamIdList);
-		FacebookQuery.queryUserComments(e.userStreamIdList);
-		//query likes, comments, photo albums
-	});
-*/
-	
 	Ti.App.addEventListener('userLoginCompleted', function(e) {
 		//Ti.API.info('updating currentUserId from the logging in process..:' + e.userId);
 		currentUserId = e.userId;
@@ -276,11 +243,6 @@ if (Ti.version < 1.8 ) {
 				}
 			}
 		});
-		
-		FacebookQuery.queryUserPhotos();
-		
-		//query some read stream and get the comments/like -- get rid off since we won't ask for the permission
-		//FacebookQuery.queryUserStream(); //-- get rid off since we won't ask for the permission
 	});
 	
 	Ti.App.Facebook.addEventListener('logout', function() {
