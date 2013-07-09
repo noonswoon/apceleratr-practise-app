@@ -141,8 +141,10 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		    		resultObj.success = true;
 					_callbackFn(resultObj);
 				} else if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
-					Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
+					//case of no user with Facebook id xxxx
+					Ti.App.Facebook.logout();
 					_callbackFn({success:false});
+					//Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
 				} else {
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), null, _fbId);
 					_callbackFn({success:false});

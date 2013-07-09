@@ -111,6 +111,7 @@ MatchWindow = function(_userId, _matchId) {
 			//var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray': ['4', '5']};
 			var isLatestMatch = true;
 			if(_matchId !== null) isLatestMatch = false;
+			mutualFriendsRow = null;
 			mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
 			matchProfileData.push(mutualFriendsRow); 
 		}
@@ -296,8 +297,7 @@ MatchWindow = function(_userId, _matchId) {
 			if(_matchId === null) {
 				if(!BackendMatch.isLatestMatchConnected()) { //only fetch if it is NOT latest
 					BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-						if(_matchInfo.success) {
-							//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+						if(_matchInfo.success) {							
 							doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 							contentView.data = populateMatchDataTableView(_matchInfo);	
 							
