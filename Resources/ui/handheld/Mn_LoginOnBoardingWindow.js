@@ -195,6 +195,8 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 					        	var CreditSystem = require('internal_libs/creditSystem');
 					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
+					        	
+					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
 					        	if(_userLogin.content.user_status === "new_user") {
 					        	//if(true) {
 					        		Ti.API.info('***NEW USER****');

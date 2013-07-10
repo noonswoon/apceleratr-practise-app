@@ -57,6 +57,7 @@ if(Ti.App.PN_PRODUCTION_BUILD) {
 Ti.App.CACHE_TIMEOUT = 1;
 Ti.App.BACKGROUND_BAR_COLOR_THEME = '#3f5a95';
 Ti.App.LIVE_DATA = true;
+Ti.App.USER_COUNTRY = 'Thailand';
 
 //include require
 if(Ti.Platform.osname == 'iphone') {
@@ -184,6 +185,7 @@ if (Ti.version < 1.8 ) {
 					var CreditSystem = require('internal_libs/creditSystem');
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						if(_userInfo.success) {
+							Ti.App.USER_COUNTRY = _userInfo.content.general.country;
 							currentUserId = parseInt(_userInfo.meta.user_id);
 							var currentUserName = _userInfo.content.general.first_name; 
 							var currentUserImage = _userInfo.content.pictures[0].src;
