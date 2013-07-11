@@ -46,13 +46,14 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 exports.connectToServer = function(_userObj, _callbackFn) {
 	var fnSrc = 'backendUser.connectToServer';
 	var sendingObj = {};
-	sendingObj.user_fb_id = _userObj.userFbId; 
-	sendingObj.fb_auth_token = _userObj.fbAuthToken; 
-	sendingObj.device_platform = _userObj.devicePlatform;
+	sendingObj.user_fb_id = Ti.App.Facebook.uid;
+	sendingObj.fb_auth_token = Ti.App.Facebook.accessToken; 
+	sendingObj.device_platform = 'iphone'; 
 	sendingObj.device_id = _userObj.deviceId;
-	sendingObj.mac_addr = _userObj.macAddr;
-	sendingObj.latitude = _userObj.latitude;
-	sendingObj.longitude = _userObj.longitude;
+	sendingObj.mac_addr =  Ti.Platform.id;
+	sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
+	sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
+	sendingObj.client_version = Ti.App.CLIENT_VERSION;
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"userasync/connect_server";
@@ -217,6 +218,38 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/update_pn_token/";
+		var xhr = Ti.Network.createHTTPClient({
+			onload : function(e) {
+				var resultObj = JSON.parse(this.responseText);
+	        	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
+					_callbackFn({success:true});
+				} else {
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					_callbackFn({success:false});
+				}
+	        },
+	        onerror : function(e) {
+	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+		    	_callbackFn({success:false});	 
+	        },
+		    timeout:50000  // in milliseconds 
+	    });
+	    xhr.open("POST", url);
+	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
+	    xhr.setRequestHeader('Content-Type','application/json');
+	   	xhr.send(JSON.stringify(sendingObj));
+	}
+};
+
+exports.updateClientVersion = function(_userId, _callbackFn) {
+	var fnSrc = 'backendUser.updateClientVersion';
+	var sendingObj = {};
+	sendingObj.user_id = _userId; 
+	sendingObj.device_platform = 'iphone';
+	sendingObj.client_version = Ti.App.CLIENT_VERSION;
+
+	if(Ti.App.LIVE_DATA) {
+		var url = Ti.App.API_SERVER+ "user/update_client_version/";
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);

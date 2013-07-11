@@ -6,6 +6,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
+	var PreferenceEditTableViewRow = require('ui/handheld/Mn_PreferenceEditTableViewRow');
 	var TextFieldEditTableViewRow = require('ui/handheld/Mn_TextFieldEditTableViewRow');
 	var EducationEditTableViewRow = require('ui/handheld/Mn_EducationEditTableViewRow');
 	var PickerEditTableViewRow = require('ui/handheld/Mn_PickerEditTableViewRow');
@@ -85,6 +86,10 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//PHOTO SECTION
 		photoEditTableViewRow = new PhotoEditTableViewRow([]); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
 		data.push(photoEditTableViewRow);
+		
+		//PREFERENCE SECTION
+		var preferenceSection = new PreferenceEditTableViewRow(); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
+		data.push(preferenceSection);
 		
 		//GENERAL SECTION
 		var generalSection = Ti.UI.createTableViewSection({headerTitle:'General Info'});	
