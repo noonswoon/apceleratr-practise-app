@@ -6,7 +6,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');
-	var PreferenceEditTableViewRow = require('ui/handheld/Mn_PreferenceEditTableViewRow');
+	var InterestedInEditTableViewRow = require('ui/handheld/Mn_InterestedInEditTableViewRow');
 	var TextFieldEditTableViewRow = require('ui/handheld/Mn_TextFieldEditTableViewRow');
 	var EducationEditTableViewRow = require('ui/handheld/Mn_EducationEditTableViewRow');
 	var PickerEditTableViewRow = require('ui/handheld/Mn_PickerEditTableViewRow');
@@ -90,7 +90,17 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		data.push(photoEditTableViewRow);
 		
 		//PREFERENCE SECTION
-		var preferenceSection = new PreferenceEditTableViewRow(); //setup the location, but content empty for now..setting up in function onInitialLoadProfileImageComplete
+		var interestedIn = 'men'; //default to be interested in men
+		if(_userInfo.content.interested_in !== undefined && 
+			_userInfo.content.interested_in !== "") {
+			//if has the preference set up, use that preference
+			interestedIn = _userInfo.content.interested_in;
+		} else { //if there is no preference, default to opposite sex of the person
+			if(_userInfo.content.general.gender === 'male') 
+				interestedIn = 'women';
+		}
+		
+		var preferenceSection = new InterestedInEditTableViewRow(interestedIn);
 		data.push(preferenceSection);
 		
 		//GENERAL SECTION

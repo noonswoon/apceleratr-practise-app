@@ -1,8 +1,17 @@
-PreferenceEditTableViewRow = function(_fieldName) {
+InterestedInEditTableViewRow = function(_interestedIn) {
 	var modified = false;
+	var interestedInContent =  _interestedIn; //default is women
+	var menRadioImageValue = 'images/glyph/radio-inactive.png';
+	var womenRadioImageValue = 'images/glyph/radio-active.png';
+	var menTextColorValue = '#a3a7ad';
+	var womenTextColorValue = '#4e5866';
 	
-	var content =  "Men";
-	var textColor = "#a3a7ad";
+	if(interestedInContent === 'men') {
+		menRadioImageValue = 'images/glyph/radio-active.png';
+		womenRadioImageValue = 'images/glyph/radio-inactive.png';
+		menTextColorValue = '#4e5866';
+		womenTextColorValue = '#a3a7ad';
+	}
 	
 	var tableRow = Ti.UI.createTableViewRow({
 		top: 0,
@@ -12,32 +21,7 @@ PreferenceEditTableViewRow = function(_fieldName) {
 	});
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-	
-/*		
-	var contentTextfield = Titanium.UI.createTextField({
-		value: content,
-		top: 15, 
-		left: 64,
-		width: 241,
-		height: 20,
-		color:textColor,
-		font:{fontWeight:'bold',fontSize:18},
-	});
-	tableRow.add(contentTextfield);
-	
-	var topicGlyphImage = 'images/glyph/glyph-profile-men.png';
-	
-	var maleGlyphImage = Ti.UI.createImageView({
-		top: 8,
-		left: 22, 
-		width: 34,
-		height: 34,
-		image: 'images/glyph/glyph-profile-men.png',
-	});
-	tableRow.add(glyphImage);	
-*/	
-	
-	
+
 	var preferenceBackground = Ti.UI.createView({
 		top: 0,
 		backgroundColor: '#eeeeee', 
@@ -69,7 +53,7 @@ PreferenceEditTableViewRow = function(_fieldName) {
 		left: 64,
 		width: 80,
 		height: 20,
-		color:'#a3a7ad',
+		color:menTextColorValue,
 		font:{fontWeight:'bold',fontSize:18},
 	});
 	
@@ -85,7 +69,7 @@ PreferenceEditTableViewRow = function(_fieldName) {
 		right: 25, 
 		width: 29,
 		height: 30,
-		image: 'images/glyph/radio-inactive.png'
+		image: menRadioImageValue
 	});
 	
 	var menChoiceRow = Ti.UI.createView({
@@ -104,7 +88,7 @@ PreferenceEditTableViewRow = function(_fieldName) {
 		left: 64,
 		width: 80,
 		height: 20,
-		color:'#a3a7ad',
+		color:womenTextColorValue,
 		font:{fontWeight:'bold',fontSize:18},
 	});
 	
@@ -120,7 +104,7 @@ PreferenceEditTableViewRow = function(_fieldName) {
 		right: 25, 
 		width: 29,
 		height: 30,
-		image: 'images/glyph/radio-active.png'
+		image: womenRadioImageValue
 	});
 	
 	var womenChoiceRow = Ti.UI.createView({
@@ -133,6 +117,22 @@ PreferenceEditTableViewRow = function(_fieldName) {
 	womenChoiceRow.add(womenRadioImage);
 	preferenceBackground.add(womenChoiceRow);	
 
+	menChoiceRow.addEventListener('click', function() {
+		interestedInContent = 'men';		
+		menLabel.color = '#4e5866';
+		menRadioImage.image = 'images/glyph/radio-active.png';
+		womenLabel.color = '#a3a7ad';
+		womenRadioImage.image = 'images/glyph/radio-inactive.png';
+	});
+	
+	womenChoiceRow.addEventListener('click', function() {
+		interestedInContent = 'women';
+		menLabel.color = '#a3a7ad';
+		menRadioImage.image = 'images/glyph/radio-inactive.png';
+		womenLabel.color = '#4e5866';
+		womenRadioImage.image = 'images/glyph/radio-active.png';
+	});
+	
 	var bottomEdge = Ti.UI.createView({
 		top: 146,
 		left: 0,
@@ -193,17 +193,17 @@ PreferenceEditTableViewRow = function(_fieldName) {
 	tableRow.add(preferenceBackground); 
 
 	tableRow.getFieldName = function() {
-		return 'preference';
+		return 'interested_in';
 	};
 	
 	tableRow.getContent = function() {
-		return "";
+		return interestedInContent;
 	};
 	
 	tableRow.getModified = function() {
-		return modified;
+		return (_interestedIn !== interestedInContent);
 	};
 
 	return tableRow;		
 };
-module.exports = PreferenceEditTableViewRow;
+module.exports = InterestedInEditTableViewRow;
