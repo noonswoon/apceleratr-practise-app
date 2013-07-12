@@ -244,4 +244,10 @@
 	<string name="There is something wrong. Please close and open Noonswoon again.">There is something wrong. Please close and open Noonswoon again.</string>	
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>
 	<string name="You will be notified if your match likes you too">You will be notified if your match likes you too</string>
+
+	<string name="Interested In">Interested In</string>
+	<string name="This will not be visible on your profile">This will not be visible on your profile</string>
+	<string name="General Information">General Information</string>	
+	<string name="Men">Men</string>
+	<string name="Women">Women</string>
 </resources>

@@ -244,4 +244,10 @@
 	<string name="There is something wrong. Please close and open Noonswoon again.">ขณะนี้ระบบเกิดปัญหา โปรดปิดและเปิด Noonswoon อีกครั้ง</string>
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>	
 	<string name="You will be notified if your match likes you too">คุณจะได้รับข้อความถ้า match ของคุณ Like คุณเช่นกัน</string>
+
+	<string name="Interested In">คุณมีความสนใจใน</string>
+	<string name="This will not be visible on your profile">ข้อมูลนี้จะไม่ปรากฎบนโปรไฟล์ของคุณ</string>
+	<string name="General Information">ข้อมูลทั่วไป</string>	
+	<string name="Men">ผู้ชาย</string>
+	<string name="Women">ผู้หญิง</string>
 </resources>
