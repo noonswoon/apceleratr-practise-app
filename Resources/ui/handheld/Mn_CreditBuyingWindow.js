@@ -4,6 +4,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,

@@ -36,6 +36,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	
 	var toggleLeftMenuBtn = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		width:44,
 		height:30,
 		image: 'images/topbar-glyph-menu.png'
@@ -43,6 +44,15 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 
 	var toggleRightMenuBtn = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
+		width: 44,
+		height: 30,
+		image: 'images/topbar-glyph-chat.png'
+	});
+	
+	var toggleRightMenuGreenBtn = Ti.UI.createButton({
+		backgroundImage: 'images/top-bar-green-button.png',
+		backgroundSelectedImage: 'images/top-bar-green-button-active.png',
 		width: 44,
 		height: 30,
 		image: 'images/topbar-glyph-chat.png'
@@ -186,11 +196,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.App.addEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
 
 	var inviteCompletedCallback = function(e) {
-		Ti.API.info('in inviteCompletedCallback...');
-		//Ti.App.Flurry.logEvent('invite-success', {numberInvites: e.inviteeList.length});
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
-		Ti.API.info('invitedData: '+JSON.stringify(invitedData));
-		
 		BackendInvite.saveInvitedPeople(invitedData, function(e) {
 			if(e.success) 
 				CreditSystem.setUserCredit(e.content.credit); //sync the credit
@@ -204,6 +210,16 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	matchWindow.rightNavButton = toggleRightMenuBtn;
 	matchWindow.titleControl = timerView;
 
+	var showUnreadChatGreenButtonCallback = function(e) {
+		matchWindow.rightNavButton = toggleRightMenuGreenBtn;
+	};
+	Ti.App.addEventListener('showUnreadChatGreenButton', showUnreadChatGreenButtonCallback);
+	
+	var showNormalChatButtonCallback = function(e) {
+		matchWindow.rightNavButton = toggleRightMenuBtn;
+	};
+	Ti.App.addEventListener('showNormalChatButton', showNormalChatButtonCallback);
+	
 	var closeMutualFriendsWindowCallback = function(e) {
 		var isLatestMatch = e.isLatestMatch;
 		matchWindow.notifyMutualFriendsWindowClose();
@@ -323,7 +339,12 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 			isToggled = false;
 		}
 	};
+
 	toggleRightMenuBtn.addEventListener('click',function(e){
+		toggleRightMenu();
+	});
+	
+	toggleRightMenuGreenBtn.addEventListener('click',function(e){
 		toggleRightMenu();
 	});
 
@@ -370,7 +391,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.App.removeEventListener('resume', resumeCallback); 
 		Ti.App.removeEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);
-		
+		Ti.App.removeEventListener('showUnreadChatGreenButton', showUnreadChatGreenButtonCallback);
+		Ti.App.removeEventListener('showNormalChatButton', showNormalChatButtonCallback);		
 		Ti.App.Facebook.removeEventListener('logout', facebookLogoutCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);

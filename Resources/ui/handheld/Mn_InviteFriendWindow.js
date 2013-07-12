@@ -42,6 +42,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var inviteButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width:84,
 		height:30,
@@ -52,6 +53,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
@@ -60,6 +62,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				
 	var skipButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width:44,
 		height:30,

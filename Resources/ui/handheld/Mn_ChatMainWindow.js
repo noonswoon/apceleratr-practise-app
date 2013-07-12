@@ -308,6 +308,7 @@ Ti.App.Chat = function(_chatParams) {
     
     var profileButton = Ti.UI.createButton({
     	backgroundImage: 'images/top-bar-button.png',
+    	backgroundSelectedImage: 'images/top-bar-button-active.png',
 		width: 44,
 		height: 30,
 		image: 'images/topbar-glyph-profile.png',
@@ -315,6 +316,7 @@ Ti.App.Chat = function(_chatParams) {
 
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		width: 44,
 		height: 30,
 		image: 'images/edit/topbar-glyph-cancel.png',
