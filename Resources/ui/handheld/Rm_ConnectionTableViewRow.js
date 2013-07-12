@@ -104,7 +104,9 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	self.guid = _matchInfo.guid;
 	self.firstName = _matchInfo.first_name;
 	self.profileImage = _matchInfo.image;
-	
+	self.unreadMessages = numNewMessages;	
+
+
 	self.addEventListener('touchstart', function() {
 		backgroundImageView.backgroundImage = 'images/menu-row-item-active.png';
 		if(showNotif) {

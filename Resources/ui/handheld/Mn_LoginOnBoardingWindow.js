@@ -1,6 +1,5 @@
 LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
-	var ServerRoutingSystem = require('internal_libs/serverRoutingSystem');
 	
 	//create component instance
 	
@@ -129,7 +128,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 		Debug.debug_print("Push notification types: "+Titanium.Network.remoteNotificationTypes);
 		Debug.debug_print("Push notification enabled: "+Titanium.Network.remoteNotificationsEnabled);
 		
-		UrbanAirship.registerDeviceToken(deviceToken);   
+		UrbanAirship.registerDeviceToken(deviceToken,0);   
 	}
 	
 	function errorNotifCallback(e) {
@@ -172,18 +171,10 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			    	var sendingObj = {}; 
-			        
-			        sendingObj.userFbId =  Ti.App.Facebook.uid;
-			        sendingObj.fbAuthToken = Ti.App.Facebook.accessToken;
-			        sendingObj.devicePlatform = Ti.Platform.osname; 
-			        sendingObj.deviceId = "";
-			        sendingObj.macAddr = Ti.Platform.id;
-			        sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
-			        sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
+			    	sendingObj.deviceId = "";
 			        
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {
 			        	sendingObj.deviceId = UrbanAirship.getDeviceToken();
-			        	sendingObj.devicePlatform = 'iphone';
 			        }
 			        var BackendUser = require('backend_libs/backendUser');
 			        var Admin = require('backend_libs/backendUser');
@@ -196,17 +187,17 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
 					        	var CreditSystem = require('internal_libs/creditSystem');
 					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
+					        	
+					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
 					        	if(_userLogin.content.user_status === "new_user") {
 					        	//if(true) {
 					        		Ti.API.info('***NEW USER****');
 									var currentUserId = parseInt(_userLogin.meta.user_id);
-									ServerRoutingSystem.selectServerAPI(currentUserId);
 									//this will go to onboarding step 1
 									Ti.App.fireEvent('openOnboardingStep1', {userId: currentUserId});
 					        	} else {
 					        		Ti.API.info('***EXISTING USER: id: '+ _userLogin.meta.user_id+' ****');
 					        		var currentUserId = parseInt(_userLogin.meta.user_id); 
-									ServerRoutingSystem.selectServerAPI(currentUserId);
 									var currentUserImage = _userLogin.content.pictures[0].src;
 									var currentUserName = _userLogin.content.general.first_name; 
 									var ApplicationWindowModule = require('ui/handheld/ApplicationWindow');

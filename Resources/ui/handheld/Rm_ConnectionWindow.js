@@ -78,6 +78,8 @@ ConnectionWindow = function(_userId) {
 		editable: true
 	});
 	
+	var totalUnreadMessages = 0;
+	
 	var loadConnectedMatches = function() {
 		if(Ti.Network.networkType == Ti.Network.NETWORK_NONE) {
 			//firing the event
@@ -87,31 +89,33 @@ ConnectionWindow = function(_userId) {
 				if(_connectedMatchInfo.success) {
 					connectionTableData = []; //reset table data
 					var connectedMatches = _connectedMatchInfo.content.connected_matches; 
+					totalUnreadMessages = 0;
 					for(var i = 0; i < connectedMatches.length; i++) {
 						var curConnect = connectedMatches[i];
+						if(curConnect.number_unread_messages !== "") {
+							totalUnreadMessages = totalUnreadMessages + curConnect.number_unread_messages;
+						}
 						var personRow = new ConnectionTableViewRow(_userId, curConnect);
 						connectionTableData.push(personRow);
 					}
 					connectionTableView.setData(connectionTableData);
-				} /* else { //not ooping out anymore
-					var CacheHelper = require('internal_libs/cacheHelper');
-					if(CacheHelper.shouldDisplayOopAlert()) {
-						CacheHelper.recordDisplayOopAlert();
-						var networkErrorDialog = Titanium.UI.createAlertDialog({
-							title: L('Oops!'),
-							message:L('There is something wrong. Please close and open Noonswoon again.'),
-							buttonNames: [L('Ok')],
-							cancel: 0
-						});
-						networkErrorDialog.show();	
+					if(totalUnreadMessages > 0) {
+						Ti.App.fireEvent('showUnreadChatGreenButton');
 					}
-				} */
+				}
 			});	 
 		}
 	};
 	
 	connectionTableView.addEventListener('click',function(e){
 		var chatRoomName = e.row.matchId + "_" + Ti.Utils.md5HexDigest("Noon"+e.row.matchId+"Swoon").substring(0,8);
+		var numUnreadThisMatch = e.row.unreadMessages;
+		
+		totalUnreadMessages = totalUnreadMessages - numUnreadThisMatch; 
+		if(totalUnreadMessages <= 0) { //no more unread message
+			Ti.App.fireEvent('showNormalChatButton');
+			totalUnreadMessages = 0;
+		}
 			
 		Ti.App.fireEvent('openChatWindow', {
 			chatRoomName:chatRoomName, matchId: e.row.matchId, 
@@ -148,6 +152,7 @@ ConnectionWindow = function(_userId) {
 	};
 	
 	self.reloadConnections = function() {
+		Ti.App.fireEvent('showNormalChatButton'); //reset to normal everytime reload
 		loadConnectedMatches();
 	};
 	

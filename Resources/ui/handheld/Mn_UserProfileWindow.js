@@ -25,6 +25,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
@@ -33,6 +34,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	
 	var editButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		font:{fontSize:14,fontWeight:'bold'},
 		title: L('Edit'),

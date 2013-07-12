@@ -29,6 +29,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',
+		backgroundSelectedImage: 'images/top-bar-button-active.png',
 		color: '#f6f7fa',
 		width: 44,
 		height: 30,
@@ -65,6 +66,7 @@ MatchWindow = function(_userId, _matchId) {
 		else return 0;
 	}
 	
+	var mutualFriendsRow  = null;
 	function populateMatchDataTableView(_matchInfo) {
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
@@ -110,7 +112,8 @@ MatchWindow = function(_userId, _matchId) {
 			//var mutualFriendsContent = {'userId': _userId, 'matchId': matchId, 'mutualFriendsArray': ['4', '5']};
 			var isLatestMatch = true;
 			if(_matchId !== null) isLatestMatch = false;
-			var mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
+			mutualFriendsRow = null;
+			mutualFriendsRow = new MutualFriendsTableViewRow('mutual_friends', mutualFriendsContent,  _matchInfo.content['show_mutual_friends'], isLatestMatch);
 			matchProfileData.push(mutualFriendsRow); 
 		}
 		
@@ -272,6 +275,12 @@ MatchWindow = function(_userId, _matchId) {
 	};
 	self.addEventListener('close', closeCallback);	
 	
+	self.notifyMutualFriendsWindowClose = function() {
+		if(mutualFriendsRow !== null) {
+			mutualFriendsRow.mutualFriendsWindowIsClose();
+		}	
+	};
+	
 	self.setNavGroup = function(_navGroup) {
 		navGroup = _navGroup;	
 		if(_matchId !== null) {
@@ -289,8 +298,7 @@ MatchWindow = function(_userId, _matchId) {
 			if(_matchId === null) {
 				if(!BackendMatch.isLatestMatchConnected()) { //only fetch if it is NOT latest
 					BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
-						if(_matchInfo.success) {
-							//Ti.API.info('_matchInfo: '+JSON.stringify(_matchInfo));
+						if(_matchInfo.success) {							
 							doHouseKeepingTasks(_matchInfo.meta.ios_version);			
 							contentView.data = populateMatchDataTableView(_matchInfo);	
 							

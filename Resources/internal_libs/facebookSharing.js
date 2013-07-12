@@ -48,11 +48,17 @@ var showRequestResult = function(e) {
 	
 // http://developer.appcelerator.com/question/74921/switchbox-vs-checkbox#answer-216772
 exports.sendRequestOnFacebook = function(_fbIds) {
+	var sendingMsg = '';
+	if(Ti.App.USER_COUNTRY === 'Thailand') {
+		sendingMsg = 'ถ้ายังโสดอยู่ ลองโหลดและใช้แอพนี้ดูนะ';
+	} else {
+		sendingMsg = 'If you\'re still single, you should check out this app!';
+	}
 	trackingCode = Ti.App.Facebook.uid + 'aa' + Ti.App.moment().format('YYYYMMDDTHHmmss'); 
 	var data = {
 		app_id: Ti.App.Facebook.appid,
 	    title: 'Noonswoon',
-	    message: 'Love is in the App',
+	    message: sendingMsg,
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
 	    //to: 202852, 2535734, 1064101575, 810675370',
 	    to: _fbIds,
