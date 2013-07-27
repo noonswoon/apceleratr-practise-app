@@ -11,7 +11,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.4';
+Ti.App.CLIENT_VERSION = '1.5';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
@@ -41,7 +41,7 @@ if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
-	Ti.App.API_SERVER = "http://noonswoondevelopment.apphb.com/";  	//need to change to test server
+	Ti.App.API_SERVER = "http://nsdevelopmentweb.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
 	Ti.App.Facebook.appid = "492444750818688";
 }
