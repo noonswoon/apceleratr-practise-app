@@ -270,7 +270,7 @@ if (Ti.version < 1.8 ) {
 							//redirect to the webview to get cookies
 							Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
 							InstallTracking.markAppOpen();
-							Ti.App.LogSystem.logEntryInfo('First time opens app. (MacAddr: '+ Ti.Platform.id+')');
+							Ti.App.LogSystem.logSystemData('info', 'First time opens an app.', null, null);
 						}
 					}
 	

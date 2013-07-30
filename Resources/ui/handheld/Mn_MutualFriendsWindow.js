@@ -112,9 +112,9 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray, _isLatestMatch) {
 						}
 						ModelFacebookFriend.updateFacebookFriendName(curFbId, curName, curImageUrl, userLocation); 
 					} else if (e.error) {
-						Ti.App.LogSystem.logEntryError('MutualFriendsWindow GraphPath Error#1: '+ JSON.stringify(e));
+						Ti.App.LogSystem.logSystemData('error', 'MutualFriendsWindow GraphPath Error#1: '+JSON.stringify(e), null, Ti.App.Facebook.uid);
 					} else {
-						Ti.App.LogSystem.logEntryError('MutualFriendsWindow GraphPath Error#2: '+ JSON.stringify(e));
+						Ti.App.LogSystem.logSystemData('error', 'MutualFriendsWindow GraphPath Error#2: '+JSON.stringify(e), null, Ti.App.Facebook.uid);
 					}
 					numMutualFriendsToLoad--;
 					if(numMutualFriendsToLoad <= 0)  {

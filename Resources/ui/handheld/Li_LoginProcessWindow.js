@@ -36,7 +36,7 @@ function LoginProcessWindow() {
 		}
 		onBoardingStep1Window = new OnBoardingStep1Module(e.userId);
 		navigationGroup.open(onBoardingStep1Window, {animated:true});
-		Ti.App.LogSystem.logEntryInfo('User registered. (UserId: '+e.userId + ', MacAddr: '+ Ti.Platform.id+')');
+		Ti.App.LogSystem.logSystemData('info', 'User registered.', e.userId, Ti.App.Facebook.uid);	
 	};
 	Ti.App.addEventListener('openOnboardingStep1', openOnboardingStep1Callback);
 	

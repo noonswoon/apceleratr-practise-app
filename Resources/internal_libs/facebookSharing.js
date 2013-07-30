@@ -32,15 +32,15 @@ var showRequestResult = function(e) {
 			s = '"success", but no data from FB.  I am guessing you cancelled the dialog.';
 			Ti.App.fireEvent('inviteFailed');
 		} 
-		Ti.App.LogSystem.logEntryInfo(s);
+		Ti.App.LogSystem.logSystemData('info', s, null, Ti.App.Facebook.uid);
 	} else if (e.cancelled) {
 		s = "fb cancel dialog";
 		Ti.App.fireEvent('inviteFailed');
-		Ti.App.LogSystem.logEntryInfo(s);
+		Ti.App.LogSystem.logSystemData('info', s, null, Ti.App.Facebook.uid);
 	} else {
 		s = "fb FAIL dialog";
 		if (e.error) s += "; " + e.error;	
-		Ti.App.LogSystem.logEntryError(s  + ' (MacAddr: '+ Ti.Platform.id+')');
+		Ti.App.LogSystem.logSystemData('error', s, null, Ti.App.Facebook.uid);
 		Ti.App.Facebook.logout();
 	}
 };
@@ -60,7 +60,7 @@ exports.sendRequestOnFacebook = function(_fbIds) {
 	    title: 'Noonswoon',
 	    message: sendingMsg,
 	    redirect_uri: 'http://noonswoon.com/invite/?fb_notif',
-	    //to: 202852, 2535734, 1064101575, 810675370',
+	    //to: '202852, 2535734, 1064101575, 810675370',
 	    to: _fbIds,
 	    data: trackingCode
 	 };

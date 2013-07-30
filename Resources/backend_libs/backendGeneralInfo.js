@@ -123,7 +123,6 @@ exports.getStaticData = function(_callbackFn) {
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"get_static_data/";
-		//Ti.API.info('getStaticData url: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);

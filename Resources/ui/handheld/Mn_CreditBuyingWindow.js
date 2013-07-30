@@ -623,10 +623,10 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		switch (evt.state) {
 			case Ti.App.Storekit.FAILED:
 				if (evt.cancelled) {
-					Ti.App.LogSystem.logEntryError('User '+_userId + ' cancelled purchased');
+					Ti.App.LogSystem.logSystemData('error', 'User cancelled a purchase', _userId, Ti.App.Facebook.uid);
 				} else {
 					alert('Purchasing failed: ' + evt.message);
-					Ti.App.LogSystem.logEntryError('Some failture to prevent User '+_userId + ' to purchase: '+evt.message);
+					Ti.App.LogSystem.logSystemData('error', 'Some failure prevent user from buying credits: '+evt.message, _userId, Ti.App.Facebook.uid);
 				}
 				hidePreloader(self);
 				break;
@@ -653,10 +653,11 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 
 				break;
 			case Ti.App.Storekit.PURCHASING:
-				Ti.App.LogSystem.logEntryInfo("Purchasing " + evt.productIdentifier + " (UserID: "+_userId + ")");
+				Ti.App.LogSystem.logSystemData('info', 'Purchasing ' + evt.productIdentifier, _userId, Ti.App.Facebook.uid);
 				break;
 			case Ti.App.Storekit.RESTORED:
 				// The complete list of restored products is sent with the `restoredCompletedTransactions` event
+				Ti.App.LogSystem.logSystemData('info', 'Restored ' + evt.productIdentifier, _userId, Ti.App.Facebook.uid);
 				Ti.API.info("Restored " + evt.productIdentifier);
 			    break;
 		}
@@ -707,9 +708,9 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		Ti.API.info('requestProducts: '+JSON.stringify(evt));
 		hidePreloader(self);
 		if (!evt.success) {
-			Ti.App.LogSystem.logEntryError('We failed to talk to Apple! (UserID: '+_userId + ')');
+			Ti.App.LogSystem.logSystemData('error', 'Failed to talk to Apple', _userId, Ti.App.Facebook.uid);
 		} else if (evt.invalid) {
-			Ti.App.LogSystem.logEntryError('We requested an invalid product! (UserID: '+_userId + ')');
+			Ti.App.LogSystem.logSystemData('error', 'Request an invalid product!', _userId, Ti.App.Facebook.uid);			
 		} else {
 			//success(evt.products);
 			var products = evt.products;	
