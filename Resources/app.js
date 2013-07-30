@@ -37,11 +37,11 @@ Ti.App.NOONSWOON_PRODUCTS = ['com.noonswoon.launch.c1', 'com.noonswoon.launch.c2
 //'com.noonswoon.launch.monthly', 'com.noonswoon.launch.yearly']; 
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
-	Ti.App.API_SERVER = "http://noonswoon.com/";
+	Ti.App.API_SERVER = "https://noonswoon.com/";
 	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
-	Ti.App.API_SERVER = "http://nsdevelopmentweb.apphb.com/";  	//need to change to test server
+	Ti.App.API_SERVER = "https://nsdevelopmentweb.apphb.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
 	Ti.App.Facebook.appid = "492444750818688";
 }
