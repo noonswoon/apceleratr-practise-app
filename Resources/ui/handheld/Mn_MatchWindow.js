@@ -50,13 +50,6 @@ MatchWindow = function(_userId, _matchId) {
 	});
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-
-	var networkErrorDialog = Titanium.UI.createAlertDialog({
-		title: L('Oops!'),
-		message:L('There is something wrong. Please try again.'),
-		buttonNames: [L('Ok')],
-		cancel: 0
-	});
 								
 	var dataForProfile = [];
 	
@@ -241,15 +234,7 @@ MatchWindow = function(_userId, _matchId) {
 				if(_matchInfo.content.is_connected) {
 					BackendMatch.setCurrentMatchConnected();
 				}
-			} /* else {	//not displaying oop
-				if(!_matchInfo.hasNoMatch) {
-					var CacheHelper = require('internal_libs/cacheHelper');
-					if(CacheHelper.shouldDisplayOopAlert()) {
-						CacheHelper.recordDisplayOopAlert();
-						networkErrorDialog.show();
-					}
-				}		
-			} */
+			}
 			hidePreloader(self);
 		});
 	} else {
@@ -258,12 +243,6 @@ MatchWindow = function(_userId, _matchId) {
 			if(_matchInfo.success) {
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
-			} else {
-				var CacheHelper = require('internal_libs/cacheHelper');
-				if(CacheHelper.shouldDisplayOopAlert()) {
-					CacheHelper.recordDisplayOopAlert();
-					networkErrorDialog.show();
-				}			
 			}
 			hidePreloader(self);
 		});
@@ -305,28 +284,13 @@ MatchWindow = function(_userId, _matchId) {
 							if(_matchInfo.content.is_connected) {
 								BackendMatch.setCurrentMatchConnected();
 							}
-						} /*else { //not showing the Oops error anymore
-							if(!_matchInfo.hasNoMatch) {
-								var CacheHelper = require('internal_libs/cacheHelper');
-								if(CacheHelper.shouldDisplayOopAlert()) {
-									CacheHelper.recordDisplayOopAlert();
-									networkErrorDialog.show();
-								}
-							}	
-						} */
+						}
 					}); 
 				}
 			} else {	
 				BackendMatch.getMatchInfo({userId:_userId, matchId:_matchId}, function(_matchInfo) {	
 					if(_matchInfo.success)
 						contentView.data = populateMatchDataTableView(_matchInfo);
-					else {
-						var CacheHelper = require('internal_libs/cacheHelper');
-						if(CacheHelper.shouldDisplayOopAlert()) {
-							CacheHelper.recordDisplayOopAlert();
-							networkErrorDialog.show();
-						}
-					}
 				});
 			}
 		}

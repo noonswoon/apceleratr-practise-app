@@ -81,18 +81,6 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 							Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 						} else {
 							isMutualFriendsWindowOpen = false;
-							//Ti.API.info('set isMutualFriendsWindowOpen = false');
-							var networkErrorDialog = Titanium.UI.createAlertDialog({
-								title: L('Oops!'),
-								message:L('There is something wrong. Please try again.'),
-								buttonNames: [L('Ok')],
-								cancel: 0
-							});
-							var CacheHelper = require('internal_libs/cacheHelper');
-							if(CacheHelper.shouldDisplayOopAlert()) {
-								CacheHelper.recordDisplayOopAlert();
-								networkErrorDialog.show();
-							}
 						}
 					});
 				}

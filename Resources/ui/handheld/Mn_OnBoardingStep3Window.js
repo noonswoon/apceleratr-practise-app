@@ -90,18 +90,6 @@ OnBoardingStep3Window = function(_userId) {
 				var currentUserImage = _userInfo.content.pictures[0].src;
 				
 				Ti.App.fireEvent('openMainApplication', {currentUserId: currentUserId, currentUserImage: currentUserImage, currentUserName: currentUserName});
-			} else {
-				var networkErrorDialog = Titanium.UI.createAlertDialog({
-					title: L('Oops!'),
-					message:L('There is something wrong. Please try pressing the button again.'),
-					buttonNames: [L('Ok')],
-					cancel: 0
-				});
-				var CacheHelper = require('internal_libs/cacheHelper');
-				if(CacheHelper.shouldDisplayOopAlert()) {
-					CacheHelper.recordDisplayOopAlert();
-					networkErrorDialog.show();	
-				}
 			}
 		});		
 	});

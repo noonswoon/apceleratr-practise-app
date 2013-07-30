@@ -206,17 +206,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					if(e.success) {
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 					} else {
-						var networkErrorDialog = Titanium.UI.createAlertDialog({
-							title: L('Oops!'),
-							message:L('There is something wrong. Please close and open Noonswoon again.'),
-							buttonNames: [L('Ok')],
-							cancel: 0
-						});
-						var CacheHelper = require('internal_libs/cacheHelper');
-						if(CacheHelper.shouldDisplayOopAlert()) {
-							CacheHelper.recordDisplayOopAlert();
-							networkErrorDialog.show();	
-						}
 						isActionTaken = false;
 					}
 				});

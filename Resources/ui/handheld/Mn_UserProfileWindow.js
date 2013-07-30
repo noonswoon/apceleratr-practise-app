@@ -208,17 +208,6 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 	BackendUser.getUserInfo(_targetedUserId, function(_userInfo) {
 		if(_userInfo.success) {
 			populateInfoDataTableView(_userInfo);
-		} else {
-			var networkErrorDialog = Titanium.UI.createAlertDialog({
-				title: L('Oops!'),
-				message:L('There is something wrong. Please check your internet connection.'),
-				buttonNames: [L('Ok')],
-				cancel: 0
-			});
-			if(CacheHelper.shouldDisplayOopAlert()) {
-				CacheHelper.recordDisplayOopAlert();
-				networkErrorDialog.show();	
-			}
 		}
 		hidePreloader(self);
 	});	

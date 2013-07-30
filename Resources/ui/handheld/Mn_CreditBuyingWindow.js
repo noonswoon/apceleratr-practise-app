@@ -611,13 +611,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		buttonNames: [L('Continue')],
 		cancel: 0
 	});
-	
-	var networkErrorDialog = Titanium.UI.createAlertDialog({
-		title: L('Oops!'),
-		message:L('There is something wrong. Please close and open Noonswoon again.'),
-		buttonNames: [L('Ok')],
-		cancel: 0
-	});
 
 	var transactionStateCallback = function(evt) {
 		switch (evt.state) {
@@ -639,12 +632,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 					
 						//pop up for success purchase confirmation
 						purchasedConfirmationDialog.show(); 
-					} else {
-						var CacheHelper = require('internal_libs/cacheHelper');
-						if(CacheHelper.shouldDisplayOopAlert()) {
-							CacheHelper.recordDisplayOopAlert();
-							networkErrorDialog.show();
-						}
 					}
 					//then close the window
 					_navGroup.close(self, {animated:true}); //go to the main screen

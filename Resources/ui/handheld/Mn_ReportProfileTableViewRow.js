@@ -40,7 +40,7 @@ ReportProfileTableViewRow = function(_userId, _targetedUserId) {
 			buttonNames: [L('Ok')],
 		});
 		if(!e.success) {
-			reportDialog.title = L('Oops..something is wrong');
+			reportDialog.title = L('Something went wrong');
 			reportDialog.message = L('Please report again');
 		}
 		reportDialog.show();

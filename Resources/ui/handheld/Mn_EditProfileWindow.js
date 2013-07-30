@@ -466,7 +466,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				} else {
 					var networkErrorDialog = Titanium.UI.createAlertDialog({
 						title: L('Oops!'),
-						message:L('There is something wrong. Please save again.'),
+						message:L('Please re-save again.'),
 						buttonNames: [L('Ok')],
 						cancel: 0
 					});
@@ -538,17 +538,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				}
 			}
 			populateInfoDataTableView(_userInfo);
-		} else {
-			var networkErrorDialog = Titanium.UI.createAlertDialog({
-				title: L('Oops!'),
-				message:L('There is something wrong. Please check your internet connection.'),
-				buttonNames: [L('Ok')],
-				cancel: 0
-			});
-			if(CacheHelper.shouldDisplayOopAlert()) {
-				CacheHelper.recordDisplayOopAlert();
-				networkErrorDialog.show();	
-			}
 		}
 	});
 

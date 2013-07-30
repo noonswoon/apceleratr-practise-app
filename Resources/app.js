@@ -230,17 +230,6 @@ if (Ti.version < 1.8 ) {
 			if(e.success) {
 				var invitedList = e.content.invited_people;
 				FacebookFriendModel.updateIsInvited(invitedList);
-			} else {
-				var networkErrorDialog = Titanium.UI.createAlertDialog({
-					title: L('Oops!'),
-					message:L('There is something wrong. Please close and open Noonswoon again.'),
-					buttonNames: [L('Ok')],
-					cancel: 0
-				});
-				if(CacheHelper.shouldDisplayOopAlert()) {
-					CacheHelper.recordDisplayOopAlert();
-					networkErrorDialog.show();	
-				}
 			}
 		});
 	});
@@ -284,17 +273,6 @@ if (Ti.version < 1.8 ) {
 					Ti.App.OFFERED_CITIES = e.content.city;  //need to put this guy in the db
 
 					CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
-				} else {
-					var networkErrorDialog = Titanium.UI.createAlertDialog({
-						title: L('Oops!'),
-						message:L('There is something wrong. Please close and open Noonswoon again.'),
-						buttonNames: [L('Ok')],
-						cancel: 0
-					});
-					if(CacheHelper.shouldDisplayOopAlert()) {
-						CacheHelper.recordDisplayOopAlert();
-						networkErrorDialog.show();
-					}
 				}
 				Ti.App.fireEvent('doneWaitingEvent');
 			});

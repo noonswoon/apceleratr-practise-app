@@ -206,18 +206,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 									mainApp.unhideCoverView();
 									self.close();
 					        	}
-				        	} else {
-				        		var networkErrorDialog = Titanium.UI.createAlertDialog({
-									title: L('Oops!'),
-									message:L('There is something wrong. Please try again.'),
-									buttonNames: [L('Ok')],
-									cancel: 0
-								});
-								var CacheHelper = require('internal_libs/cacheHelper');
-								if(CacheHelper.shouldDisplayOopAlert()) {
-									CacheHelper.recordDisplayOopAlert();
-									networkErrorDialog.show();	
-								}
 				        	}
 				        	newConnectFlag = true;
 				        	hidePreloader(self);
