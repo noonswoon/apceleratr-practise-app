@@ -12,7 +12,7 @@
     <property name="ti.android.threadstacksize" type="int">327680</property>
     <id>com.noonswoon.launch</id>
     <name>Noonswoon</name>
-    <version>1.4</version>
+    <version>1.5</version>
     <publisher>Noonswoon Inc.</publisher>
     <url>http://noonswoon.com</url>
     <description>Love is in the App</description>

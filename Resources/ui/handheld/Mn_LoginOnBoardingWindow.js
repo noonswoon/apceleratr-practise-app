@@ -185,10 +185,11 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	if(_userLogin.success) {
 					        	// check the result data whether it is a new user or existing one
 					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
+					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
+					        	Ti.App.CUSTOMER_TYPE = _userLogin.content.customer_type;  //either regular or subscription
+					        	
 					        	var CreditSystem = require('internal_libs/creditSystem');
 					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-					        	
-					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
 					        	if(_userLogin.content.user_status === "new_user") {
 					        	//if(true) {
 					        		Ti.API.info('***NEW USER****');

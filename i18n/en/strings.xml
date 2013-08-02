@@ -229,6 +229,15 @@
 	<string name="Get Free Credits">Get Free Credits</string>
 	<string name="Thank you!">Thank you!</string>
 	<string name="Your purchase is complete">Your purchase is complete</string>
+	<string name="Your Noonswoon purchase is restored">Your Noonswoon purchase is restored</string>
+	<string name="There were no Noonswoon purchase to restore">There were no Noonswoon purchase to restore</string>	
+
+	<string name="Credit Package">Credit Package</string>
+	<string name="Enough to Like one person">Enough to Like one person</string>
+	<string name="Unlimited Credits">Unlimited Credits</string>
+	<string name="Unlimited Likes">Unlimited Likes</string>	
+	<string name="Restore Purchases">Restore Purchases</string>
+
 	<string name="20% Savings">20% Savings</string>
 	<string name="50% Savings">50% Savings</string>	
 

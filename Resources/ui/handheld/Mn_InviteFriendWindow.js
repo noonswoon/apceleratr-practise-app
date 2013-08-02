@@ -258,8 +258,10 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 			var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 	
 			BackendInvite.saveInvitedPeople(invitedData, function(e){
-				if(e.success) 
+				if(e.success) {
+					Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 					CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
+				}
 			});
 			openOnboardingStep3();
 		}

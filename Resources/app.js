@@ -33,12 +33,14 @@ Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
-Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.c1', 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
+Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.c1', // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
 								'com.noonswoon.launch.monthly.d10']; 
+Ti.App.CUSTOMER_TYPE = 'regular';
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "https://noonswoon.com/";
-	Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+	//Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
+	Ti.App.API_ACCESS = "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: H@ckerFr33 "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: 
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
 	Ti.App.API_SERVER = "https://nsdevelopmentweb.apphb.com/";  	//need to change to test server
@@ -186,6 +188,8 @@ if (Ti.version < 1.8 ) {
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						if(_userInfo.success) {
 							Ti.App.USER_COUNTRY = _userInfo.content.general.country;
+							Ti.App.CUSTOMER_TYPE = _userInfo.content.customer_type;  //either regular or subscription
+							
 							currentUserId = parseInt(_userInfo.meta.user_id);
 							var currentUserName = _userInfo.content.general.first_name; 
 							var currentUserImage = _userInfo.content.pictures[0].src;

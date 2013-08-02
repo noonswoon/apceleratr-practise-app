@@ -153,13 +153,15 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 			
 			var currentCredit = CreditSystem.getUserCredit();
-			if(currentCredit < 10) {
+			if(currentCredit < 10 && Ti.App.CUSTOMER_TYPE === 'regular') {
 				var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
-					title: L('Not enough credits'),
-					message: L('You need 10 credits to \'Like\' a person. Invite more friends to get more credits')
+					title: L('You have '+currentCredit+' credits left'),
+					message: L('You need 10 credits to \'Like\' a person. Invite friends or buy more credits.'),
+					buttonNames: [L('Ok')],
 				});
 				notEnoughCreditsDialog.show();
-			} else {				
+			} else {
+				//reach here only if, have more than 10 credits OR on the subscription plan			
 				isActionTaken = true;
 				setSelectedState("like");
 
@@ -203,10 +205,29 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
+					
+					//Ti.API.info('saveResponse: '+JSON.stringify(e));
+					
 					if(e.success) {
+						Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
 					} else {
 						isActionTaken = false;
+						
+						//either no credits to use or NO longer has the subscription
+						if(e.content.customer_type !== undefined) 
+							Ti.App.CUSTOMER_TYPE = e.content.customer_type;
+							
+						if(e.content.credit !== undefined) {
+							CreditSystem.setUserCredit(e.content.credit); //sync the credit
+							
+							var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
+								title: L('You have '+e.content.credit+' credits left'),
+								message: L('You need 10 credits to \'Like\' a person. Invite friends or buy more credits.'),
+								buttonNames: [L('Ok')],
+							});
+							notEnoughCreditsDialog.show();
+						}
 					}
 				});
 			}

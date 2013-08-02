@@ -111,7 +111,8 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _matchResponseObj.userId, null);
-					_callbackFn({success:false});
+					resultObj.success = false;
+					_callbackFn(resultObj);
 				}
 		    },
 		    onerror: function(e) {		    
@@ -143,7 +144,8 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 					_callbackFn(resultObj);
 				} else {
 					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _matchUserObj.userId, null);
-					_callbackFn({success:false});
+					resultObj.success = false;
+					_callbackFn(resultObj);
 				}
 		    },
 		    onerror: function(e) {

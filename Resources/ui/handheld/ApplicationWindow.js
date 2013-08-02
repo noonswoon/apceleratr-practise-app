@@ -198,8 +198,10 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var inviteCompletedCallback = function(e) {
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		BackendInvite.saveInvitedPeople(invitedData, function(e) {
-			if(e.success) 
-				CreditSystem.setUserCredit(e.content.credit); //sync the credit
+			if(e.success) {
+				Ti.App.CUSTOMER_TYPE = e.content.customer_type;
+				CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
+			}
 		});
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
