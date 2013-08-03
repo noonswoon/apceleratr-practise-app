@@ -36,6 +36,7 @@ Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
 Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.c1', // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
 								'com.noonswoon.launch.monthly.d10']; 
 Ti.App.CUSTOMER_TYPE = 'regular';
+Ti.App.NS_HASH_SECRET_KEY = 'ns+^frobjw8c&=r7a83n9jq^oykuhlssn';
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "https://noonswoon.com/";

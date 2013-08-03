@@ -30,6 +30,8 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
+	    var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);
 	    xhr.send();
 	}
 };

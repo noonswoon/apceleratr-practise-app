@@ -41,6 +41,8 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+	   	var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);
 	    xhr.send();
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/match_info_obj.txt');
@@ -83,6 +85,8 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+	   	var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);	    
 	    xhr.send();
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/match_info_obj.txt');
@@ -98,8 +102,8 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 	var fnSrc = 'backendMatch.saveResponse';
 	var sendingObj = {};
 	sendingObj.match_id = _matchResponseObj.matchId; 
-	sendingObj.user_id = _matchResponseObj.userId; 
 	sendingObj.response = _matchResponseObj.response;
+	sendingObj.user_id = _matchResponseObj.userId; 
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"match/save_response/";
@@ -124,6 +128,8 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+	   	var hashVal = Ti.Utils.sha256(sendingObj.match_id + sendingObj.response + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement
 	} 
 };
@@ -157,6 +163,8 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		xhr.open("PUT", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+	   	var hashVal = Ti.Utils.sha256(sendingObj.match_id + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement
 	} 
 };
@@ -186,6 +194,8 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+	    var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);
 	    xhr.send();
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/connected_match_obj.txt');
@@ -228,6 +238,8 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		xhr.open('POST', url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.match_id + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);	 		 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement
 	} 
 };

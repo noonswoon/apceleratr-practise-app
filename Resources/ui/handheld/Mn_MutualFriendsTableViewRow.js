@@ -72,7 +72,6 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 					isMutualFriendsWindowOpen = true;
 					//Ti.API.info('set isMutualFriendsWindowOpen = true');
 					BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
-						//Ti.API.info('updateDisplayMutualFriend: '+JSON.stringify(e));
 						if(e.success) {
 							Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
@@ -82,10 +81,10 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 							Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 						} else {
 							//either no credits to use or NO longer has the subscription
-							if(e.content.customer_type !== undefined) 
+							if(e.content !== undefined && e.content.customer_type !== undefined) 
 								Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 							
-							if(e.content.credit !== undefined) {
+							if(e.content !== undefined && e.content.credit !== undefined) {
 								CreditSystem.setUserCredit(e.content.credit); //sync the credit
 								var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
 									title: L('You have '+e.content.credit+' credits'),

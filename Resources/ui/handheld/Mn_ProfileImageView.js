@@ -149,6 +149,16 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 	};
 	self.setSelectedState = setSelectedState;
 	
+	var clearState = function() {		
+		likeButton.backgroundImage = 'images/big-like-btn.png';
+		buttonGlyph.width = 28;
+		buttonGlyph.height = 28;
+		buttonGlyph.backgroundImage = 'images/like-glyph.png';
+		likeLbl.text = L('Like');
+		likeButton.enabled = true;
+	};
+	self.clearState = clearState;	
+	
 	likeButton.addEventListener("click", function() {
 		if(!isActionTaken) { //add logic in case of delay...so we won't fire twice
 			
@@ -205,9 +215,6 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){
-					
-					//Ti.API.info('saveResponse: '+JSON.stringify(e));
-					
 					if(e.success) {
 						Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
@@ -215,10 +222,10 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 						isActionTaken = false;
 						
 						//either no credits to use or NO longer has the subscription
-						if(e.content.customer_type !== undefined) 
+						if(e.content !== undefined && e.content.customer_type !== undefined) 
 							Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 							
-						if(e.content.credit !== undefined) {
+						if(e.content !== undefined && e.content.credit !== undefined) {
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
 							
 							var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
@@ -228,12 +235,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 							});
 							notEnoughCreditsDialog.show();
 						}
+						clearState();
 					}
 				});
 			}
 		}
 	});
-
 	return self;
 };
 
