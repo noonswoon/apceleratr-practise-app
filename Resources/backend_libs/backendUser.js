@@ -27,7 +27,8 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
-	    //Ti.API.info('sending edit data to server: '+JSON.stringify(_editObj));
+		var hashVal = Ti.Utils.sha256(JSON.stringify(_editObj) + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);
 	    xhr.send(_editObj); 
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_edit_result.txt');
@@ -46,14 +47,14 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 exports.connectToServer = function(_userObj, _callbackFn) {
 	var fnSrc = 'backendUser.connectToServer';
 	var sendingObj = {};
-	sendingObj.user_fb_id = Ti.App.Facebook.uid;
-	sendingObj.fb_auth_token = Ti.App.Facebook.accessToken; 
-	sendingObj.device_platform = 'iphone'; 
+	sendingObj.client_version = Ti.App.CLIENT_VERSION;
 	sendingObj.device_id = _userObj.deviceId;
-	sendingObj.mac_addr =  Ti.Platform.id;
+	sendingObj.device_platform = 'iphone'; 
+	sendingObj.fb_auth_token = Ti.App.Facebook.accessToken; 
 	sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
 	sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
-	sendingObj.client_version = Ti.App.CLIENT_VERSION;
+	sendingObj.mac_addr =  Ti.Platform.id;
+	sendingObj.user_fb_id = Ti.App.Facebook.uid;
 	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER +"userasync/connect_server";
@@ -77,6 +78,10 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.client_version + sendingObj.device_id + sendingObj.device_platform 
+									+ sendingObj.fb_auth_token + sendingObj.latitude + sendingObj.longitude 
+									+ sendingObj.mac_addr + sendingObj.user_fb_id + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_login_result.txt');
@@ -116,6 +121,8 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);
 		xhr.send();  // request is actually sent with this statement
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_obj.txt');
@@ -160,6 +167,8 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send();  // request is actually sent with this statement
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_id_obj.txt');
@@ -178,9 +187,10 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 exports.saveUserReport = function(_reportObj, _callbackFn) {
 	var fnSrc = 'backendUser.saveUserReport';
 	var sendingObj = {};
-	sendingObj.user_id = _reportObj.userId; 
-	sendingObj.targeted_user_id = _reportObj.targetedUserId;
 	sendingObj.reason = _reportObj.reason; 
+	sendingObj.targeted_user_id = _reportObj.targetedUserId;
+	sendingObj.user_id = _reportObj.userId; 
+
 	//Ti.API.info('saveUserReport: '+JSON.stringify(sendingObj));	
 
 	if(Ti.App.LIVE_DATA) {
@@ -205,6 +215,8 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.reason + sendingObj.targeted_user_id + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	    
 	   	xhr.send(JSON.stringify(sendingObj));
 	}
 };
@@ -212,10 +224,11 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	var fnSrc = 'backendUser.updatePNToken';
 	var sendingObj = {};
-	sendingObj.user_id = _userId; 
+
 	sendingObj.device_platform = 'iphone';
 	sendingObj.pn_token = _pnToken;
-
+	sendingObj.user_id = _userId; 
+	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/update_pn_token/";
 		var xhr = Ti.Network.createHTTPClient({
@@ -237,6 +250,8 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.device_platform + sendingObj.pn_token + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);
 	   	xhr.send(JSON.stringify(sendingObj));
 	}
 };
@@ -244,10 +259,10 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 exports.updateClientVersion = function(_userId, _callbackFn) {
 	var fnSrc = 'backendUser.updateClientVersion';
 	var sendingObj = {};
-	sendingObj.user_id = _userId; 
-	sendingObj.device_platform = 'iphone';
 	sendingObj.client_version = Ti.App.CLIENT_VERSION;
-
+	sendingObj.device_platform = 'iphone';
+	sendingObj.user_id = _userId; 
+	
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/update_client_version/";
 		var xhr = Ti.Network.createHTTPClient({
@@ -269,6 +284,8 @@ exports.updateClientVersion = function(_userId, _callbackFn) {
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.client_version + sendingObj.device_platform + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	    
 	   	xhr.send(JSON.stringify(sendingObj));
 	}
 };

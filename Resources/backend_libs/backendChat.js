@@ -30,6 +30,8 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
+	    var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+	    xhr.setRequestHeader('NsHashKey',hashVal);
 	    xhr.send();
 	}
 };
@@ -59,6 +61,8 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	    
 	    xhr.send();
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/chat_all_history_obj.txt');
@@ -97,6 +101,8 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	    
 	    xhr.send();
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/chat_history_obj.txt');
@@ -111,9 +117,9 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 exports.saveChatMessage = function(_messageObj, _callbackFn) {
 	var sendingObj = {}; 
 	sendingObj.match_id = _messageObj.matchId; 
-	sendingObj.sender_id = _messageObj.senderId;
-	sendingObj.receiver_id = _messageObj.receiverId;
 	sendingObj.message = _messageObj.message;
+	sendingObj.receiver_id = _messageObj.receiverId;
+	sendingObj.sender_id = _messageObj.senderId;
 	
 	//Ti.API.info('sending this obj to save to server: '+JSON.stringify(sendingObj));
 	
@@ -140,6 +146,8 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
+		var hashVal = Ti.Utils.sha256(sendingObj.match_id + sendingObj.message + sendingObj.receiver_id + sendingObj.sender_id + Ti.App.NS_HASH_SECRET_KEY);
+		xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	}
 };

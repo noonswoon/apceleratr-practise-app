@@ -144,9 +144,12 @@ CreditView = function(_credit) {
 	}; 
 	
 	var setCredit = function(_newCredit) {
-		if(_newCredit > 9999) 
+		
+		if(Ti.App.CUSTOMER_TYPE === 'subscription' || _newCredit > 9999)
 			_newCredit = 9999;
+		
 		var numberArray = computeNumbers(_newCredit);
+		
 		setThousandDigit(_newCredit, numberArray[0]);
 		setHundredDigit(_newCredit, numberArray[1]);
 		setTenDigit(_newCredit, numberArray[2]);
@@ -175,7 +178,6 @@ CreditView = function(_credit) {
 		creditDialog.show();
 	});
 */
-
 	setCredit(_credit);
 	
 	return self;

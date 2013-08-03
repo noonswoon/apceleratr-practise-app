@@ -14,7 +14,7 @@ exports.queryFacebookFriends = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryFacebookFriends: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryFacebookFriends: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);
 		} else {
 			var friendList = JSON.parse(r.result);
 			//Ti.API.info('offeredCities: '+offeredCities);
@@ -65,7 +65,7 @@ exports.queryUserStream = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserStream: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryUserStream: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);
 		} else {
 			var dataArray = JSON.parse(r.result);
 			
@@ -89,7 +89,7 @@ exports.queryUserLikes = function(_streamIdList) {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserLikes: '+ JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryUserLikes: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);
 		} else {
 			var dataArray = JSON.parse(r.result);
 			
@@ -113,7 +113,7 @@ exports.queryUserComments = function(_streamIdList) {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserComments: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryUserComments: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);
 		} else {
 			//Ti.API.info('commentQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
@@ -134,7 +134,7 @@ exports.queryUserPhotos = function() {
 	Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 		if (!r.success) {
 			//Ti.App.Facebook.logout();
-			Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotos: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryUserPhotos: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);
 		} else {
 			//Ti.API.info('photoQuery: '+JSON.stringify(r));
 			var dataArray = JSON.parse(r.result);
@@ -164,7 +164,7 @@ exports.queryUserPhotoTags = function(_photoIdList) {
 		Ti.App.Facebook.request('fql.query', {query: query},  function(r) {
 			if (!r.success) {
 				//Ti.App.Facebook.logout();
-				Ti.App.LogSystem.logEntryError('Fb Call failed queryUserPhotoTags: ' + JSON.stringify(r) + ' (MacAddr: '+ Ti.Platform.id+')');
+				Ti.App.LogSystem.logSystemData('error', 'Fb Call failed queryUserPhotoTags: '+ JSON.stringify(r), null, Ti.App.Facebook.uid);			
 			} else {
 				//Ti.API.info('taggedFriendsQuery: '+JSON.stringify(r));
 				var dataArray = JSON.parse(r.result);

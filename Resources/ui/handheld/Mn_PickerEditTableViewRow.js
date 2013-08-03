@@ -11,6 +11,15 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 		textColor =  "#a3a7ad";
 		content = DefaultTextHelper.getDefaultText(_fieldName);
 	}
+	
+	//handling exception case -- when internet is slow and does get it in-time
+	if(_pickerData.length === 0) {
+		if(_fieldName === 'ethnicity') {
+			_pickerData.push('Asian');
+		} else if(_fieldName === 'religion') {
+			_pickerData.push('Buddhist');
+		}
+	}	
 		
 	var tableRow = Ti.UI.createTableViewRow({
 		top: 0,

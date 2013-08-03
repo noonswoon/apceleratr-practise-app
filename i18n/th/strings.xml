@@ -139,7 +139,7 @@
 	<string name="Done">เสร็จ</string>
 	<string name="DONE">เสร็จ</string>
 			
-	<string name="Like">ถูกใจ</string>
+	<string name="Like">Like</string>
 	<string name="Liked">ถูกใจ</string>
 		
 	<string name="Pass">ผ่าน</string>
@@ -225,16 +225,26 @@
 	<string name="Suggestion">ข้อเสนอแนะ</string>
 	<string name="Please let us know how we can make Noonswoon better.">กรุณาแนะนำทีมงานว่าควรปรับปรุง Noonswoon ให้ดีขึ้นได้อย่างไร</string>
 
-	<string name="Buy Credits">ซื้อเครดิต</string>	
+	<string name="Buy Credits">ซื้อเครดิต</string>
+	<string name="UNLIMITED">ไม่จำกัด</string>		
 	<string name="Get Free Credits">รับเครดิตฟรี</string>	
 	<string name="Thank you!">ขอบพระคุณ!</string>
 	<string name="Your purchase is complete">ได้รับออร์เดอร์เรียบร้อยแล้ว</string>
+	<string name="Your Noonswoon purchase is restored">ข้อมูลการซื้อของคุณได้รับการอัพเดทแล้ว</string>
+	<string name="There were no Noonswoon purchase to restore">ไม่มีข้อมูลการซื้อใดใดที่ต้องอัพเดท</string>	
+
+	<string name="Credit Package">เครดิตแพ็คเกจ</string>	
+	<string name="Enough to Like one person">พอสำหรับใช้ Like หนึ่งคน</string>
+	<string name="Unlimited Credits">เครดิตไม่จำกัดจำนวน</string>
+	<string name="Unlimited Likes">สามารถ Like ได้ไม่จำกัด</string>		
+	<string name="Restore Purchases">อัพเดทข้อมูลที่ได้ซื้อแล้ว</string>
+			
 	<string name="20% Savings">รับส่วนลด 20%</string>
 	<string name="50% Savings">รับส่วนลด 50%</string>	
 	
 	<string name="Your Credits">เครดิตของคุณ</string>
 	<string name="How Credits Are Used">ใช้เครดิตได้อย่างไร</string>
-	<string name="Use">ใช้</string>	
+	<string name="Use">ใช้</string>
 	<string name="5 credits">5 เครดิต</string>	
 	<string name="to reveal Mutual Friends">ในการแสดงว่าใครคือเพื่อนระหว่างเรา</string>	
 	<string name="10 credits">10 เครดิต</string>

@@ -185,10 +185,11 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				        	if(_userLogin.success) {
 					        	// check the result data whether it is a new user or existing one
 					        	Ti.App.fireEvent('userLoginCompleted', {userId: parseInt(_userLogin.meta.user_id)});
+					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
+					        	Ti.App.CUSTOMER_TYPE = _userLogin.content.customer_type;  //either regular or subscription
+					        	
 					        	var CreditSystem = require('internal_libs/creditSystem');
 					        	CreditSystem.setUserCredit(_userLogin.content.credit); 
-					        	
-					        	Ti.App.USER_COUNTRY = _userLogin.content.general.country;
 					        	if(_userLogin.content.user_status === "new_user") {
 					        	//if(true) {
 					        		Ti.API.info('***NEW USER****');
@@ -206,18 +207,6 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 									mainApp.unhideCoverView();
 									self.close();
 					        	}
-				        	} else {
-				        		var networkErrorDialog = Titanium.UI.createAlertDialog({
-									title: L('Oops!'),
-									message:L('There is something wrong. Please try again.'),
-									buttonNames: [L('Ok')],
-									cancel: 0
-								});
-								var CacheHelper = require('internal_libs/cacheHelper');
-								if(CacheHelper.shouldDisplayOopAlert()) {
-									CacheHelper.recordDisplayOopAlert();
-									networkErrorDialog.show();	
-								}
 				        	}
 				        	newConnectFlag = true;
 				        	hidePreloader(self);
@@ -229,8 +218,8 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 						title:L('Noonswoon'),
 						message:L('There is an error from Facebook login. Please try again.#1')
 					});
-					loginFailedDialog.show();
-					Ti.App.LogSystem.logEntryError('cannot request GraphPath: '+ JSON.stringify(e) + '(MacAddr: '+ Ti.Platform.id+')');		
+					loginFailedDialog.show();	
+					Ti.App.LogSystem.logSystemData('error', 'Cannot request GraphPath: ' + JSON.stringify(e), null, Ti.App.Facebook.uid);			
 				} else {
 					hidePreloader(self);
 					var loginFailedDialog = Titanium.UI.createAlertDialog({
@@ -238,7 +227,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 						message:L('There is an error from Facebook login. Please try again.#2')
 					});
 					loginFailedDialog.show();
-					Ti.App.LogSystem.logEntryError('what the hell is going on? '+ JSON.stringify(e) + '(MacAddr: '+ Ti.Platform.id+')');
+					Ti.App.LogSystem.logSystemData('error', 'All hell breaks lose: ' + JSON.stringify(e), null, Ti.App.Facebook.uid);
 				}
 			});
 		} else if (e.error) {
@@ -247,16 +236,17 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook  Noonswoon must be 'On'")
 			});
 			loginFailedDialog.show();
-			Ti.App.LogSystem.logEntryError("No Facebook Permission #1 (MacAddr: "+ Ti.Platform.id+")");
+			Ti.App.LogSystem.logSystemData('error', 'No Facebook Permission #1', null, Ti.App.Facebook.uid);
 		} else if (e.cancelled) {
-			Ti.App.LogSystem.logEntryInfo('User cancel Facebook Login (MacAddr: '+ Ti.Platform.id+')');
+			Ti.App.LogSystem.logSystemData('info', 'User cancel Facebook Login', null, Ti.App.Facebook.uid);
+		
 		} else {
 			var loginFailedDialog = Titanium.UI.createAlertDialog({
 				title:L('No Facebook Permission'),
 				message:L("Please exit Noonswoon and check Settings -> Privacy -> Facebook. Noonswoon must be 'On'")
 			});
 			loginFailedDialog.show();
-			Ti.App.LogSystem.logEntryError("No Facebook Permission #2 (MacAddr: "+ Ti.Platform.id+")");
+			Ti.App.LogSystem.logSystemData('error', 'No Facebook Permission #2', null, Ti.App.Facebook.uid);
 		}
 	}	
 	// register for push notifications
@@ -276,7 +266,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 	Ti.App.Facebook.addEventListener('login', facebookAuthenCallback);
 
 	fbButton.addEventListener('click', function() {
-		Ti.App.LogSystem.logEntryInfo('User logging in with fb. (MacAddr: '+ Ti.Platform.id+')');
+		Ti.App.LogSystem.logSystemData('info', 'User logging in with Fb.', null, Ti.App.Facebook.uid);
 		if(!Ti.App.Facebook.loggedIn) {
 			Ti.App.Facebook.authorize();
 		} else { //if already logged in, but somehow land in this page, just fire the event

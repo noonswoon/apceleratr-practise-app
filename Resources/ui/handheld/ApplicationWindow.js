@@ -198,8 +198,10 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var inviteCompletedCallback = function(e) {
 		var invitedData = {userId:_userId, invitedFbIds:e.inviteeList, trackingCode: e.trackingCode};
 		BackendInvite.saveInvitedPeople(invitedData, function(e) {
-			if(e.success) 
-				CreditSystem.setUserCredit(e.content.credit); //sync the credit
+			if(e.success) {
+				Ti.App.CUSTOMER_TYPE = e.content.customer_type;
+				CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
+			}
 		});
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
@@ -282,7 +284,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 				if(!Ti.App.Facebook.loggedIn) { //if fb already exipired
 					//clear up cache so we can refresh and load new fb friends
 					Ti.App.Properties.removeProperty('FacebookFriendQuery_'+Ti.App.Facebook.uid);
-					Ti.App.LogSystem.logEntryInfo('Resume and found out that Fb Token Exipred (UserId: '+_userId+', MacAddr: '+ Ti.Platform.id+')');
+					Ti.App.LogSystem.logSystemData('info', 'Resume and found out that Fb Token Exipred', _userId, Ti.App.Facebook.uid);					
 					Ti.App.Facebook.logout();
 				} else {
 					Ti.UI.iPhone.appBadge = null;

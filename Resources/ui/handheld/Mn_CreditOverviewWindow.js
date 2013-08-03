@@ -83,12 +83,22 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	currentCreditBackground.add(yourCreditLabel);
 	
+	var creditText = CreditSystem.getUserCredit();
+	var creditFontSize = 20;
+	var creditTextTop = 12;
+	
+	if(Ti.App.CUSTOMER_TYPE === 'subscription')  {
+		creditText = L('UNLIMITED');
+		creditFontSize = 16;
+		creditTextTop = 14;
+	}
+	
 	var creditAmountLabel = Ti.UI.createLabel({
-		text: CreditSystem.getUserCredit(),
-		top: 12,
+		text: creditText,
+		top: creditTextTop,
 		right: 16, 
 		color: '#e01124',
-		font:{fontWeight:'bold',fontSize:20},
+		font:{fontWeight:'bold',fontSize:creditFontSize},
 		zIndex: 3,
 	});
 	currentCreditBackground.add(creditAmountLabel);
@@ -493,7 +503,18 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	self.add(contentView);
 	
 	var creditChangeCallback = function(e) {
-		creditAmountLabel.text = e.currentCredit;	
+		var newCreditText = e.currentCredit;
+		var newFontSize = 20;
+		var newCreditTextTop = 12; 
+		if(Ti.App.CUSTOMER_TYPE === 'subscription')  {
+			newCreditText = L('UNLIMITED');
+			newFontSize = 16;
+			newCreditTextTop = 14;
+		} 
+		creditAmountLabel.text = newCreditText;
+		creditAmountLabel.font = {fontWeight:'bold',fontSize:newFontSize};		
+		creditAmountLabel.top = newCreditTextTop;
+			
 	};	
 	Ti.App.addEventListener('creditChange', creditChangeCallback); 
 

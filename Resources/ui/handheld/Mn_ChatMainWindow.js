@@ -335,13 +335,6 @@ Ti.App.Chat = function(_chatParams) {
 //		navGroup.close(chatWindow, {animated:true}); //go to the main screen -- not using navGroup anymore
 		chatWindow.close();
 	});
-
-	var networkErrorDialog = Titanium.UI.createAlertDialog({
-		title: L('Oops!'),
-		message:L('There is something wrong. Please close and open Noonswoon again.'),
-		buttonNames: [L('Ok')],
-		cancel: 0
-	});
 					
 	var chatInputView = Ti.UI.createView({
 		bottom: 0,
@@ -506,15 +499,7 @@ Ti.App.Chat = function(_chatParams) {
 				messageObj.time = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss");
 
 				//send to backend server
-				BackendChat.saveChatMessage(messageObj, function(e) {
-					if(!e.success) {
-						var CacheHelper = require('internal_libs/cacheHelper');
-						if(CacheHelper.shouldDisplayOopAlert()) {
-							CacheHelper.recordDisplayOopAlert();
-							networkErrorDialog.show();
-						}
-					}
-				});
+				BackendChat.saveChatMessage(messageObj, function(e) {});
 												
 				//save to local db
 				ModelChatHistory.insertChatMessage(messageObj);	
@@ -651,12 +636,6 @@ Ti.App.Chat = function(_chatParams) {
 					//compute and insert into local db
 					ModelChatHistory.insertChatMessage(chatMessageObj);	
 				}
-			} else {
-				var CacheHelper = require('internal_libs/cacheHelper');
-				if(CacheHelper.shouldDisplayOopAlert()) {
-					CacheHelper.recordDisplayOopAlert();
-					networkErrorDialog.show();
-				}
 			}
 			Ti.App.fireEvent('chatMsgDataReady');
 		});
@@ -703,12 +682,6 @@ Ti.App.Chat = function(_chatParams) {
 					listSection = Ti.UI.createListSection({items: chatData});
 					chatListView.sections = [listSection];
 					chatListView.scrollToItem(0, chatData.length - 1, {animated: false});
-				}
-			} else {
-				var CacheHelper = require('internal_libs/cacheHelper');
-				if(CacheHelper.shouldDisplayOopAlert()) {
-					CacheHelper.recordDisplayOopAlert();
-					networkErrorDialog.show();
 				}
 			}
 		});
