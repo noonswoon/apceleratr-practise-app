@@ -30,3 +30,9 @@ exports.getEthnicity = function(){
 	db.close();
 	return ethnicities;
 };
+
+exports.clear = function() {
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	db.execute('DELETE FROM Ethnicity');
+	db.close();
+};

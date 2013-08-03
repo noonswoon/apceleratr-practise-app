@@ -30,3 +30,9 @@ exports.getReligion = function(){
 	db.close();
 	return religions;
 };
+
+exports.clear = function() {
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	db.execute('DELETE FROM Religion');
+	db.close();
+};

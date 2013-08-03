@@ -20,14 +20,24 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	var ModelReligion = require('model/religion');
 	
 	var ethnicityValue = ModelEthnicity.getEthnicity();
-//	ethnicityValue.reverse(); 
-//	ethnicityValue.push(L('Choose your ethnicity')); 
-//	ethnicityValue.reverse(); 
+	if(ethnicityValue.length < 1) {
+		var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+		BackendGeneralInfo.getEthnicity(function(e) {
+			if(e.success) {
+				ModelEthnicity.populateEthnicity(e.content);
+			}
+		});
+	}
 	
 	var religionValue = ModelReligion.getReligion();
-//	religionValue.reverse(); 
-//	religionValue.push(L('Choose your religion')); 
-//	religionValue.reverse(); 
+	if(religionValue.length < 1) {
+		var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
+		BackendGeneralInfo.getReligion(function(e) {
+			if(e.success) {
+				ModelReligion.populateReligion(e.content);
+			}
+		});
+	}
 	
 	var heightArray = [];
 	for(var i = 140; i <= 220; i++) {

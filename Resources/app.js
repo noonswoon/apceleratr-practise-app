@@ -39,7 +39,6 @@ Ti.App.CUSTOMER_TYPE = 'regular';
 
 if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_SERVER = "https://noonswoon.com/";
-	//Ti.App.API_ACCESS = "n00nsw00n:he1p$1ngle";
 	Ti.App.API_ACCESS = "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: H@ckerFr33 "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: 
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
@@ -276,7 +275,9 @@ if (Ti.version < 1.8 ) {
 					Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
 					Ti.App.OFFERED_CITIES = e.content.city;  //need to put this guy in the db
 
-					CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
+					if(e.content.religion.length > 0 && e.content.ethnicity.length > 0 && e.content.city.length > 0) {
+						CacheHelper.recordFetchedData('StaticData'); //no need to fetch again
+					}
 				}
 				Ti.App.fireEvent('doneWaitingEvent');
 			});
