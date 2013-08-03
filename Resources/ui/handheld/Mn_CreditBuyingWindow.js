@@ -731,7 +731,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				Ti.App.LogSystem.logSystemData('info', 'Restored ' + evt.transactions[0].productIdentifier, _userId, Ti.App.Facebook.uid);
 				BackendInAppPurchase.verifyReceipt(_userId, evt.transactions[0].receipt, evt.transactions[0].productIdentifier, function(e) {
 					if(e.success) {						
-						Ti.API.info('return verify: '+JSON.stringify(e));
+						//Ti.API.info('restored return verify: '+JSON.stringify(e));
 						if(e.content.customer_type !== undefined) {
 							Ti.App.CUSTOMER_TYPE = e.content.customer_type;  //either regular or subscription
 							Ti.API.info('customer_type: '+e.content.customer_type);
