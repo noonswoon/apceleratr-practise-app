@@ -271,7 +271,6 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 				callback: messageNotifCallback //when receive the message will call this fn
 			});
 		}
-		BackendUser.updateClientVersion(_userId, function(e) {});
 		
 		//wait for about 2 seconds til the app powers up
 		setTimeout(function() {
@@ -280,6 +279,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 				//firing the event
 				Ti.App.fireEvent('openNoInternetWindow');
 			} else {
+				BackendUser.updateClientVersion(_userId, function(e) {});
 				//check if authentication still valid
 				if(!Ti.App.Facebook.loggedIn) { //if fb already exipired
 					//clear up cache so we can refresh and load new fb friends
