@@ -18,12 +18,12 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 	        	_callbackFn({success:false});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	
+		xhr.setValidatesSecureCertificate(false);
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -70,11 +70,12 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 	        	_callbackFn({success:false});		
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -113,11 +114,12 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 		    	_callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -159,11 +161,13 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 				}
 		    },
 		    onerror: function(e) {
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, _fbId);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), null, _fbId);
 		    	_callbackFn({success:false});
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -207,11 +211,12 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	       	    Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	       	    Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 		    	_callbackFn({success:false});			 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -242,11 +247,12 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 		    	_callbackFn({success:false});	 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -276,11 +282,12 @@ exports.updateClientVersion = function(_userId, _callbackFn) {
 				}
 	        },
 	        onerror : function(e) {
-	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+	       	   	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 		    	_callbackFn({success:false});	 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("POST", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');

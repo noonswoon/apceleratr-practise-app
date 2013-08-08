@@ -29,10 +29,11 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 		    },
 		    onerror: function(e) {
 		    	_callbackFn({success:false});
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _userId, null);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);		
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
