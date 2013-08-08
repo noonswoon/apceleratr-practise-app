@@ -21,12 +21,13 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _paramObj.userId, null);
 	            //var displayError = 'Network Error|Please reopen Noonswoon';
 	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -54,10 +55,11 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _paramObj.userId, null);
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -92,12 +94,13 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 	        },
 	        onerror : function(e) {
 	            _callbackFn({success:false});
-	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _paramObj.userId, null);
+	            Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _paramObj.userId, null);
 	            //var displayError = 'Network Error|Please reopen Noonswoon';
 	            //Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:displayError, description: displayError + '(UserId: '+_paramObj.userId+')'}});
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
+	    xhr.setValidatesSecureCertificate(false);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -139,10 +142,11 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		    onerror: function(e) {
 				_callbackFn({success:false});
 				// this function is called when an error occurs, including a timeout
-		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', _messageObj.senderId, null);
+		    	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _messageObj.senderId, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');

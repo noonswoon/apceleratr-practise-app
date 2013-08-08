@@ -21,10 +21,11 @@ exports.getReligion = function(_callbackFn) {
 		    },
 		    onerror: function(e) {
 		    	_callbackFn({success:false});
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -61,10 +62,11 @@ exports.getEthnicity = function(_callbackFn) {
 		    },
 		    onerror: function(e) {
 		    	_callbackFn({success:false});
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -101,10 +103,11 @@ exports.getTargetedCity = function(_callbackFn) {
 		    },
 		    onerror: function(e) {
 		    	_callbackFn({success:false});
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -142,10 +145,11 @@ exports.getStaticData = function(_callbackFn) {
 		    },
 		    onerror: function(e) {
 		    	_callbackFn({success:false});
-				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error', null, null);
+				Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), null, null);
 		    },
 		    timeout:50000  // in milliseconds
 		});
+		xhr.setValidatesSecureCertificate(false);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
