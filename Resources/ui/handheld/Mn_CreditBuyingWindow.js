@@ -358,7 +358,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	subscriptionSectionView.add(getMoreLabel1);
 */	
 	var getMoreLabel2 = Ti.UI.createLabel({
-		text: L('Unlimited Credits'),
+		text: L('Monthly Subscription'),
 		center: {x:'50%', y: 27},
 		//top: 10,
 		//left: 133,
@@ -428,7 +428,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	monthlySubscriptionView.add(monthlyPrice2);	
 	
 	var monthlyDesc = Ti.UI.createLabel({
-		text: L('Unlimited Likes'), 
+		text: L('You can Like anyone'), 
 		color: '#a3a7ad',
 		top: 25, 
 		left: 65,

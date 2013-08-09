@@ -212,6 +212,7 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 				animation.addEventListener('complete',animationHandler);
 				self.add(likeAlertView);
 				likeAlertView.animate(animation);
+				Ti.Media.vibrate();
 				
 				var matchResponseObj = {matchId: _matchId, userId: _userId, response:"like"};
 				BackendMatch.saveResponse(matchResponseObj, function(e){

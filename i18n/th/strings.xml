@@ -235,8 +235,10 @@
 
 	<string name="Credit Package">เครดิตแพ็คเกจ</string>	
 	<string name="Enough to Like one person">พอสำหรับใช้ Like หนึ่งคน</string>
-	<string name="Unlimited Credits">เครดิตไม่จำกัดจำนวน</string>
-	<string name="Unlimited Likes">สามารถ Like ได้ไม่จำกัด</string>		
+	
+	<string name="Monthly Subscription">มีเครดิตไม่จำกัด</string>	
+	<string name="You can Like anyone">สามารถ Like ได้ไม่จำกัด</string>
+
 	<string name="Restore Purchases">อัพเดทข้อมูลที่ได้ซื้อแล้ว</string>
 			
 	<string name="20% Savings">รับส่วนลด 20%</string>
