@@ -807,7 +807,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var windowCloseCallback = function(e) {
 		Ti.App.Storekit.removeEventListener('transactionState', transactionStateCallback);
-		Ti.App.Storekit.removeEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
+		//Ti.App.Storekit.removeEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
 		self.removeEventListener('close', windowCloseCallback);
 	};
 	self.addEventListener('close', windowCloseCallback);
