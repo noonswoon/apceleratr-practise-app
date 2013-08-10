@@ -29,7 +29,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		backgroundColor:'#eeeeee',
 		separatorColor: 'transparent',
 		//width:'100%',
-		scrollable: true
+		scrollable: false
 	});
 	if(Ti.Platform.osname === 'iphone')
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -41,7 +41,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		top: 0,
 		left: 0,
 		width: '100%',
-		height: 124, //220 - 48 - 48,  //220
+		height: 220 //220
 	});
 	if(Ti.Platform.osname === 'iphone')
 		oneTimePurchaseRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -50,7 +50,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		backgroundColor: '#eeeeee', //#eeeeee 
 		top: 0,
 		left: 0,
-		height: 124,
+		height: 220,
 	});
 	
 	var creditPackLabel = Ti.UI.createLabel({
@@ -152,8 +152,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	tenCreditsView.add(tenCreditBuyButton);	
 	oneTimePurchaseSectionView.add(tenCreditsView);
 
-/*	
-	var thirtyCreditsView = Ti.UI.createView({
+	var hundredCreditsView = Ti.UI.createView({
 		backgroundImage: 'images/match-info-white-row.png',
 		top: startingOffset + 53, //+ 5 + 48 
 		height: 48,
@@ -167,84 +166,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		width: 23, 
 		height: 24,
 	})
-	thirtyCreditsView.add(creditGlyph2);
-
-	var thirtyCreditPrice1 = Ti.UI.createLabel({
-		text: '30', 
-		color: '#e01124', 
-		top: 5, 
-		left: 65,
-		font:{fontWeight:'bold',fontSize:18},
-	});
-	thirtyCreditsView.add(thirtyCreditPrice1);
-
-	var thirtyCreditPrice2 = Ti.UI.createLabel({
-		text: 'for', 
-		color: '#a3a7ad', 
-		top: 5, 
-		left: 90,  //100 if 2 digits
-		font:{fontWeight:'bold',fontSize:18},
-		zIndex: 3
-	});
-	thirtyCreditsView.add(thirtyCreditPrice2);	
-	
-	var thirtyCreditPrice3 = Ti.UI.createLabel({
-		text: '$2.99', 
-		color: '#626b76', 
-		top: 5, 
-		left: 119, //130 if 2 digits
-		font:{fontWeight:'bold',fontSize:18},
-		zIndex: 4,
-	});
-	thirtyCreditsView.add(thirtyCreditPrice3);	
-	
-	var thirtyCreditDesc = Ti.UI.createLabel({
-		text: L('Enough to love someone'), 
-		color: '#a3a7ad',
-		top: 25, 
-		left: 65,
-		font:{fontSize:14},
-	});
-	thirtyCreditsView.add(thirtyCreditDesc);
-	
-	var thirtyCreditBuyButton = Ti.UI.createButton({
-		backgroundImage: 'images/credit/buy-button.png',
-		backgroundSelectedImage: 'images/credit/buy-button-active.png',
-		top: 8,
-		right: 22, 
-		width: 57, 
-		height: 28,
-	});
-	
-	var thirtyCreditBuyButtonText = Ti.UI.createLabel({
-		text: L('Buy'),
-		color: '#636c77',
-		shadowColor: '#ffffff',
-		shadowOffset: {x:0, y:1},
-		font:{fontWeight:'bold',fontSize:14},
-		center: {x:'50%', y:'50%'},
-		zIndex: 3,
-	});
-	thirtyCreditBuyButton.add(thirtyCreditBuyButtonText);	
-	thirtyCreditsView.add(thirtyCreditBuyButton);	
-	oneTimePurchaseSectionView.add(thirtyCreditsView);
-
-	
-	var hundredCreditsView = Ti.UI.createView({
-		backgroundImage: 'images/match-bottom-box.png',
-		top: startingOffset + 53, //101, //+ 5 + 48 + 48
-		height: 48,
-		left: 0, 
-		width: '100%', 
-	});
-	var creditGlyph3 = Ti.UI.createImageView({
-		image: 'images/credit/credits-glyph.png',
-		top: 12, 
-		left: 26,
-		width: 23, 
-		height: 24,
-	})
-	hundredCreditsView.add(creditGlyph3);
+	hundredCreditsView.add(creditGlyph2);
 
 	var hundredCreditPrice1 = Ti.UI.createLabel({
 		text: '100', 
@@ -259,24 +181,24 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		text: 'for', 
 		color: '#a3a7ad', 
 		top: 5, 
-		left: 100,  //110 for 3 digits
+		left: 100,  //100 if 2 digits
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 3
 	});
 	hundredCreditsView.add(hundredCreditPrice2);	
 	
 	var hundredCreditPrice3 = Ti.UI.createLabel({
-		text: '$9.99', 
+		text: '$7.99', 
 		color: '#626b76', 
 		top: 5, 
-		left: 130,  //140 for 3 digits
+		left: 130, //130 if 2 digits
 		font:{fontWeight:'bold',fontSize:18},
 		zIndex: 4,
 	});
 	hundredCreditsView.add(hundredCreditPrice3);	
 	
 	var hundredCreditDesc = Ti.UI.createLabel({
-		text: L('Enough for a while'), 
+		text: L('20% Savings'), 
 		color: '#a3a7ad',
 		top: 25, 
 		left: 65,
@@ -305,30 +227,108 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	hundredCreditBuyButton.add(hundredCreditBuyButtonText);	
 	hundredCreditsView.add(hundredCreditBuyButton);	
 	oneTimePurchaseSectionView.add(hundredCreditsView);
-*/
+
+	var thousandCreditsView = Ti.UI.createView({
+		backgroundImage: 'images/match-bottom-box.png',
+		top: startingOffset + 101, //+ 5 + 48 + 48
+		height: 48,
+		left: 0, 
+		width: '100%', 
+	});
+	var creditGlyph3 = Ti.UI.createImageView({
+		image: 'images/credit/credits-glyph.png',
+		top: 12, 
+		left: 26,
+		width: 23, 
+		height: 24,
+	})
+	thousandCreditsView.add(creditGlyph3);
+
+	var thousandCreditPrice1 = Ti.UI.createLabel({
+		text: '1000', 
+		color: '#e01124', 
+		top: 5, 
+		left: 65,
+		font:{fontWeight:'bold',fontSize:18},
+	});
+	thousandCreditsView.add(thousandCreditPrice1);
+
+	var thousandCreditPrice2 = Ti.UI.createLabel({
+		text: 'for', 
+		color: '#a3a7ad', 
+		top: 5, 
+		left: 110,  //110 for 3 digits
+		font:{fontWeight:'bold',fontSize:18},
+		zIndex: 3
+	});
+	thousandCreditsView.add(thousandCreditPrice2);	
+	
+	var thousandCreditPrice3 = Ti.UI.createLabel({
+		text: '$49.99', 
+		color: '#626b76', 
+		top: 5, 
+		left: 140,  //140 for 3 digits
+		font:{fontWeight:'bold',fontSize:18},
+		zIndex: 4,
+	});
+	thousandCreditsView.add(thousandCreditPrice3);	
+	
+	var thousandCreditDesc = Ti.UI.createLabel({
+		text: L('50% Savings'), 
+		color: '#a3a7ad',
+		top: 25, 
+		left: 65,
+		font:{fontSize:14},
+	});
+	thousandCreditsView.add(thousandCreditDesc);
+	
+	var thousandCreditBuyButton = Ti.UI.createButton({
+		backgroundImage: 'images/credit/buy-button.png',
+		backgroundSelectedImage: 'images/credit/buy-button-active.png',
+		top: 8,
+		right: 22, 
+		width: 57, 
+		height: 28,
+	});
+	
+	var thousandCreditBuyButtonText = Ti.UI.createLabel({
+		text: L('Buy'),
+		color: '#636c77',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:14},
+		center: {x:'50%', y:'50%'},
+		zIndex: 3,
+	});
+	thousandCreditBuyButton.add(thousandCreditBuyButtonText);	
+	thousandCreditsView.add(thousandCreditBuyButton);	
+	oneTimePurchaseSectionView.add(thousandCreditsView);
 	
 	var bottomEdgeBuyCreditsView = Ti.UI.createView({
 		backgroundImage: 'images/row-bottom-edge.png',
-		top: startingOffset + 51, //149, //+ 5 + 48 + 48 + 48
+		top: startingOffset + 149, //+ 5 + 48 + 48 + 48
 		height: 5,
 		left: 0, 
 		width: '100%', 
 		zIndex: 2
 	});	
 	oneTimePurchaseSectionView.add(bottomEdgeBuyCreditsView);
-	
+
+/*	
 	var horizontalSeparator1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
-		top: 122, //218,
+		top: 218,
 		height: 2,
 		width: '100%'
 	});
 	oneTimePurchaseSectionView.add(horizontalSeparator1);	
+*/
 	oneTimePurchaseRow.add(oneTimePurchaseSectionView);
 	tableData.push(oneTimePurchaseRow);
 	
 	/*********************** subscription section ***********************************/
 
+/*
 	var subscriptionRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -345,7 +345,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		height: 124,
 	});
 
-/*	
 	var getMoreLabel1 = Ti.UI.createLabel({
 		text: 'Get more with',
 		top: 10, 
@@ -356,7 +355,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		shadowOffset: {x:0, y:1},
 	});
 	subscriptionSectionView.add(getMoreLabel1);
-*/	
+
 	var getMoreLabel2 = Ti.UI.createLabel({
 		text: L('Monthly Subscription'),
 		center: {x:'50%', y: 27},
@@ -369,7 +368,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});
 	subscriptionSectionView.add(getMoreLabel2);
 
-/*	
 	var unlimitedCreditsLabel = Ti.UI.createLabel({
 		text: 'As many likes and friend reveals as you want',
 		center: {x:'50%', y: 40},
@@ -378,7 +376,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		zIndex:3
 	});
 	subscriptionSectionView.add(unlimitedCreditsLabel);	
-*/
+
 
 	var centerOffset = 123; 
 	
@@ -457,6 +455,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	monthlySubscribeButton.add(monthlySubscribeButtonText);	
 	monthlySubscriptionView.add(monthlySubscribeButton);	
 	subscriptionSectionView.add(monthlySubscriptionView);
+*/
 
 /*** 3 months ***/
 /*
@@ -577,7 +576,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	yearlySubscriptionView.add(yearlySubscribeButton);
 	subscriptionSectionView.add(yearlySubscriptionView);
 */
-	
+/*
 	var bottomEdgeSubscriptionView = Ti.UI.createView({
 		backgroundImage: 'images/row-bottom-edge.png',
 		top: startingOffset + 51, //101 + 5 + 48 //no yearly anymore + 48 
@@ -636,6 +635,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	restoreView.add(restoreButton);
 	restoreRow.add(restoreView);
 	tableData.push(restoreRow);
+*/
 
 	contentView.data = tableData;
 	self.add(contentView);
@@ -717,7 +717,8 @@ CreditBuyingWindow = function(_navGroup, _userId) {
     	if(a.date > b.date) return 1; 
     	return 0;
     };
-	
+
+/*	
 	var restoredCompletedTransactionsCallback = function(evt) {
 		hidePreloader(self);
 		if (evt.error) {
@@ -753,10 +754,10 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	};
 	Ti.App.Storekit.addEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
 
-
 	restoreButton.addEventListener('click', function () {
 		restorePurchases();
 	});
+*/
 
 	showPreloader(self, L('Loading...'));
 	Ti.App.Storekit.requestProducts(Ti.App.NOONSWOON_PRODUCTS, function (evt) {
@@ -778,22 +779,22 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 						tenCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
-					} /* else if(currentProduct.identifier === 'com.noonswoon.launch.c30.d3') {
-						thirtyCreditPrice3.text = currentProduct.formattedPrice;
-						thirtyCreditBuyButton.addEventListener('click', function() {
-							purchaseProduct(currentProduct);
-						});
-					} else if(currentProduct.identifier === 'com.noonswoon.launch.c100.d10') {
+					}  else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
 						hundredCreditPrice3.text = currentProduct.formattedPrice;
 						hundredCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
-					} */ else if(currentProduct.identifier === 'com.noonswoon.launch.monthly.d10') {
+					} else if(currentProduct.identifier === 'com.noonswoon.launch.c3') {
+						thousandCreditPrice3.text = currentProduct.formattedPrice;
+						thousandCreditBuyButton.addEventListener('click', function() {
+							purchaseProduct(currentProduct);
+						});
+					} /* else if(currentProduct.identifier === 'com.noonswoon.launch.monthly.d10') {
 						monthlyPrice1.text = currentProduct.formattedPrice;
 						monthlySubscribeButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
-					} /*else if(currentProduct.identifier === 'com.noonswoon.launch.yearly') {
+					} else if(currentProduct.identifier === 'com.noonswoon.launch.yearly') {
 						yearlyPrice1.text = currentProduct.formattedPrice;
 						yearlySubscribeButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
