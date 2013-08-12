@@ -1,4 +1,4 @@
-TutorialMainWindow = function(_navGroup) {
+TutorialMainWindow = function() {
 	var CustomPagingControl = require('external_libs/customPagingControl');
 
 	var navGroup = null;
@@ -112,7 +112,7 @@ TutorialMainWindow = function(_navGroup) {
 	});
 	
 	doneButton.addEventListener('click', function() {
-		_navGroup.close(self, {animated:true});
+		self.close();
 	});
 	
 	return self;

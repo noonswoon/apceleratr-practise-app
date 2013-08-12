@@ -170,9 +170,8 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 
 	var openTutorialMainWindowCallback = function(e) {
-		var tutorialMainWindow = new TutorialMainWindowModule(navigationGroup);
-		navigationGroup.open(tutorialMainWindow, {animated:false});
-		toggleLeftMenu();
+		var tutorialMainWindow = new TutorialMainWindowModule();
+		tutorialMainWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,navBarHidden:true});
 	};
 	Ti.App.addEventListener('openTutorialMainWindow', openTutorialMainWindowCallback);
 		
@@ -398,6 +397,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
+		Ti.App.removeEventListener('openTutorialMainWindow', openTutorialMainWindowCallback);		
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.App.removeEventListener('resume', resumeCallback); 
 		Ti.App.removeEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);

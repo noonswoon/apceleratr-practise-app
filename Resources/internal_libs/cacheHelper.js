@@ -100,3 +100,13 @@ exports.shouldDisplayOopAlert = function() {
 		}
 	}
 };
+
+exports.shouldShowTutorial = function() {
+ 	var alreadyShowedTutorial = Ti.App.Properties.getBool('alreadyShowedTutorial');
+    if (!alreadyShowedTutorial) { //never launch before
+        Ti.App.Properties.setBool('alreadyShowedTutorial', true);
+        return true;
+    } else {
+		return false;
+    }
+};
