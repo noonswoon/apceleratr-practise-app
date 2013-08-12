@@ -13,6 +13,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var MutualFriendsWindowModule = require('ui/handheld/Mn_MutualFriendsWindow');	
 	var NoMatchWindowModule = require('ui/handheld/Mn_NoMatchWindow');
 	var TimerViewModule = require('ui/handheld/Mn_TimerView');
+	var TutorialMainWindowModule = require('ui/handheld/Mn_TutorialMainWindow');
 	var UrbanAirship = require('external_libs/UrbanAirship');
 	var UserProfileWindowModule = require('ui/handheld/Mn_UserProfileWindow');
 
@@ -167,9 +168,15 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		}
 	};
 	Ti.App.addEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
-	
-	//var TargetedModule = require('ui/handheld/Mn_ErrorWindow');
-	//var dummyOnBoard = new TargetedModule("", 3);
+
+	var openTutorialMainWindowCallback = function(e) {
+		var tutorialMainWindow = new TutorialMainWindowModule();
+		tutorialMainWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,navBarHidden:true});
+	};
+	Ti.App.addEventListener('openTutorialMainWindow', openTutorialMainWindowCallback);
+		
+	//var TargetedModule = require('ui/handheld/Mn_TutorialMainView');
+	//var dummyOnBoard = new TargetedModule();
 		
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
@@ -390,6 +397,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
 		Ti.App.removeEventListener('openNoMatchWindow', openNoMatchWindowCallback);
 		Ti.App.removeEventListener('openMutualFriendsWindow', openMutualFriendsWindowCallback);
+		Ti.App.removeEventListener('openTutorialMainWindow', openTutorialMainWindowCallback);		
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
 		Ti.App.removeEventListener('resume', resumeCallback); 
 		Ti.App.removeEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);

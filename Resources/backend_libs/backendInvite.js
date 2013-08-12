@@ -76,7 +76,7 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
-		var hashVal = Ti.Utils.sha256(sendingObj.invited_fb_ids + sendingObj.tracking_code + sendingObj.user_id + Ti.App.NS_HASH_SECRET_KEY);
+		var hashVal = Ti.Utils.sha256(sendingObj.user_id + url + Ti.App.NS_HASH_SECRET_KEY);
 		xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	}

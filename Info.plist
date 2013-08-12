@@ -9,6 +9,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>/fonts/Harabara.ttf</string>
+		<string>/fonts/Bromine.ttf</string>
+		<string>/fonts/HelveticaCYBold.ttf</string>
 	</array>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
