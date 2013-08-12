@@ -184,8 +184,37 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	
 	self.add(creditSectionView);
 
-	var logoutSectionView = Ti.UI.createView({
+	var tutorialSectionView = Ti.UI.createView({
 		top: 196, 
+		left: 0,
+		width: 260,
+		height: 45,
+		backgroundImage: 'images/menu-row-item.png',
+	});
+	
+	var tutorialGlyph = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-glyph-tutorial.png',
+		top: 12,
+		left: 10,
+		width: 24, 
+		height: 22,
+	});
+	tutorialSectionView.add(tutorialGlyph);
+	
+	var tutorialText = Ti.UI.createLabel({
+		text: L('Tutorial'),
+		color: '#cbc8c8', 
+		font:{fontWeight:'bold',fontSize:18},
+		top: 12,
+		left: 48,
+		shadowColor: '#343333', 
+		shadowOffset: {x:0, y:1}	
+	});
+	tutorialSectionView.add(tutorialText);
+	self.add(tutorialSectionView);
+	
+	var logoutSectionView = Ti.UI.createView({
+		top: 241, 
 		left: 0,
 		width: 260,
 		height: 45,
@@ -215,7 +244,6 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 
 	profileSectionView.addEventListener('touchstart', function() {
 		profileSectionView.backgroundColor = '#3b3a3a';
-		
 	});
 	
 	profileSectionView.addEventListener('touchcancel', function() {
@@ -244,6 +272,22 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 
 	creditSectionView.addEventListener('click', function() {
 		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
+	});
+
+	tutorialSectionView.addEventListener('touchstart', function() {
+		tutorialSectionView.backgroundImage = 'images/menu-row-item-active.png';
+	});
+	
+	tutorialSectionView.addEventListener('touchcancel', function() {
+		tutorialSectionView.backgroundImage = 'images/menu-row-item.png';
+	});
+	
+	tutorialSectionView.addEventListener('touchend', function() {
+		tutorialSectionView.backgroundImage = 'images/menu-row-item.png';
+	});
+
+	tutorialSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('openTutorialMainWindow');
 	});
 		
 	logoutSectionView.addEventListener('touchstart', function() {

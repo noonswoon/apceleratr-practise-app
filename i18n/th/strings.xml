@@ -160,7 +160,16 @@
 	<string name="My Profile">โปรไฟล์ของฉัน</string>
 	<string name="\'s Profile">\'s Profile</string>
 	<string name="CONNECTIONS">CONNECTIONS</string>
-	
+
+	<string name="Tutorial">วิธีการใช้</string>
+	<string name="Time left until your next match">เวลาจนกว่าระบบจะแนะนำคนโสดคนใหม่ให้่</string>
+	<string name="Like your match for 10 credits">ใช้ 10 เครดิตเพื่อ Like คนที่สนใจ</string>
+	<string name="Reveal mutual friends for 5 credits">ใช้ 5 เครดิตเพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
+	<string name="You have a connection if">มี connection และสามารถแชทกันได้</string>
+	<string name="both of you like each other">ถ้าเราและเขาสนใจและกด Like กันทั้งคู่</string>
+	<string name="Edit your profile">แก้ไขโปรไฟล์ของคุณ</string>
+	<string name="Get more credits">ช่องทางการเพิ่มเครดิต</string>	
+		
 	<string name="Log Out">ออกจากระบบ</string>
 	
 	<string name="Height (cm)">ส่วนสูง (ซม)</string>

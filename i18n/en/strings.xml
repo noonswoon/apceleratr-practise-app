@@ -161,6 +161,15 @@
 	<string name="\'s Profile">\'s Profile</string>
 	<string name="CONNECTIONS">CONNECTIONS</string>
 	
+	<string name="Tutorial">Tutorial</string>
+	<string name="Time left until your next match">Time left until your next match</string>
+	<string name="Like your match for 10 credits">Like your match for 10 credits</string>
+	<string name="Reveal mutual friends for 5 credits">Reveal mutual friends for 5 credits</string>
+	<string name="You have a connection if">You have a connection if</string>
+	<string name="both of you like each other">both of you like each other</string>
+	<string name="Edit your profile">Edit your profile</string>
+	<string name="Get more credits">Get more credits</string>						
+	
 	<string name="Log Out">Log Out</string>
 	
 	<string name="Height (cm)">Height (cm)</string>
