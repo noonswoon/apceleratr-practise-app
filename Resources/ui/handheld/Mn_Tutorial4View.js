@@ -37,6 +37,7 @@ Tutorial4View = function() {
 		self.width = '100%';
 		self.height = '100%';
 	});
+
 	return self;
 };
 
