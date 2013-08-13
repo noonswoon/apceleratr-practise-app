@@ -5,7 +5,7 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	var fnSrc = 'backendChat.getUnreadChatHistory';
 	if(Ti.App.LIVE_DATA) {
 		
-		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_unread_msg/"+_paramObj.userId+"/";
+		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_unread_msg/"+_paramObj.userId;
 		Ti.API.info('getUnreadChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
@@ -40,7 +40,7 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	var fnSrc = 'backendChat.getAllChatHistory';
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_all_chat_history/"+_paramObj.userId+"/";
+		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_all_chat_history/"+_paramObj.userId;
 		Ti.API.info('getAllChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
@@ -127,7 +127,7 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 	//Ti.API.info('sending this obj to save to server: '+JSON.stringify(sendingObj));
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"chat/save/";
+		var url = Ti.App.API_SERVER +"chat/save";
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
