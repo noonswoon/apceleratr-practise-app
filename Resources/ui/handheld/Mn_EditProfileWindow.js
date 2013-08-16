@@ -1,8 +1,14 @@
 EditInfoWindow = function(_navGroup, _userId, _newUser) {
-//	if(_newUser) {
-//		Ti.App.Flurry.logEvent('after-signup-onboard-1-edit');
-//	}	
-//	Ti.App.Flurry.logTimedEvent('edit-screen');
+	Ti.App.GATracker.trackScreen("EditProfileScreen");
+	
+	if(_newUser) {
+		Ti.App.GATracker.trackEvent({
+			category: "EditProfile",
+			action: "editProfileAfterSignup",
+			label: "edit",
+			value: _userId
+		});
+	}
 
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');
 	var PhotoEditTableViewRow = require('ui/handheld/Mn_PhotoEditTableViewRow');

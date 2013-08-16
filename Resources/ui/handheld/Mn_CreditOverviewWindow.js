@@ -1,4 +1,6 @@
 CreditOverviewWindow = function(_navGroup, _userId) {
+	Ti.App.GATracker.trackScreen("CreditOverviewScreen");
+	
 	var CreditBuyingWindowModule = require('ui/handheld/Mn_CreditBuyingWindow');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');

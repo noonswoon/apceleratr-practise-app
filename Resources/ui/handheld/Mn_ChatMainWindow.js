@@ -14,6 +14,7 @@
 	});
 	
 Ti.App.Chat = function(_chatParams) {   
+	Ti.App.GATracker.trackScreen("ChatScreen");
 	var ModelChatHistory = require('model/chatHistory');
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');

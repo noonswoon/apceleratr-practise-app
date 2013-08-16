@@ -1,5 +1,5 @@
 NoInternetWindow = function() {
-	
+	Ti.App.GATracker.trackScreen("NoInternetScreen");
 	//Ti.App.Flurry.logEvent('no-internet-screen');
 	
 	//create component instance

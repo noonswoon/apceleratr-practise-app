@@ -210,6 +210,13 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 				CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
 			}
 		});
+		
+		Ti.App.GATracker.trackEvent({
+			category: "InviteForCredits",
+			action: "inviteCompleted",
+			label: 'inviter: '+_userId,
+			value: e.inviteeList.length
+		});
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	

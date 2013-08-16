@@ -1,4 +1,5 @@
 InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
+	Ti.App.GATracker.trackScreen("InviteFriendScreen");
 	var EmptyTableViewRow = require('ui/handheld/Mn_EmptyTableViewRow');
 	
 	var FacebookSharing = require('internal_libs/facebookSharing');
@@ -263,6 +264,14 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 					CreditSystem.setUserCredit(e.content.credit); //sync the credit >> change to 90 credits initially
 				}
 			});
+			
+			Ti.App.GATracker.trackEvent({
+				category: "InviteJustSignedUp",
+				action: "inviteCompleted",
+				label: 'inviter: '+_userId,
+				value: e.inviteeList.length
+			});
+		
 			openOnboardingStep3();
 		}
 		Ti.App.removeEventListener('inviteCompleted', inviteCompletedCallback);
@@ -283,6 +292,12 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	
 	skipButton.addEventListener('click', function() {
+		Ti.App.GATracker.trackEvent({
+			category: "FacebookInvite",
+			action: "skip",
+			label: 'user '+_userId,
+			value: 1
+		});
 		openOnboardingStep3();
 	});
 	

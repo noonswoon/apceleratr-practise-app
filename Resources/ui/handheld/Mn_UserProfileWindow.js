@@ -1,4 +1,5 @@
 UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
+	Ti.App.GATracker.trackScreen("UserProfileScreen");
 	//if(_userId === _targetedUserId) {
 	//	Ti.App.Flurry.logTimedEvent('user-profile-own-profile');
 	//} else {

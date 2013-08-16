@@ -170,6 +170,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					buttonNames: [L('Ok')],
 				});
 				notEnoughCreditsDialog.show();
+				Ti.App.GATracker.trackEvent({
+					category: "Match",
+					action: "LikeMatch",
+					label: "Not enough credit",
+					value: 1
+				});
 			} else {
 				//reach here only if, have more than 10 credits OR on the subscription plan			
 				isActionTaken = true;
@@ -219,6 +225,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 					if(e.success) {
 						Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 						CreditSystem.setUserCredit(e.content.credit); //sync the credit
+						Ti.App.GATracker.trackEvent({
+							category: "Match",
+							action: "LikeMatch",
+							label: "like succeeded",
+							value: 1
+						});
 					} else {
 						isActionTaken = false;
 						
@@ -237,6 +249,12 @@ ProfileImageView = function(_navGroup, _pictures, _userId, _matchId, _showButton
 							notEnoughCreditsDialog.show();
 						}
 						clearState();
+						Ti.App.GATracker.trackEvent({
+							category: "Match",
+							action: "LikeMatch",
+							label: "like failed (90% coz not enough credits)",
+							value: 1
+						});
 					}
 				});
 			}

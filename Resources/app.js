@@ -72,7 +72,9 @@ if(Ti.Platform.osname == 'iphone') {
 
 Ti.App.moment = require('external_libs/moment');
 Ti.App.LogSystem = require('internal_libs/logSystem');
-	
+var GA = require('analytics.google');
+Ti.App.GATracker = GA.getTracker("UA-37497639-2");
+
 //Ti.App.Flurry = require('ti.flurry');
 //Ti.App.Flurry.debugLogEnabled = true;
 //Ti.App.Flurry.eventLoggingEnabled = true;

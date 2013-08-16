@@ -61,6 +61,8 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var mutualFriendsRow  = null;
 	function populateMatchDataTableView(_matchInfo) {
+		Ti.App.GATracker.trackScreen("MatchScreen");
+		
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
 		for(var i = 0; i < _matchInfo.content.likes.length; i++) {

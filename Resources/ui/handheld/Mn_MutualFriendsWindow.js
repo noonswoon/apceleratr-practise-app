@@ -1,4 +1,5 @@
 MutualFriendsWindow = function(_navGroup, _mutualFriendsArray, _isLatestMatch) {
+	Ti.App.GATracker.trackScreen("MutualFriendsScreen");
 	var ModelFacebookFriend = require('model/facebookFriend');
 	
 	var emptyView = Titanium.UI.createView({});

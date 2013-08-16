@@ -1,4 +1,6 @@
 CreditBuyingWindow = function(_navGroup, _userId) {
+	Ti.App.GATracker.trackScreen("CreditBuyingScreen");
+	
 	var BackendInAppPurchase = require('backend_libs/backendInAppPurchase');
 	var CreditSystem = require('internal_libs/creditSystem');
 		
@@ -778,16 +780,34 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 						tenCreditPrice3.text = currentProduct.formattedPrice;
 						tenCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "TenCredits",
+								value: 0.99
+							});
 						});
 					}  else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
 						hundredCreditPrice3.text = currentProduct.formattedPrice;
 						hundredCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "HundredCredits",
+								value: 7.99
+							});
 						});
 					} else if(currentProduct.identifier === 'com.noonswoon.launch.c3') {
 						thousandCreditPrice3.text = currentProduct.formattedPrice;
 						thousandCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "ThousandCredits",
+								value: 49.99
+							});
 						});
 					} /* else if(currentProduct.identifier === 'com.noonswoon.launch.monthly.d10') {
 						monthlyPrice1.text = currentProduct.formattedPrice;
