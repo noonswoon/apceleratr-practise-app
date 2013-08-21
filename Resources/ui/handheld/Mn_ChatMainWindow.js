@@ -30,7 +30,7 @@ Ti.App.Chat = function(_chatParams) {
 	var cartoonMsgs = [	L("Hi! I am just an intro to show you how the app works! Type ok?"),
 						L("Noonswoon introduces one person to you every day at noon..ok?"), 
 						L("If you like the person, you can press Like..ok?"),
-						L("If the person likes you back, you can start chatting like this..ok?"),
+						L("If the person likes you back, you can start chatting..ok?"),
 						L("That's all! Your next match will come at noon tomorrow! Take care :)"),
 						];
 	var cartoonIndexMsg = 0;
