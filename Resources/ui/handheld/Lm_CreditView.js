@@ -10,6 +10,7 @@ CreditView = function(_credit) {
 	});
 	
 	var fontFormat = {fontStyle:'normal', fontWeight:'bold',fontSize:18};
+	var fontForTextFormat = {fontStyle:'normal', fontWeight:'bold',fontSize:14};
 	var fontTop = 5;
 	var fontDropShadowTop = fontTop + 1;
 	var fontLeftOffset = 7;
@@ -117,6 +118,14 @@ CreditView = function(_credit) {
 		if(_actualValue < 1000)
 			thousandDigit.color = '#6a6c6e';
 		else thousandDigit.color = '#cdcdcd';
+		
+		if(_number === 'M') {
+			thousandDigit.font = fontForTextFormat;
+			thousandDigitDropShadow.font = fontForTextFormat;
+		} else {
+			thousandDigit.font = fontFormat;
+			thousandDigitDropShadow.font = fontFormat;
+		}
 	}; 
 	
 	var setHundredDigit = function(_actualValue, _number) {
@@ -125,6 +134,14 @@ CreditView = function(_credit) {
 		if(_actualValue < 100)
 			hundredDigit.color = '#6a6c6e';
 		else hundredDigit.color = '#cdcdcd';
+		
+		if(_number === 'B') {
+			hundredDigit.font = fontForTextFormat;
+			hundredDigitDropShadow.font = fontForTextFormat;
+		} else {
+			hundredDigit.font = fontFormat;
+			hundredDigitDropShadow.font = fontFormat;
+		}
 	}; 
 	
 	var setTenDigit = function(_actualValue, _number) {
@@ -133,6 +150,14 @@ CreditView = function(_credit) {
 		if(_actualValue < 10)
 			tenDigit.color = '#6a6c6e';
 		else tenDigit.color = '#cdcdcd';
+		
+		if(_number === 'E') {
+			tenDigit.font = fontForTextFormat;
+			tenDigitDropShadow.font = fontForTextFormat;
+		} else {
+			tenDigit.font = fontFormat;
+			tenDigitDropShadow.font = fontFormat;
+		}
 	}; 
 	
 	var setUnitDigit = function(_actualValue, _number) {
@@ -141,6 +166,14 @@ CreditView = function(_credit) {
 		if(_actualValue < 1)
 			unitDigit.color = '#6a6c6e';
 		else unitDigit.color = '#cdcdcd';
+		
+		if(_number === 'R') {
+			unitDigit.font = fontForTextFormat;
+			unitDigitDropShadow.font = fontForTextFormat;
+		} else {
+			unitDigit.font = fontFormat;
+			unitDigitDropShadow.font = fontFormat;
+		}
 	}; 
 	
 	var setCredit = function(_newCredit) {
@@ -150,10 +183,17 @@ CreditView = function(_credit) {
 		
 		var numberArray = computeNumbers(_newCredit);
 		
-		setThousandDigit(_newCredit, numberArray[0]);
-		setHundredDigit(_newCredit, numberArray[1]);
-		setTenDigit(_newCredit, numberArray[2]);
-		setUnitDigit(_newCredit, numberArray[3]);
+		if(_newCredit !== 9999) {
+			setThousandDigit(_newCredit, numberArray[0]);
+			setHundredDigit(_newCredit, numberArray[1]);
+			setTenDigit(_newCredit, numberArray[2]);
+			setUnitDigit(_newCredit, numberArray[3]);
+		} else {
+			setThousandDigit(_newCredit, 'M');
+			setHundredDigit(_newCredit, 'B');
+			setTenDigit(_newCredit, 'E');
+			setUnitDigit(_newCredit, 'R');
+		}
 	};
 	self.setCredit = setCredit; 
 	

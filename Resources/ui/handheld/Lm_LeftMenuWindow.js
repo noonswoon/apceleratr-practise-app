@@ -169,7 +169,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	creditSectionView.add(creditGlyph);
 	
 	var creditText = Ti.UI.createLabel({
-		text: L('Credits'),
+		text: L('Candy'),
 		color: '#cbc8c8', 
 		font:{fontWeight:'bold',fontSize:18},
 		top: 12,

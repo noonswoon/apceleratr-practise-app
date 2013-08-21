@@ -22,7 +22,7 @@ Tutorial4View = function() {
 	self.add(description1);
 	
 	var description2 = Ti.UI.createLabel({
-		text: L('Get more credits'),
+		text: L('Get more candy'),
 		left: 95,
 		top: 235,
 		color: '#ffffff',

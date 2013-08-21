@@ -33,7 +33,7 @@ Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
-Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.c1', 'com.noonswoon.launch.c2','com.noonswoon.launch.c3']; // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
+Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.ar.d10', 'com.noonswoon.launch.c1', 'com.noonswoon.launch.c2','com.noonswoon.launch.c3']; // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
 							
 Ti.App.CUSTOMER_TYPE = 'regular';
 Ti.App.NS_HASH_SECRET_KEY = 'ns+^frobjw8cr7a83n9jq^oykuhlssn';
