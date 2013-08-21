@@ -197,7 +197,7 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 	//Ti.API.info('saveUserReport: '+JSON.stringify(sendingObj));	
 
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER+ "user/report/";
+		var url = Ti.App.API_SERVER+ "user/report";
 		//Ti.API.info('edit api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
@@ -234,7 +234,7 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	sendingObj.user_id = _userId; 
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER+ "user/update_pn_token/";
+		var url = Ti.App.API_SERVER+ "user/update_pn_token";
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -269,7 +269,7 @@ exports.updateClientVersion = function(_userId, _callbackFn) {
 	sendingObj.user_id = _userId; 
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER+ "user/update_client_version/";
+		var url = Ti.App.API_SERVER+ "user/update_client_version";
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);

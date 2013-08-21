@@ -1,5 +1,5 @@
 NoMatchWindow = function() {
-	//Ti.App.Flurry.logEvent('no-match-screen');
+	Ti.App.GATracker.trackScreen("NoMatchScreen");
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

@@ -1,4 +1,6 @@
 CreditOverviewWindow = function(_navGroup, _userId) {
+	Ti.App.GATracker.trackScreen("CreditOverviewScreen");
+	
 	var CreditBuyingWindowModule = require('ui/handheld/Mn_CreditBuyingWindow');
 	var CreditSystem = require('internal_libs/creditSystem');
 	var InviteFriendWindowModule = require('ui/handheld/Mn_InviteFriendWindow');
@@ -13,7 +15,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var self = Ti.UI.createWindow({
-		title: 'Credits',
+		title: 'Candy',
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
@@ -74,7 +76,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	currentCreditBackground.add(creditGlyph);
 	
 	var yourCreditLabel = Ti.UI.createLabel({
-		text: L('Your Credits'),
+		text: L('Your Candy'),
 		top: 13,
 		left: 54, 
 		color: '#666666',
@@ -88,7 +90,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	var creditTextTop = 12;
 	
 	if(Ti.App.CUSTOMER_TYPE === 'subscription')  {
-		creditText = L('UNLIMITED');
+		creditText = L('MEMBER');
 		creditFontSize = 16;
 		creditTextTop = 14;
 	}
@@ -114,7 +116,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var buyCreditButtonText = Ti.UI.createLabel({
-		text: L('Buy Credits'),
+		text: L('Membership'),  //Buy Credits
 		color: '#eff2f7',
 		shadowColor: '#590a10',
 		shadowOffset: {x:0, y:1},
@@ -141,7 +143,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var inviteFriendsButtonText = Ti.UI.createLabel({
-		text: L('Get Free Credits'),
+		text: L('Get Free Candy'),
 		color: '#636c78',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
@@ -187,7 +189,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var howCreditsAreUsedLabel = Ti.UI.createLabel({
-		text: L('How Credits Are Used'),
+		text: L('How Candy Is Used (Trial Mode)'),
 		color: '#919191',
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
@@ -246,7 +248,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	howCreditsUsedSectionView.add(mutualFriendDesc1);
 	
 	var mutualFriendDesc2 = Ti.UI.createLabel({
-		text: L('5 credits'),
+		text: L('5 candy'),
 		top: 112,
 		left: 84,
 		color: '#4e5866',
@@ -299,7 +301,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	howCreditsUsedSectionView.add(likeDesc1);
 	
 	var likeDesc2 = Ti.UI.createLabel({
-		text: L('10 credits'),
+		text: L('10 candy'),
 		top: 180,
 		left: 84,
 		color: '#4e5866',
@@ -507,7 +509,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		var newFontSize = 20;
 		var newCreditTextTop = 12; 
 		if(Ti.App.CUSTOMER_TYPE === 'subscription')  {
-			newCreditText = L('UNLIMITED');
+			newCreditText = L('MEMBER');
 			newFontSize = 16;
 			newCreditTextTop = 14;
 		} 

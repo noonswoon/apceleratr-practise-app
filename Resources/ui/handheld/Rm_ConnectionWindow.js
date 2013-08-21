@@ -133,6 +133,12 @@ ConnectionWindow = function(_userId) {
 			if(e.success) Ti.API.info('delete connected match success');
 			else Ti.API.info('delete connected match failed');
 		});
+		Ti.App.GATracker.trackEvent({
+			category: "RightMenu",
+			action: "ConnectionDeleted",
+			label: "",
+			value: 1
+		});
 	});
 	
 	self.add(editSection);

@@ -1,5 +1,5 @@
 ErrorWindow = function(_errorMessage, _userId) {
-	
+	Ti.App.GATracker.trackScreen("ErrorScreen");
 	//Ti.App.Flurry.logEvent('error-screen');
 	
 	var errorText1 = L('A problem occurred');

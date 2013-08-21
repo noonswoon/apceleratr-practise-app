@@ -14,6 +14,7 @@
 	});
 	
 Ti.App.Chat = function(_chatParams) {   
+	Ti.App.GATracker.trackScreen("ChatScreen");
 	var ModelChatHistory = require('model/chatHistory');
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
@@ -26,10 +27,12 @@ Ti.App.Chat = function(_chatParams) {
 	var otherUserGuid =  _chatParams.otherUserGuid;
 	var otherUserObject = {id: _chatParams.otherUserId, imageUrl: _chatParams.otherUserImage}; //{id: _chatParams.otherUserId,imageUrl: ''};
 	var navGroup = _chatParams.navGroup;
-	var cartoonMsgs = [	L("Hi!"),
-						L("Nice to meet you! However, I am just a cartoon."), 
-						L("I would love to meet up with you if I were a real person."),
-						L("Can you come to the cartoon world?")];
+	var cartoonMsgs = [	L("Hi! I am just an intro to show you how the app works! Type ok?"),
+						L("Noonswoon introduces one person to you every day at noon..ok?"), 
+						L("If you like the person, you can press Like..ok?"),
+						L("If the person likes you back, you can start chatting..ok?"),
+						L("That's all! Your next match will come at noon tomorrow! Take care :)"),
+						];
 	var cartoonIndexMsg = 0;
 	
 	var listViewHeight = 376; //480 - 20 (status bar) - 44 (nav bar) - 40 (input view)

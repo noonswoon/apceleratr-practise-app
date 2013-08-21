@@ -15,7 +15,7 @@ exports.verifyReceipt = function(_userId, _receiptData, _purchaseType, _callback
 	Ti.App.LogSystem.logSystemData('info', fnSrc + '. Purchasing type: '+_purchaseType, _userId, null);
 	//if(false) {
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"iap/verify_receipt/";
+		var url = Ti.App.API_SERVER +"iap/verify_receipt";
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);

@@ -1,4 +1,5 @@
 TutorialMainWindow = function() {
+	Ti.App.GATracker.trackScreen("TutorialScreen");
 	var CustomPagingControl = require('external_libs/customPagingControl');
 
 	var navGroup = null;

@@ -1,4 +1,6 @@
 CreditBuyingWindow = function(_navGroup, _userId) {
+	Ti.App.GATracker.trackScreen("CreditBuyingScreen");
+	
 	var BackendInAppPurchase = require('backend_libs/backendInAppPurchase');
 	var CreditSystem = require('internal_libs/creditSystem');
 		
@@ -12,7 +14,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});
 	
 	var self = Ti.UI.createWindow({
-		title: L('Buy Credits'),
+		title: L('Membership'),  //Buy Credits
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',
@@ -35,8 +37,127 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 		contentView.separatorStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 				
 	var tableData = [];
+
+	var trojanRow = Ti.UI.createTableViewRow({
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: 124
+	});
+	if(Ti.Platform.osname === 'iphone')
+		trojanRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+
+	var subscriptionSectionView = Ti.UI.createView({
+		backgroundColor: '#eeeeee', //#eeeeee 
+		top: 0,
+		left: 0,
+		height: 124,
+	});
+
+	var trojanLabel = Ti.UI.createLabel({
+		text: L('Join Noonswoon Community'),    //Credit Package
+		center: {x: '50%', y:27}, 
+		color: '#919191',
+		font:{fontWeight:'bold',fontSize:16},
+		shadowColor: '#ffffff', 
+		shadowOffset: {x:0, y:1}
+	});
+	subscriptionSectionView.add(trojanLabel);
+	
+	var startingOffset = 50;
+
+	var topEdgeBuyCreditsView = Ti.UI.createView({
+		backgroundImage: 'images/row-top-edge.png',
+		top: startingOffset, 
+		height: 5,
+		left: 0, 
+		width: '100%', 
+	});
+	subscriptionSectionView.add(topEdgeBuyCreditsView);
+		
+	var monthlySubscriptionView = Ti.UI.createView({
+		backgroundImage: 'images/match-info-white-row.png',
+		top:  startingOffset + 5,
+		height: 48,
+		left: 0, 
+		width: '100%', 
+		zIndex: 2,
+	});
+	
+	var subscribeGlyph1 = Ti.UI.createImageView({
+		image: 'images/credit/subscribe-glyph.png',
+		top: 12, 
+		left: 26,
+		width: 17, 
+		height: 26,
+	})
+	monthlySubscriptionView.add(subscribeGlyph1);
+
+	var monthlyPrice1 = Ti.UI.createLabel({
+		text: '$9.99', 
+		color: '#4e5866', 
+		top: 5, //12, 
+		left: 65,
+		font:{fontWeight:'bold',fontSize:18},
+	});
+	monthlySubscriptionView.add(monthlyPrice1);
+
+	var monthlyPrice2 = Ti.UI.createLabel({
+		text: '/month', 
+		color: '#a3a7ad', 
+		top: 5, //12, 
+		left: 110,
+		font:{fontWeight:'bold',fontSize:18},
+	});
+	monthlySubscriptionView.add(monthlyPrice2);	
+	
+	var monthlyDesc = Ti.UI.createLabel({
+		text: L('Become a member'), 
+		color: '#a3a7ad',
+		top: 25, 
+		left: 65,
+		font:{fontSize:14},
+	});
+	monthlySubscriptionView.add(monthlyDesc);	
+	
+	var monthlySubscribeButton = Ti.UI.createButton({
+		backgroundImage: 'images/credit/subscribe-button.png',
+		backgroundSelectedImage: 'images/credit/subscribe-button-active.png',
+		top: 8,
+		right: 22, 
+		width: 101, 
+		height: 28,
+	});	
+	
+	var monthlySubscribeButtonText = Ti.UI.createLabel({
+		text: L('Subscribe'),
+		color: '#636c77',
+		shadowColor: '#ffffff',
+		shadowOffset: {x:0, y:1},
+		font:{fontWeight:'bold',fontSize:14},
+		center: {x:'50%', y:'50%'},
+		zIndex: 3,
+	});
+	
+	monthlySubscribeButton.add(monthlySubscribeButtonText);	
+	monthlySubscriptionView.add(monthlySubscribeButton);	
+	subscriptionSectionView.add(monthlySubscriptionView);	
+		
+	var bottomEdgeBuyCreditsView = Ti.UI.createView({
+		backgroundImage: 'images/row-bottom-edge.png',
+		top: startingOffset + 51, //+ 5 + 48 + 48 + 48
+		height: 5,
+		left: 0, 
+		width: '100%', 
+		zIndex: 4
+	});	
+	subscriptionSectionView.add(bottomEdgeBuyCreditsView);
+	
+	trojanRow.add(subscriptionSectionView);
+	tableData.push(trojanRow);
 	
 	//****************** Your one-time buy section ****************************************************
+/*
 	var oneTimePurchaseRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -54,7 +175,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});
 	
 	var creditPackLabel = Ti.UI.createLabel({
-		text: L('Credit Package'),
+		text: L('Join Noonswoon Community'),    //Credit Package
 		center: {x: '50%', y:27}, 
 		color: '#919191',
 		font:{fontWeight:'bold',fontSize:16},
@@ -314,6 +435,8 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});	
 	oneTimePurchaseSectionView.add(bottomEdgeBuyCreditsView);
 
+*/
+
 /*	
 	var horizontalSeparator1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
@@ -323,9 +446,11 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	});
 	oneTimePurchaseSectionView.add(horizontalSeparator1);	
 */
+
+/*
 	oneTimePurchaseRow.add(oneTimePurchaseSectionView);
 	tableData.push(oneTimePurchaseRow);
-	
+*/	
 	/*********************** subscription section ***********************************/
 
 /*
@@ -596,7 +721,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	subscriptionSectionView.add(horizontalSeparator2);
 	subscriptionRow.add(subscriptionSectionView);
 	tableData.push(subscriptionRow);	
-	
+*/	
 	var restoreRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
@@ -635,7 +760,6 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	restoreView.add(restoreButton);
 	restoreRow.add(restoreView);
 	tableData.push(restoreRow);
-*/
 
 	contentView.data = tableData;
 	self.add(contentView);
@@ -718,7 +842,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
     	return 0;
     };
 
-/*	
+
 	var restoredCompletedTransactionsCallback = function(evt) {
 		hidePreloader(self);
 		if (evt.error) {
@@ -757,7 +881,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	restoreButton.addEventListener('click', function () {
 		restorePurchases();
 	});
-*/
+
 
 	showPreloader(self, L('Loading...'));
 	Ti.App.Storekit.requestProducts(Ti.App.NOONSWOON_PRODUCTS, function (evt) {
@@ -774,27 +898,46 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 				var product = products[i];
 				(function() { //double binding, change execution context
 					var currentProduct = product;
+					/*
 					if(currentProduct.identifier === 'com.noonswoon.launch.c1') {
 						tenCreditPrice3.text = currentProduct.formattedPrice;
 						tenCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "TenCredits",
+								value: 0.99
+							});
 						});
 					}  else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
 						hundredCreditPrice3.text = currentProduct.formattedPrice;
 						hundredCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "HundredCredits",
+								value: 7.99
+							});
 						});
 					} else if(currentProduct.identifier === 'com.noonswoon.launch.c3') {
 						thousandCreditPrice3.text = currentProduct.formattedPrice;
 						thousandCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
+							Ti.App.GATracker.trackEvent({
+								category: "CreditPurchase",
+								action: "PurchaseButtonClicked",
+								label: "ThousandCredits",
+								value: 49.99
+							});
 						});
-					} /* else if(currentProduct.identifier === 'com.noonswoon.launch.monthly.d10') {
+					} */ if(currentProduct.identifier === 'com.noonswoon.launch.ar.d10') {
 						monthlyPrice1.text = currentProduct.formattedPrice;
 						monthlySubscribeButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
 						});
-					} else if(currentProduct.identifier === 'com.noonswoon.launch.yearly') {
+					} /*else if(currentProduct.identifier === 'com.noonswoon.launch.yearly') {
 						yearlyPrice1.text = currentProduct.formattedPrice;
 						yearlySubscribeButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
@@ -807,7 +950,7 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 	
 	var windowCloseCallback = function(e) {
 		Ti.App.Storekit.removeEventListener('transactionState', transactionStateCallback);
-		//Ti.App.Storekit.removeEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
+		Ti.App.Storekit.removeEventListener('restoredCompletedTransactions', restoredCompletedTransactionsCallback);
 		self.removeEventListener('close', windowCloseCallback);
 	};
 	self.addEventListener('close', windowCloseCallback);

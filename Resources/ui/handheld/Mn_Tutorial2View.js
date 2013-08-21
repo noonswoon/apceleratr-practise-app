@@ -10,7 +10,7 @@ Tutorial2View = function() {
 	});
 	
 	var description1 = Ti.UI.createLabel({
-		text: L('Reveal mutual friends for 5 credits'),
+		text: L('Reveal mutual friends for 5 candy'),
 		left: 30,
 		top: 335,
 		color: '#ffffff',

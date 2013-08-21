@@ -11,7 +11,7 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '1.5';
+Ti.App.CLIENT_VERSION = '2.0';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
@@ -33,7 +33,7 @@ Ti.App.NUM_INVITE_ALL = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
-Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.c1', 'com.noonswoon.launch.c2','com.noonswoon.launch.c3']; // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
+Ti.App.NOONSWOON_PRODUCTS = [	'com.noonswoon.launch.ar.d10', 'com.noonswoon.launch.c1', 'com.noonswoon.launch.c2','com.noonswoon.launch.c3']; // 'com.noonswoon.launch.c30.d3', 'com.noonswoon.launch.c100.d10', 
 							
 Ti.App.CUSTOMER_TYPE = 'regular';
 Ti.App.NS_HASH_SECRET_KEY = 'ns+^frobjw8cr7a83n9jq^oykuhlssn';
@@ -72,7 +72,9 @@ if(Ti.Platform.osname == 'iphone') {
 
 Ti.App.moment = require('external_libs/moment');
 Ti.App.LogSystem = require('internal_libs/logSystem');
-	
+var GA = require('analytics.google');
+Ti.App.GATracker = GA.getTracker("UA-37497639-2");
+
 //Ti.App.Flurry = require('ti.flurry');
 //Ti.App.Flurry.debugLogEnabled = true;
 //Ti.App.Flurry.eventLoggingEnabled = true;
