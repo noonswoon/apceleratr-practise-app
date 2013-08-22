@@ -265,9 +265,11 @@
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>
 	<string name="You will be notified if your match likes you too">You will be notified if your match likes you too</string>
 
-	<string name="Interested In">Interested In</string>
+	<string name="I want to be matched with">I want to be matched with</string>
 	<string name="This will not be visible on your profile">This will not be visible on your profile</string>
 	<string name="General Information">General Information</string>	
 	<string name="Men">Men</string>
 	<string name="Women">Women</string>
+	<string name="Nice Guys">Nice Guys</string>
+	<string name="Cute Girls">Cute Girls</string>
 </resources>
