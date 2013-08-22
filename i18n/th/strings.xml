@@ -46,9 +46,13 @@
 	<string name="Invite these 5 friends">ชวนเพื่อน 5 คนนี้</string>		
 
 	<string name="Chat with">แชทกับ</string>
-	<string name="Nice to meet you! However, I am just a cartoon.">สวัสดี ยินดีที่ได้รู้จัก แต่ฉันเป็นเพียงแค่การ์ตูน</string>
-	<string name="I would love to meet up with you if I were a real person.">ฉันอยากจะเจอตัวจริงของเธอถ้าฉันเป็นคนจริงๆ</string>
-	<string name="Can you come to the cartoon world?">เธอมาหาฉันในโลกของการ์ตูนได้ไหม</string>
+	
+	<string name="Hi! I am just an intro to show you how the app works! Type ok?">สวัสดี เราเป็นตัวช่วยเหลือเพื่ออธิบายว่าแอพนี้ทำงานอย่างไร ok มั้ย (พิมพ์ ok)</string>
+	<string name="Noonswoon introduces one person to you every day at noon..ok?">Noonswoon จะแนะนำคนใหม่ๆให้คุณ วันละหนึ่งคน ทุกๆตอนเที่ยง ok?</string>
+	<string name="If you like the person, you can press Like..ok?">ถ้าคุณสนใจคนที่แนะนำมา คุณสามารถ Like เขาได้ ซึ่งจะต้องใช้ 10 candy ในการ Like แต่ละครั้ง ok นะ</string>
+	<string name="If the person likes you back, you can start chatting..ok?">ถ้าคนที่คุณสนใจ สนใจคุณเช่นกัน คุณสามารถจะแชทกับเค้าได้ เข้าใจนะ</string>
+	<string name="That's all! Your next match will come at noon tomorrow! Take care :)">เท่านี้แหละ อดใจดูสิว่าตอนเที่ยงของวันพรุ่งนี้ คุณจะได้พบกับใคร Take care! :)</string>
+	
 	<string name="History ends here">ไม่มีข้อมูลแชท</string>
 	<string name="No more chat history with">ไม่มีข้อมูลแชทกับ</string>
 	<string name=". Be confident! Chat up :)"> กล้าๆหน่อย แชทเลย!</string>
