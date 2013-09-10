@@ -15,7 +15,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	});
 	
 	var self = Ti.UI.createWindow({
-		title: 'Candy',
+		title: L('Candy'),
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',

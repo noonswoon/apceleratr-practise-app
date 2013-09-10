@@ -38,6 +38,21 @@ exports.getFiveRandomFacebookLike = function(_userId){
 	return fbLikes;
 };
 
+exports.getAllFacebookLike = function(_userId){
+	var fbLikes = [];
+	var db = Ti.Database.open(Ti.App.DATABASE_NAME); 
+	var result = db.execute('SELECT * FROM FacebookLike WHERE UserId = ? AND length(Name) <= 15', _userId);
+
+	while(result.isValidRow()) {
+		fbLikes.push({category: result.fieldByName('Category'), name: result.fieldByName('Name')});
+		result.next();
+	}
+	result.close();
+	db.close();
+
+	return fbLikes;
+};
+
 /*
 	var dummy = []
 	var result = db.execute('SELECT * FROM FacebookLike');

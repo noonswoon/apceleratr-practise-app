@@ -34,12 +34,7 @@
 	<string name="You will be receiving a new match">You will be receiving a new match</string>
 	<string name="every day at noon">every day at noon</string>
 	
-	<string name="Credits">Credits</string>
-	<string name="You have x credits left\n\n">You have %s credits left\n\n</string>
-	<string name="Get 1 credit for each daily login\n">Get 1 credit for each daily login\n</string>
-	<string name="Get 2 credits for each friend invite\n">Get 2 credits for each friend invite\n</string>
-	<string name="Use 5 credits to see mutual friends\n">Use 5 credits to see mutual friends\n</string>
-	<string name="Use 10 credits to Like someone">Use 10 credits to Like someone</string>
+	<string name="Candy">Candy</string>
 								
 	<string name="My Profile">My Profile</string>
 	<string name="INVITE OTHER FRIENDS">INVITE OTHER FRIENDS</string>
@@ -167,13 +162,17 @@
 	
 	<string name="Tutorial">Tutorial</string>
 	<string name="Time left until your next match">Time left until your next match</string>
-	<string name="Like your match for 10 credits">Like your match for 10 credits</string>
-	<string name="Reveal mutual friends for 5 credits">Reveal mutual friends for 5 credits</string>
+	<string name="Like your match for 10 candy">Like your match for 10 candy</string>
+	<string name="Reveal mutual friends for 5 candy">Reveal mutual friends for 5 candy</string>
 	<string name="You have a connection if">You have a connection if</string>
 	<string name="both of you like each other">both of you like each other</string>
 	<string name="Edit your profile">Edit your profile</string>
-	<string name="Get more credits">Get more credits</string>						
+	<string name="Get more candy">Get more candy</string>						
 	
+	<string name="Support">Support</string>
+	<string name="Contact Noonswoon">Contact Noonswoon</string>
+	<string name="Please let us know what you would like to do">Please let us know what you would like to do</string>		
+		
 	<string name="Log Out">Log Out</string>
 	
 	<string name="Height (cm)">Height (cm)</string>
@@ -238,14 +237,14 @@
 	<string name="Suggestion">Suggestion</string>
 	<string name="Please let us know how we can make Noonswoon better.">Please let us know how we can make Noonswoon better.</string>
 	
-	<string name="Buy Credits">Buy Credits</string>
-	<string name="Get Free Credits">Get Free Credits</string>
+	<string name="Buy Candy">Buy Candy</string>
+	<string name="Get Free Candy">Get Free Candy</string>
 	<string name="Thank you!">Thank you!</string>
 	<string name="Your purchase is complete">Your purchase is complete</string>
 	<string name="Your Noonswoon purchase is restored">Your Noonswoon purchase is restored</string>
 	<string name="There were no Noonswoon purchase to restore">There were no Noonswoon purchase to restore</string>	
 
-	<string name="Credit Package">Credit Package</string>
+	<string name="Candy Package">Candy Package</string>
 	<string name="Enough to Like one person">Enough to Like one person</string>
 	
 	<string name="Monthly Subscription">Monthly Subscription</string>	
@@ -256,12 +255,12 @@
 	<string name="20% Savings">20% Savings</string>
 	<string name="50% Savings">50% Savings</string>	
 
-	<string name="Your Credits">Your Credits</string>	
-	<string name="How Credits Are Used">How Credits Are Used</string>
+	<string name="Your Candy">Your Candy</string>	
+	<string name="How Candy Are Used">How Candy Are Used</string>
 	<string name="Use">Use</string>	
-	<string name="5 credits">5 credits</string>	
+	<string name="5 candy">5 candy</string>	
 	<string name="to reveal Mutual Friends">to reveal Mutual Friends</string>	
-	<string name="10 credits">10 credits</string>
+	<string name="10 candy">10 candy</string>
 	<string name="to like your match">to like your match</string>
 	
 	<string name="Oops!">Oops!</string>

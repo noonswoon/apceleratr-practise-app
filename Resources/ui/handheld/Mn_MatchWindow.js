@@ -191,7 +191,7 @@ MatchWindow = function(_userId, _matchId) {
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
-		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
+		var fbLikeCollection = ModelFacebookLike.getAllFacebookLike(_matchInfo.content.general.user_id);
 		if(fbLikeCollection.length > 0) {
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
 			matchProfileData.push(fbLikeTableViewRow);

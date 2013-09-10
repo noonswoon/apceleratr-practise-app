@@ -179,7 +179,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
 		
-		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_targetedUserId);
+		var fbLikeCollection = ModelFacebookLike.getAllFacebookLike(_targetedUserId);
 		if(fbLikeCollection.length > 0) {
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
 			data.push(fbLikeTableViewRow);
