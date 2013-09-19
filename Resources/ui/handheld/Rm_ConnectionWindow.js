@@ -20,7 +20,7 @@ ConnectionWindow = function(_userId) {
 		width: 12,
 		height: '100%',
 		zIndex: 5,
-	})
+	});
 	self.add(menuShadow);
 	
 	var editSection = Ti.UI.createView({
@@ -163,5 +163,5 @@ ConnectionWindow = function(_userId) {
 	};
 	
 	return self;
-}
+};
 module.exports = ConnectionWindow;

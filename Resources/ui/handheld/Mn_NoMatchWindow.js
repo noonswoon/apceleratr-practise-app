@@ -43,7 +43,7 @@ NoMatchWindow = function() {
 		center: {x:'50%', y:375}, //x:67
 		width: 300, 
 		height: 50
-	})
+	});
 	
 	var inviteFriendsButtonText = Ti.UI.createLabel({
 		text: L('Invite more friends'),

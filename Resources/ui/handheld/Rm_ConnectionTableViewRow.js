@@ -11,7 +11,7 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 		height: 45, 
 		zIndex: 1
 	});
-	self.add(backgroundImageView)
+	self.add(backgroundImageView);
 	
 	var personNameLbl = Ti.UI.createLabel({
 		text: _matchInfo.first_name,
@@ -124,5 +124,5 @@ ConnectionTableViewRow = function(_userId, _matchInfo){
 	});
 	
 	return self;
-}
+};
 module.exports = ConnectionTableViewRow;

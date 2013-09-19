@@ -84,7 +84,7 @@ TextDisplayTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 	
 	tableRow.getContentLabel = function() {
 		return contentLabel;
-	}
+	};
 	
 	return tableRow;		
 };

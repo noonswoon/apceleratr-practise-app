@@ -25,7 +25,7 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-work.png'
-	})
+	});
 	tableRow.add(glyphImage);
 	
 	//127, 535
@@ -57,7 +57,7 @@ WorkTableViewRow = function(_fieldName, _employer, _occupation, _isWhiteBackgrou
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-secondary-work.png'
-	})
+	});
 //	tableRow.add(secondaryGlyphImage);
 	
 	var occupationLabel = Ti.UI.createLabel({

@@ -118,7 +118,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	
 	
 	var timer = setInterval(function() {
-		remainingTimeData = computeRemainingTime()
+		remainingTimeData = computeRemainingTime();
 		
 		remainingHourLbl.text = remainingTimeData[0];
 		remainingMinuteLbl.text = remainingTimeData[1]; 

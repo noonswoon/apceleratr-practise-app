@@ -2,7 +2,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditViewModule = require('ui/handheld/Lm_CreditView');
 	var FacebookQuery = require('internal_libs/facebookQuery');
-	
+
 	var self = Titanium.UI.createWindow({
 		top:0,
 		left:0,
@@ -19,7 +19,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 		width: 12,
 		height: '100%',
 		zIndex: 5,
-	})
+	});
 	self.add(menuShadow);
 	
 	// EDIT SECTION
@@ -127,7 +127,6 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 		shadowOffset: {x:0, y:1}
 	});
 	profileSectionView.add(nameLabel);
-	
 	
 	var leftArrow = Ti.UI.createImageView({
 		image: 'images/menu-separator-arrow.png',
@@ -411,5 +410,5 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	};
 			
 	return self;
-}
+};
 module.exports = LeftMenuWindow;

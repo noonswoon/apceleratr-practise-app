@@ -137,5 +137,5 @@ MutualFriendsWindow = function(_navGroup, _mutualFriendsArray, _isLatestMatch) {
 	});
 	
 	return self;
-}
+};
 module.exports = MutualFriendsWindow;

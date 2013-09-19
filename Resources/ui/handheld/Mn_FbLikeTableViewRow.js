@@ -108,7 +108,7 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-likes.png'
-	})
+	});
 	tableRow.add(glyphImage);
 	
 	

@@ -32,7 +32,7 @@ AboutMeEditTableViewRow = function(_content) {
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-profile-about.png'
-	})
+	});
 	tableRow.add(glyphImage);
 	
 	//127, 535
