@@ -39,24 +39,24 @@ exports.getUserFbId = getUserFbId;
 exports.getUserImage = function() {
 	var fbId = getUserFbId(); 
 	if(fbId === -1 || fbId === 0 || fbId === "0") return "";
-	else return "https://graph.facebook.com/"+fbId+"/picture"
-}
+	else return "https://graph.facebook.com/"+fbId+"/picture";
+};
 
 exports.getUserImageSquareOfFbId = function(fbId) {
 	if(fbId === -1 || fbId === 0 || fbId === "0") return "";
-	else return "https://graph.facebook.com/"+fbId+"/picture?type=square"
-}
+	else return "https://graph.facebook.com/"+fbId+"/picture?type=square";
+};
 
 exports.getUserImageNormalOfFbId = function(fbId) {
 	if(fbId === -1 || fbId === 0 || fbId === "0") return "";
-	else return "https://graph.facebook.com/"+fbId+"/picture?type=normal"
-}
+	else return "https://graph.facebook.com/"+fbId+"/picture?type=normal";
+};
 
 exports.getUserImageLarge = function() {
 	var fbId = getUserFbId(); 
 	if(fbId === -1 || fbId === 0 || fbId === "0") return "";
-	else return "https://graph.facebook.com/"+fbId+"/picture?type=large"
-}
+	else return "https://graph.facebook.com/"+fbId+"/picture?type=large";
+};
 
 exports.shuffleArray = function(o){ //v1.0
 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);

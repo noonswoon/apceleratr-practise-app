@@ -24,7 +24,7 @@ var getAppKey = function() {
 	else appKey = Ti.App.URBAN_AIRSHIP_APP_KEY;
 	//alert('appKey: '+appKey);
 	return appKey;
-}
+};
 exports.getAppKey = getAppKey;
 
 var getAppSecret = function() {
@@ -89,4 +89,4 @@ exports.unRegisterDeviceToken = function() {
 	request.open('DELETE', 'https://go.urbanairship.com/api/device_tokens/'+getDeviceToken(), true);
     request.setRequestHeader('Authorization','Basic '  + Titanium.Utils.base64encode(getAppKey() + ':' + getAppSecret()));
     request.send();
-}
+};
