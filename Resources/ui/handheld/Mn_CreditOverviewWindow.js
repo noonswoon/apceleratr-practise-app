@@ -222,7 +222,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		shadowColor: '#ffffff',
 		shadowOffset: {x:0, y:1},
 		font:{fontWeight:'bold',fontSize:18},
-		center: {x:'50%', y:'20'},
+		center: {x:'50%', y:'35'},
 //		center: {x:'50%', y:26}, //if there is 2 lines use this location; with fontSize 16
 		zIndex: 3,
 	});
@@ -241,13 +241,14 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	
 	var horizontalArrowDown1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-arrow-down-separator.png',
-		top: 35, //70 
+		top: 70, 
 		left: 0,
 		width: 320, 
 		height: 13
 	});
 	howCreditsUsedSectionView.add(horizontalArrowDown1);
 	
+/*	
 	var mutualFriendGlyph = Ti.UI.createImageView({
 		image: 'images/credit/mutual-friends-glyph.png',
 		top: 60, //98,
@@ -300,10 +301,11 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		width: '100%'
 	});
 	howCreditsUsedSectionView.add(horizontalSeparator2);
+*/
 
 	var likeGlyph = Ti.UI.createImageView({
 		image: 'images/credit/like-glyph.png',
-		top: 115,
+		top: 98, //115,
 		left: 15,
 		width: 20, 
 		height: 24
@@ -313,7 +315,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	var likeTopic = Ti.UI.createLabel({
 		text: L('Like'),
 		color: '#666666',
-		top: 105, 
+		top: 88, //105, 
 		left: 55,
 		font:{fontWeight:'bold',fontSize:16},
 	});
@@ -321,7 +323,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	
 	var likeDesc1 = Ti.UI.createLabel({
 		text: L('Use'),
-		top: 130,
+		top: 112, //130,
 		left: 55,
 		color: '#a3a7ad',
 		font:{fontSize:14},
@@ -330,7 +332,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	
 	var likeDesc2 = Ti.UI.createLabel({
 		text: L('10 candy'),
-		top: 130,
+		top: 112, //130,
 		left: 84,
 		color: '#4e5866',
 		font:{fontWeight:'bold',fontSize:14},
@@ -339,7 +341,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	
 	var likeDesc3 = Ti.UI.createLabel({
 		text: L('to like your match'),
-		top: 130,
+		top: 112, //130,
 		left: 154,
 		color: '#a3a7ad',
 		font:{fontSize:14},
