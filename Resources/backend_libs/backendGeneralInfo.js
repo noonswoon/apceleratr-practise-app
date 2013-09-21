@@ -39,7 +39,7 @@ exports.getReligion = function(_callbackFn) {
 		if(resultObj.meta.status == "ok") {
 			_callbackFn(resultObj.content);
 		} else {
-			Ti.API.error("something wrong with backendGeneralInfo.getReligion")
+			Ti.API.error("something wrong with backendGeneralInfo.getReligion");
 		}
 	}
 };
@@ -80,7 +80,7 @@ exports.getEthnicity = function(_callbackFn) {
 		if(resultObj.meta.status == "ok") {
 			_callbackFn(resultObj.content);
 		} else {
-			Ti.API.error("something wrong with backendGeneralInfo.getEthnicity")
+			Ti.API.error("something wrong with backendGeneralInfo.getEthnicity");
 		}
 	}
 };
@@ -122,7 +122,7 @@ exports.getTargetedCity = function(_callbackFn) {
 			Ti.API.info('done calling getTargetedCity..');
 			_callbackFn(resultObj.content);
 		} else {
-			Ti.API.error("something wrong with backendGeneralInfo.getTargetedCity")
+			Ti.API.error("something wrong with backendGeneralInfo.getTargetedCity");
 		}
 	}
 };
@@ -163,7 +163,7 @@ exports.getStaticData = function(_callbackFn) {
 		if(resultObj.meta.status == "ok") {
 			_callbackFn(resultObj.content);
 		} else {
-			Ti.API.error("something wrong with backendGeneralInfo.getStaticData")
+			Ti.API.error("something wrong with backendGeneralInfo.getStaticData");
 		}
 	}
 };

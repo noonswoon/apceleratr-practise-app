@@ -39,7 +39,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			setTimeout(_callbackFn, 5000);
 		} else {
-			Ti.API.error("something wrong with backendUser.saveEditUserInfo")
+			Ti.API.error("something wrong with backendUser.saveEditUserInfo");
 		}
 	}
 };
@@ -91,7 +91,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 			Ti.API.info('userStuff..:'+resultObj.content.user_status);
 			_callbackFn(resultObj);
 		} else {
-			Ti.API.error("something wrong with backendUser.connectToServer")
+			Ti.API.error("something wrong with backendUser.connectToServer");
 		}		
 	}
 };
@@ -134,7 +134,7 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			_callbackFn(resultObj);
 		} else {
-			Ti.API.error("something wrong with backendUser.getUserInfo")
+			Ti.API.error("something wrong with backendUser.getUserInfo");
 		}		
 	}	
 };
@@ -182,7 +182,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			_callbackFn(parseInt(resultObj.meta.user_id));
 		} else {
-			Ti.API.error("something wrong with backendUser.getUserIdFromFbId")
+			Ti.API.error("something wrong with backendUser.getUserIdFromFbId");
 		}		
 	}	
 };

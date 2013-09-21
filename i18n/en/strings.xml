@@ -275,4 +275,13 @@
 	<string name="Women">Women</string>
 	<string name="Nice Guys">Nice Guys</string>
 	<string name="Cute Girls">Cute Girls</string>
+	
+	<string name="UNLIMITED">UNLIMITED</string>
+	<string name="Redeem Candy">Redeem Candy</string>
+	<string name="Please enter your redeem code">Please enter your redeem code</string>	
+	<string name="Redeem">Redeem</string>
+	<string name="Invalid Redeem Code">Invalid Redeem Code</string>
+	<string name="Please check your redeem code and enter again">Please check your redeem code and enter again</string>
+	<string name="You successfully redeemed your candy">You successfully redeemed your candy</string>
+	<string name="Sorry, your redeem code is invalid/expired.">Sorry, your redeem code is invalid/expired.</string>
 </resources>

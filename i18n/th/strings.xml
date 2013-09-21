@@ -275,4 +275,13 @@
 	<string name="Women">ผู้หญิง</string>
 	<string name="Nice Guys">หนุ่มแมนๆ</string>
 	<string name="Cute Girls">สาวน่ารักๆ</string>	
+
+	<string name="UNLIMITED">ไม่จำกัด</string>
+	<string name="Redeem candy">แลก candy</string>
+	<string name="Please enter your redeem code">กรุณาใส่ Code จาก SMS เพื่อแลก candy ของคุณ</string>	
+	<string name="Redeem">แลก</string>
+	<string name="Invalid Redeem Code">Code ที่ใส่ไม่ถูกต้อง</string>
+	<string name="Please check your redeem code and enter again">กรุณาตรวจสอบ code และลองอีกครั้ง</string>
+	<string name="You successfully redeemed your candy">การแลก candy ของคุณเสร็จเรียบร้อย</string>
+	<string name="Sorry, your redeem code is invalid/expired.">ขออภัย แต่การเลือก candy ของคุณไม่ผ่าน (code อาจจะผิดหรือหมดอายุแล้ว)</string>	
 </resources>

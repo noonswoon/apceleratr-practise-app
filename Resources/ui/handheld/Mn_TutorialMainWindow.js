@@ -22,9 +22,11 @@ TutorialMainWindow = function() {
 	var tutorial1View = new Tutorial1Module();
 	viewsForScrollView.push(tutorial1View);
 		
+/* -- no mutual friend
 	var Tutorial2Module = require('ui/handheld/Mn_Tutorial2View');
 	var tutorial2View = new Tutorial2Module();
 	viewsForScrollView.push(tutorial2View);
+*/
 
 	var Tutorial3Module = require('ui/handheld/Mn_Tutorial3View');
 	var tutorial3View = new Tutorial3Module();
@@ -99,7 +101,7 @@ TutorialMainWindow = function() {
 	self.add(scrollView);	
 	
 	scrollView.addEventListener('scrollend', function(e) {
-		if(scrollView.currentPage === 3) {
+		if(scrollView.currentPage === 2) {
 			doneButton.animate(buttonInAnimation);
 			pagingControl.animate(paginationUpAnimation);
 			doneButtonVisible = true;

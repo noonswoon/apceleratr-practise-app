@@ -181,9 +181,9 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	redeemButton.add(redeemButtonText);	
 
 	redeemButton.addEventListener('click', function() {
-		alert('open redeem code screen');
-		//var inviteFriendWindow = new InviteFriendWindowModule(_navGroup, _userId, false);
-		//_navGroup.open(inviteFriendWindow);
+		var RedeemCreditWindowModule = require('ui/handheld/Mn_RedeemCreditWindow');
+		var redeemCreditWindow = new RedeemCreditWindowModule(_navGroup, _userId);
+		_navGroup.open(redeemCreditWindow);
 	});
 		
 	yourCreditsSectionView.add(redeemButton);
