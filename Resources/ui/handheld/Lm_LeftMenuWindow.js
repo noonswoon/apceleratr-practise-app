@@ -192,11 +192,11 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	});
 	
 	var tutorialGlyph = Ti.UI.createImageView({
-		image: 'images/left_menu/menu-glyph-tutorial.png',
-		top: 12,
-		left: 10,
-		width: 24, 
-		height: 22,
+		image: 'images/left_menu/menu-glyph-chemistry.png',
+		top: 8,
+		left: 14,
+		width: 16, 
+		height: 28,
 	});
 	tutorialSectionView.add(tutorialGlyph);
 	

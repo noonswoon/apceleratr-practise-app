@@ -127,10 +127,12 @@ if (Ti.version < 1.8 ) {
 		ModelMetaData.insertDbVersion(Ti.App.CLIENT_VERSION);
 		//need to do the SQLite database migration
 		ModelChatHistory.migrateData();
+		ModelFacebookLike.migrateData();
 	} else {
 		Ti.API.info('already have db version: ' + currentDbVersion);
-		if(currentDbVersion !== Ti.App.CLIENT_VERSION) { 
+		if(currentDbVersion < Ti.App.CLIENT_VERSION) { 
 			ModelChatHistory.migrateData();
+			ModelFacebookLike.migrateData();
 			ModelMetaData.updateDbVersion(Ti.App.CLIENT_VERSION);
 		}
 	}

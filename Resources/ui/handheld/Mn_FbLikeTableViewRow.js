@@ -12,7 +12,11 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		return 65 + widthForCapsuleText; //4 * (strLen - 4); //set up for 4 characters, +15 for padding
 	};
 	
-	var createLikeCapsuleContent = function(_category, _content) {
+	var createLikeCapsuleContent = function(_category, _content, _isMutual) {
+		var contentColor = '#4e5866';
+		if(_isMutual) {
+			contentColor = '#e01124';
+		}
 		var glyphImageUrl = GlyphGraphicsHelper.getLikeGlyph(_category);
 
 		var displayContent = _content;
@@ -23,7 +27,6 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 			image: glyphImageUrl,
 			left: 10, 
 			top: 7,
-//			center: {x:15, y:'50%'},
 			height: 10,
 			width: 10,
 			zIndex: 3
@@ -33,9 +36,8 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 			text: displayContent,
 			left: 25, 
 			top: 5,
-//			center: {x: 50, y:'50%'},
 			font:{fontWeight:'bold',fontSize:10},
-			color: '#4e5866', 
+			color: contentColor, 
 			zIndex: 2,
 		});
 		
@@ -65,8 +67,8 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 	
 	for(var i = 0; i < _fbLikeArray.length; i++) {
 		var curLikeStr = _fbLikeArray[i].name; 
-		
-		var likeContent = createLikeCapsuleContent(_fbLikeArray[i].category, curLikeStr);
+		var isMutualLike = _fbLikeArray[i].is_mutual;
+		var likeContent = createLikeCapsuleContent(_fbLikeArray[i].category, curLikeStr, isMutualLike);
 		likeContent.top = 18 + (numRows - 1) * 35;
 		likeContent.left = capsuleStartPoint;
 		

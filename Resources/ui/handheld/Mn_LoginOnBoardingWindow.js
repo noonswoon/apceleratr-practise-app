@@ -1,5 +1,6 @@
 LoginOnBoardingWindow = function(_mainLoginWindow) {
 	var CustomPagingControl = require('external_libs/customPagingControl');
+	var NetworkDetector = require('bencoding.network');
 	
 	//create component instance
 	
@@ -120,6 +121,14 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 		//left: 82, color: '#898c81',
 	});
 	self.add(neverPostToFb);
+	
+	var carrier = NetworkDetector.createCarrier();
+	var carrierInfo = carrier.findInfo();
+
+	var mobileCountryCode = carrierInfo.mobileCountryCode + "";
+	var mobileNetworkCode = carrierInfo.mobileNetworkCode + "";
+	var mobileCarrierCode = mobileCountryCode + mobileNetworkCode;
+
 	//FUNCTIONS CALLBACK
 	function successNotifCallback(e) {
 		Ti.API.info('in success notif callback..loginonboardingwindow');
@@ -171,6 +180,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
 			    	var sendingObj = {}; 
+			    	sendingObj.mobileCarrierCode = mobileCarrierCode;
 			    	sendingObj.deviceId = "";
 			        
 			        if(Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') {

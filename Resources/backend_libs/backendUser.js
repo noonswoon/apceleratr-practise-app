@@ -50,6 +50,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.client_version = Ti.App.CLIENT_VERSION;
 	sendingObj.device_id = _userObj.deviceId;
 	sendingObj.device_platform = 'iphone'; 
+	sendingObj.mobile_carrier_code = _userObj.mobileCarrierCode;
 	sendingObj.fb_auth_token = Ti.App.Facebook.accessToken; 
 	sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
 	sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
@@ -81,7 +82,8 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	 	xhr.setRequestHeader('Content-Type','application/json');
 	 	
 		var hashVal = Ti.Utils.sha256(sendingObj.user_fb_id + url + Ti.App.NS_HASH_SECRET_KEY);
-		xhr.setRequestHeader('NsHashKey',hashVal);	 	
+		xhr.setRequestHeader('NsHashKey',hashVal);
+		alert('connectToServer param: '+JSON.stringify(sendingObj));
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_login_result.txt');

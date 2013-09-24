@@ -182,18 +182,10 @@ CreditView = function(_credit) {
 			_newCredit = 9999;
 		
 		var numberArray = computeNumbers(_newCredit);
-		
-		if(_newCredit !== 9999) {
-			setThousandDigit(_newCredit, numberArray[0]);
-			setHundredDigit(_newCredit, numberArray[1]);
-			setTenDigit(_newCredit, numberArray[2]);
-			setUnitDigit(_newCredit, numberArray[3]);
-		} else {
-			setThousandDigit(_newCredit, 'M');
-			setHundredDigit(_newCredit, 'B');
-			setTenDigit(_newCredit, 'E');
-			setUnitDigit(_newCredit, 'R');
-		}
+		setThousandDigit(_newCredit, numberArray[0]);
+		setHundredDigit(_newCredit, numberArray[1]);
+		setTenDigit(_newCredit, numberArray[2]);
+		setUnitDigit(_newCredit, numberArray[3]);
 	};
 	self.setCredit = setCredit; 
 	

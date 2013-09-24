@@ -46,6 +46,7 @@
         <module platform="iphone" version="1.1.1">ti.imagefactory</module>
         <module platform="iphone" version="2.1.2">ti.storekit</module>
         <module platform="iphone" version="1.0">analytics.google</module>
+        <module platform="iphone" version="0.81">bencoding.network</module>
         <module platform="iphone">facebook</module>
     </modules>
 </ti:app>

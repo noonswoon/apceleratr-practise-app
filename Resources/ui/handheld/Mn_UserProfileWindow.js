@@ -1,4 +1,5 @@
 UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
+	
 	Ti.App.GATracker.trackScreen("UserProfileScreen");
 	//if(_userId === _targetedUserId) {
 	//	Ti.App.Flurry.logTimedEvent('user-profile-own-profile');
@@ -79,6 +80,7 @@ UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
 				var likeObj = {
 								'category': _userInfo.content.likes[i].category,
 								'name': _userInfo.content.likes[i].name, 
+								'is_mutual': _matchInfo.content.likes[i].is_mutual, 
 							};
 				facebookLikeArray.push(likeObj);
 			}
