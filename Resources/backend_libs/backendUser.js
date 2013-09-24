@@ -39,7 +39,7 @@ exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			setTimeout(_callbackFn, 5000);
 		} else {
-			Ti.API.error("something wrong with backendUser.saveEditUserInfo")
+			Ti.API.error("something wrong with backendUser.saveEditUserInfo");
 		}
 	}
 };
@@ -50,6 +50,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	sendingObj.client_version = Ti.App.CLIENT_VERSION;
 	sendingObj.device_id = _userObj.deviceId;
 	sendingObj.device_platform = 'iphone'; 
+	sendingObj.mobile_carrier_code = _userObj.mobileCarrierCode;
 	sendingObj.fb_auth_token = Ti.App.Facebook.accessToken; 
 	sendingObj.latitude = Ti.App.Properties.getDouble('latitude');
 	sendingObj.longitude = Ti.App.Properties.getDouble('longitude');
@@ -81,7 +82,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 	 	xhr.setRequestHeader('Content-Type','application/json');
 	 	
 		var hashVal = Ti.Utils.sha256(sendingObj.user_fb_id + url + Ti.App.NS_HASH_SECRET_KEY);
-		xhr.setRequestHeader('NsHashKey',hashVal);	 	
+		xhr.setRequestHeader('NsHashKey',hashVal);
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	} else {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'mock_data/user_login_result.txt');
@@ -91,7 +92,7 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 			Ti.API.info('userStuff..:'+resultObj.content.user_status);
 			_callbackFn(resultObj);
 		} else {
-			Ti.API.error("something wrong with backendUser.connectToServer")
+			Ti.API.error("something wrong with backendUser.connectToServer");
 		}		
 	}
 };
@@ -134,7 +135,7 @@ exports.getUserInfo = function(_userId, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			_callbackFn(resultObj);
 		} else {
-			Ti.API.error("something wrong with backendUser.getUserInfo")
+			Ti.API.error("something wrong with backendUser.getUserInfo");
 		}		
 	}	
 };
@@ -182,7 +183,7 @@ exports.getUserIdFromFbId = function(_fbId, _callbackFn) {
 			//Ti.API.info('userInfo: '+JSON.stringify(resultObj));
 			_callbackFn(parseInt(resultObj.meta.user_id));
 		} else {
-			Ti.API.error("something wrong with backendUser.getUserIdFromFbId")
+			Ti.API.error("something wrong with backendUser.getUserIdFromFbId");
 		}		
 	}	
 };

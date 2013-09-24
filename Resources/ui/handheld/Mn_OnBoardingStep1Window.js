@@ -46,7 +46,7 @@ OnBoardingStep1Window = function(_userId) {
 		backgroundSelectedImage: 'images/post-onboarding-button-active.png',
 		center: {x:'50%', y:395}, //x:67
 		zIndex: 2,
-	})
+	});
 	
 	var viewProfileButtonText = Ti.UI.createLabel({
 		text: L('Update your profile'),

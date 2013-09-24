@@ -72,7 +72,7 @@ exports.logSystemData = function(_level, _msg, _userId, _fbId) {
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);
 		    	if(resultObj.meta !== undefined && resultObj.meta.status == "ok") {
-					Ti.API.info('logSystemData is working')
+					Ti.API.info('logSystemData is working');
 				}
 		    },
 		    onerror: function(e) {

@@ -303,7 +303,7 @@ Ti.App.Chat = function(_chatParams) {
 			message  : { text : message, senderId: userObject.id, time: Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss")},
 			callback : function(info) {
 				if (!info[0]) setTimeout(function() {
-					send_a_message(message)
+					send_a_message(message);
 				}, 5000 );
 			}
 		});

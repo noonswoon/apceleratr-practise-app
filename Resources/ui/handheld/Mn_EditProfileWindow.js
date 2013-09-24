@@ -340,7 +340,7 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		Ti.App.Facebook.requestWithGraphPath(_photoSelectedEvent.photoId, {fields: 'id,source'}, 'GET', function(e) {
  			var graphObj = JSON.parse(e.result);
  			//saveBtn.enabled = false;
- 			get_remote_file(Ti.App.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete)
+ 			get_remote_file(Ti.App.Facebook.getUid()+"_"+_photoSelectedEvent.photoId+".jpg", graphObj.source, true, onProfileImageError, onProfileImageProgress, onProfileImageComplete);
  		});
 	};
 

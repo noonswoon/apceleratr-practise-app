@@ -158,7 +158,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 				bindId: 'friendImage', 
 				properties: {
 					left: 6, 
-					width: 35, 
+					width: 35,
 					height: 35, 
 					touchEnabled: false, 
 					borderWidth: 1, 
@@ -388,5 +388,5 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	
 	return self;
-}
+};
 module.exports = InviteFriendWindow;

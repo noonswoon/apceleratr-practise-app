@@ -40,7 +40,7 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 			//Ti.API.info(JSON.stringify(invitedList));	
 			_callbackFn(invitedList);
 		} else {
-			Ti.API.error("something wrong with backendInvite.getInvitedList")
+			Ti.API.error("something wrong with backendInvite.getInvitedList");
 		}
 	}
 };

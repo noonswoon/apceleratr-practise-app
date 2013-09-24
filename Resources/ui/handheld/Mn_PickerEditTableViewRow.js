@@ -52,7 +52,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 		width: 34,
 		height: 34,
 		image: topicGlyphImage
-	})
+	});
 	tableRow.add(glyphImage);	
 	
 	tableRow.getFieldName = function() {
@@ -132,7 +132,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 				width: 34,
 				height: 34,
 				image: pickerGlyphImage
-			})
+			});
 			row.add(pickerGlyphImageView);
 		}
 			

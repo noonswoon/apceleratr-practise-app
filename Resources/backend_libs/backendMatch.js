@@ -209,7 +209,7 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 		if(resultObj.meta.status == "ok") {
 			_callbackFn(resultObj);
 		} else {
-			Ti.API.error("something wrong with backendMatch.getConnectedMatch")
+			Ti.API.error("something wrong with backendMatch.getConnectedMatch");
 		}	
 	}	
 };
@@ -317,4 +317,4 @@ exports.setCurrentMatchConnected = function() {
 	//var nowStr = Ti.App.moment("2013-07-04T15:45:24", "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DDTHH:mm:ss"); --testing purposes 
 	var nowStr = Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss");
 	Ti.App.Properties.setString('currentMatchConnectedTime',nowStr);
-}
+};

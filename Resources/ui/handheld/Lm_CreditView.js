@@ -52,7 +52,7 @@ CreditView = function(_credit) {
 		color: '#000',
 		zIndex: 0,
 		opacity: 0.8
-	})
+	});
 	self.add(hundredDigit);
 	self.add(hundredDigitDropShadow);
 	
@@ -63,7 +63,7 @@ CreditView = function(_credit) {
 		font:fontFormat,
 		color: '#6a6c6e',
 		zIndex: 1
-	})
+	});
 	var tenDigitDropShadow = Ti.UI.createLabel({
 		text: '0',
 		top: fontDropShadowTop,
@@ -72,7 +72,7 @@ CreditView = function(_credit) {
 		color: '#000',
 		zIndex: 0,
 		opacity: 0.8
-	})
+	});
 	self.add(tenDigit);
 	self.add(tenDigitDropShadow);
 	
@@ -182,18 +182,10 @@ CreditView = function(_credit) {
 			_newCredit = 9999;
 		
 		var numberArray = computeNumbers(_newCredit);
-		
-		if(_newCredit !== 9999) {
-			setThousandDigit(_newCredit, numberArray[0]);
-			setHundredDigit(_newCredit, numberArray[1]);
-			setTenDigit(_newCredit, numberArray[2]);
-			setUnitDigit(_newCredit, numberArray[3]);
-		} else {
-			setThousandDigit(_newCredit, 'M');
-			setHundredDigit(_newCredit, 'B');
-			setTenDigit(_newCredit, 'E');
-			setUnitDigit(_newCredit, 'R');
-		}
+		setThousandDigit(_newCredit, numberArray[0]);
+		setHundredDigit(_newCredit, numberArray[1]);
+		setTenDigit(_newCredit, numberArray[2]);
+		setUnitDigit(_newCredit, numberArray[3]);
 	};
 	self.setCredit = setCredit; 
 	
@@ -221,5 +213,5 @@ CreditView = function(_credit) {
 	setCredit(_credit);
 	
 	return self;
-}
+};
 module.exports = CreditView;

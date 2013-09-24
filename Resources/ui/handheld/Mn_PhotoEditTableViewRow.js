@@ -143,5 +143,5 @@ PhotoEditTableViewRow = function(_imagesArray) {
 	tableRow.highlightBorder = function() { /* placeholder function */ };	
 	tableRow.resetBorder = function() { /* placeholder function */ };		
 	return tableRow;	
-}
+};
 module.exports = PhotoEditTableViewRow;

@@ -28,7 +28,7 @@ AboutMeTableViewRow = function(_fieldName, _content, _isWhiteBackground) {
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-about.png'
-	})
+	});
 	tableRow.add(glyphImage);
 	
 	//127, 535

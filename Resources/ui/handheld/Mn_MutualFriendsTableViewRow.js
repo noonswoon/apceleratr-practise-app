@@ -58,6 +58,9 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 
 		if(!hasUnlocked) {
 			var userCredit = CreditSystem.getUserCredit();
+			
+			//not charging mutual friends anymore
+/*			
 			if(userCredit < Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT && Ti.App.CUSTOMER_TYPE === 'regular') {
 				var notEnoughCreditsDialog = Titanium.UI.createAlertDialog({
 					title: L('You have '+userCredit+' credits'),
@@ -75,10 +78,13 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 			} else {							
 				//update show_mutual_friends
 				//Ti.API.info('trying to open the MutualFriendsWindow..');
+*/
 				if(!isMutualFriendsWindowOpen) {
 					isMutualFriendsWindowOpen = true;
 					//Ti.API.info('set isMutualFriendsWindowOpen = true');
 					BackendMatch.updateDisplayMutualFriend({matchId: matchId, userId:userId}, function(e) {
+						Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
+						/*
 						if(e.success) {
 							
 							Ti.App.GATracker.trackEvent({
@@ -117,10 +123,10 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 								label: "reveal failed (90% coz not enough credits)",
 								value: 1
 							});
-						}
+						} */
 					});
 				}
-			}
+			//}
 		} else {
 			//open up the window to show friends, should show just once
 			if(!isMutualFriendsWindowOpen) {

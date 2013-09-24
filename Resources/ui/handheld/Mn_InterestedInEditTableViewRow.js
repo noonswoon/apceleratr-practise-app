@@ -30,7 +30,7 @@ InterestedInEditTableViewRow = function(_interestedIn) {
 	});
 	
 	var interestedInLabel = Ti.UI.createLabel({
-		text: L('Interested In'),
+		text: L('I want to be matched with'),
 		top: 15, 
 		left: 17,
 		color: '#4e5866',
@@ -48,10 +48,10 @@ InterestedInEditTableViewRow = function(_interestedIn) {
 	preferenceBackground.add(topEdge);
 
 	var menLabel = Titanium.UI.createLabel({
-		text: L('Men'),
+		text: L('Nice Guys'),
 		top: 15, 
 		left: 64,
-		width: 80,
+		width: 150,
 		height: 20,
 		color:menTextColorValue,
 		font:{fontWeight:'bold',fontSize:18},
@@ -83,10 +83,10 @@ InterestedInEditTableViewRow = function(_interestedIn) {
 	preferenceBackground.add(menChoiceRow);
 
 	var womenLabel = Titanium.UI.createLabel({
-		text: L('Women'),
+		text: L('Cute Girls'),
 		top: 15, 
 		left: 64,
-		width: 80,
+		width: 150,
 		height: 20,
 		color:womenTextColorValue,
 		font:{fontWeight:'bold',fontSize:18},

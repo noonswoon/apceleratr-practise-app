@@ -52,7 +52,7 @@ EducationEditTableViewRow = function(_educationArray) {
 		}
 		
 		if(i > 0) {
-			glyphImageUrl = 'images/glyph/glyph-secondary-education.png'
+			glyphImageUrl = 'images/glyph/glyph-secondary-education.png';
 			var linkImage = Ti.UI.createImageView({
 				top: 45 + (i - 1) * 65,
 				left: 38,

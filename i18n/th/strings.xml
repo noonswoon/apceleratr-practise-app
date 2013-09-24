@@ -34,21 +34,20 @@
 	<string name="You will be receiving a new match">คุณจะได้รับ match ของคุณ</string>
 	<string name="every day at noon">ในตอนเที่ยงของทุกๆวัน</string>
 
-	<string name="Credits">เครดิต</string>	
-	<string name="You have x credits left\n\n">คุณมีเครดิตเหลืออยู่ %s เครดิต\n\n</string>
-	<string name="Get 1 credit for each daily login\n">รับ 1 เครดิตเมื่อเข้าใช้ในแต่ละวัน\n</string>
-	<string name="Get 2 credits for each friend invite\n">รับ 2 เครดิตเมื่อชวนเพื่อนแต่ละคน\n</string>
-	<string name="Use 5 credits to see mutual friends\n">ใช้ 5 เครดิตที่จะดูเพื่อนของเพื่อน\n</string>
-	<string name="Use 10 credits to Like someone">ใช้ 10 เครดิตถ้าคุณจะ ถูกใจ match ของคุณ</string>			
+	<string name="Candy">Candy</string>			
 
 	<string name="My Profile">โปรไฟล์ของฉัน</string>
 	<string name="INVITE OTHER FRIENDS">ชวนเพื่อนคนอื่น</string>
 	<string name="Invite these 5 friends">ชวนเพื่อน 5 คนนี้</string>		
 
 	<string name="Chat with">แชทกับ</string>
-	<string name="Nice to meet you! However, I am just a cartoon.">สวัสดี ยินดีที่ได้รู้จัก แต่ฉันเป็นเพียงแค่การ์ตูน</string>
-	<string name="I would love to meet up with you if I were a real person.">ฉันอยากจะเจอตัวจริงของเธอถ้าฉันเป็นคนจริงๆ</string>
-	<string name="Can you come to the cartoon world?">เธอมาหาฉันในโลกของการ์ตูนได้ไหม</string>
+	
+	<string name="Hi! I am just an intro to show you how the app works! Type ok?">สวัสดี เราเป็นตัวช่วยเหลือเพื่ออธิบายว่าแอพนี้ทำงานอย่างไร ok มั้ย (พิมพ์ ok)</string>
+	<string name="Noonswoon introduces one person to you every day at noon..ok?">Noonswoon จะแนะนำคนใหม่ๆให้คุณ วันละหนึ่งคน ทุกๆตอนเที่ยง ok?</string>
+	<string name="If you like the person, you can press Like..ok?">ถ้าคุณสนใจคนที่แนะนำมา คุณสามารถ Like เขาได้ ซึ่งจะต้องใช้ 10 candy ในการ Like แต่ละครั้ง ok นะ</string>
+	<string name="If the person likes you back, you can start chatting..ok?">ถ้าคนที่คุณสนใจ สนใจคุณเช่นกัน คุณสามารถจะแชทกับเค้าได้ เข้าใจนะ</string>
+	<string name="That's all! Your next match will come at noon tomorrow! Take care :)">เท่านี้แหละ อดใจดูสิว่าตอนเที่ยงของวันพรุ่งนี้ คุณจะได้พบกับใคร Take care! :)</string>
+	
 	<string name="History ends here">ไม่มีข้อมูลแชท</string>
 	<string name="No more chat history with">ไม่มีข้อมูลแชทกับ</string>
 	<string name=". Be confident! Chat up :)"> กล้าๆหน่อย แชทเลย!</string>
@@ -163,12 +162,16 @@
 
 	<string name="Tutorial">วิธีการใช้</string>
 	<string name="Time left until your next match">เวลาจนกว่าระบบจะแนะนำคนโสดคนใหม่ให้่</string>
-	<string name="Like your match for 10 credits">ใช้ 10 เครดิตเพื่อ Like คนที่สนใจ</string>
-	<string name="Reveal mutual friends for 5 credits">ใช้ 5 เครดิตเพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
+	<string name="Like your match for 10 candy">ใช้ 10 candy เพื่อ Like คนที่สนใจ</string>
+	<string name="Reveal mutual friends for 5 candy">ใช้ 5 candy เพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
 	<string name="You have a connection if">มี connection และสามารถแชทกันได้</string>
 	<string name="both of you like each other">ถ้าเราและเขาสนใจและกด Like กันทั้งคู่</string>
 	<string name="Edit your profile">แก้ไขโปรไฟล์ของคุณ</string>
-	<string name="Get more credits">ช่องทางการเพิ่มเครดิต</string>	
+	<string name="Get more candy">ช่องทางการเพิ่ม candy</string>	
+	
+	<string name="Support">ติดต่อเรา</string>
+	<string name="Contact Noonswoon">ติดต่อ Noonswoon</string>
+	<string name="Please let us know what you would like to do">กรุณาอธิบายว่านูนสวูนจะบริการท่านได้อย่างไร</string>		
 		
 	<string name="Log Out">ออกจากระบบ</string>
 	
@@ -234,15 +237,14 @@
 	<string name="Suggestion">ข้อเสนอแนะ</string>
 	<string name="Please let us know how we can make Noonswoon better.">กรุณาแนะนำทีมงานว่าควรปรับปรุง Noonswoon ให้ดีขึ้นได้อย่างไร</string>
 
-	<string name="Buy Credits">ซื้อเครดิต</string>
-	<string name="UNLIMITED">ไม่จำกัด</string>		
-	<string name="Get Free Credits">รับเครดิตฟรี</string>	
+	<string name="Buy Candy">ซื้อ candy</string>
+	<string name="Get Free Candy">รับ candy ฟรี</string>	
 	<string name="Thank you!">ขอบพระคุณ!</string>
 	<string name="Your purchase is complete">ได้รับออร์เดอร์เรียบร้อยแล้ว</string>
 	<string name="Your Noonswoon purchase is restored">ข้อมูลการซื้อของคุณได้รับการอัพเดทแล้ว</string>
 	<string name="There were no Noonswoon purchase to restore">ไม่มีข้อมูลการซื้อใดใดที่ต้องอัพเดท</string>	
 
-	<string name="Credit Package">เครดิตแพ็คเกจ</string>	
+	<string name="Candy Package">Candy แพ็คเกจ</string>	
 	<string name="Enough to Like one person">พอสำหรับใช้ Like หนึ่งคน</string>
 	
 	<string name="Monthly Subscription">มีเครดิตไม่จำกัด</string>	
@@ -253,12 +255,12 @@
 	<string name="20% Savings">รับส่วนลด 20%</string>
 	<string name="50% Savings">รับส่วนลด 50%</string>	
 	
-	<string name="Your Credits">เครดิตของคุณ</string>
-	<string name="How Credits Are Used">ใช้เครดิตได้อย่างไร</string>
+	<string name="Your Candy">Candy ของคุณ</string>
+	<string name="How Candy Are Used">ใช้ candy ได้อย่างไร</string>
 	<string name="Use">ใช้</string>
-	<string name="5 credits">5 เครดิต</string>	
+	<string name="5 candy">5 candy</string>	
 	<string name="to reveal Mutual Friends">ในการแสดงว่าใครคือเพื่อนระหว่างเรา</string>	
-	<string name="10 credits">10 เครดิต</string>
+	<string name="10 candy">10 candy</string>
 	<string name="to like your match">เพื่อที่จะ Like แมทของคุณ</string>
 	
 	<string name="Oops!">Oops!</string>
@@ -266,9 +268,20 @@
 	<string name="geo_purpose">To meet people in your area, please allow Location Access. Your exact location is never displayed.</string>	
 	<string name="You will be notified if your match likes you too">คุณจะได้รับข้อความถ้า match ของคุณ Like คุณเช่นกัน</string>
 
-	<string name="Interested In">คุณมีความสนใจใน</string>
+	<string name="I want to be matched with">คนที่จะแนะนำให้ฉันควรเป็น</string>
 	<string name="This will not be visible on your profile">ข้อมูลนี้จะไม่ปรากฎบนโปรไฟล์ของคุณ</string>
 	<string name="General Information">ข้อมูลทั่วไป</string>	
 	<string name="Men">ผู้ชาย</string>
 	<string name="Women">ผู้หญิง</string>
+	<string name="Nice Guys">หนุ่มแมนๆ</string>
+	<string name="Cute Girls">สาวน่ารักๆ</string>	
+
+	<string name="UNLIMITED">ไม่จำกัด</string>
+	<string name="Redeem candy">แลก candy</string>
+	<string name="Please enter your redeem code">กรุณาใส่ Code จาก SMS เพื่อแลก candy ของคุณ</string>	
+	<string name="Redeem">แลก</string>
+	<string name="Invalid Redeem Code">Code ที่ใส่ไม่ถูกต้อง</string>
+	<string name="Please check your redeem code and enter again">กรุณาตรวจสอบ code และลองอีกครั้ง</string>
+	<string name="You successfully redeemed your candy">การแลก candy ของคุณเสร็จเรียบร้อย</string>
+	<string name="Sorry, your redeem code is invalid/expired.">ขออภัย แต่การเลือก candy ของคุณไม่ผ่าน (code อาจจะผิดหรือหมดอายุแล้ว)</string>	
 </resources>

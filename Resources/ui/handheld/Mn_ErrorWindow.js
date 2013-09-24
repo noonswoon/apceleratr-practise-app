@@ -87,7 +87,7 @@ ErrorWindow = function(_errorMessage, _userId) {
 	contactButton.add(contactButtonText);
 	
 	contactButton.addEventListener('click', function() {
-		var emailDialog = Ti.UI.createEmailDialog()
+		var emailDialog = Ti.UI.createEmailDialog();
 		emailDialog.subject = L("Noonswoon Support");
 		emailDialog.toRecipients = ['support@noonswoon.com'];
 		emailDialog.messageBody = L('\n\n\nPlease let us know what problem you encountered') + ' (UserId: '+_userId + ', MacAddr: '+Ti.Platform.id +').';

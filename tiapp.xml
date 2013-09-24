@@ -8,11 +8,11 @@
         <target device="android">true</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.1.0.GA</sdk-version>
+    <sdk-version>3.1.2.GA</sdk-version>
     <property name="ti.android.threadstacksize" type="int">327680</property>
     <id>com.noonswoon.launch</id>
     <name>Noonswoon</name>
-    <version>2.0</version>
+    <version>2.1</version>
     <publisher>Noonswoon Inc.</publisher>
     <url>http://noonswoon.com</url>
     <description>Love is in the App</description>
@@ -44,8 +44,9 @@
     </mobileweb>
     <modules>
         <module platform="iphone" version="1.1.1">ti.imagefactory</module>
-        <module platform="iphone" version="2.1.1">ti.storekit</module>
+        <module platform="iphone" version="2.1.2">ti.storekit</module>
         <module platform="iphone" version="1.0">analytics.google</module>
+        <module platform="iphone" version="0.81">bencoding.network</module>
         <module platform="iphone">facebook</module>
     </modules>
 </ti:app>

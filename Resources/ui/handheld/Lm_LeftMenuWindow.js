@@ -2,7 +2,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	var CreditSystem = require('internal_libs/creditSystem');
 	var CreditViewModule = require('ui/handheld/Lm_CreditView');
 	var FacebookQuery = require('internal_libs/facebookQuery');
-	
+
 	var self = Titanium.UI.createWindow({
 		top:0,
 		left:0,
@@ -19,7 +19,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 		width: 12,
 		height: '100%',
 		zIndex: 5,
-	})
+	});
 	self.add(menuShadow);
 	
 	// EDIT SECTION
@@ -128,7 +128,6 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	});
 	profileSectionView.add(nameLabel);
 	
-	
 	var leftArrow = Ti.UI.createImageView({
 		image: 'images/menu-separator-arrow.png',
 		top: 25,
@@ -193,11 +192,11 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	});
 	
 	var tutorialGlyph = Ti.UI.createImageView({
-		image: 'images/left_menu/menu-glyph-tutorial.png',
-		top: 12,
-		left: 10,
-		width: 24, 
-		height: 22,
+		image: 'images/left_menu/menu-glyph-chemistry.png',
+		top: 8,
+		left: 14,
+		width: 16, 
+		height: 28,
 	});
 	tutorialSectionView.add(tutorialGlyph);
 	
@@ -212,9 +211,38 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	});
 	tutorialSectionView.add(tutorialText);
 	self.add(tutorialSectionView);
+
+	var contactUsSectionView = Ti.UI.createView({
+		top: 241, 
+		left: 0,
+		width: 260,
+		height: 45,
+		backgroundImage: 'images/menu-row-item.png',
+	});
+	
+	var contactUsGlyph = Ti.UI.createImageView({
+		image: 'images/left_menu/menu-glyph-tutorial.png',
+		top: 12,
+		left: 10,
+		width: 24, 
+		height: 22,
+	});
+	contactUsSectionView.add(contactUsGlyph);
+	
+	var contactUsText = Ti.UI.createLabel({
+		text: L('Support'),
+		color: '#cbc8c8', 
+		font:{fontWeight:'bold',fontSize:18},
+		top: 12,
+		left: 48,
+		shadowColor: '#343333', 
+		shadowOffset: {x:0, y:1}	
+	});
+	contactUsSectionView.add(contactUsText);
+	self.add(contactUsSectionView);
 	
 	var logoutSectionView = Ti.UI.createView({
-		top: 241, 
+		top: 286, 
 		left: 0,
 		width: 260,
 		height: 45,
@@ -231,7 +259,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	logoutSectionView.add(logoutGlyph);
 	
 	var logoutText = Ti.UI.createLabel({
-		text: L('Log out'),
+		text: L('Log Out'),
 		color: '#cbc8c8', 
 		font:{fontWeight:'bold',fontSize:18},
 		top: 12,
@@ -307,7 +335,29 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 			value: 1
 		});
 	});
-		
+
+	contactUsSectionView.addEventListener('touchstart', function() {
+		contactUsSectionView.backgroundImage = 'images/menu-row-item-active.png';
+	});
+	
+	contactUsSectionView.addEventListener('touchcancel', function() {
+		contactUsSectionView.backgroundImage = 'images/menu-row-item.png';
+	});
+	
+	contactUsSectionView.addEventListener('touchend', function() {
+		contactUsSectionView.backgroundImage = 'images/menu-row-item.png';
+	});
+
+	contactUsSectionView.addEventListener('click', function() {
+		Ti.App.fireEvent('contactUsEmailDialog');
+		var emailDialog = Ti.UI.createEmailDialog();
+		emailDialog.subject = L("Contact Noonswoon");
+		emailDialog.toRecipients = ['contact@noonswoon.com'];
+		emailDialog.messageBody = L('Please let us know what you would like to do') + '\n\n\n\n\n\n(UserId: ' + _userId + ').';
+		emailDialog.barColor = '#850f16';
+		emailDialog.open();
+	});
+
 	logoutSectionView.addEventListener('touchstart', function() {
 		logoutSectionView.backgroundImage = 'images/menu-row-item-active.png';
 	});
@@ -360,5 +410,5 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	};
 			
 	return self;
-}
+};
 module.exports = LeftMenuWindow;

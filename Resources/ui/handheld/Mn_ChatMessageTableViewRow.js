@@ -286,5 +286,5 @@ ChatMessageTableViewRow = function(_chatMessage, _chatOwner, _isASender) {
 	};
 		
 	return self;
-}
+};
 module.exports = ChatMessageTableViewRow;

@@ -43,7 +43,7 @@ TextFieldEditTableViewRow = function(_fieldName, _content) {
 		width: 34,
 		height: 34,
 		image: topicGlyphImage
-	})
+	});
 	tableRow.add(glyphImage);	
 	
 	contentTextfield.addEventListener('focus', function() {

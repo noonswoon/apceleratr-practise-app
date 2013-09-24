@@ -69,6 +69,7 @@ MatchWindow = function(_userId, _matchId) {
 			var likeObj = {
 							'category': _matchInfo.content.likes[i].category,
 							'name': _matchInfo.content.likes[i].name, 
+							'is_mutual': _matchInfo.content.likes[i].is_mutual, 
 						};
 			facebookLikeArray.push(likeObj);
 		}
@@ -191,7 +192,7 @@ MatchWindow = function(_userId, _matchId) {
 			whiteOrGrayFlag = !whiteOrGrayFlag; 
 		}
 		
-		var fbLikeCollection = ModelFacebookLike.getFiveRandomFacebookLike(_matchInfo.content.general.user_id);
+		var fbLikeCollection = ModelFacebookLike.getAllFacebookLike(_matchInfo.content.general.user_id);
 		if(fbLikeCollection.length > 0) {
 			var fbLikeTableViewRow = new FbLikeTableViewRow('fb_like', fbLikeCollection, whiteOrGrayFlag);
 			matchProfileData.push(fbLikeTableViewRow);

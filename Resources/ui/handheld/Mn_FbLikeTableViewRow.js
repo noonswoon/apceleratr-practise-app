@@ -12,7 +12,11 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		return 65 + widthForCapsuleText; //4 * (strLen - 4); //set up for 4 characters, +15 for padding
 	};
 	
-	var createLikeCapsuleContent = function(_category, _content) {
+	var createLikeCapsuleContent = function(_category, _content, _isMutual) {
+		var contentColor = '#4e5866';
+		if(_isMutual) {
+			contentColor = '#e01124';
+		}
 		var glyphImageUrl = GlyphGraphicsHelper.getLikeGlyph(_category);
 
 		var displayContent = _content;
@@ -23,7 +27,6 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 			image: glyphImageUrl,
 			left: 10, 
 			top: 7,
-//			center: {x:15, y:'50%'},
 			height: 10,
 			width: 10,
 			zIndex: 3
@@ -33,9 +36,8 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 			text: displayContent,
 			left: 25, 
 			top: 5,
-//			center: {x: 50, y:'50%'},
 			font:{fontWeight:'bold',fontSize:10},
-			color: '#4e5866', 
+			color: contentColor, 
 			zIndex: 2,
 		});
 		
@@ -55,25 +57,28 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 	//calculate how many rows of like do we need out of 5 contents -- cut off on the right side is when left + width > 310
 	//calculating number of rows needed
 	var numRows = 1;
-	var capsuleEndPoint = 64;
+
 	var capsuleStartPoint = 64;
+	var capsuleEndPoint = 64;
 	var nextStartPoint = 64;
 	var likeContentArray = []; 
 	
+	var firstLikeOfRow = true;
+	
 	for(var i = 0; i < _fbLikeArray.length; i++) {
 		var curLikeStr = _fbLikeArray[i].name; 
-		
-		var likeContent = createLikeCapsuleContent(_fbLikeArray[i].category, curLikeStr);
+		var isMutualLike = _fbLikeArray[i].is_mutual;
+		var likeContent = createLikeCapsuleContent(_fbLikeArray[i].category, curLikeStr, isMutualLike);
 		likeContent.top = 18 + (numRows - 1) * 35;
 		likeContent.left = capsuleStartPoint;
-
+		
 		var strWidth = StrWidthHelper.computeStrWidth(curLikeStr);	
 		var curCapsuleWidth = calculateCapsuleWidth(strWidth);
 		var capsuleEndPoint = capsuleStartPoint + curCapsuleWidth;
 		nextStartPoint = capsuleEndPoint + 10;
 		if(nextStartPoint > 310 || capsuleEndPoint > 310) {
 			numRows++; 
-			capsuleStartPoint = 64; 
+			capsuleStartPoint = 25; //from 2nd row onwards, move the first Like to a bit to the left
 			capsuleEndPoint = capsuleStartPoint + curCapsuleWidth;
 			
 			likeContent.top = 18 + (numRows - 1) * 35;
@@ -89,9 +94,12 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		top: 0,
 		left: 0,
 		width: '100%',
-		height: 100 + (numRows - 2) * 25,
+		height: 100 + (numRows - 2) * 35,
 		backgroundImage: 'images/match-bottom-box.png',
 	});
+
+	Ti.API.info('numRows: '+numRows + ' , height: '+ (100 + (numRows - 2) * 35));
+
 
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -102,7 +110,7 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		width: 34,
 		height: 34,
 		image: 'images/glyph/glyph-likes.png'
-	})
+	});
 	tableRow.add(glyphImage);
 	
 	
