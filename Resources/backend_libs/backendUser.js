@@ -3,6 +3,7 @@
  */
 exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	var fnSrc = 'backendUser.saveEditUserInfo';
+	_editObj.user_id = _userId; 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/edit/"+_userId;
 		var xhr = Ti.Network.createHTTPClient({
