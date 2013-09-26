@@ -66,12 +66,12 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), Ti.App.Facebook.uid, null);
 					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), Ti.App.Facebook.uid, null);
 	        	_callbackFn({success:false});		
 		    },
 		    timeout:50000  // in milliseconds
