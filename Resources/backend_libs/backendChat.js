@@ -118,6 +118,7 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 };
 
 exports.saveChatMessage = function(_messageObj, _callbackFn) {
+	var fnSrc = 'backendChat.saveChatMessage';
 	var sendingObj = {}; 
 	sendingObj.match_id = _messageObj.matchId; 
 	sendingObj.message = _messageObj.message;
