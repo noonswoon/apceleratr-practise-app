@@ -19,13 +19,13 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	var isActionTaken = false;
 	
 	if(_forcedInvite) {
-		if(Ti.App.NUM_INVITE_ALL <= 0) {
+		if(Ti.App.NUM_INVITE_BEFORE_SIGNUP <= 0) {
 			descriptionText1 = L('Invite some friends to get started');	
 			descriptionText2 = "";
 			descriptionText3 = "";	
 		} else {
 			descriptionText1 = L('Invitex');	
-			descriptionText2 = String.format(L('x friends'), (Ti.App.NUM_INVITE_ALL+''));
+			descriptionText2 = String.format(L('x friends'), (Ti.App.NUM_INVITE_BEFORE_SIGNUP+''));
 			descriptionText3 = L('to get started');	
 		}
 		textOffset1 = 62;
@@ -80,7 +80,7 @@ InviteFriendWindow = function(_navGroup, _userId, _forcedInvite) {
 	});
 	
 	if(_forcedInvite) {
-		if(Ti.App.NUM_INVITE_ALL === 0) {
+		if(Ti.App.NUM_INVITE_BEFORE_SIGNUP === 0) {
 			self.leftNavButton = skipButton;
 		} else {
 			self.leftNavButton = emptyView;

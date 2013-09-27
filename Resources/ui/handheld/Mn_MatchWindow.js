@@ -41,7 +41,48 @@ MatchWindow = function(_userId, _matchId) {
 		self.leftNavButton = backButton;
 		showLikePassButtons = false;
 	}	
-				
+	
+	if(Ti.App.isCampaignOn) {
+		var campaignBannerView = Ti.UI.createView({
+			bottom: 0, 
+			width: '100%', 
+			height: 44,
+			backgroundColor: '#4a4949',
+			opacity: 0.9,
+			zIndex:3
+		});
+		
+		var campaignTextLabel = Ti.UI.createLabel({
+			text: Ti.App.CampaignMessage, 
+			font:{fontWeight:'bold',fontSize:14},
+			color: '#cbc8c8',
+			center: {x:'50%', y:'50%'},
+		});
+		campaignBannerView.add(campaignTextLabel);
+		
+		var closeBannerIcon = Ti.UI.createImageView({
+			image: 'images/edit/topbar-glyph-cancel.png',
+			top:2,
+			right: 2,
+			height: 12, 
+			width: 12
+		});
+		campaignBannerView.add(closeBannerIcon);
+		
+		self.add(campaignBannerView);
+		
+		closeBannerIcon.addEventListener('click', function(e) {
+			e.cancelBubble = true;
+			self.remove(campaignBannerView);
+		});
+		
+		campaignBannerView.addEventListener('click', function(e) {
+			var CampaignWindowModule = require('ui/handheld/Mn_CampaignWindow');
+			var campaignWindow = new CampaignWindowModule(navGroup, _userId);
+			navGroup.open(campaignWindow);
+		});
+	}			
+
 	var contentView = Ti.UI.createTableView({
 		top:0,
 		backgroundColor:'#eeeeee',
@@ -282,6 +323,10 @@ MatchWindow = function(_userId, _matchId) {
 					BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 						if(_matchInfo.success) {							
 							doHouseKeepingTasks(_matchInfo.meta.ios_version);			
+							
+							//should return whether the promotional campaign is On or not
+							//also with CampaignMessage message
+							
 							contentView.data = populateMatchDataTableView(_matchInfo);	
 							
 							if(_matchInfo.content.is_connected) {

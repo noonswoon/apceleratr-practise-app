@@ -23,13 +23,14 @@ Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship
 							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
 Ti.App.Facebook.forceDialogAuth = false;
 Ti.App.isTrackingOn = false;
+Ti.App.isCampaignOn = true;
+Ti.App.CampaignMessage = 'Win a romantic dinner with Noonswoon-AIS';
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
 Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
 Ti.App.OFFERED_CITIES = '';
-Ti.App.NUM_TOP_FRIENDS = 5; 
-Ti.App.NUM_INVITE_ALL = 5;
+Ti.App.NUM_INVITE_BEFORE_SIGNUP = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
 Ti.App.Properties.setString('clientVersion',Ti.App.CLIENT_VERSION);
 Ti.App.LOGENTRIES_TOKEN = "02058f2f-7caf-4da0-9da8-996537c31122";
@@ -75,11 +76,6 @@ Ti.App.LogSystem = require('internal_libs/logSystem');
 var GA = require('analytics.google');
 Ti.App.GATracker = GA.getTracker("UA-37497639-2");
 
-//Ti.App.Flurry = require('ti.flurry');
-//Ti.App.Flurry.debugLogEnabled = true;
-//Ti.App.Flurry.eventLoggingEnabled = true;
-//Ti.App.Flurry.initialize('Y5G7SF86VBTQ5GGWQFT5');
-
 Ti.App.Storekit = require('ti.storekit');
 Ti.App.Storekit.receiptVerificationSandbox = true;
 Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
@@ -90,11 +86,6 @@ var FacebookFriendModel = require('model/facebookFriend');
 var FacebookQuery = require('internal_libs/facebookQuery');
 var ModelMetaData = require('model/metaData');
 var UrbanAirship = require('external_libs/UrbanAirship');
-
-//bootstrap and check dependencies
-if (Ti.version < 1.8 ) {
-	alert('Sorry - this application template requires Titanium Mobile SDK 1.8 or later');	  	
-}
 
 // This is a single context application with multiple windows in a stack
 (function() {
@@ -262,6 +253,8 @@ if (Ti.version < 1.8 ) {
 					if(e.content.tracking !== undefined && e.content.tracking)
 						Ti.App.isTrackingOn = true;
 					
+					//update Ti.App.isCampaignOn, Ti.App.CampaignMessage here
+					
 					if(Ti.App.isTrackingOn) {	
 						if(InstallTracking.isFirstTimeAppOpen()) {
 							//redirect to the webview to get cookies
@@ -276,8 +269,8 @@ if (Ti.version < 1.8 ) {
 					ModelEthnicity.populateEthnicity(e.content.ethnicity);
 					ModelTargetedCity.populateTargetedCity(e.content.city);
 	
-					Ti.App.NUM_INVITE_ALL = e.content.invites_signup; 
-					Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_ALL);
+					Ti.App.NUM_INVITE_BEFORE_SIGNUP = e.content.invites_signup; 
+					Ti.App.Properties.setInt('invitesSignup',Ti.App.NUM_INVITE_BEFORE_SIGNUP);
 					Ti.App.OFFERED_CITIES = e.content.city;  //need to put this guy in the db
 
 					if(e.content.religion.length > 0 && e.content.ethnicity.length > 0 && e.content.city.length > 0) {
@@ -288,9 +281,9 @@ if (Ti.version < 1.8 ) {
 			});
 		} else {
 			if(Ti.App.Properties.hasProperty('invitesSignup')) {
-				Ti.App.NUM_INVITE_ALL = Ti.App.Properties.getInt('invitesSignup');			
+				Ti.App.NUM_INVITE_BEFORE_SIGNUP = Ti.App.Properties.getInt('invitesSignup');			
 			} else {
-				Ti.App.NUM_INVITE_ALL = 5;
+				Ti.App.NUM_INVITE_BEFORE_SIGNUP = 5;
 			}
 			Ti.App.OFFERED_CITIES = ModelTargetedCity.getTargetedCity();
 			Ti.App.fireEvent('doneWaitingEvent');
