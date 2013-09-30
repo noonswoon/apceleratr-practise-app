@@ -12,7 +12,7 @@ Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
 Ti.App.CLIENT_VERSION = '2.1';
-Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_PRODUCTION_BUILD = false;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
@@ -24,7 +24,7 @@ Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship
 Ti.App.Facebook.forceDialogAuth = false;
 Ti.App.isTrackingOn = false;
 Ti.App.isCampaignOn = false;
-Ti.App.campaignMessage = 'Win a romantic dinner with Noonswoon-AIS';
+Ti.App.campaignMessage = '';
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
