@@ -28,9 +28,9 @@ CampaignWindow = function(_navGroup, _userId) {
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
 
-	var campaignImageUrl = 'https://noonswoon.com/image/campaign.png'; 
+	var campaignImageUrl = 'https://noonswoon.com/image/cimg/campaign.png'; 
 	if(iphone5Flag) {
-		campaignImageUrl = 'https://noonswoon.com/image/campaign-568.png'; 
+		campaignImageUrl = 'https://noonswoon.com/image/cimg/campaign-568.png'; 
 	}
 	
 	var promotionalImage = Ti.UI.createImageView({
