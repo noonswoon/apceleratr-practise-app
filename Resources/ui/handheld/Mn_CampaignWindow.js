@@ -28,11 +28,12 @@ CampaignWindow = function(_navGroup, _userId) {
 		_navGroup.close(self, {animated:true}); //go to the main screen
 	});
 
-	var campaignImageUrl = Ti.App.API_SERVER + 'image/cimg/campaign.png'; 
+	var campaignImageUrl = 'http://noonswoon.com/image/cimg/campaign.png'; 
 	if(iphone5Flag) {
-		campaignImageUrl = Ti.App.API_SERVER + 'image/cimg/campaign-568.png'; 
+		campaignImageUrl = 'http://noonswoon.com/image/cimg/campaign-568.png'; 
 	}
 	
+	Ti.API.info(campaignImageUrl);
 	var promotionalImage = Ti.UI.createImageView({
 		image: campaignImageUrl,
 		height: '100%',
