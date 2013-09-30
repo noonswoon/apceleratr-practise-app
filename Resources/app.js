@@ -23,8 +23,8 @@ Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship
 							'user_photos', 'user_about_me', 'friends_location', 'friends_relationships'];					
 Ti.App.Facebook.forceDialogAuth = false;
 Ti.App.isTrackingOn = false;
-Ti.App.isCampaignOn = true;
-Ti.App.CampaignMessage = 'Win a romantic dinner with Noonswoon-AIS';
+Ti.App.isCampaignOn = false;
+Ti.App.campaignMessage = 'Win a romantic dinner with Noonswoon-AIS';
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
@@ -253,7 +253,8 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 					if(e.content.tracking !== undefined && e.content.tracking)
 						Ti.App.isTrackingOn = true;
 					
-					//update Ti.App.isCampaignOn, Ti.App.CampaignMessage here
+					Ti.App.isCampaignOn = e.content.is_campaign_on;
+					Ti.App.campaignMessage = e.content.campaign_message;
 					
 					if(Ti.App.isTrackingOn) {	
 						if(InstallTracking.isFirstTimeAppOpen()) {

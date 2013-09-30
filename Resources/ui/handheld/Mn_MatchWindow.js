@@ -42,46 +42,57 @@ MatchWindow = function(_userId, _matchId) {
 		showLikePassButtons = false;
 	}	
 	
-	if(Ti.App.isCampaignOn) {
-		var campaignBannerView = Ti.UI.createView({
-			bottom: 0, 
-			width: '100%', 
-			height: 44,
-			backgroundColor: '#4a4949',
-			opacity: 0.9,
-			zIndex:3
-		});
-		
-		var campaignTextLabel = Ti.UI.createLabel({
-			text: Ti.App.CampaignMessage, 
-			font:{fontWeight:'bold',fontSize:14},
-			color: '#cbc8c8',
-			center: {x:'50%', y:'50%'},
-		});
-		campaignBannerView.add(campaignTextLabel);
-		
-		var closeBannerIcon = Ti.UI.createImageView({
-			image: 'images/edit/topbar-glyph-cancel.png',
-			top:2,
-			right: 2,
-			height: 12, 
-			width: 12
-		});
-		campaignBannerView.add(closeBannerIcon);
-		
-		self.add(campaignBannerView);
-		
-		closeBannerIcon.addEventListener('click', function(e) {
-			e.cancelBubble = true;
-			self.remove(campaignBannerView);
-		});
-		
-		campaignBannerView.addEventListener('click', function(e) {
-			var CampaignWindowModule = require('ui/handheld/Mn_CampaignWindow');
-			var campaignWindow = new CampaignWindowModule(navGroup, _userId);
-			navGroup.open(campaignWindow);
-		});
-	}			
+	var campaignBannerView = Ti.UI.createView({
+		bottom: 0, 
+		width: '100%', 
+		height: 44,
+		backgroundColor: '#4a4949',
+		opacity: 0.9,
+		zIndex:3
+	});
+	
+	var campaignTextLabel = Ti.UI.createLabel({
+		text: '', 
+		font:{fontWeight:'bold',fontSize:14},
+		color: '#cbc8c8',
+		center: {x:'50%', y:'50%'},
+	});
+	campaignBannerView.add(campaignTextLabel);
+
+	var closeBannerIcon = Ti.UI.createImageView({
+		image: 'images/edit/topbar-glyph-cancel.png',
+		top:2,
+		right: 2,
+		height: 12, 
+		width: 12
+	});
+	campaignBannerView.add(closeBannerIcon);
+			
+	closeBannerIcon.addEventListener('click', function(e) {
+		e.cancelBubble = true;
+		self.remove(campaignBannerView);
+	});
+			
+	campaignBannerView.addEventListener('click', function(e) {
+		var CampaignWindowModule = require('ui/handheld/Mn_CampaignWindow');
+		var campaignWindow = new CampaignWindowModule(navGroup, _userId);
+		navGroup.open(campaignWindow);
+	});
+	
+	var isBannerOn = false;
+	var manageCampaignBanner = function() {
+		if(Ti.App.isCampaignOn) {
+			campaignTextLabel.text = Ti.App.campaignMessage;
+			isBannerOn = true;
+			self.add(campaignBannerView);	
+		} else {
+			if(isBannerOn) {
+				self.remove(campaignBannerView); 
+				isBannerOn = false;
+			}
+		}
+	};			
+	manageCampaignBanner();
 
 	var contentView = Ti.UI.createTableView({
 		top:0,
@@ -94,14 +105,14 @@ MatchWindow = function(_userId, _matchId) {
 								
 	var dataForProfile = [];
 	
-	function educationCmpFn(a, b) {
+	var educationCmpFn = function(a, b) {
 		if(a.value < b.value) return -1; 
 		else if(a.value > b.value) return 1;
 		else return 0;
-	}
+	};
 	
 	var mutualFriendsRow  = null;
-	function populateMatchDataTableView(_matchInfo) {
+	var populateMatchDataTableView = function(_matchInfo) {
 		Ti.App.GATracker.trackScreen("MatchScreen");
 		
 		var facebookLikeArray = [];
@@ -230,7 +241,7 @@ MatchWindow = function(_userId, _matchId) {
 		if(_matchInfo.content['about_me'] !== "" ) {	
 			var aboutMeTableViewRow = new AboutMeTableViewRow('about_me', _matchInfo.content['about_me'], whiteOrGrayFlag);
 			matchProfileData.push(aboutMeTableViewRow);
-			whiteOrGrayFlag = !whiteOrGrayFlag; 
+			whiteOrGrayFlag = !whiteOrGrayFlag;
 		}
 		
 		var fbLikeCollection = ModelFacebookLike.getAllFacebookLike(_matchInfo.content.general.user_id);
@@ -254,7 +265,7 @@ MatchWindow = function(_userId, _matchId) {
 		matchProfileData.push(reportProfileTableViewRow);
 
 		return matchProfileData; 
-	}
+	};
 	
 	var doHouseKeepingTasks = function(_iOSVersion) {
 		var RateReminder = require('internal_libs/rateReminder');
@@ -272,6 +283,10 @@ MatchWindow = function(_userId, _matchId) {
 		BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 			if(_matchInfo.success) {
 				doHouseKeepingTasks(_matchInfo.meta.ios_version);
+				Ti.App.isCampaignOn = _matchInfo.content.is_campaign_on;
+				Ti.App.campaignMessage = _matchInfo.content.campaign_message;
+				manageCampaignBanner();
+				
 				contentView.data = populateMatchDataTableView(_matchInfo);
 				self.add(contentView);
 				
@@ -323,9 +338,9 @@ MatchWindow = function(_userId, _matchId) {
 					BackendMatch.getLatestMatchInfo(_userId, function(_matchInfo) {
 						if(_matchInfo.success) {							
 							doHouseKeepingTasks(_matchInfo.meta.ios_version);			
-							
-							//should return whether the promotional campaign is On or not
-							//also with CampaignMessage message
+							Ti.App.isCampaignOn = _matchInfo.content.is_campaign_on;
+							Ti.App.campaignMessage = _matchInfo.content.campaign_message;
+							manageCampaignBanner();
 							
 							contentView.data = populateMatchDataTableView(_matchInfo);	
 							
