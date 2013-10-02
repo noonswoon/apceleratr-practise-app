@@ -6,7 +6,6 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	if(Ti.App.LIVE_DATA) {
 		
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_unread_msg/"+_paramObj.userId;
-		Ti.API.info('getUnreadChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -41,7 +40,6 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	var fnSrc = 'backendChat.getAllChatHistory';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_all_chat_history/"+_paramObj.userId;
-		Ti.API.info('getAllChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -80,7 +78,6 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 	var fnSrc = 'backendChat.getChatHistory';
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER + "chat/"+_paramObj.matchId+"/get_chat_history/"+_paramObj.userId+"/"+_paramObj.page;
-		//Ti.API.info('getChatHistory api point: '+url);
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -118,6 +115,7 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 };
 
 exports.saveChatMessage = function(_messageObj, _callbackFn) {
+	var fnSrc = 'backendChat.saveChatMessage';
 	var sendingObj = {}; 
 	sendingObj.match_id = _messageObj.matchId; 
 	sendingObj.message = _messageObj.message;
@@ -151,7 +149,8 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
 
-		var hashVal = Ti.Utils.sha256(sendingObj.senderId + url + Ti.App.NS_HASH_SECRET_KEY);
+		var hashVal = Ti.Utils.sha256(sendingObj.sender_id + url + Ti.App.NS_HASH_SECRET_KEY);
+		//var hashVal = Ti.Utils.sha256('undefined' + url + Ti.App.NS_HASH_SECRET_KEY);
 		xhr.setRequestHeader('NsHashKey',hashVal);	 	
 		xhr.send(JSON.stringify(sendingObj));  // request is actually sent with this statement		
 	}

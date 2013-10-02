@@ -176,7 +176,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		
 				// set image view
 				if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-					photoEditTableViewRow.setImage(galleryImage, photoSelectedOrder, true);
+					if(photoEditTableViewRow !== null) {
+						photoEditTableViewRow.setImage(galleryImage, photoSelectedOrder, true);
+					}
 				}
 				else {
 					// is this necessary?
@@ -196,7 +198,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 				//var cropRect = event.cropRect;
 				var cameraImage = event.media;
 				if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-					photoEditTableViewRow.setImage(cameraImage, photoSelectedOrder, true);	
+					if(photoEditTableViewRow !== null) {
+						photoEditTableViewRow.setImage(cameraImage, photoSelectedOrder, true);	
+					}
 				} else {
 					alert("got the wrong type back ="+event.mediaType);
 				}
@@ -327,8 +331,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	function onProfileImageComplete(filename){
 		//Ti.API.info('complete loading file: '+JSON.stringify(file));
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
-		photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder, true);	
-		//saveBtn.enabled = true;
+		if(photoEditTableViewRow !== null) {
+			photoEditTableViewRow.setImage(loadedImageFile, photoSelectedOrder, true);	
+		}
 	}
 
 	function onProfileImageProgress(progress){
@@ -371,7 +376,12 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		var isSomethingModified = false;
 		
 		//images
-		var imagesArray = photoEditTableViewRow.getImages();
+		var imagesArray = []; 
+		
+		if(photoEditTableViewRow !== null) {
+			imagesArray = photoEditTableViewRow.getImages();
+		}
+		
 		for(var i = 0; i < imagesArray.length; i++) {
 			if(imagesArray[i].modified) {
 				isSomethingModified = true;
@@ -417,7 +427,11 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 		//profile image and height must be present
 		
 		//images
-		var imagesArray = photoEditTableViewRow.getImages();
+		var imagesArray = []; 
+		if(photoEditTableViewRow !== null) {
+			imagesArray = photoEditTableViewRow.getImages();
+		}
+
 		for(var i = 0; i < imagesArray.length; i++) {
 			Ti.API.info('image modified: '+imagesArray[i].modified);
 			if(imagesArray[i].modified) {
@@ -542,7 +556,9 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 	function onInitialLoadProfileImageComplete(filename) {
 		var orderPic = parseInt((filename.split('.')[0]).slice(-1));
 		var loadedImageFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,filename).read(); //read() turns it into blob -- consistent with Gallery and Camera
-		photoEditTableViewRow.setImage(loadedImageFile, orderPic, false);	
+		if(photoEditTableViewRow !== null) {
+			photoEditTableViewRow.setImage(loadedImageFile, orderPic, false);	
+		}
 		//saveBtn.enabled = true;
 	}
 		

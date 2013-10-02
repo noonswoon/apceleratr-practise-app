@@ -54,8 +54,8 @@ OnBoardingStep2Window = function(_userId) {
 		zIndex: 2,
 	});
 	
-	var buttonTextStr = String.format(L('invite x friends'), (Ti.App.NUM_INVITE_ALL+"")); 
-	if(Ti.App.NUM_INVITE_ALL === 0) {
+	var buttonTextStr = String.format(L('invite x friends'), (Ti.App.NUM_INVITE_BEFORE_SIGNUP+"")); 
+	if(Ti.App.NUM_INVITE_BEFORE_SIGNUP === 0) {
 		buttonTextStr = "Invite Friends";
 	}
 	var buttonText = Ti.UI.createLabel({

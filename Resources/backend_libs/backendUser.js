@@ -3,6 +3,7 @@
  */
 exports.saveEditUserInfo = function(_userId, _editObj, _callbackFn) {
 	var fnSrc = 'backendUser.saveEditUserInfo';
+	_editObj.user_id = _userId; 
 	if(Ti.App.LIVE_DATA) {
 		var url = Ti.App.API_SERVER+ "user/edit/"+_userId;
 		var xhr = Ti.Network.createHTTPClient({
@@ -66,12 +67,12 @@ exports.connectToServer = function(_userObj, _callbackFn) {
 					resultObj.success = true;
 					_callbackFn(resultObj);
 				} else {
-					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), _userId, null);
+					Ti.App.LogSystem.logSystemData('error', fnSrc + ', description:'+JSON.stringify(resultObj), Ti.App.Facebook.uid, null);
 					_callbackFn({success:false});
 				}
 		    },
 		    onerror: function(e) {
-	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), _userId, null);
+	        	Ti.App.LogSystem.logSystemData('error', fnSrc + ', onerror:Network Error desc: '+JSON.stringify(e), Ti.App.Facebook.uid, null);
 	        	_callbackFn({success:false});		
 		    },
 		    timeout:50000  // in milliseconds

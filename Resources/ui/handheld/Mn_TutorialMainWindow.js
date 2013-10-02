@@ -54,8 +54,7 @@ TutorialMainWindow = function() {
 		center: {x:'50%', y:'95%'},
 		width: 57, 
 		height: 28,
-		zIndex: 2, 
-		opacity: 0
+		zIndex: 2
 	});
 	
 	var doneButtonText = Ti.UI.createLabel({
@@ -69,50 +68,11 @@ TutorialMainWindow = function() {
 	});
 	doneButton.add(doneButtonText);	
 	self.add(doneButton);
-
-	var doneButtonVisible = false;
-	var paginationUpAnimation = Titanium.UI.createAnimation({
-        curve:Ti.UI.ANIMATION_CURVE_EASE_IN_OUT,
-        bottom:45,
-        duration:300
-    }); 
-    
-	var paginationDownAnimation = Titanium.UI.createAnimation({
-        curve:Ti.UI.ANIMATION_CURVE_EASE_OUT,
-        bottom:15,
-        duration:500
-    });
-    
-	var buttonInAnimation = Titanium.UI.createAnimation({
-        curve:Ti.UI.ANIMATION_CURVE_EASE_IN,
-        opacity:1,
-        duration:500
-    }); 
-    
-	var buttonOutAnimation = Titanium.UI.createAnimation({
-        curve:Ti.UI.ANIMATION_CURVE_EASE_OUT,
-        opacity:0,
-        duration:200
-    });     
 	
 	var pagingControl = new CustomPagingControl(scrollView);
-	pagingControl.bottom = 15;
+	pagingControl.bottom = 45;
 	self.add(pagingControl); 
 	self.add(scrollView);	
-	
-	scrollView.addEventListener('scrollend', function(e) {
-		if(scrollView.currentPage === 2) {
-			doneButton.animate(buttonInAnimation);
-			pagingControl.animate(paginationUpAnimation);
-			doneButtonVisible = true;
-		} else {
-			if(doneButtonVisible) {
-				doneButtonVisible = false;
-				doneButton.animate(buttonOutAnimation);
-				pagingControl.animate(paginationDownAnimation);
-			}
-		}
-	});
 	
 	doneButton.addEventListener('click', function() {
 		self.close();

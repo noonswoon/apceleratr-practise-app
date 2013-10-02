@@ -147,7 +147,7 @@ RedeemCreditWindow = function(_navGroup, _userId) {
 	self.add(redeemDescLabel1); 
 
 	var redeemDescLabel2 = Ti.UI.createLabel({
-		text: '*40020010000 สำหรับ 10 candy ในราคา 29 บาท',
+		text: '*40020010000 สำหรับ 15 candy ในราคา 29 บาท',
 		center: {x:'50%', y:280}, //x:67
 		color: '#666666',
 		font:{fontSize:14},
@@ -155,7 +155,7 @@ RedeemCreditWindow = function(_navGroup, _userId) {
 	self.add(redeemDescLabel2); 
 	
 	var redeemDescLabel3 = Ti.UI.createLabel({
-		text: '*40020020000 สำหรับ 50 ในราคา 99 บาท',
+		text: '*40020020000 สำหรับ 60 candy ในราคา 99 บาท',
 		center: {x:'50%', y:305}, //x:67
 		color: '#666666',
 		font:{fontSize:14},
