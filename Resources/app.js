@@ -12,7 +12,7 @@ Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
 Ti.App.CLIENT_VERSION = '2.1';
-Ti.App.IS_PRODUCTION_BUILD = true;
+Ti.App.IS_PRODUCTION_BUILD = false;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
@@ -28,7 +28,7 @@ Ti.App.campaignMessage = '';
 
 Ti.App.DATABASE_NAME = "Noonswoon";
 Ti.App.LIKE_CREDITS_SPENT = 10;
-Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 5;
+Ti.App.UNLOCK_MUTUAL_FRIEND_CREDITS_SPENT = 0;
 Ti.App.OFFERED_CITIES = '';
 Ti.App.NUM_INVITE_BEFORE_SIGNUP = 5;
 Ti.App.MAXIMUM_FB_INVITES_PER_DAY = 50;
