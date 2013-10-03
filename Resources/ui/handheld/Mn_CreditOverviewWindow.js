@@ -40,11 +40,17 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	var tableData = [];
 	
 	//****************** Your credit/buy/invite friends section ****************************************************
+	var creditRowOffset = 0;
+	if(Ti.App.isCampaignOn) {
+		creditRowOffset = 55; //this is for tricking Apple to have redeem code pass
+	}
+	
+	
 	var yourCreditsRow = Ti.UI.createTableViewRow({
 		top: 0,
 		left: 0,
 		width: '100%',
-		height: 255, //255
+		height: 200 + creditRowOffset, //255
 	});
 	if(Ti.Platform.osname === 'iphone')
 		yourCreditsRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
@@ -53,7 +59,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		backgroundColor: '#eeeeee', //#eeeeee 
 		top: 0,
 		left: 0,
-		height: 255,
+		height: 200 + creditRowOffset,
 	});
 
 	var currentCreditBackground = Ti.UI.createImageView({
@@ -160,33 +166,35 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 		
 	yourCreditsSectionView.add(inviteFriendsButton);
 	
-	var redeemButton = Ti.UI.createButton({
-		width: 301, 
-		height: 46,
-		backgroundImage: 'images/credit/big-btn.png', 
-		backgroundSelectedImage: 'images/credit/big-btn-active.png', 
-		center: {x:'50%', y:208}, //x:67
-		zIndex: 2,
-	});
-	
-	var redeemButtonText = Ti.UI.createLabel({
-		text: L('Redeem Candy'),
-		color: '#636c78',
-		shadowColor: '#ffffff',
-		shadowOffset: {x:0, y:1},
-		font:{fontWeight:'bold',fontSize:16},
-		center: {x:'50%', y:'50%'},
-		zIndex: 3,
-	});
-	redeemButton.add(redeemButtonText);	
-
-	redeemButton.addEventListener('click', function() {
-		var RedeemCreditWindowModule = require('ui/handheld/Mn_RedeemCreditWindow');
-		var redeemCreditWindow = new RedeemCreditWindowModule(_navGroup, _userId);
-		_navGroup.open(redeemCreditWindow);
-	});
+	if(Ti.App.isCampaignOn) {
+		var redeemButton = Ti.UI.createButton({
+			width: 301, 
+			height: 46,
+			backgroundImage: 'images/credit/big-btn.png', 
+			backgroundSelectedImage: 'images/credit/big-btn-active.png', 
+			center: {x:'50%', y:208}, //x:67
+			zIndex: 2,
+		});
 		
-	yourCreditsSectionView.add(redeemButton);
+		var redeemButtonText = Ti.UI.createLabel({
+			text: L('Redeem Candy'),
+			color: '#636c78',
+			shadowColor: '#ffffff',
+			shadowOffset: {x:0, y:1},
+			font:{fontWeight:'bold',fontSize:16},
+			center: {x:'50%', y:'50%'},
+			zIndex: 3,
+		});
+		redeemButton.add(redeemButtonText);	
+	
+		redeemButton.addEventListener('click', function() {
+			var RedeemCreditWindowModule = require('ui/handheld/Mn_RedeemCreditWindow');
+			var redeemCreditWindow = new RedeemCreditWindowModule(_navGroup, _userId);
+			_navGroup.open(redeemCreditWindow);
+		});
+			
+		yourCreditsSectionView.add(redeemButton);
+	}
 
 	var horizontalSeparator1 = Ti.UI.createImageView({
 		image: 'images/credit/horizontal-separator.png', 
