@@ -26,7 +26,7 @@ exports.getUnreadChatHistory = function(_paramObj, _callbackFn) {
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -57,7 +57,7 @@ exports.getAllChatHistory = function(_paramObj, _callbackFn) {
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -97,7 +97,7 @@ exports.getChatHistory = function(_paramObj, _callbackFn) { //not used at the mo
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));	    
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -144,7 +144,7 @@ exports.saveChatMessage = function(_messageObj, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');

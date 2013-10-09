@@ -16,6 +16,7 @@ Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
+Ti.App.VALIDATE_SECURE_CERTIFICATE = false;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship_details', 'user_education_history', 'user_hometown', 
