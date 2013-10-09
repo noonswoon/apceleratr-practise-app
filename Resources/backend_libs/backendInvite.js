@@ -24,7 +24,7 @@ exports.getInvitedList = function(_userId, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);		
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);		
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -72,7 +72,7 @@ exports.saveInvitedPeople = function(_invitedData, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);		
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);		
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');

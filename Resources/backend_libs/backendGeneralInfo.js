@@ -25,7 +25,7 @@ exports.getReligion = function(_callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -66,7 +66,7 @@ exports.getEthnicity = function(_callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -107,7 +107,7 @@ exports.getTargetedCity = function(_callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -149,7 +149,7 @@ exports.getStaticData = function(_callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');

@@ -38,7 +38,7 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -83,7 +83,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -127,7 +127,7 @@ exports.saveResponse = function(_matchResponseObj, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("POST", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -163,7 +163,7 @@ exports.updateDisplayMutualFriend = function(_matchUserObj, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open("PUT", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
@@ -195,7 +195,7 @@ exports.getConnectedMatch = function(_userId, _callbackFn) {
 	        },
 		    timeout:50000  // in milliseconds 
 	    });
-	    xhr.setValidatesSecureCertificate(false);
+	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 	    xhr.open("GET", url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
@@ -240,7 +240,7 @@ exports.deleteConnectedMatch = function(_matchObj, _callbackFn) {
 		    },
 		    timeout:50000  // in milliseconds
 		});
-		xhr.setValidatesSecureCertificate(false);
+		xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
 		xhr.open('POST', url);
 		xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	 	xhr.setRequestHeader('Content-Type','application/json');
