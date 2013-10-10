@@ -67,7 +67,7 @@ exports.logSystemData = function(_level, _msg, _userId, _fbId) {
 	Ti.API.info('Level: '+_level+', Msg: '+_msg+', userId: '+_userId);
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER +"log/save/";
+		var url = Ti.App.API_SERVER +"log/save";
 		var xhr = Ti.Network.createHTTPClient({
 		    onload: function(e) {
 		    	var resultObj = JSON.parse(this.responseText);

@@ -351,8 +351,8 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	contactUsSectionView.addEventListener('click', function() {
 		Ti.App.fireEvent('contactUsEmailDialog');
 		var emailDialog = Ti.UI.createEmailDialog();
-		emailDialog.subject = L("Contact Noonswoon");
-		emailDialog.toRecipients = ['contact@noonswoon.com'];
+		emailDialog.subject = L("Noonswoon Support");
+		emailDialog.toRecipients = ['support@noonswoon.com'];
 		emailDialog.messageBody = L('Please let us know what you would like to do') + '\n\n\n\n\n\n(UserId: ' + _userId + ').';
 		emailDialog.barColor = '#850f16';
 		emailDialog.open();

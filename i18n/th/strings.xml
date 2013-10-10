@@ -162,12 +162,12 @@
 
 	<string name="Tutorial">วิธีการใช้</string>
 	<string name="Time left until your next match">เวลาจนกว่าระบบจะแนะนำคนโสดคนใหม่ให้่</string>
-	<string name="Like your match for 10 candy">ใช้ 10 candy เพื่อ Like คนที่สนใจ</string>
-	<string name="Reveal mutual friends for 5 candy">ใช้ 5 candy เพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
+	<string name="Like your match for 10 Candy">ใช้ 10 Candy เพื่อ Like คนที่สนใจ</string>
+	<string name="Reveal mutual friends for 5 Candy">ใช้ 5 Candy เพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
 	<string name="You have a connection if">มี connection และสามารถแชทกันได้</string>
 	<string name="both of you like each other">ถ้าเราและเขาสนใจและกด Like กันทั้งคู่</string>
 	<string name="Edit your profile">แก้ไขโปรไฟล์ของคุณ</string>
-	<string name="Get more candy">ช่องทางการเพิ่ม candy</string>	
+	<string name="Get more Candy">ช่องทางการเพิ่ม Candy</string>	
 	
 	<string name="Support">ติดต่อเรา</string>
 	<string name="Contact Noonswoon">ติดต่อ Noonswoon</string>
@@ -260,7 +260,7 @@
 	<string name="Use">ใช้</string>
 	<string name="5 candy">5 candy</string>	
 	<string name="to reveal Mutual Friends">ในการแสดงว่าใครคือเพื่อนระหว่างเรา</string>	
-	<string name="10 candy">10 candy</string>
+	<string name="10 Candy">10 Candy</string>
 	<string name="to like your match">เพื่อที่จะ Like แมทของคุณ</string>
 	
 	<string name="Oops!">Oops!</string>

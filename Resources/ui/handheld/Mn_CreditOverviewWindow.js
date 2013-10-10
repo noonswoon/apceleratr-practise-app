@@ -339,7 +339,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	howCreditsUsedSectionView.add(likeDesc1);
 	
 	var likeDesc2 = Ti.UI.createLabel({
-		text: L('10 candy'),
+		text: L('10 Candy'),
 		top: 112, //130,
 		left: 84,
 		color: '#4e5866',
@@ -350,7 +350,7 @@ CreditOverviewWindow = function(_navGroup, _userId) {
 	var likeDesc3 = Ti.UI.createLabel({
 		text: L('to like your match'),
 		top: 112, //130,
-		left: 154,
+		left: 152,
 		color: '#a3a7ad',
 		font:{fontSize:14},
 	});

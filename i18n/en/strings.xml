@@ -162,12 +162,12 @@
 	
 	<string name="Tutorial">Tutorial</string>
 	<string name="Time left until your next match">Time left until your next match</string>
-	<string name="Like your match for 10 candy">Like your match for 10 candy</string>
-	<string name="Reveal mutual friends for 5 candy">Reveal mutual friends for 5 candy</string>
+	<string name="Like your match for 10 Candy">Like your match for 10 Candy</string>
+	<string name="Reveal mutual friends for 5 Candy">Reveal mutual friends for 5 Candy</string>
 	<string name="You have a connection if">You have a connection if</string>
 	<string name="both of you like each other">both of you like each other</string>
 	<string name="Edit your profile">Edit your profile</string>
-	<string name="Get more candy">Get more candy</string>						
+	<string name="Get more Candy">Get more Candy</string>						
 	
 	<string name="Support">Support</string>
 	<string name="Contact Noonswoon">Contact Noonswoon</string>
@@ -260,7 +260,7 @@
 	<string name="Use">Use</string>	
 	<string name="5 candy">5 candy</string>	
 	<string name="to reveal Mutual Friends">to reveal Mutual Friends</string>	
-	<string name="10 candy">10 candy</string>
+	<string name="10 Candy">10 Candy</string>
 	<string name="to like your match">to like your match</string>
 	
 	<string name="Oops!">Oops!</string>

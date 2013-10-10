@@ -22,7 +22,7 @@ Tutorial1View = function() {
 	self.add(description1);
 	
 	var description2 = Ti.UI.createLabel({
-		text: L('Like your match for 10 candy'),
+		text: L('Like your match for 10 Candy'),
 		left: 50,
 		top: 245,
 		color: '#ffffff',
