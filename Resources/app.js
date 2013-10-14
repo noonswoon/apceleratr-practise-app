@@ -1,4 +1,4 @@
-// TODO: RC 2.1 Code
+// TODO: RC 2.1.1 Code
 
 /*
  * In app.js, we generally take care of a few things:
@@ -11,12 +11,12 @@
 Titanium.UI.setBackgroundColor('#000');
 
 //GLOBAL VARIABLES DECARATION
-Ti.App.CLIENT_VERSION = '2.1';
+Ti.App.CLIENT_VERSION = '2.1.1';
 Ti.App.IS_PRODUCTION_BUILD = true;
 Ti.App.PN_PRODUCTION_BUILD = true; //if true, will only work if it is a production/adhoc build
 Ti.App.IS_ON_DEVICE = true;
 Ti.App.ACTUAL_FB_INVITE = true;
-Ti.App.VALIDATE_SECURE_CERTIFICATE = false;
+Ti.App.VALIDATE_SECURE_CERTIFICATE = true;
 
 Ti.App.Facebook = require('facebook');
 Ti.App.Facebook.permissions = ['email', 'user_relationships', 'user_relationship_details', 'user_education_history', 'user_hometown', 
@@ -45,7 +45,7 @@ if(Ti.App.IS_PRODUCTION_BUILD) { //production, adhoc build
 	Ti.App.API_ACCESS = "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: H@ckerFr33 "n00nsw00nCLient:H@ckerFr33";   //Username: , Password: 
 	Ti.App.Facebook.appid = "132344853587370";
 } else {
-	Ti.App.API_SERVER = "https://nsdevelopmentweb.apphb.com/";  	//need to change to test server
+	Ti.App.API_SERVER = "https://dadadate.com/";  	//need to change to test server
 	Ti.App.API_ACCESS = "noondev:d0minate$";		//need to change to test server login/password
 	Ti.App.Facebook.appid = "492444750818688";
 }

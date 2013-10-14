@@ -1,17 +1,14 @@
-// ----------------------------------
-// INCLUDE PUBNUB
-// ----------------------------------
-	Ti.include('../../external_libs/pubnub.js');
 	
 	// ----------------------------------
 	// INIT PUBNUB
 	// ----------------------------------
-	var pubnub = Ti.PubNub.init({
-	    publish_key   : 'pub-5d5a8d08-52e1-4011-b632-da2a91d6a2b9',
-	    subscribe_key : 'sub-de622063-9eb3-11e1-8dea-0b2d0bf49bb9',
-	    ssl           : false,
-	    origin        : 'pubsub.pubnub.com'
-	});
+
+var pubnub = require('external_libs/pubnub')({
+    publish_key   : 'pub-5d5a8d08-52e1-4011-b632-da2a91d6a2b9',
+	subscribe_key : 'sub-de622063-9eb3-11e1-8dea-0b2d0bf49bb9',
+    ssl           : false,
+    origin        : 'pubsub.pubnub.com'
+});
 	
 Ti.App.Chat = function(_chatParams) {   
 	Ti.App.GATracker.trackScreen("ChatScreen");
@@ -297,7 +294,6 @@ Ti.App.Chat = function(_chatParams) {
     // ----------------------------------
     var send_a_message = function(message) {
         if (!message) return;
-
 		pubnub.publish({
 			channel  : currentChatRoom,
 			message  : { text : message, senderId: userObject.id, time: Ti.App.moment().format("YYYY-MM-DDTHH:mm:ss")},
