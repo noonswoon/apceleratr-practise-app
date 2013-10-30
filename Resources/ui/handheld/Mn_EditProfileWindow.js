@@ -365,7 +365,6 @@ EditInfoWindow = function(_navGroup, _userId, _newUser) {
 			Ti.API.info('(There was no button to click)');
 		} else {
 			if(e.index === 1) {
-				//Ti.App.Flurry.endTimedEvent('edit-screen');
 				_navGroup.close(self, {animated:true}); //go to the main screen
 			}
 		}

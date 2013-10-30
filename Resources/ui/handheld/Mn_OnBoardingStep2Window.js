@@ -1,5 +1,5 @@
 OnBoardingStep2Window = function(_userId) {
-	//Ti.App.Flurry.logEvent('after-signup-onboard-2-pre-invite');
+	//GA.track('after-signup-onboard-2-pre-invite');
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

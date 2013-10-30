@@ -1,5 +1,5 @@
 OnBoardingStep3Window = function(_userId) {
-	//Ti.App.Flurry.logEvent('after-signup-onboard-3-pre-cartoon');
+	//GA.track('after-signup-onboard-3-pre-cartoon');
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

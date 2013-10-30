@@ -1,5 +1,4 @@
 MatchWindow = function(_userId, _matchId) {
-	//Ti.App.Flurry.logTimedEvent('main-match-window');
 	
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
@@ -311,7 +310,6 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	var closeCallback = function() {
-		//Ti.App.Flurry.endTimedEvent('main-match-window');
 		self.removeEventListener('close', closeCallback);	
 	};
 	self.addEventListener('close', closeCallback);	
