@@ -1,5 +1,5 @@
 RedeemCreditWindow = function(_navGroup, _userId) {
-	Ti.App.GATracker.trackScreen("RedeemCreditScreen");
+	Ti.App.NSAnalytics.trackScreen("RedeemCreditScreen");
 	
 	var backButton = Ti.UI.createButton({
 		backgroundImage: 'images/top-bar-button.png',

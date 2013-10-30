@@ -284,12 +284,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	
 	profileSectionView.addEventListener('click', function() {
 		Ti.App.fireEvent('openUserProfileWindow', {targetedUserId: _userId});
-		Ti.App.GATracker.trackEvent({
-			category: "LeftMenu",
-			action: "ProfileClicked",
-			label: "",
-			value: 1
-		});
+		Ti.App.NSAnalytics.trackEvent("LeftMenu","ProfileClicked","",1);
 	});
 	
 	creditSectionView.addEventListener('touchstart', function() {
@@ -306,12 +301,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 
 	creditSectionView.addEventListener('click', function() {
 		Ti.App.fireEvent('openCreditOverviewWindow', {targetedUserId: _userId});
-		Ti.App.GATracker.trackEvent({
-			category: "LeftMenu",
-			action: "CreditClicked",
-			label: "",
-			value: 1
-		});
+		Ti.App.NSAnalytics.trackEvent("LeftMenu","CreditClicked","",1);
 	});
 
 	tutorialSectionView.addEventListener('touchstart', function() {
@@ -328,12 +318,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 
 	tutorialSectionView.addEventListener('click', function() {
 		Ti.App.fireEvent('openTutorialMainWindow');
-		Ti.App.GATracker.trackEvent({
-			category: "LeftMenu",
-			action: "TutorialClicked",
-			label: "",
-			value: 1
-		});
+		Ti.App.NSAnalytics.trackEvent("LeftMenu","TutorialClicked","",1);
 	});
 
 	contactUsSectionView.addEventListener('touchstart', function() {
@@ -378,12 +363,7 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 			Ti.App.fireEvent('launchLoginScreen');  
 		}
 		
-		Ti.App.GATracker.trackEvent({
-			category: "LeftMenu",
-			action: "LogoutClicked",
-			label: "",
-			value: 1
-		});
+		Ti.App.NSAnalytics.trackEvent("LeftMenu","LogoutClicked","",1);
 	});
 	
 	//check if we need to fetch fb friends for local db or not

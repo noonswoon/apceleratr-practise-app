@@ -1,5 +1,5 @@
 NoInternetWindow = function() {
-	Ti.App.GATracker.trackScreen("NoInternetScreen");
+	Ti.App.NSAnalytics.trackScreen("NoInternetScreen");
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

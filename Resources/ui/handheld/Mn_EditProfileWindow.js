@@ -1,13 +1,8 @@
 EditInfoWindow = function(_navGroup, _userId, _newUser) {
-	Ti.App.GATracker.trackScreen("EditProfileScreen");
+	Ti.App.NSAnalytics.trackScreen("EditProfileScreen");
 	
 	if(_newUser) {
-		Ti.App.GATracker.trackEvent({
-			category: "EditProfile",
-			action: "editProfileAfterSignup",
-			label: "edit",
-			value: _userId
-		});
+		Ti.App.NSAnalytics.trackEvent("EditProfile","editProfileAfterSignup","edit",_userId);
 	}
 
 	var FbPhotoAlbumWindowModule = require('ui/handheld/Mn_FbPhotoAlbumWindow');

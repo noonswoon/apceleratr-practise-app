@@ -1,5 +1,5 @@
 ErrorWindow = function(_errorMessage, _userId) {
-	Ti.App.GATracker.trackScreen("ErrorScreen");
+	Ti.App.NSAnalytics.trackScreen("ErrorScreen");
 	
 	var errorText1 = L('A problem occurred');
 	var errorText2 = "";

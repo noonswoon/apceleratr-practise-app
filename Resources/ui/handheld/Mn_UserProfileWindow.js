@@ -1,6 +1,5 @@
 UserProfileWindow = function(_navGroup, _userId, _targetedUserId) {
-	
-	Ti.App.GATracker.trackScreen("UserProfileScreen");
+	Ti.App.NSAnalytics.trackScreen("UserProfileScreen");
 	
 	var BackendUser = require('backend_libs/backendUser');
 	var CacheHelper = require('internal_libs/cacheHelper');

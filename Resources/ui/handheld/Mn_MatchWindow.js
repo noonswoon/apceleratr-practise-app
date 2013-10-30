@@ -115,7 +115,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var mutualFriendsRow  = null;
 	var populateMatchDataTableView = function(_matchInfo) {
-		Ti.App.GATracker.trackScreen("MatchScreen");
+		Ti.App.NSAnalytics.trackScreen("MatchScreen");
 		
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);

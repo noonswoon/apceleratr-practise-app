@@ -1,5 +1,5 @@
 CampaignWindow = function(_navGroup, _userId) {
-	Ti.App.GATracker.trackScreen("CampaignWindow");
+	Ti.App.NSAnalytics.trackScreen("CampaignWindow");
 	
 	var iphone5Flag = false;
 	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5

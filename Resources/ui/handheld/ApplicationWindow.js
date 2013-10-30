@@ -171,12 +171,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 			}
 		});
 		
-		Ti.App.GATracker.trackEvent({
-			category: "InviteForCredits",
-			action: "inviteCompleted",
-			label: 'inviter: '+_userId,
-			value: e.inviteeList.length
-		});
+		Ti.App.NSAnalytics.trackEvent("InviteForCredits","inviteCompleted",'inviter: '+_userId,e.inviteeList.length);
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	

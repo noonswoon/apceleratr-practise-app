@@ -1,5 +1,5 @@
 OnBoardingStep2Window = function(_userId) {
-	//GA.track('after-signup-onboard-2-pre-invite');
+	Ti.App.NSAnalytics.trackScreen("OnboardingStep2Screen");
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

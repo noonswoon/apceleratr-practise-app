@@ -1,5 +1,5 @@
 NoMatchWindow = function() {
-	Ti.App.GATracker.trackScreen("NoMatchScreen");
+	Ti.App.NSAnalytics.trackScreen("NoMatchScreen");
 	
 	//create component instance
 	var self = Ti.UI.createWindow({

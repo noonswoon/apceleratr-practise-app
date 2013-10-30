@@ -134,6 +134,7 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 	
 	timerView.addEventListener('click', function() {
 		updateRequestDialog.show();
+		Ti.App.NSAnalytics.trackEvent("CountDownExplanation","click", "",1);
 	});
 	return timerView;
 };

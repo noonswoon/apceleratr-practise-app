@@ -77,6 +77,11 @@ Ti.App.LogSystem = require('internal_libs/logSystem');
 var GA = require('analytics.google');
 Ti.App.GATracker = GA.getTracker("UA-37497639-2");
 
+Ti.App.Localytics = require("com.localytics");
+Ti.App.Localytics.startSession("129721a65c52a78d83e4e6b-853eab9e-3e26-11e3-3d41-00a426b17dd8");
+
+Ti.App.NSAnalytics = require('internal_libs/analytics');
+
 Ti.App.Storekit = require('ti.storekit');
 Ti.App.Storekit.receiptVerificationSandbox = true;
 Ti.App.Storekit.receiptVerificationSharedSecret = "240fcd041cf141b78c4d95eb6fa95df2";
@@ -103,7 +108,7 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 	var BackendInvite = require('backend_libs/backendInvite');
 	var BackendGeneralInfo = require('backend_libs/backendGeneralInfo');
 	var ErrorWindowModule = require('ui/handheld/Mn_ErrorWindow');
-	var InstallTracking = require('internal_libs/installTracking');
+	var Analytics = require('internal_libs/analytics');
 	var ModelChatHistory = require('model/chatHistory');
 	var ModelEthnicity = require('model/ethnicity');
 	var ModelReligion = require('model/religion');
@@ -181,6 +186,7 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 				//if(false) {
 					var BackendUser = require('backend_libs/backendUser');
 					var CreditSystem = require('internal_libs/creditSystem');
+					Ti.App.Localytics.setValueForIdentifier("UserFbId", Ti.App.Facebook.uid);
 					BackendUser.getUserIdFromFbId(Ti.App.Facebook.uid, function(_userInfo) {
 						if(_userInfo.success) {
 							Ti.App.USER_COUNTRY = _userInfo.content.general.country;
@@ -265,10 +271,10 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 					Ti.App.campaignMessage = e.content.campaign_message;
 					
 					if(Ti.App.isTrackingOn) {	
-						if(InstallTracking.isFirstTimeAppOpen()) {
+						if(Analytics.isFirstTimeAppOpen()) {
 							//redirect to the webview to get cookies
 							Ti.Platform.openURL(Ti.App.API_SERVER + 'iOSAppInstalled?id='+Ti.Platform.id);
-							InstallTracking.markAppOpen();
+							Analytics.markAppOpen();
 							Ti.App.LogSystem.logSystemData('info', 'First time opens an app.', null, null);
 						}
 					}

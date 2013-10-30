@@ -11,7 +11,7 @@ var pubnub = require('external_libs/pubnub')({
 });
 	
 Ti.App.Chat = function(_chatParams) {   
-	Ti.App.GATracker.trackScreen("ChatScreen");
+	Ti.App.NSAnalytics.trackScreen("ChatScreen");
 	var ModelChatHistory = require('model/chatHistory');
 	var BackendChat = require('backend_libs/backendChat');			
 	var ChatMessageTableViewRow = require('ui/handheld/Mn_ChatMessageTableViewRow');
