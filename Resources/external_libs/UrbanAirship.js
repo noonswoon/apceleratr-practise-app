@@ -60,8 +60,7 @@ var registerDeviceToken = function(_deviceToken, _userId) {
 	
 	var registerParameters = {
 	    "tags": [
-	        "v"+Ti.App.CLIENT_VERSION,
-	        "IAP-credits"
+	        "v"+Ti.App.CLIENT_VERSION
 	    ],
 	    "badge": 0,
 	    // "quiettime": {

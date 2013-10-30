@@ -92,8 +92,11 @@ MatchWindow = function(_userId, _matchId) {
 			}
 		}
 	};			
-	manageCampaignBanner();
-
+	
+	if(matchId === null) { //only show on the first match screen
+		manageCampaignBanner();
+	}
+	
 	var contentView = Ti.UI.createTableView({
 		top:0,
 		backgroundColor:'#eeeeee',

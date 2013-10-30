@@ -371,7 +371,13 @@ LeftMenuWindow = function(_userId, _userName, _userImage) {
 	});
 
 	logoutSectionView.addEventListener('click', function() {
-		Ti.App.Facebook.logout();
+		
+		if(Ti.App.Facebook.loggedIn) {
+			Ti.App.Facebook.logout();
+		} else {
+			Ti.App.fireEvent('launchLoginScreen');  
+		}
+		
 		Ti.App.GATracker.trackEvent({
 			category: "LeftMenu",
 			action: "LogoutClicked",

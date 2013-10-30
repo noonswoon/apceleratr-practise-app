@@ -240,6 +240,13 @@ var UrbanAirship = require('external_libs/UrbanAirship');
 		loginProcessWindow.open();
 	});
 	
+	Ti.App.addEventListener('launchLoginScreen', function() {
+		var LoginProcessWindowModule = require('ui/handheld/Li_LoginProcessWindow');
+		var loginProcessWindow = new LoginProcessWindowModule();      
+		loginProcessWindow.open();
+	});
+
+	
 	//pull static data from server
 	var noInternetWindow = null;
 	var errorWindow = null;

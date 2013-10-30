@@ -16,7 +16,7 @@ CampaignWindow = function(_navGroup, _userId) {
 	});
 	
 	var self = Ti.UI.createWindow({
-		title: L('Campaign'),
+		title: L('Promotion'),
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',

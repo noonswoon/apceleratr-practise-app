@@ -120,7 +120,7 @@ PickerEditTableViewRow = function(_fieldName, _content, _parentWindow, _pickerDa
 			selectedRow = i;
 
 		var row = Ti.UI.createPickerRow({
-			width:100,
+			width:'100%',
 			heigth:100,
 			content: curContent
 		});
