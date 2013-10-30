@@ -1,5 +1,5 @@
 OnBoardingStep1Window = function(_userId) {
-	//GA.track
+	Ti.App.NSAnalytics.trackScreen("OnboardingStep1Screen");
 	
 	var EditProfileWindowModule = require('ui/handheld/Mn_EditProfileWindow');
 	var FacebookQuery = require('internal_libs/facebookQuery');

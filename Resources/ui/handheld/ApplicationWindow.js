@@ -141,7 +141,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
 		var noMatchTimerView = new TimerViewModule();
-		noMatchWindow = new NoMatchWindowModule(navigationGroup);
+		noMatchWindow = new NoMatchWindowModule(e.reason);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
 		noMatchWindow.rightNavButton = toggleRightMenuBtn;
 		noMatchWindow.titleControl = noMatchTimerView;
