@@ -58,39 +58,6 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		height: 30,
 		image: 'images/topbar-glyph-chat.png'
 	});
-
-/*	
-	var topBarNotifView = Ti.UI.createView({
-		height: 17, 
-		width: 35,
-		top: 2, 
-		left: 2,
-		zIndex: 1, 
-	});
-	var topBarNotifCounter = Ti.UI.createLabel({
-		text: 1,
-		top:0,
-		left:0,
-		font:{fontWeight:'bold',fontSize:14},
-		color:'#ffffff',
-		shadowColor: '#3f840d', 
-		shadowOffset: {x:0,y:2},
-		zIndex: 3,
-	});
-		
-	var topBarNotifImage = Ti.UI.createImageView({
-		backgroundImage: 'images/topbar-notification.png',
-		backgroundLeftCap: 2,
-		height: 17,
-		width: 35,  //14
-		top:0,
-		left: 0,
-		zIndex: 2,
-	});
-	topBarNotifView.add(topBarNotifImage);
-	topBarNotifView.add(topBarNotifCounter);
-	toggleRightMenuBtn.add(topBarNotifView);
-*/	
 	
 	var timerView = new TimerViewModule();
 		
@@ -125,13 +92,6 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		pubnubChatWindow.chatWindow.open({modal:true,modalTransitionStyle:Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,navBarHidden:false});
 	};
 	Ti.App.addEventListener('openChatWindow', openChatWindowCallback);
-	
-	var openProfileWindowCallback = function(e) {
-		var userProfileWindow = new MatchWindow(_userId, e.matchId);
-		userProfileWindow.setNavGroup(navigationGroup);
-		navigationGroup.open(userProfileWindow);
-	};
-	Ti.App.addEventListener('openProfileWindow', openProfileWindowCallback);
 
 	var openUserProfileWindowCallback = function(e) {
 		var targetedUserId = e.targetedUserId;
@@ -181,7 +141,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var noMatchWindow = null;
 	var openNoMatchWindowCallback = function(e) {
 		var noMatchTimerView = new TimerViewModule();
-		noMatchWindow = new NoMatchWindowModule(navigationGroup);
+		noMatchWindow = new NoMatchWindowModule(e.reason);
 		noMatchWindow.leftNavButton = toggleLeftMenuBtn;
 		noMatchWindow.rightNavButton = toggleRightMenuBtn;
 		noMatchWindow.titleControl = noMatchTimerView;
@@ -211,12 +171,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 			}
 		});
 		
-		Ti.App.GATracker.trackEvent({
-			category: "InviteForCredits",
-			action: "inviteCompleted",
-			label: 'inviter: '+_userId,
-			value: e.inviteeList.length
-		});
+		Ti.App.NSAnalytics.trackEvent("InviteForCredits","inviteCompleted",'inviter: '+_userId,e.inviteeList.length);
 	};
 	Ti.App.addEventListener('inviteCompleted', inviteCompletedCallback);
 	
@@ -299,7 +254,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 					//clear up cache so we can refresh and load new fb friends
 					Ti.App.Properties.removeProperty('FacebookFriendQuery_'+Ti.App.Facebook.uid);
 					Ti.App.LogSystem.logSystemData('info', 'Resume and found out that Fb Token Exipred', _userId, Ti.App.Facebook.uid);					
-					Ti.App.Facebook.logout();
+					Ti.App.fireEvent('launchLoginScreen');
 				} else {
 					Ti.UI.iPhone.appBadge = null;
 					UrbanAirship.resetBadge(UrbanAirship.getDeviceToken()); //need to check on this for the valid token
@@ -311,7 +266,7 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 					rightMenu.reloadConnections();
 				}
 			} 
-		}, 1500);
+		}, 500);
 	};
 	Ti.App.addEventListener('resume', resumeCallback); 
 	
@@ -398,7 +353,6 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 	var windowCloseCallback = function() {
 		Ti.API.info('ApplicationWindow is close....');
 		Ti.App.removeEventListener('openChatWindow', openChatWindowCallback);
-		Ti.App.removeEventListener('openProfileWindow', openProfileWindowCallback);
 		Ti.App.removeEventListener('openUserProfileWindow', openUserProfileWindowCallback);
 		Ti.App.removeEventListener('openEditProfileWindow', openEditProfileWindowCallback);
 		Ti.App.removeEventListener('openInviteFriendWindow', openInviteFriendWindowCallback);
@@ -410,14 +364,16 @@ function ApplicationWindow(_userId, _userImage, _userName) {
 		Ti.App.removeEventListener('closeMutualFriendsWindow', closeMutualFriendsWindowCallback);
 		Ti.App.removeEventListener('showUnreadChatGreenButton', showUnreadChatGreenButtonCallback);
 		Ti.App.removeEventListener('showNormalChatButton', showNormalChatButtonCallback);		
-		Ti.App.Facebook.removeEventListener('logout', facebookLogoutCallback); 
+		Ti.App.removeEventListener('launchLoginScreen', launchLoginScreenCallback); 
 	};
 	self.addEventListener('close', windowCloseCallback);
 	
-	var facebookLogoutCallback = function() {
+	var launchLoginScreenCallback = function() {
 		self.close();
 	};
-	Ti.App.Facebook.addEventListener('logout', facebookLogoutCallback);
+	
+	Ti.App.addEventListener('launchLoginScreen', launchLoginScreenCallback);
+	
 	self.add(navigationGroup);
 				
 	return self;

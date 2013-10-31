@@ -1,5 +1,5 @@
 CampaignWindow = function(_navGroup, _userId) {
-	Ti.App.GATracker.trackScreen("CampaignWindow");
+	Ti.App.NSAnalytics.trackScreen("CampaignWindow");
 	
 	var iphone5Flag = false;
 	if(Ti.Platform.displayCaps.platformHeight === 568) { //iphone 5
@@ -16,7 +16,7 @@ CampaignWindow = function(_navGroup, _userId) {
 	});
 	
 	var self = Ti.UI.createWindow({
-		title: L('Campaign'),
+		title: L('Promotion'),
 		left: 0,
 		navBarHidden: false,
 		barImage: 'images/top-bar-stretchable.png',

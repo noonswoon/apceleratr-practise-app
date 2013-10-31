@@ -1,5 +1,5 @@
 var ImageFullScreenWindow = function(_navGroup, _imagesArray, _currentPage) {
-	Ti.App.GATracker.trackScreen("ImageFullScreen");
+	Ti.App.NSAnalytics.trackScreen("ImageFullScreen");
 			
 	//UI STUFF
 	var self = Ti.UI.createWindow({

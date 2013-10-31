@@ -179,6 +179,7 @@ LoginOnBoardingWindow = function(_mainLoginWindow) {
 			showPreloader(self, L('Loading...'));
 			Ti.App.Facebook.requestWithGraphPath('me', {}, 'GET', function(e) {
 			    if (e.success) {
+			    	Ti.App.Localytics.setValueForIdentifier("UserFbId", Ti.App.Facebook.uid);
 			    	var sendingObj = {}; 
 			    	sendingObj.mobileCarrierCode = mobileCarrierCode;
 			    	sendingObj.deviceId = "";

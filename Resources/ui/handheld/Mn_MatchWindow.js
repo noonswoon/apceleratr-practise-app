@@ -1,5 +1,4 @@
 MatchWindow = function(_userId, _matchId) {
-	//Ti.App.Flurry.logTimedEvent('main-match-window');
 	
 	var CreditSystem = require('internal_libs/creditSystem');
 	var BackendMatch = require('backend_libs/backendMatch');
@@ -92,8 +91,11 @@ MatchWindow = function(_userId, _matchId) {
 			}
 		}
 	};			
-	manageCampaignBanner();
-
+	
+	if(matchId === null) { //only show on the first match screen
+		manageCampaignBanner();
+	}
+	
 	var contentView = Ti.UI.createTableView({
 		top:0,
 		backgroundColor:'#eeeeee',
@@ -113,7 +115,7 @@ MatchWindow = function(_userId, _matchId) {
 	
 	var mutualFriendsRow  = null;
 	var populateMatchDataTableView = function(_matchInfo) {
-		Ti.App.GATracker.trackScreen("MatchScreen");
+		Ti.App.NSAnalytics.trackScreen("MatchScreen");
 		
 		var facebookLikeArray = [];
 		//Ti.API.info('_matchInfo.content.likes.length: '+_matchInfo.content.likes.length);
@@ -308,7 +310,6 @@ MatchWindow = function(_userId, _matchId) {
 	}
 	
 	var closeCallback = function() {
-		//Ti.App.Flurry.endTimedEvent('main-match-window');
 		self.removeEventListener('close', closeCallback);	
 	};
 	self.addEventListener('close', closeCallback);	

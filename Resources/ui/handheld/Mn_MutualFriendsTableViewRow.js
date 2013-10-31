@@ -69,12 +69,6 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 				});
 				notEnoughCreditsDialog.show();
 				
-				Ti.App.GATracker.trackEvent({
-					category: "Match",
-					action: "MutualFriendReveal",
-					label: "Not enough credit",
-					value: 1
-				});
 			} else {							
 				//update show_mutual_friends
 				//Ti.API.info('trying to open the MutualFriendsWindow..');
@@ -86,14 +80,6 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 						Ti.App.fireEvent('openMutualFriendsWindow', {mutualFriendsArray: mutualFriendsArray, isLatestMatch: _isLatestMatch});
 						/*
 						if(e.success) {
-							
-							Ti.App.GATracker.trackEvent({
-								category: "Match",
-								action: "MutualFriendReveal",
-								label: "reveal succeeded",
-								value: 1
-							});
-							
 							Ti.App.CUSTOMER_TYPE = e.content.customer_type;
 							CreditSystem.setUserCredit(e.content.credit); //sync the credit
 							hasUnlocked = true;
@@ -116,13 +102,6 @@ MutualFriendsTableViewRow = function(_fieldName, _content, _hasUnlocked, _isLate
 							}
 							isMutualFriendsWindowOpen = false;
 							hasUnlocked = false;
-							
-							Ti.App.GATracker.trackEvent({
-								category: "Match",
-								action: "MutualFriendReveal",
-								label: "reveal failed (90% coz not enough credits)",
-								value: 1
-							});
 						} */
 					});
 				}

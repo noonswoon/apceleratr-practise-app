@@ -98,9 +98,6 @@ FbLikeTableViewRow = function(_fieldName, _fbLikeArray, _isWhiteBackground) {
 		backgroundImage: 'images/match-bottom-box.png',
 	});
 
-	Ti.API.info('numRows: '+numRows + ' , height: '+ (100 + (numRows - 2) * 35));
-
-
 	if(Ti.Platform.osname === 'iphone')
 		tableRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
 	

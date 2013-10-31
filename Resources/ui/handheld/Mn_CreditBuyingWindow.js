@@ -1,5 +1,5 @@
 CreditBuyingWindow = function(_navGroup, _userId) {
-	Ti.App.GATracker.trackScreen("CreditBuyingScreen");
+	Ti.App.NSAnalytics.trackScreen("CreditBuyingScreen");
 	
 	var BackendInAppPurchase = require('backend_libs/backendInAppPurchase');
 	var CreditSystem = require('internal_libs/creditSystem');
@@ -660,34 +660,19 @@ CreditBuyingWindow = function(_navGroup, _userId) {
 						tenCreditPrice3.text = currentProduct.formattedPrice;
 						tenCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
-							Ti.App.GATracker.trackEvent({
-								category: "CreditPurchase",
-								action: "PurchaseButtonClicked",
-								label: "TenCredits",
-								value: 0.99
-							});
+							Ti.App.NSAnalytics.trackEvent("CreditPurchase","PurchaseButtonClicked","TenCredits",1);
 						});
 					}  else if(currentProduct.identifier === 'com.noonswoon.launch.c2') {
 						hundredCreditPrice3.text = currentProduct.formattedPrice;
 						hundredCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
-							Ti.App.GATracker.trackEvent({
-								category: "CreditPurchase",
-								action: "PurchaseButtonClicked",
-								label: "HundredCredits",
-								value: 7.99
-							});
+							Ti.App.NSAnalytics.trackEvent("CreditPurchase","PurchaseButtonClicked","HundredCredits",8);
 						});
 					} else if(currentProduct.identifier === 'com.noonswoon.launch.c3') {
 						thousandCreditPrice3.text = currentProduct.formattedPrice;
 						thousandCreditBuyButton.addEventListener('click', function() {
 							purchaseProduct(currentProduct);
-							Ti.App.GATracker.trackEvent({
-								category: "CreditPurchase",
-								action: "PurchaseButtonClicked",
-								label: "ThousandCredits",
-								value: 49.99
-							});
+							Ti.App.NSAnalytics.trackEvent("CreditPurchase","PurchaseButtonClicked","ThousandCredits",50);
 						});
 					} else if(currentProduct.identifier === 'com.noonswoon.launch.ar.d10') {
 						monthlyPrice1.text = currentProduct.formattedPrice;

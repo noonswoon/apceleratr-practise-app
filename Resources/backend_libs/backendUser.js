@@ -229,14 +229,9 @@ exports.saveUserReport = function(_reportObj, _callbackFn) {
 
 exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 	var fnSrc = 'backendUser.updatePNToken';
-	var sendingObj = {};
-
-	sendingObj.device_platform = 'iphone';
-	sendingObj.pn_token = _pnToken;
-	sendingObj.user_id = _userId; 
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER+ "user/update_pn_token";
+		var url = Ti.App.API_SERVER+ "user/update_pn_token/"+_userId+"/iphone/"+_pnToken;
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -254,24 +249,20 @@ exports.updatePNToken = function(_userId, _pnToken, _callbackFn) {
 		    timeout:50000  // in milliseconds 
 	    });
 	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
-	    xhr.open("POST", url);
+	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
-		var hashVal = Ti.Utils.sha256(sendingObj.user_id + url + Ti.App.NS_HASH_SECRET_KEY);
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
 		xhr.setRequestHeader('NsHashKey',hashVal);
-	   	xhr.send(JSON.stringify(sendingObj));
+	   	xhr.send();
 	}
 };
 
 exports.updateClientVersion = function(_userId, _callbackFn) {
 	var fnSrc = 'backendUser.updateClientVersion';
-	var sendingObj = {};
-	sendingObj.client_version = Ti.App.CLIENT_VERSION;
-	sendingObj.device_platform = 'iphone';
-	sendingObj.user_id = _userId; 
 	
 	if(Ti.App.LIVE_DATA) {
-		var url = Ti.App.API_SERVER+ "user/update_client_version";
+		var url = Ti.App.API_SERVER+ "user/update_client_version/"+_userId+"/iphone/"+Ti.App.CLIENT_VERSION;
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var resultObj = JSON.parse(this.responseText);
@@ -289,11 +280,11 @@ exports.updateClientVersion = function(_userId, _callbackFn) {
 		    timeout:50000  // in milliseconds 
 	    });
 	    xhr.setValidatesSecureCertificate(Ti.App.VALIDATE_SECURE_CERTIFICATE);
-	    xhr.open("POST", url);
+	    xhr.open("GET", url);
 	    xhr.setRequestHeader('Authorization', 'Basic '+ Titanium.Utils.base64encode(Ti.App.API_ACCESS));
 	    xhr.setRequestHeader('Content-Type','application/json');
-		var hashVal = Ti.Utils.sha256(sendingObj.user_id + url + Ti.App.NS_HASH_SECRET_KEY);
+		var hashVal = Ti.Utils.sha256(url + Ti.App.NS_HASH_SECRET_KEY);
 		xhr.setRequestHeader('NsHashKey',hashVal);	    
-	   	xhr.send(JSON.stringify(sendingObj));
+	   	xhr.send();
 	}
 };

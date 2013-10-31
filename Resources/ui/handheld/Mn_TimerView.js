@@ -125,6 +125,17 @@ TimerView = function(_parentWindow, _userId, _showRemainingTime) {
 		remainingSecondLbl.text = remainingTimeData[2]; 
 	}, 1000);
 	
+	var updateRequestDialog = Titanium.UI.createAlertDialog({
+		title: L('Countdown'),
+		message: L('Time left before your match disappears forever. Like your match or pass on this destiny.'),
+		buttonNames: [L('Ok')],
+		cancel: 0
+	});
+	
+	timerView.addEventListener('click', function() {
+		updateRequestDialog.show();
+		Ti.App.NSAnalytics.trackEvent("CountDownExplanation","click", "",1);
+	});
 	return timerView;
 };
 
