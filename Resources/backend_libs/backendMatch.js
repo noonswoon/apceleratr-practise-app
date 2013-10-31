@@ -20,7 +20,10 @@ exports.getLatestMatchInfo = function(_userId, _callbackFn) {
 					paramObj.hasNoMatch = false;
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
-							Ti.App.fireEvent('openNoMatchWindow');
+							Ti.App.fireEvent('openNoMatchWindow', {reason:1});
+							paramObj.hasNoMatch = true;
+						} else if (resultObj.meta.status_code === 508) {
+							Ti.App.fireEvent('openNoMatchWindow', {reason:2});
 							paramObj.hasNoMatch = true;
 						} else { //some other error code..legit error
 							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
@@ -67,7 +70,7 @@ exports.getMatchInfo = function(_paramObj, _callbackFn) { //test stuff here for 
 				} else {
 					if(resultObj.meta !== undefined  && resultObj.meta.status === "error") {
 						if(resultObj.meta.status_code === 501) {
-							Ti.App.fireEvent('openNoMatchWindow');
+							Ti.App.fireEvent('openNoMatchWindow', {reason:1});
 						} else { //some other error code..legit error
 							Ti.App.fireEvent('openErrorWindow', {src: fnSrc, meta:{display_error:resultObj.meta.string_to_display, description:resultObj.meta.description}});
 						}

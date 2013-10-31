@@ -34,6 +34,9 @@
 	<string name="You will be receiving a new match">คุณจะได้รับ match ของคุณ</string>
 	<string name="every day at noon">ในตอนเที่ยงของทุกๆวัน</string>
 
+	<string name="Countdown">เคาท์ดาวน์</string>
+	<string name="Time left before your match disappears forever. Like your match or pass on this destiny.">เวลาที่เหลือจนกว่า match ของคุณจะจากไป Like match ของคุณหรือปล่อยให้โอกาสนี้ผ่านไปตลอดกาล...</string>
+
 	<string name="Candy">Candy</string>			
 
 	<string name="My Profile">โปรไฟล์ของฉัน</string>
@@ -161,11 +164,11 @@
 	<string name="CONNECTIONS">CONNECTIONS</string>
 
 	<string name="Tutorial">วิธีการใช้</string>
-	<string name="Time left until your next match">เวลาจนกว่าระบบจะแนะนำคนโสดคนใหม่ให้่</string>
-	<string name="Like your match for 10 Candy">ใช้ 10 Candy เพื่อ Like คนที่สนใจ</string>
+	<string name="Time left until your next match">นับถอยหลังเพื่อพบ match ใหม่ของคุณ</string>
+	<string name="Like your match for 10 Candy">ใช้ 10 Candy ในการ Like</string>
 	<string name="Reveal mutual friends for 5 Candy">ใช้ 5 Candy เพื่อดูว่าเพื่อนของเพื่อนเราคือใคร</string>
-	<string name="You have a connection if">มี connection และสามารถแชทกันได้</string>
-	<string name="both of you like each other">ถ้าเราและเขาสนใจและกด Like กันทั้งคู่</string>
+	<string name="You have a connection if">สร้าง connection และคุยกันได้</string>
+	<string name="both of you like each other">ถ้าทั้งสองคนกด Like ซึ่งกันและกัน</string>
 	<string name="Edit your profile">แก้ไขโปรไฟล์ของคุณ</string>
 	<string name="Get more Candy">ช่องทางการเพิ่ม Candy</string>	
 	

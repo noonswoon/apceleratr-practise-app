@@ -18,6 +18,7 @@ Tutorial1View = function() {
 		shadowColor: '#171818', 
 		shadowOffset: {x:0, y:2},
 		zIndex:3,
+		height: 30
 	});
 	self.add(description1);
 	
@@ -30,6 +31,7 @@ Tutorial1View = function() {
 		shadowColor: '#171818', 
 		shadowOffset: {x:0, y:2},
 		zIndex:3,
+		height: 30
 	});
 	self.add(description2);	
 		
